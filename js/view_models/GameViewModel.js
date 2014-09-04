@@ -35,7 +35,7 @@ function GameViewModel(world) {
   function initialize() {
     _.times(self.viewportWidth, function (line) {
       _.times(self.viewportWidth, function (row) {
-        self.tiles.push(new TileViewModel(world, line, row));
+        self.tiles.push(new MapTileViewModel(world, line, row));
       });
     });
 
