@@ -27,7 +27,7 @@ function MapViewModel(world) {
   function initialize() {
     _.times(self.viewportWidth, function (line) {
       _.times(self.viewportWidth, function (row) {
-        self.tiles.push(new MapTileViewModel(world, line, row));
+        self.tiles.push(new MapTileViewModel(self, world, line, row));
       });
     });
 
@@ -45,4 +45,8 @@ MapViewModel.prototype.worldTicked = function () {
 
 MapViewModel.prototype.tileAt = function (line, row) {
   return _.find(this.tiles(), function (tile) { return tile.line === line && tile.row === row; });
+};
+
+MapViewModel.prototype.selectedTile = function () {
+  return _.find(this.tiles(), function (tile) { return tile.selected(); });
 };

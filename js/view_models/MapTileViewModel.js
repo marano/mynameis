@@ -1,6 +1,7 @@
-function MapTileViewModel(world, line, row) {
+function MapTileViewModel(map, world, line, row) {
   var self = this;
 
+  this.map = map;
   this.world = world;
   this.line = line;
   this.row = row;
@@ -26,6 +27,10 @@ MapTileViewModel.prototype.worldTile = function () {
 };
 
 MapTileViewModel.prototype.select = function () {
+  var selectedTile = this.map.selectedTile();
+  if (selectedTile && selectedTile !== this) {
+    selectedTile.unselect();
+  }
   this.selected(true);
 };
 
