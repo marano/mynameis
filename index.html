@@ -11,11 +11,15 @@
     <script src="js/WorldTile.js"></script>
     <script src="js/WorldObject.js"></script>
     <script src="js/view_models/GameViewModel.js"></script>
+    <script src="js/view_models/MapViewModel.js"></script>
     <script src="js/view_models/MapTileViewModel.js"></script>
     <script src="js/initializer.js"></script>
   </head>
   <body>
-    <div id="map-view" data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
+    <div id="map-view" data-bind="with: map">
+        <div data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
+    </div>
+
     <div id="console-view"></div>
 
     <script type="text/html" id="map-view-row-template">
