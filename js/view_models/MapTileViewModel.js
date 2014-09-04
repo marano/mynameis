@@ -6,7 +6,7 @@ function MapTileViewModel(world, line, row) {
   this.row = row;
   this.selected = ko.observable(false);
   this.worldUiElements = ko.observableArray([]);
-  this.uiElements = ko.computed(function () { return self.computeUiElements(); });
+  this.uiElementsClasses = ko.computed(function () { return self.computeUiElements().join(' '); });
 }
 
 MapTileViewModel.prototype.updateWorldUiElements = function () {
