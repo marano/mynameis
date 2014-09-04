@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet/less" type="text/css" href="css/map-view.less">
+    <script src="vendor/lodash.js"></script>
+    <script src="vendor/jquery-2.1.1.js"></script>
+    <script src="vendor/knockout-3.2.0.js"></script>
+    <script src="vendor/knockout.punches.min.js"></script>
+    <script src="vendor/less.js"></script>
+    <script src="js/world.js"></script>
+    <script src="js/game_view_model.js"></script>
+    <script src="js/initializer.js"></script>
+  </head>
+  <body>
+    <div id="map-view" data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
+    <div id="console-view"></div>
+
+    <script type="text/html" id="map-view-row-template">
+        <div class="row">
+            <div data-bind="template: {name: 'map-view-tile-template', foreach: line, as: 'tile'}"></div>
+        </div>
+    </script>
+
+    <script type="text/html" id="map-view-tile-template">
+        <div class="tile {{uiElements}}"></div>
+    </script>
+  </body>
+</html>
