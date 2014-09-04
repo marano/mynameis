@@ -39,7 +39,7 @@ function MapViewModel(world) {
 
 MapViewModel.prototype.worldTicked = function () {
   _.each(this.tiles(), function (tile) {
-    tile.updateUiElements();
+    tile.updateWorldUiElements();
   });
 };
 

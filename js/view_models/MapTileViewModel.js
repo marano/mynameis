@@ -1,13 +1,24 @@
 function MapTileViewModel(world, line, row) {
+  var self = this;
+
   this.world = world;
   this.line = line;
   this.row = row;
-  this.uiElements = ko.observableArray([]);
   this.selected = ko.observable(false);
+  this.worldUiElements = ko.observableArray([]);
+  this.uiElements = ko.computed(function () { return self.computeUiElements(); });
 }
 
-MapTileViewModel.prototype.updateUiElements = function () {
-  this.uiElements(this.worldTile().uiElements());
+MapTileViewModel.prototype.updateWorldUiElements = function () {
+  this.worldUiElements(this.worldTile().uiElements());
+};
+
+MapTileViewModel.prototype.computeUiElements = function () {
+  var elementsToAadd = [];
+  if (this.selected()) {
+    elementsToAadd.push('selected');
+  }
+  return this.worldUiElements().concat(elementsToAadd);
 };
 
 MapTileViewModel.prototype.worldTile = function () {
