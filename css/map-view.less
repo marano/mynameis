@@ -1,5 +1,22 @@
 @tile-size: 30px;
 
+.ui-element-attributes(@image-url) {
+  &:after {
+    position: absolute;
+    display: block;
+    width: @tile-size;
+    height: @tile-size;
+    content: "";
+    background-image: @image-url;
+  }
+}
+
+.ui-element(@class-name, @image-url) {
+  &.@{class-name} {
+    .ui-element-attributes(@image-url);
+  }
+}
+
 #map-view {
   display: inline-block;
   border: 1px solid black;
@@ -15,18 +32,11 @@
       font-size: 0;
 
       &:hover {
-        opacity: 0.8;
-        background-image: url(/png/map-tile-selection-cursor.png);
+        opacity: 0.9;
+        .ui-element-attributes(url(/png/map-tile-selection-cursor.png));
       }
 
-      &.selected:after {
-        position: absolute;
-        display: block;
-        width: @tile-size;
-        height: @tile-size;
-        content: "";
-        background-image: url(/png/map-tile-selection-cursor.png);
-      }
+      .ui-element(selected, url(/png/map-tile-selection-cursor.png));
 
       &.grass-land {
         background-color: green;
