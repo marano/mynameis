@@ -3,10 +3,19 @@
   border: 1px solid black;
 
   .row {
+    font-size: 0;
+
     .tile {
       display: inline-block;
       width: 30px;
       height: 30px;
+      vertical-align: top;
+      font-size: 0;
+
+      &:hover {
+        opacity: 0.8;
+        background-image: url(/png/map-tile-selection-cursor.png);
+      }
 
       &.grass-land {
         background-color: green;
