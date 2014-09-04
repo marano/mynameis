@@ -16,11 +16,13 @@
     <script src="js/initializer.js"></script>
   </head>
   <body>
-    <div id="map-view" data-bind="with: map">
-        <div data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
-    </div>
 
+    <div id="map-view" data-bind="template: {name: 'map-view-template', data: map}"></div>
     <div id="console-view"></div>
+
+    <script type="text/html" id="map-view-template">
+        <div data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
+    </script>
 
     <script type="text/html" id="map-view-row-template">
         <div class="row">
