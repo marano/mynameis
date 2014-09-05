@@ -16,9 +16,9 @@
     <script src="js/WorldObject.js"></script>
     <script src="js/WorldObjectFactory.js"></script>
     <script src="js/view_models/GameViewModel.js"></script>
-    <script src="js/view_models/SidebarViewModel.js"></script>
     <script src="js/view_models/MapViewModel.js"></script>
     <script src="js/view_models/MapTileViewModel.js"></script>
+    <script src="js/view_models/SidebarViewModel.js"></script>
     <script src="js/initializer.js"></script>
   </head>
   <body>
@@ -29,10 +29,8 @@
     <div data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
 
     <script type="text/html" id="sidebar-template">
-        <div id="sidebar">
-          {{#if: game.map.selectedTile}}
-            <div data-bind="template: {name: 'sidebar-object-item-template', foreach: game.worldObjectsSelectedInTile, as: 'object'}"></div>
-          {{/if}}
+        <div id="sidebar" data-bind="if: game.map.selectedTile">
+          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: game.worldObjectsSelectedInTile, as: 'object'}"></div>
         </div>
     </script>
 

@@ -17,6 +17,9 @@ function World(worldObjecFactory) {
 
     var tile = self.tileAt(9, 9);
     tile.addWorldObject(worldObjecFactory.create('Guy'));
+
+    var tile = self.tileAt(25, 25);
+    tile.addWorldObject(worldObjecFactory.create('Guy'));
   }
 
   initialize();
