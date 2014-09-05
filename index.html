@@ -8,6 +8,7 @@
     <script src="vendor/knockout-3.2.0.js"></script>
     <script src="vendor/knockout.punches.min.js"></script>
     <script src="vendor/less.js"></script>
+    <script src="vendor/dragdealer.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/World.js"></script>
     <script src="js/WorldTile.js"></script>
@@ -20,18 +21,17 @@
     <script src="js/initializer.js"></script>
   </head>
   <body>
-
     <div id="viewport">
-        <div id="map-view" data-bind="template: {name: 'map-view-template', data: map}"></div>
-        <div id="sidebar-view" data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
+        <div class="canvas" data-bind="template: {name: 'map-view-template', data: map}"></div>
     </div>
 
+    <div id="sidebar-view" data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
 
     <script type="text/html" id="sidebar-template">
     </script>
 
     <script type="text/html" id="map-view-template">
-        <div data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
+        <div class="map-grid" data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
     </script>
 
     <script type="text/html" id="map-view-row-template">

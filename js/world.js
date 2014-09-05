@@ -2,7 +2,7 @@ function World(worldObjecFactory) {
   var self = this;
 
   this.worldObjecFactory = worldObjecFactory;
-  self.size = 20;
+  self.size = 30;
   self.tickInterval = 500;
   self.worldTiles = [];
 
