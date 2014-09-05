@@ -30,8 +30,14 @@
 
     <script type="text/html" id="sidebar-template">
         <div id="sidebar">
-            aaaaaa
+          {{#if: game.map.selectedTile}}
+            <div data-bind="template: {name: 'sidebar-object-item-template', foreach: game.worldObjectsSelectedInTile, as: 'object'}"></div>
+          {{/if}}
         </div>
+    </script>
+
+    <script type="text/html" id="sidebar-object-item-template">
+        <div class="selected-object-name">{{object.name}}</div>
     </script>
 
     <script type="text/html" id="map-view-template">

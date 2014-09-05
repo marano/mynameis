@@ -1,7 +1,12 @@
 function GameViewModel(world) {
+  var self = this;
 
   this.map = new MapViewModel(world);
-  this.sidebar = new SidebarViewModel(world);
+  this.sidebar = new SidebarViewModel(this);
+
+  this.worldObjectsSelectedInTile = ko.computed(function () {
+    return self.map.selectedTile() ? self.map.selectedTile().worldTile().worldObjects : [];
+  });
 
   setTimeout(function () {
     new Dragdealer('viewport', {
@@ -13,7 +18,5 @@ function GameViewModel(world) {
       requestAnimationFrame: true,
       handleClass: 'canvas'
     });
-
-    console.log('dragdealer loaded!')
   }, 1000);
 }
