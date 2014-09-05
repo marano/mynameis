@@ -8,12 +8,11 @@ function World() {
   function initialize() {
     _.times(self.size, function (x) {
       _.times(self.size, function (y) {
-        self.worldTiles.push(new WorldTile(self, x, y));
+        var tile = new WorldTile(self, x, y);
+        self.worldTiles.push(tile);
+        self.tileAt(x, y).addWorldObject(new WorldObject(tile));
       });
     });
-
-    var tile = self.tileAt(9, 9);
-    tile.addWorldObject(new WorldObject(tile));
   }
 
   initialize();
