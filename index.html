@@ -13,6 +13,7 @@
     <script src="js/WorldObject.js"></script>
     <script src="js/WorldObjectFactory.js"></script>
     <script src="js/view_models/GameViewModel.js"></script>
+    <script src="js/view_models/SidebarViewModel.js"></script>
     <script src="js/view_models/MapViewModel.js"></script>
     <script src="js/view_models/MapTileViewModel.js"></script>
     <script src="js/initializer.js"></script>
@@ -20,7 +21,13 @@
   <body>
 
     <div id="map-view" data-bind="template: {name: 'map-view-template', data: map}"></div>
-    <div id="console-view"></div>
+    <div id="sidebar-view" data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
+
+    <script type="text/html" id="sidebar-template">
+        <div>
+
+        </div>
+    </script>
 
     <script type="text/html" id="map-view-template">
         <div data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
