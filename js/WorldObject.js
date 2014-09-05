@@ -1,10 +1,10 @@
-function WorldObject(worldTile) {
-  this.worldTile = worldTile;
+function WorldObject(data) {
+  this.data = data;
 }
 
 WorldObject.prototype.tick = function () {
 };
 
 WorldObject.prototype.uiElements = function () {
-  return ['grass-land'];
+  return this.data.uiElements;
 };

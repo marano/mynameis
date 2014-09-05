@@ -1,0 +1,13 @@
+{
+  "world_objects": [
+    {
+      "name": "Grassland",
+      "uiElements": ["grass-land"]
+    },
+    {
+      "name": "Guy",
+      "uiElements": ["guy"],
+      "entity": "GuyEntity"
+    }
+  ]
+}
