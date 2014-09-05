@@ -32,7 +32,11 @@
     </script>
 
     <script type="text/html" id="map-view-tile-template">
-        <div class="tile {{uiElementsClasses}}" data-bind="click: select"></div>
+        <div class="tile" data-bind="click: select, template: {name: 'ui-element-template', foreach: uiElementsClasses, as: 'uiElementClass'}"></div>
+    </script>
+
+    <script type="text/html" id="ui-element-template">
+        <div class="ui-element {{uiElementClass}}"></div>
     </script>
   </body>
 </html>
