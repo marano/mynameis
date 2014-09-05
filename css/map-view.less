@@ -1,53 +1,45 @@
 @tile-size: 30px;
 
-.canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-
-  white-space: nowrap;
+.map-grid {
   font-size: 0;
 
-  .map-grid {
-    .row {
-      .tile {
-        display: inline-block;
+  .row {
+    .tile {
+      display: inline-block;
+      width: @tile-size;
+      height: @tile-size;
+      vertical-align: top;
+
+      .ui-element {
+        position: absolute;
+        display: block;
         width: @tile-size;
         height: @tile-size;
-        vertical-align: top;
+        content: '';
 
-        .ui-element {
-          position: absolute;
-          display: block;
-          width: @tile-size;
-          height: @tile-size;
-          content: '';
-
-          &.selected {
-            background-image: url(/png/map-tile-selection-cursor.png);
-          }
-
-          &.grass-land {
-            background-image: url(/png/grass-land.png);
-          }
-
-          &.guy {
-            background-image: url(/png/guy.png);
-          }
-        }
-
-        &:hover:after {
-          position: absolute;
-          display: block;
-          width: @tile-size;
-          height: @tile-size;
-          content: '';
-
-          opacity: 0.9;
-
+        &.selected {
           background-image: url(/png/map-tile-selection-cursor.png);
         }
+
+        &.grass-land {
+          background-image: url(/png/grass-land.png);
+        }
+
+        &.guy {
+          background-image: url(/png/guy.png);
+        }
+      }
+
+      &:hover:after {
+        position: absolute;
+        display: block;
+        width: @tile-size;
+        height: @tile-size;
+        content: '';
+
+        opacity: 0.9;
+
+        background-image: url(/png/map-tile-selection-cursor.png);
       }
     }
   }

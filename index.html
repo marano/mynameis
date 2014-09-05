@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet/less" type="text/css" href="css/viewport.less" />
+    <link rel="stylesheet/less" type="text/css" href="css/sidebar.less" />
     <link rel="stylesheet/less" type="text/css" href="css/map-view.less" />
     <script src="vendor/lodash.js"></script>
     <script src="vendor/jquery-2.1.1.js"></script>
@@ -25,9 +26,12 @@
         <div class="canvas" data-bind="template: {name: 'map-view-template', data: map}"></div>
     </div>
 
-    <div id="sidebar-view" data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
+    <div data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
 
     <script type="text/html" id="sidebar-template">
+        <div id="sidebar">
+            aaaaaa
+        </div>
     </script>
 
     <script type="text/html" id="map-view-template">
