@@ -1,6 +1,7 @@
-function WorldObject(data) {
+function WorldObject(tile, data) {
   this.data = data;
   this.name = data.name;
+  this.tile = tile;
 }
 
 WorldObject.prototype.tick = function () {

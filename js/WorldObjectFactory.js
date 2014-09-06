@@ -1,10 +1,12 @@
 function WorldObjecFactory() {
 }
 
-WorldObjecFactory.prototype.create = function (worldObjectName) {
-  return new WorldObject(_.find(this.data, function (worldObjectData) {
+WorldObjecFactory.prototype.create = function (worldObjectName, tile) {
+  newWorldObject = new WorldObject(tile, _.find(this.data, function (worldObjectData) {
     return worldObjectData.name === worldObjectName;
   }));
+  tile.addWorldObject(newWorldObject);
+  return newWorldObject;
 };
 
 WorldObjecFactory.prototype.loadData = function (callback) {

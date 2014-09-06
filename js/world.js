@@ -11,15 +11,12 @@ function World(worldObjecFactory) {
       _.times(self.size, function (y) {
         var tile = new WorldTile(self, x, y);
         self.worldTiles.push(tile);
-        self.tileAt(x, y).addWorldObject(self.worldObjecFactory.create('Grassland'));
+        self.worldObjecFactory.create('Grassland', tile)
       });
     });
 
-    var tile = self.tileAt(9, 9);
-    tile.addWorldObject(worldObjecFactory.create('Guy'));
-
-    var tile = self.tileAt(25, 25);
-    tile.addWorldObject(worldObjecFactory.create('Guy'));
+    worldObjecFactory.create('Guy', self.tileAt(9, 9));
+    worldObjecFactory.create('Guy', self.tileAt(25, 25));
   }
 
   initialize();
