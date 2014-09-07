@@ -1,6 +1,7 @@
-function WorldObject(data) {
+function WorldObject(world, data) {
   var self = this;
 
+  this.world = world;
   this.data = data;
   this.name = data.name;
   this.uiElements = data.uiElements;
@@ -24,7 +25,7 @@ WorldObject.prototype.goTo = function (targetTile) {
       return;
     } else {
       var moveToTile = route.pop();
-      var interval = 500 * moveToTile.cost;
+      var interval = self.world.tickInterval * moveToTile.cost;
       setTimeout(function () {
         self.tile.moveTo(self, moveToTile.tile);
         go();
