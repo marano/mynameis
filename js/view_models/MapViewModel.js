@@ -12,6 +12,10 @@ function MapViewModel(game, world) {
     return listToMatrix(self.tiles(), self.world.width);
   });
 
+  self.selectedTile = ko.computed(function () {
+    return _.find(self.tiles(), function (tile) { return tile.selected(); });
+  });
+
   function initialize() {
     _.each(self.world.tiles, function (eachWorldTile) {
       self.tiles.push(new MapTileViewModel(self, eachWorldTile));
@@ -20,11 +24,3 @@ function MapViewModel(game, world) {
 
   initialize();
 }
-
-MapViewModel.prototype.tileAt = function (line, row) {
-  return _.find(this.tiles(), function (tile) { return tile.line === line && tile.row === row; });
-};
-
-MapViewModel.prototype.selectedTile = function () {
-  return _.find(this.tiles(), function (tile) { return tile.selected(); });
-};
