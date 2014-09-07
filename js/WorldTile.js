@@ -9,16 +9,24 @@ WorldTile.prototype.onWorldObjectsUpdated = function (worldObjectsUpdatedCallbac
   this.worldObjectsUpdated = worldObjectsUpdatedCallback;
 };
 
+WorldTile.prototype.setMoveWorldObjectHandler = function (moveWorldObjectHandler) {
+  this.moveWorldObjectHandler = moveWorldObjectHandler;
+};
+
 WorldTile.prototype.canBePassedThrough = function () {
   return _.all(this.worldObjects, 'allowPassThrough');
 };
 
-WorldTile.prototype.moveTo = function (worldObject, targetTile) {
-  this.worldObjects.remove(worldObject);
-  if (this.worldObjectsUpdated) {
-    this.worldObjectsUpdated(this.worldObjects);
-  }
-  targetTile.addWorldObject(worldObject);
+WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMoveCallback) {
+  var self = this;
+  this.moveWorldObjectHandler(worldObject, targetTile, interval, function () {
+    self.worldObjects.remove(worldObject);
+    if (self.worldObjectsUpdated) {
+      self.worldObjectsUpdated(self.worldObjects);
+    }
+    targetTile.addWorldObject(worldObject);
+    onMoveCallback();
+  });
 };
 
 WorldTile.prototype.addWorldObject = function (worldObject) {

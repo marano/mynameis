@@ -22,6 +22,10 @@ function MapTileViewModel(map, worldTile) {
   worldTile.onWorldObjectsUpdated(function () {
     self.updateWorldObjects(worldTile.worldObjects);
   });
+
+  worldTile.setMoveWorldObjectHandler(function (object, targetTile, interval, onMoveCompleteCallback) {
+    setTimeout(onMoveCompleteCallback, interval);
+  });
 }
 
 MapTileViewModel.prototype.updateWorldObjects = function (worldObjects) {

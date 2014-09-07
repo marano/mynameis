@@ -26,16 +26,14 @@ WorldObject.prototype.goTo = function (targetTile) {
       return;
     } else {
       var moveToTile = route.pop();
-      var interval = self.world.tickInterval * moveToTile.cost;
-      setTimeout(function () {
-        if (moveToTile.tile.canBePassedThrough()) {
-          self.tile.moveTo(self, moveToTile.tile);
-          go();
-        } else {
-          self.goTo(targetTile);
-        }
-      }, interval);
+      if (moveToTile.tile.canBePassedThrough()) {
+        var interval = self.world.tickInterval * moveToTile.cost;
+        self.tile.moveTo(self, moveToTile.tile, interval, go);
+      } else {
+        self.goTo(targetTile);
+      }
     }
   }
+
   go();
 };
