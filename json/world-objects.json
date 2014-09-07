@@ -13,7 +13,7 @@
         "image": "guy",
         "movementEase": "ease"
       },{
-        "image": "baloon",
+        "image": "balloon",
         "content": "ah!",
         "movementEase": "linear"
       }],
