@@ -47,13 +47,12 @@ function MapTileViewModel(map, worldTile) {
       uiElementViewModel.domElement().transition({
         x: deltaY,
         y: deltaX,
-        duration: interval,
         complete: function () {
           if (callOnCompleteCallbackForCurrentElement) {
             onMoveCompleteCallback(rollbackMove);
           }
         }
-      });
+      }, interval, uiElementViewModel.worldUiElement.movementEase);
     });
   });
 }

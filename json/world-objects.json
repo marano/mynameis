@@ -10,10 +10,12 @@
     {
       "name": "Guy",
       "uiElements": [{
-        "image": "guy"
+        "image": "guy",
+        "movementEase": "ease"
       },{
         "image": "baloon",
-        "content": "ah!"
+        "content": "ah!",
+        "movementEase": "linear"
       }],
       "sidebar-actions": ["move"],
       "allowPassThrough": false
