@@ -6,7 +6,7 @@ function WorldTile(world, x, y) {
 }
 
 WorldTile.prototype.onWorldObjectsUpdated = function (worldObjectsUpdatedCallback) {
-  this.worldObjectsUpdated = function (worldObjects) { worldObjectsUpdatedCallback(worldObjects); };
+  this.worldObjectsUpdated = worldObjectsUpdatedCallback;
 };
 
 WorldTile.prototype.canBePassedThrough = function () {

@@ -19,8 +19,8 @@ function MapTileViewModel(map, worldTile) {
     return _.pluck(self.worldUiElements(), 'image');
   });
 
-  worldTile.onWorldObjectsUpdated(function (worldObjects) {
-    self.updateWorldObjects(worldObjects);
+  worldTile.onWorldObjectsUpdated(function () {
+    self.updateWorldObjects(worldTile.worldObjects);
   });
 }
 
