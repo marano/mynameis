@@ -7,7 +7,7 @@
     {
       "name": "Guy",
       "uiElements": ["guy"],
-      "entity": "GuyEntity"
+      "sidebar-actions": ["move"]
     }
   ]
 }

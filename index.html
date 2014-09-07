@@ -39,6 +39,11 @@
 
     <script type="text/html" id="sidebar-object-item-template">
         <div class="selected-object-name">{{object.name}}</div>
+        <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', foreach: object.sidebarActions, as: 'action'}"></div>
+    </script>
+
+    <script type="text/html" id="sidebar-object-item-action-template">
+        <div class="action {{action.name}}" data-bind="click: $root.sidebar.initiateMoveToSelection, css: {'active': $root.sidebar.moving}">{{action.name}}</div>
     </script>
 
     <script type="text/html" id="map-view-template">
@@ -52,7 +57,7 @@
     </script>
 
     <script type="text/html" id="map-view-tile-template">
-        <div class="tile" data-bind="click: select, template: {name: 'ui-element-template', foreach: uiElementsClasses, as: 'uiElementClass'}"></div>
+        <div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: uiElementsClasses, as: 'uiElementClass'}"></div>
     </script>
 
     <script type="text/html" id="ui-element-template">

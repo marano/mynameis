@@ -1,6 +1,7 @@
-function MapViewModel(world) {
+function MapViewModel(game, world) {
   var self = this;
 
+  self.game = game;
   self.world = world;
 
   self.rendered = ko.observable(false);

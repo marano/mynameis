@@ -24,6 +24,14 @@ MapTileViewModel.prototype.computeUiElements = function () {
   return this.worldUiElements().concat(elementsToAadd);
 };
 
+MapTileViewModel.prototype.onClick = function () {
+  if (this.map.game.sidebar.objectMoving()) {
+    this.map.game.sidebar.selectMoveTo(this.worldTile);
+  } else {
+    this.select();
+  }
+};
+
 MapTileViewModel.prototype.select = function () {
   var selectedTile = this.map.selectedTile();
   if (selectedTile && selectedTile !== this) {

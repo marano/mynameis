@@ -1,7 +1,7 @@
 function GameViewModel(world) {
   var self = this;
 
-  this.map = new MapViewModel(world);
+  this.map = new MapViewModel(this, world);
   this.sidebar = new SidebarViewModel(this);
 
   this.worldObjectsSelectedInTile = ko.computed(function () {
