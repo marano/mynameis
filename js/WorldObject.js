@@ -28,8 +28,12 @@ WorldObject.prototype.goTo = function (targetTile) {
       var moveToTile = route.pop();
       var interval = self.world.tickInterval * moveToTile.cost;
       setTimeout(function () {
-        self.tile.moveTo(self, moveToTile.tile);
-        go();
+        if (moveToTile.tile.canBePassedThrough()) {
+          self.tile.moveTo(self, moveToTile.tile);
+          go();
+        } else {
+          self.goTo(targetTile);
+        }
       }, interval);
     }
   }

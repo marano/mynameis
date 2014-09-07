@@ -9,6 +9,10 @@ WorldTile.prototype.onWorldObjectsUpdated = function (worldObjectsUpdatedCallbac
   this.worldObjectsUpdated = function (worldObjects) { worldObjectsUpdatedCallback(worldObjects); };
 };
 
+WorldTile.prototype.canBePassedThrough = function () {
+  return _.all(this.worldObjects, 'allowPassThrough');
+};
+
 WorldTile.prototype.moveTo = function (worldObject, targetTile) {
   this.worldObjects.remove(worldObject);
   if (this.worldObjectsUpdated) {
