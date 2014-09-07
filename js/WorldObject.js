@@ -4,6 +4,7 @@ function WorldObject(world, data) {
   this.world = world;
   this.data = data;
   this.name = data.name;
+  this.allowPassThrough = data.allowPassThrough;
   this.uiElements = data.uiElements;
   this.sidebarActions = _.map(data['sidebar-actions'], function (action) {
     return {

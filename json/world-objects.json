@@ -4,14 +4,16 @@
       "name": "Grassland",
       "uiElements": [{
         "image": "grass-land"
-      }]
+      }],
+      "allowPassThrough": true
     },
     {
       "name": "Guy",
       "uiElements": [{
         "image": "guy"
       }],
-      "sidebar-actions": ["move"]
+      "sidebar-actions": ["move"],
+      "allowPassThrough": false
     }
   ]
 }

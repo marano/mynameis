@@ -18,7 +18,7 @@ ExpandedTile.prototype.calculatePossibleOpenTiles = function () {
 
 ExpandedTile.prototype.possibleOpenTile = function (xDelta, yDelta, cost) {
   var targetTile = this.tileAtDelta(xDelta, yDelta);
-  if (targetTile) {
+  if (targetTile && _.all(targetTile.worldObjects, 'allowPassThrough')) {
      return new OpenTile(targetTile, this.openTile.destinationTile, cost, this.openTile);
   }
 };
