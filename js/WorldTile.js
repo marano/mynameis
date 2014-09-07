@@ -5,27 +5,23 @@ function WorldTile(world, x, y) {
   this.worldObjects = [];
 }
 
-WorldTile.prototype.onUiElementsUpdated = function (uiElementsUpdatedCallback) {
-  this.uiElementsUpdated = function (uiElements) { uiElementsUpdatedCallback(uiElements); };
+WorldTile.prototype.onWorldObjectsUpdated = function (worldObjectsUpdatedCallback) {
+  this.worldObjectsUpdated = function (worldObjects) { worldObjectsUpdatedCallback(worldObjects); };
 };
 
 WorldTile.prototype.moveTo = function (worldObject, targetTile) {
   this.worldObjects.remove(worldObject);
-  if (this.uiElementsUpdated) {
-    this.uiElementsUpdated(this.uiElements());
+  if (this.worldObjectsUpdated) {
+    this.worldObjectsUpdated(this.worldObjects);
   }
   targetTile.addWorldObject(worldObject);
-};
-
-WorldTile.prototype.uiElements = function () {
-  return _(this.worldObjects).map(function (worldObject) { return worldObject.uiElements(); }).flatten().value();
 };
 
 WorldTile.prototype.addWorldObject = function (worldObject) {
   worldObject.tile = this;
   this.worldObjects.push(worldObject);
-  if (this.uiElementsUpdated) {
-    this.uiElementsUpdated(this.uiElements());
+  if (this.worldObjectsUpdated) {
+    this.worldObjectsUpdated(this.worldObjects);
   }
 };
 

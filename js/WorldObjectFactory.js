@@ -13,7 +13,10 @@ WorldObjecFactory.prototype.loadData = function (callback) {
   var self = this;
 
   $.getJSON('/json/world-objects.json', function (data) {
-    self.data = data['world_objects'];
+    self.data = _.map(data['world_objects'], function (worldObjectData) {
+      worldObjectData.uiElements = _.map(worldObjectData.uiElements, function (uiElementData) { return new UIElement(uiElementData); });
+      return worldObjectData;
+    });
     callback();
   });
 };

@@ -4,24 +4,28 @@ function MapTileViewModel(map, worldTile) {
   this.map = map;
   this.worldTile = worldTile;
   this.selected = ko.observable(false);
-  this.worldUiElements = ko.observableArray([]);
-  this.uiElementsClasses = ko.computed(function () { return self.computeUiElements(); });
+  this.worldObjects = ko.observableArray([]);
+  this.worldUiElements = ko.computed(function () {
+    var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
+      return worldObject.uiElements;
+    }).flatten().value();
+    if (self.selected()) {
+      computedWorldUiElements.push(new UIElement({image: 'selected'}));
+    }
+    return computedWorldUiElements;
+  });
 
-  worldTile.onUiElementsUpdated(function (worldTileUiElements) {
-    self.updateWorldUiElements(worldTileUiElements);
+  this.uiElementsClasses = ko.computed(function () {
+    return _.pluck(self.worldUiElements(), 'image');
+  });
+
+  worldTile.onWorldObjectsUpdated(function (worldObjects) {
+    self.updateWorldObjects(worldObjects);
   });
 }
 
-MapTileViewModel.prototype.updateWorldUiElements = function (worldTileUiElements) {
-  this.worldUiElements(worldTileUiElements);
-};
-
-MapTileViewModel.prototype.computeUiElements = function () {
-  var elementsToAadd = [];
-  if (this.selected()) {
-    elementsToAadd.push('selected');
-  }
-  return this.worldUiElements().concat(elementsToAadd);
+MapTileViewModel.prototype.updateWorldObjects = function (worldObjects) {
+  this.worldObjects(worldObjects);
 };
 
 MapTileViewModel.prototype.onClick = function () {

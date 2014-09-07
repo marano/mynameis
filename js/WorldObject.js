@@ -3,6 +3,7 @@ function WorldObject(tile, data) {
 
   this.data = data;
   this.name = data.name;
+  this.uiElements = data.uiElements;
   this.sidebarActions = _.map(data['sidebar-actions'], function (action) {
     return {
       name: action,
@@ -12,10 +13,6 @@ function WorldObject(tile, data) {
 }
 
 WorldObject.prototype.tick = function () {
-};
-
-WorldObject.prototype.uiElements = function () {
-  return this.data.uiElements;
 };
 
 WorldObject.prototype.goTo = function (targetTile) {

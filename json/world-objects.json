@@ -2,11 +2,15 @@
   "world_objects": [
     {
       "name": "Grassland",
-      "uiElements": ["grass-land"]
+      "uiElements": [{
+        "image": "grass-land"
+      }]
     },
     {
       "name": "Guy",
-      "uiElements": ["guy"],
+      "uiElements": [{
+        "image": "guy"
+      }],
       "sidebar-actions": ["move"]
     }
   ]

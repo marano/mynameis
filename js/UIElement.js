@@ -1,4 +1,4 @@
-function UIElement(image, content) {
-  this.image = image;
-  this.content = content;
+function UIElement(data) {
+  this.image = data.image;
+  this.content = data.content;
 }
