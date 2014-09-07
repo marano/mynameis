@@ -9,7 +9,7 @@ function MapViewModel(game, world) {
   self.tiles = ko.observableArray([]);
 
   self.lines = ko.computed(function () {
-    return listToMatrix(self.tiles(), self.world.width);
+    return self.tiles().toMatrix(self.world.width);
   });
 
   self.selectedTile = ko.computed(function () {
