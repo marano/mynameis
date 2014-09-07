@@ -4,7 +4,7 @@ function GameViewModel(world) {
   this.map = new MapViewModel(this, world);
   this.sidebar = new SidebarViewModel(this);
 
-  this.worldObjectsSelectedInTile = ko.computed(function () {
+  this.worldObjectsInSelectedTile = ko.computed(function () {
     return self.map.selectedTile() ? self.map.selectedTile().worldObjects() : [];
   });
 

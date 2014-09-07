@@ -34,7 +34,7 @@
 
     <script type="text/html" id="sidebar-template">
         <div id="sidebar" data-bind="if: game.map.selectedTile">
-          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: game.worldObjectsSelectedInTile, as: 'object'}"></div>
+          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: game.worldObjectsInSelectedTile, as: 'object'}"></div>
         </div>
     </script>
 
