@@ -7,7 +7,7 @@ function MapTileViewModel(map, worldTile) {
   this.worldObjects = ko.observableArray([]);
   this.uiElements = ko.computed(function () {
     var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
-      return _.map(worldObject.uiElements, function (uiElement) { return new UIElementViewModel(uiElement); });
+      return worldObject.uiElements();
     }).flatten().value();
     if (self.selected()) {
       computedWorldUiElements.push(new UIElementViewModel(new UIElement({image: 'selected'})));
@@ -16,7 +16,7 @@ function MapTileViewModel(map, worldTile) {
   });
 
   worldTile.onWorldObjectsUpdated(function () {
-    self.updateWorldObjects(worldTile.worldObjects);
+    self.updateWorldObjects();
   });
 
   worldTile.setMoveWorldObjectHandler(function (object, targetTile, interval, onMoveCompleteCallback) {
@@ -43,8 +43,10 @@ function MapTileViewModel(map, worldTile) {
   });
 }
 
-MapTileViewModel.prototype.updateWorldObjects = function (worldObjects) {
-  this.worldObjects(worldObjects);
+MapTileViewModel.prototype.updateWorldObjects = function () {
+  this.worldObjects(_.map(this.worldTile.worldObjects, function (worldObject) {
+    return new WorldObjectViewModel(worldObject);
+  }));
 };
 
 MapTileViewModel.prototype.onClick = function () {

@@ -22,6 +22,7 @@
     <script src="js/router/OpenTile.js"></script>
     <script src="js/router/ExpandedTile.js"></script>
     <script src="js/view_models/GameViewModel.js"></script>
+    <script src="js/view_models/WorldObjectViewModel.js"></script>
     <script src="js/view_models/MapViewModel.js"></script>
     <script src="js/view_models/MapTileViewModel.js"></script>
     <script src="js/view_models/SidebarViewModel.js"></script>
@@ -42,8 +43,8 @@
     </script>
 
     <script type="text/html" id="sidebar-object-item-template">
-        <div class="selected-object-name">{{object.name}}</div>
-        <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', foreach: object.sidebarActions, as: 'action'}"></div>
+        <div class="selected-object-name">{{object.worldObject.name}}</div>
+        <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', foreach: object.worldObject.sidebarActions, as: 'action'}"></div>
     </script>
 
     <script type="text/html" id="sidebar-object-item-action-template">
@@ -61,11 +62,11 @@
     </script>
 
     <script type="text/html" id="map-view-tile-template">
-        <div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: uiElements, as: 'uiElement'}"></div>
+        <div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: tile.uiElements, as: 'uiElement'}"></div>
     </script>
 
     <script type="text/html" id="ui-element-template">
-        <div class="ui-element {{uiElement.worldUiElement.image}}" data-bind="attr: {id: uiElement.elementId}">{{uiElement.worldUiElement.content}}</div>
+        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.worldUiElement.image}}">{{uiElement.worldUiElement.content}}</div>
     </script>
   </body>
 </html>
