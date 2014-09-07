@@ -5,17 +5,21 @@ function ExpandedTile(openTile) {
 
 ExpandedTile.prototype.calculatePossibleOpenTiles = function () {
   return _.compact([
-    this.possibleOpenTile(+0, +1),
-    this.possibleOpenTile(+1, +0),
-    this.possibleOpenTile(+0, -1),
-    this.possibleOpenTile(-1, +0)
+    this.possibleOpenTile(+0, +1, 1),
+    this.possibleOpenTile(+1, +1, 1.4),
+    this.possibleOpenTile(+1, +0, 1),
+    this.possibleOpenTile(+1, -1, 1.4),
+    this.possibleOpenTile(+0, -1, 1),
+    this.possibleOpenTile(-1, -1, 1.4),
+    this.possibleOpenTile(-1, +0, 1),
+    this.possibleOpenTile(-1, +1, 1.4)
   ]);
 };
 
-ExpandedTile.prototype.possibleOpenTile = function (xDelta, yDelta) {
+ExpandedTile.prototype.possibleOpenTile = function (xDelta, yDelta, cost) {
   var targetTile = this.tileAtDelta(xDelta, yDelta);
   if (targetTile) {
-     return new OpenTile(targetTile, this.openTile.destinationTile, this.openTile);
+     return new OpenTile(targetTile, this.openTile.destinationTile, cost, this.openTile);
   }
 };
 

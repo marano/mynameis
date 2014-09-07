@@ -1,4 +1,4 @@
-function WorldObject(tile, data) {
+function WorldObject(data) {
   var self = this;
 
   this.data = data;
@@ -20,12 +20,16 @@ WorldObject.prototype.goTo = function (targetTile) {
   var route = new Route(this.tile, targetTile).solve();
 
   function go() {
-    setTimeout(function () {
-      self.tile.moveTo(self, route.pop().tile);
-      if (route.length > 0) {
+    if (route.length === 0) {
+      return;
+    } else {
+      var moveToTile = route.pop();
+      var interval = 500 * moveToTile.cost;
+      setTimeout(function () {
+        self.tile.moveTo(self, moveToTile.tile);
         go();
-      }
-    }, 500);
+      }, interval);
+    }
   }
   go();
 };

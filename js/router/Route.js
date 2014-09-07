@@ -4,14 +4,14 @@ function Route(fromTile, toTile) {
 }
 
 Route.prototype.solve = function () {
-  var fromOpenTile = new OpenTile(this.fromTile, this.toTile);
+  var fromOpenTile = new OpenTile(this.fromTile, this.toTile, 0);
   var openTiles = [fromOpenTile];
   var expandedTiles = [];
 
   var found = undefined;
   var shouldStop = false;
   while (!shouldStop) {
-    var cheapestOpenTileForExpansion = _.min(openTiles, 'cost');
+    var cheapestOpenTileForExpansion = _.min(openTiles, 'totalCostSinceOrigin');
 
     if (cheapestOpenTileForExpansion) {
       var expandedTile = new ExpandedTile(cheapestOpenTileForExpansion);
@@ -46,7 +46,7 @@ Route.prototype.handleExpandedTile = function (expandedTile, openTiles, expanded
     });
 
     if (matchingExistentOpenTile) {
-      if (matchingExistentOpenTile.cost > possibleTile.cost) {
+      if (matchingExistentOpenTile.totalCostSinceOrigin > possibleTile.totalCostSinceOrigin) {
         openTiles.remove(matchingExistentOpenTile);
         openTiles.push(possibleTile);
       }
