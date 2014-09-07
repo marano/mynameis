@@ -19,26 +19,41 @@ function MapTileViewModel(map, worldTile) {
     self.updateWorldObjects();
   });
 
-  worldTile.setMoveWorldObjectHandler(function (object, targetTile, interval, onMoveCompleteCallback) {
-    var objectUiElement = _.find(self.uiElements(), function (uiElementViewModel) { return _.contains(object.uiElements, uiElementViewModel.worldUiElement); });
+  worldTile.setMoveWorldObjectHandler(function (worldObject, targetTile, interval, onMoveCompleteCallback) {
+    var callOnCompleteCallback = true;
 
-    var rollbackMove = function (onRollbackFinished) {
-      objectUiElement.domElement().transition({
-        x: 0,
-        y: 0,
-        duration: 200,
-        complete: function () { onRollbackFinished(); }
+    _.each(_.find(self.worldObjects(), function (worldObjectViewModel) {
+      return worldObjectViewModel.worldObject === worldObject;
+    }).uiElements(), function (uiElementViewModel) {
+      var callOnCompleteCallbackForCurrentElement = callOnCompleteCallback;
+      callOnCompleteCallback = false;
+
+      var rollbackMove = function (onRollbackFinished) {
+        uiElementViewModel.domElement().transition({
+          x: 0,
+          y: 0,
+          duration: 200,
+          complete: function () {
+            if (callOnCompleteCallbackForCurrentElement) {
+              onRollbackFinished();
+            }
+          }
+        });
+      };
+
+      var deltaX = targetTile.x === self.worldTile.x ? 0 : (targetTile.x > self.worldTile.x ? 30 : -30);
+      var deltaY = targetTile.y === self.worldTile.y ? 0 : (targetTile.y > self.worldTile.y ? 30 : -30);
+
+      uiElementViewModel.domElement().transition({
+        x: deltaY,
+        y: deltaX,
+        duration: interval,
+        complete: function () {
+          if (callOnCompleteCallbackForCurrentElement) {
+            onMoveCompleteCallback(rollbackMove);
+          }
+        }
       });
-    };
-
-    var deltaX = targetTile.x === self.worldTile.x ? 0 : (targetTile.x > self.worldTile.x ? 30 : -30);
-    var deltaY = targetTile.y === self.worldTile.y ? 0 : (targetTile.y > self.worldTile.y ? 30 : -30);
-
-    objectUiElement.domElement().transition({
-      x: deltaY,
-      y: deltaX,
-      duration: interval,
-      complete: function () { onMoveCompleteCallback(rollbackMove); }
     });
   });
 }
