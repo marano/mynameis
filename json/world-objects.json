@@ -11,6 +11,9 @@
       "name": "Guy",
       "uiElements": [{
         "image": "guy"
+      },{
+        "image": "baloon",
+        "content": "ah!"
       }],
       "sidebar-actions": ["move"],
       "allowPassThrough": false
