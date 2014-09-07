@@ -25,10 +25,15 @@ WorldObject.prototype.goTo = function (targetTile) {
     if (route.length === 0) {
       return;
     } else {
-      var moveToTile = route.pop();
+      var moveToTile = _.first(route);
       if (moveToTile.tile.canBePassedThrough()) {
         var interval = self.world.tickInterval * moveToTile.cost;
-        self.tile.moveTo(self, moveToTile.tile, interval, go);
+        self.tile.moveTo(self, moveToTile.tile, interval, function (success) {
+          if (success) {
+            route.shift();
+          }
+          go();
+        });
       } else {
         self.goTo(targetTile);
       }

@@ -19,14 +19,17 @@
 
         &.selected {
           background-image: url(/png/map-tile-selection-cursor.png);
+          z-index: 10000;
         }
 
         &.grass-land {
           background-image: url(/png/grass-land.png);
+          z-index: 100;
         }
 
         &.guy {
           background-image: url(/png/guy.png);
+          z-index: 1000;
         }
       }
 
@@ -40,6 +43,7 @@
         opacity: 0.9;
 
         background-image: url(/png/map-tile-selection-cursor.png);
+        z-index: 10000;
       }
     }
   }

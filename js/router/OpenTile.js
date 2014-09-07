@@ -8,7 +8,7 @@ function OpenTile(tile, destinationTile, cost, fromOpenTile) {
 }
 
 OpenTile.prototype.path = function () {
-  return (this.fromOpenTile ? [this].concat(this.fromOpenTile.path()) : []);
+  return (this.fromOpenTile ? this.fromOpenTile.path().concat([this]) : []);
 };
 
 OpenTile.prototype.calculateCost = function (tile, destinationTile, costFromParent, fromOpenTile) {

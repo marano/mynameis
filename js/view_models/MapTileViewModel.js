@@ -5,18 +5,14 @@ function MapTileViewModel(map, worldTile) {
   this.worldTile = worldTile;
   this.selected = ko.observable(false);
   this.worldObjects = ko.observableArray([]);
-  this.worldUiElements = ko.computed(function () {
+  this.uiElements = ko.computed(function () {
     var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
-      return worldObject.uiElements;
+      return _.map(worldObject.uiElements, function (uiElement) { return new UIElementViewModel(uiElement); });
     }).flatten().value();
     if (self.selected()) {
-      computedWorldUiElements.push(new UIElement({image: 'selected'}));
+      computedWorldUiElements.push(new UIElementViewModel(new UIElement({image: 'selected'})));
     }
     return computedWorldUiElements;
-  });
-
-  this.uiElementsClasses = ko.computed(function () {
-    return _.pluck(self.worldUiElements(), 'image');
   });
 
   worldTile.onWorldObjectsUpdated(function () {
@@ -24,7 +20,26 @@ function MapTileViewModel(map, worldTile) {
   });
 
   worldTile.setMoveWorldObjectHandler(function (object, targetTile, interval, onMoveCompleteCallback) {
-    setTimeout(onMoveCompleteCallback, interval);
+    var objectUiElement = _.find(self.uiElements(), function (uiElementViewModel) { return _.contains(object.uiElements, uiElementViewModel.worldUiElement); });
+
+    var rollbackMove = function (onRollbackFinished) {
+      objectUiElement.domElement().transition({
+        x: 0,
+        y: 0,
+        duration: 200,
+        complete: function () { onRollbackFinished(); }
+      });
+    };
+
+    var deltaX = targetTile.x === self.worldTile.x ? 0 : (targetTile.x > self.worldTile.x ? 30 : -30);
+    var deltaY = targetTile.y === self.worldTile.y ? 0 : (targetTile.y > self.worldTile.y ? 30 : -30);
+
+    objectUiElement.domElement().transition({
+      x: deltaY,
+      y: deltaX,
+      duration: interval,
+      complete: function () { onMoveCompleteCallback(rollbackMove); }
+    });
   });
 }
 

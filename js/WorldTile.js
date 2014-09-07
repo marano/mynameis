@@ -19,13 +19,20 @@ WorldTile.prototype.canBePassedThrough = function () {
 
 WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMoveCallback) {
   var self = this;
-  this.moveWorldObjectHandler(worldObject, targetTile, interval, function () {
-    self.worldObjects.remove(worldObject);
-    if (self.worldObjectsUpdated) {
-      self.worldObjectsUpdated(self.worldObjects);
+  this.moveWorldObjectHandler(worldObject, targetTile, interval, function (rollbackMove) {
+    var success = targetTile.canBePassedThrough();
+    if (success) {
+      self.worldObjects.remove(worldObject);
+      if (self.worldObjectsUpdated) {
+        self.worldObjectsUpdated(self.worldObjects);
+      }
+      targetTile.addWorldObject(worldObject);
+      onMoveCallback(true);
+    } else {
+      rollbackMove(function () {
+        onMoveCallback(false);
+      });
     }
-    targetTile.addWorldObject(worldObject);
-    onMoveCallback();
   });
 };
 

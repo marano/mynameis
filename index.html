@@ -6,6 +6,7 @@
     <link rel="stylesheet/less" type="text/css" href="css/map-view.less" />
     <script src="vendor/lodash.js"></script>
     <script src="vendor/jquery-2.1.1.js"></script>
+    <script src="vendor/jquery.transit.min.js"></script>
     <script src="vendor/knockout-3.2.0.js"></script>
     <script src="vendor/knockout.punches.min.js"></script>
     <script src="vendor/less.js"></script>
@@ -23,6 +24,7 @@
     <script src="js/view_models/MapViewModel.js"></script>
     <script src="js/view_models/MapTileViewModel.js"></script>
     <script src="js/view_models/SidebarViewModel.js"></script>
+    <script src="js/view_models/UIElementViewModel.js"></script>
     <script src="js/initializer.js"></script>
   </head>
   <body>
@@ -58,11 +60,11 @@
     </script>
 
     <script type="text/html" id="map-view-tile-template">
-        <div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: uiElementsClasses, as: 'uiElementClass'}"></div>
+        <div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: uiElements, as: 'uiElement'}"></div>
     </script>
 
     <script type="text/html" id="ui-element-template">
-        <div class="ui-element {{uiElementClass}}"></div>
+        <div class="ui-element {{uiElement.worldUiElement.image}}" data-bind="attr: {id: uiElement.elementId}">{{uiElement.worldUiElement.content}}</div>
     </script>
   </body>
 </html>
