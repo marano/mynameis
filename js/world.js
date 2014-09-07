@@ -2,13 +2,14 @@ function World(worldObjecFactory) {
   var self = this;
 
   this.worldObjecFactory = worldObjecFactory;
-  self.size = 30;
+  self.width = 50;
+  self.height = 25;
   self.tickInterval = 500;
   self.worldTiles = [];
 
   function initialize() {
-    _.times(self.size, function (x) {
-      _.times(self.size, function (y) {
+    _.times(self.height, function (x) {
+      _.times(self.width, function (y) {
         var tile = new WorldTile(self, x, y);
         self.worldTiles.push(tile);
         self.worldObjecFactory.create('Grassland', tile)
@@ -16,7 +17,7 @@ function World(worldObjecFactory) {
     });
 
     worldObjecFactory.create('Guy', self.tileAt(9, 9));
-    worldObjecFactory.create('Guy', self.tileAt(25, 25));
+    worldObjecFactory.create('Guy', self.tileAt(14, 14));
   }
 
   initialize();

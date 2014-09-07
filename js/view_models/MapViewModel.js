@@ -8,12 +8,12 @@ function MapViewModel(world) {
   self.tiles = ko.observableArray([]);
 
   self.lines = ko.computed(function () {
-    return listToMatrix(self.tiles(), self.world.size);
+    return listToMatrix(self.tiles(), self.world.width);
   });
 
   function initialize() {
-    _.times(self.world.size, function (line) {
-      _.times(self.world.size, function (row) {
+    _.times(self.world.height, function (line) {
+      _.times(self.world.width, function (row) {
         self.tiles.push(new MapTileViewModel(self, self.world, line, row));
       });
     });
@@ -36,9 +36,4 @@ MapViewModel.prototype.tileAt = function (line, row) {
 
 MapViewModel.prototype.selectedTile = function () {
   return _.find(this.tiles(), function (tile) { return tile.selected(); });
-};
-
-MapViewModel.prototype.canvasStyle = function () {
-  var length = this.world.size * this.world.tileSize;
-  return "width:" + length + "px; height: " + length + "px;"
 };
