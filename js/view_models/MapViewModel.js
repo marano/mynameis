@@ -12,23 +12,13 @@ function MapViewModel(world) {
   });
 
   function initialize() {
-    _.times(self.world.height, function (line) {
-      _.times(self.world.width, function (row) {
-        self.tiles.push(new MapTileViewModel(self, self.world, line, row));
-      });
+    _.each(self.world.tiles, function (eachWorldTile) {
+      self.tiles.push(new MapTileViewModel(self, eachWorldTile));
     });
-
-    self.world.afterTick(function () { self.worldTicked(); });
   }
 
   initialize();
 }
-
-MapViewModel.prototype.worldTicked = function () {
-  _.each(this.tiles(), function (tile) {
-    tile.updateWorldUiElements();
-  });
-};
 
 MapViewModel.prototype.tileAt = function (line, row) {
   return _.find(this.tiles(), function (tile) { return tile.line === line && tile.row === row; });

@@ -1,17 +1,19 @@
-function MapTileViewModel(map, world, line, row) {
+function MapTileViewModel(map, worldTile) {
   var self = this;
 
   this.map = map;
-  this.world = world;
-  this.line = line;
-  this.row = row;
+  this.worldTile = worldTile;
   this.selected = ko.observable(false);
   this.worldUiElements = ko.observableArray([]);
   this.uiElementsClasses = ko.computed(function () { return self.computeUiElements(); });
+
+  worldTile.onUiElementsUpdated(function (worldTileUiElements) {
+    self.updateWorldUiElements(worldTileUiElements);
+  });
 }
 
-MapTileViewModel.prototype.updateWorldUiElements = function () {
-  this.worldUiElements(this.worldTile().uiElements());
+MapTileViewModel.prototype.updateWorldUiElements = function (worldTileUiElements) {
+  this.worldUiElements(worldTileUiElements);
 };
 
 MapTileViewModel.prototype.computeUiElements = function () {
@@ -20,10 +22,6 @@ MapTileViewModel.prototype.computeUiElements = function () {
     elementsToAadd.push('selected');
   }
   return this.worldUiElements().concat(elementsToAadd);
-};
-
-MapTileViewModel.prototype.worldTile = function () {
-  return this.world.tileAt(this.line, this.row);
 };
 
 MapTileViewModel.prototype.select = function () {

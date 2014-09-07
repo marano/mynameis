@@ -7,6 +7,7 @@ $(function () {
   worldObjecFactory.loadData(function () {
     world = new World(worldObjecFactory);
     game = new GameViewModel(world);
+    world.loadObjects();
     ko.applyBindings(game);
     world.startTicking();
   });
