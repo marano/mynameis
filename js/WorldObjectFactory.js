@@ -1,4 +1,5 @@
 function WorldObjecFactory() {
+  this.data = [];
 }
 
 WorldObjecFactory.prototype.create = function (worldObjectName, tile) {
