@@ -12,3 +12,14 @@ function listToMatrix(list, elementsPerSubArray) {
 
   return matrix;
 }
+
+Array.prototype.remove = function (element) {
+  this.splice(this.indexOf(element), 1);
+};
+
+Array.prototype.addAll = function (collection) {
+  var self = this;
+  _.each(collection, function (element) {
+    self.push(element);
+  });
+};

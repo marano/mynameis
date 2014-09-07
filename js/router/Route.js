@@ -1,0 +1,60 @@
+function Route(fromTile, toTile) {
+  this.fromTile = fromTile;
+  this.toTile = toTile;
+}
+
+Route.prototype.solve = function () {
+  var fromOpenTile = new OpenTile(this.fromTile, this.toTile);
+  var openTiles = [fromOpenTile];
+  var expandedTiles = [];
+
+  var found = undefined;
+  var shouldStop = false;
+  while (!shouldStop) {
+    var cheapestOpenTileForExpansion = _.min(openTiles, 'cost');
+
+    if (cheapestOpenTileForExpansion) {
+      var expandedTile = new ExpandedTile(cheapestOpenTileForExpansion);
+      var openTileMatchingDestination = _.find(expandedTile.possibleOpenTiles, 'isDestinationTile');
+
+      if (openTileMatchingDestination) {
+        found = openTileMatchingDestination;
+        shouldStop = true;
+      } else {
+        this.handleExpandedTile(expandedTile, openTiles, expandedTiles);
+      }
+    } else {
+      shouldStop = true;
+    }
+  }
+
+  if (found) {
+    return found.path();
+  }
+};
+
+Route.prototype.handleExpandedTile = function (expandedTile, openTiles, expandedTiles) {
+  var possibleTilesWhichWereNotExpandedYet = _.reject(expandedTile.possibleOpenTiles, function (possibleOpenTile) {
+    return _.any(expandedTiles, function (expandedTile) {
+      return expandedTile.openTile.tile === possibleOpenTile.tile;
+    });
+  });
+
+  _.each(possibleTilesWhichWereNotExpandedYet, function (possibleTile) {
+    var matchingExistentOpenTile = _.find(openTiles, function (existentOpenTile) {
+      return existentOpenTile.tile === possibleTile.tile;
+    });
+
+    if (matchingExistentOpenTile) {
+      if (matchingExistentOpenTile.cost > possibleTile.cost) {
+        openTiles.remove(matchingExistentOpenTile);
+        openTiles.push(possibleTile);
+      }
+    } else {
+      openTiles.push(possibleTile);
+    }
+  });
+
+  openTiles.remove(expandedTile.openTile);
+  expandedTiles.push(expandedTile);
+};

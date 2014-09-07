@@ -23,15 +23,11 @@ function World(worldObjecFactory) {
 }
 
 World.prototype.worldObjects = function () {
-  return _(this.worldTiles).map(function (tile) {
-    return tile.worldObjects;
-  }).flatten().value();
+  return _(this.worldTiles).map(function (tile) { return tile.worldObjects; }).flatten().value();
 };
 
 World.prototype.tileAt = function (x, y) {
-  return _.find(this.worldTiles, function (tile) {
-    return tile.x === x && tile.y === y;
-  });
+  return _.find(this.worldTiles, function (tile) { return tile.x === x && tile.y === y; });
 };
 
 World.prototype.startTicking = function () {
@@ -48,6 +44,4 @@ World.prototype.tick = function () {
   _.each(this.worldObjects(), function (worldObject) { worldObject.tick(); });
 };
 
-World.prototype.afterTick = function (callback) {
-  this.afterTickCallback = callback;
-};
+World.prototype.afterTick = function (callback) { this.afterTickCallback = callback; };

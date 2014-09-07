@@ -10,3 +10,7 @@ WorldObject.prototype.tick = function () {
 WorldObject.prototype.uiElements = function () {
   return this.data.uiElements;
 };
+
+WorldObject.prototype.routeTo = function (targetTile) {
+
+};
