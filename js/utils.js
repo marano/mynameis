@@ -23,3 +23,10 @@ Array.prototype.addAll = function (collection) {
     self.push(element);
   });
 };
+
+function animated(element, animation) {
+  var animationClasses = animation + ' animated';
+  $(element).removeClass(animationClasses).addClass(animationClasses).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+    $(this).removeClass(animationClasses);
+  });
+}

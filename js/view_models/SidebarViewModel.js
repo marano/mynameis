@@ -21,9 +21,3 @@ SidebarViewModel.prototype.selectMoveTo = function (tile) {
     this.objectMoving(null);
   }
 };
-
-function animated(element, animation) {
-  $(element).removeClass(animation + ' animated').addClass(animation + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-    $(this).removeClass(animation + ' animated');
-  });
-}
