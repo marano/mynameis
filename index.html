@@ -5,6 +5,7 @@
     <link rel="stylesheet/less" type="text/css" href="css/sidebar.less" />
     <link rel="stylesheet/less" type="text/css" href="css/map-view.less" />
     <link rel="stylesheet/less" type="text/css" href="css/balloon.less" />
+    <link rel="stylesheet" type="text/css" href="vendor/animate.css" />
     <script src="vendor/lodash.js"></script>
     <script src="vendor/jquery-2.1.1.js"></script>
     <script src="vendor/jquery.transit.min.js"></script>
@@ -48,7 +49,7 @@
     </script>
 
     <script type="text/html" id="sidebar-object-item-action-template">
-        <div class="action {{action.name}}" data-bind="click: $root.sidebar.initiateMoveToSelection, css: {'active': $root.sidebar.moving}">{{action.name}}</div>
+        <div class="action {{action.name}}" data-bind="click: $root.sidebar.initiateMoveToSelection, event: {mouseover: $root.sidebar.mouseover}, css: {'active': $root.sidebar.moving}">{{action.name}}</div>
     </script>
 
     <script type="text/html" id="map-view-template">
@@ -66,7 +67,7 @@
     </script>
 
     <script type="text/html" id="ui-element-template">
-        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.worldUiElement.image}}">{{uiElement.worldUiElement.content}}</div>
+        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}">{{uiElement.worldUiElement.content}}</div>
     </script>
   </body>
 </html>

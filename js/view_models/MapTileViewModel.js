@@ -5,12 +5,13 @@ function MapTileViewModel(map, worldTile) {
   this.worldTile = worldTile;
   this.selected = ko.observable(false);
   this.worldObjects = ko.observableArray([]);
+  var cursorUiElement = new UIElementViewModel(new UIElement({image: 'selected', animated: 'bounceIn'}));
   this.uiElements = ko.computed(function () {
     var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
       return worldObject.uiElements();
     }).flatten().value();
     if (self.selected()) {
-      computedWorldUiElements.push(new UIElementViewModel(new UIElement({image: 'selected'})));
+      computedWorldUiElements.push(cursorUiElement);
     }
     return computedWorldUiElements;
   });
@@ -63,7 +64,7 @@ MapTileViewModel.prototype.updateWorldObjects = function () {
   }));
 };
 
-MapTileViewModel.prototype.onClick = function () {
+MapTileViewModel.prototype.onClick = function (action, event) {
   if (this.map.game.sidebar.objectMoving()) {
     this.map.game.sidebar.selectMoveTo(this.worldTile);
   } else {
