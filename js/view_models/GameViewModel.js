@@ -4,10 +4,6 @@ function GameViewModel(world) {
   this.map = new MapViewModel(this, world);
   this.sidebar = new SidebarViewModel(this);
 
-  this.worldObjectsInSelectedTile = ko.computed(function () {
-    return self.map.selectedTile() ? self.map.selectedTile().worldObjects() : [];
-  });
-
   setTimeout(function () {
     new Dragdealer('viewport', {
       x: 0,

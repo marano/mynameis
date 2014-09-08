@@ -40,8 +40,8 @@
     <div data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
 
     <script type="text/html" id="sidebar-template">
-        <div id="sidebar" data-bind="if: game.map.selectedTile">
-          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: game.worldObjectsInSelectedTile, as: 'object'}"></div>
+        <div id="sidebar">
+          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: worldObjectsFromSelection, as: 'object'}"></div>
         </div>
     </script>
 

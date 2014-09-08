@@ -26,6 +26,7 @@ function MapTileViewModel(map, worldTile) {
     _.each(_.find(self.worldObjects(), function (worldObjectViewModel) {
       return worldObjectViewModel.worldObject === worldObject;
     }).uiElements(), function (uiElementViewModel) {
+      console.log(uiElementViewModel)
       var callOnCompleteCallbackForCurrentElement = callOnCompleteCallback;
       callOnCompleteCallback = false;
 
@@ -75,11 +76,20 @@ MapTileViewModel.prototype.onClick = function (action, event) {
 MapTileViewModel.prototype.select = function () {
   var selectedTile = this.map.selectedTile();
   if (selectedTile && selectedTile !== this) {
-    selectedTile.unselect();
+    selectedTile.selected(false);
+    this.map.selectedTile(null);
   }
-  this.selected(true);
-};
-
-MapTileViewModel.prototype.unselect = function () {
-  this.selected(false);
+  var selectedWorldObject = this.map.selectedWorldObject();
+  if (selectedWorldObject && !_.include(this.worldObjects(), selectedWorldObject)) {
+    selectedWorldObject.selected(false);
+    this.map.selectedWorldObject(null);
+  }
+  var selectableWorldObject = _.find(this.worldObjects(), function (worldObjectViewModel) { return worldObjectViewModel.worldObject.selectable; });
+  if (selectableWorldObject) {
+    this.map.selectedWorldObject(selectableWorldObject);
+    selectableWorldObject.selected(true);
+  } else {
+    this.map.selectedTile(this);
+    this.selected(true);
+  }
 };

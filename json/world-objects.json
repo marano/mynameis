@@ -18,7 +18,8 @@
         "movementEase": "linear"
       }],
       "sidebar-actions": ["move"],
-      "allowPassThrough": false
+      "allowPassThrough": false,
+      "selectable": true
     }
   ]
 }

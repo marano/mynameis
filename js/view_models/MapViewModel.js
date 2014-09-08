@@ -12,9 +12,8 @@ function MapViewModel(game, world) {
     return self.tiles().toMatrix(self.world.width);
   });
 
-  self.selectedTile = ko.computed(function () {
-    return _.find(self.tiles(), function (tile) { return tile.selected(); });
-  });
+  self.selectedTile = ko.observable();
+  self.selectedWorldObject = ko.observable();
 
   function initialize() {
     _.each(self.world.tiles, function (eachWorldTile) {
