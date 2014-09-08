@@ -12,7 +12,6 @@ Route.prototype.solve = function () {
   var shouldStop = false;
   while (!shouldStop) {
     var cheapestOpenTileForExpansion = _.min(openTiles, 'totalCostSinceOrigin');
-
     if (cheapestOpenTileForExpansion) {
       var expandedTile = new ExpandedTile(cheapestOpenTileForExpansion);
       var openTileMatchingDestination = _.find(expandedTile.possibleOpenTiles, 'isDestinationTile');
@@ -22,6 +21,9 @@ Route.prototype.solve = function () {
         shouldStop = true;
       } else {
         this.handleExpandedTile(expandedTile, openTiles, expandedTiles);
+        if (openTiles.length === 0) {
+          shouldStop = true;
+        }
       }
     } else {
       shouldStop = true;
@@ -30,6 +32,8 @@ Route.prototype.solve = function () {
 
   if (found) {
     return found.path();
+  } else {
+    return [];
   }
 };
 
