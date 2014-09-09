@@ -1,7 +1,7 @@
 function GameViewModel(world) {
   var self = this;
 
-  this.map = new MapViewModel(this, world);
+  this.world = world;
   this.sidebar = new SidebarViewModel(this);
 
   setTimeout(function () {

@@ -21,43 +21,40 @@
     <script src="js/WorldObject.js"></script>
     <script src="js/WorldObjectFactory.js"></script>
     <script src="js/UIElement.js"></script>
+    <script src="js/MoveAction.js"></script>
     <script src="js/router/Route.js"></script>
     <script src="js/router/OpenTile.js"></script>
     <script src="js/router/ExpandedTile.js"></script>
     <script src="js/view_models/GameViewModel.js"></script>
-    <script src="js/view_models/WorldObjectViewModel.js"></script>
-    <script src="js/view_models/MapViewModel.js"></script>
-    <script src="js/view_models/MapTileViewModel.js"></script>
     <script src="js/view_models/SidebarViewModel.js"></script>
-    <script src="js/view_models/UIElementViewModel.js"></script>
     <script src="js/initializer.js"></script>
   </head>
   <body>
     <div id="viewport">
-        <div class="canvas" data-bind="template: {name: 'map-view-template', data: map}"></div>
+        <div class="canvas" data-bind="template: {name: 'map-view-template'}"></div>
     </div>
 
     <div data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
 
     <script type="text/html" id="sidebar-template">
         <div id="sidebar">
-          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: worldObjectsFromSelection, as: 'object'}"></div>
+          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: worldObjectsFromSelection, as: 'worldObject'}"></div>
         </div>
     </script>
 
     <script type="text/html" id="sidebar-object-item-template">
         <div class="object">
-            <div class="name">{{object.worldObject.name}}</div>
-            <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', foreach: object.worldObject.sidebarActions, as: 'action'}"></div>
+            <div class="name">{{worldObject.name}}</div>
+            <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', foreach: worldObject.actions, as: 'action'}"></div>
         </div>
     </script>
 
     <script type="text/html" id="sidebar-object-item-action-template">
-        <div class="action {{action.name}}" data-bind="click: $root.sidebar.initiateMoveToSelection, event: {mouseover: $root.sidebar.mouseover}, css: {'active': $root.sidebar.moving}">{{action.name}}</div>
+        <div class="action {{action.name}}" data-bind="click: action.select, event: {mouseover: action.mouseover}, css: {'active': action.active}">{{action.name}}</div>
     </script>
 
     <script type="text/html" id="map-view-template">
-        <div class="map-grid" data-bind="template: {name: 'map-view-row-template', foreach: lines, as: 'line'}"></div>
+        <div class="map-grid" data-bind="template: {name: 'map-view-row-template', foreach: world.lines, as: 'line'}"></div>
     </script>
 
     <script type="text/html" id="map-view-row-template">
@@ -71,7 +68,7 @@
     </script>
 
     <script type="text/html" id="ui-element-template">
-        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}">{{uiElement.worldUiElement.content}}</div>
+        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}">{{uiElement.content}}</div>
     </script>
   </body>
 </html>

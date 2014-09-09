@@ -1,20 +1,61 @@
 function WorldTile(world, x, y) {
+  var self = this;
   this.world = world;
   this.x = x;
   this.y = y;
-  this.worldObjects = [];
+  this.worldObjects = ko.observableArray([]);
+  this.selected = ko.observable(false);
+
+  var cursorUiElement = new UIElement({image: 'selected', animated: 'bounceIn'});
+  this.uiElements = ko.computed(function () {
+    var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
+      return worldObject.uiElements();
+    }).flatten().value();
+    if (self.selected()) {
+      computedWorldUiElements.push(cursorUiElement);
+    }
+    return computedWorldUiElements;
+  });
 }
 
-WorldTile.prototype.onWorldObjectsUpdated = function (worldObjectsUpdatedCallback) {
-  this.worldObjectsUpdated = worldObjectsUpdatedCallback;
-};
+WorldTile.prototype.moveWorldObjectHandler = function (worldObject, targetTile, interval, onMoveCompleteCallback) {
+  var self = this;
+  var callOnCompleteCallback = true;
 
-WorldTile.prototype.setMoveWorldObjectHandler = function (moveWorldObjectHandler) {
-  this.moveWorldObjectHandler = moveWorldObjectHandler;
-};
+  _.each(worldObject.uiElements(), function (uiElement) {
+    var callOnCompleteCallbackForCurrentElement = callOnCompleteCallback;
+    callOnCompleteCallback = false;
+
+    var rollbackMove = function (onRollbackFinished) {
+      uiElement.domElement().transition({
+        x: 0,
+        y: 0,
+        duration: 200,
+        complete: function () {
+          if (callOnCompleteCallbackForCurrentElement) {
+            onRollbackFinished();
+          }
+        }
+      });
+    };
+
+    var deltaX = targetTile.x === self.x ? 0 : (targetTile.x > self.x ? 30 : -30);
+    var deltaY = targetTile.y === self.y ? 0 : (targetTile.y > self.y ? 30 : -30);
+
+    uiElement.domElement().transition({
+      x: deltaX,
+      y: deltaY,
+      complete: function () {
+        if (callOnCompleteCallbackForCurrentElement) {
+          onMoveCompleteCallback(rollbackMove);
+        }
+      }
+    }, interval, uiElement.movementEase);
+  });
+}
 
 WorldTile.prototype.canBePassedThrough = function () {
-  return _.all(this.worldObjects, 'allowPassThrough');
+  return _.all(this.worldObjects(), 'allowPassThrough');
 };
 
 WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMoveCallback) {
@@ -23,9 +64,6 @@ WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMove
     var success = targetTile.canBePassedThrough();
     if (success) {
       self.worldObjects.remove(worldObject);
-      if (self.worldObjectsUpdated) {
-        self.worldObjectsUpdated(self.worldObjects);
-      }
       targetTile.addWorldObject(worldObject);
       onMoveCallback(true);
     } else {
@@ -37,13 +75,40 @@ WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMove
 };
 
 WorldTile.prototype.addWorldObject = function (worldObject) {
-  worldObject.tile = this;
+  worldObject.tile(this);
   this.worldObjects.push(worldObject);
-  if (this.worldObjectsUpdated) {
-    this.worldObjectsUpdated(this.worldObjects);
-  }
 };
 
 WorldTile.prototype.distanceFrom = function (anotherTile) {
   return Math.sqrt(Math.pow(this.x - anotherTile.x, 2) + Math.pow(this.y - anotherTile.y, 2));
+};
+
+WorldTile.prototype.onClick = function (action, event) {
+  var activeAction = world.activeAction();
+  if (activeAction) {
+    activeAction.fulfill(this);
+  } else {
+    this.select();
+  }
+};
+
+WorldTile.prototype.select = function () {
+  var selectedTile = this.world.selectedTile();
+  if (selectedTile && selectedTile !== this) {
+    this.world.selectedTile().selected(false);
+    this.world.selectedTile(null);
+  }
+  var selectedWorldObject = this.world.selectedWorldObject();
+  if (selectedWorldObject && !_.include(this.worldObjects(), selectedWorldObject)) {
+    selectedWorldObject.selected(false);
+    this.world.selectedWorldObject(null);
+  }
+  var selectableWorldObject = _.find(this.worldObjects(), function (worldObject) { return worldObject.selectable; });
+  if (selectableWorldObject) {
+    this.world.selectedWorldObject(selectableWorldObject);
+    selectableWorldObject.selected(true);
+  } else {
+    this.world.selectedTile(this);
+    this.selected(true);
+  }
 };
