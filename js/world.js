@@ -48,7 +48,6 @@ World.prototype.loadObjects = function () {
     self.worldObjecFactory.createWorldObject('Grassland', tile);
   });
 
-  this.worldObjecFactory.createWorldObject('Guy', this.tileAt(1, 0));
   this.worldObjecFactory.createWorldObject('Guy', this.tileAt(9, 9));
   this.worldObjecFactory.createWorldObject('Guy', this.tileAt(14, 14));
 };
