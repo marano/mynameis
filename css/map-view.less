@@ -1,57 +1,50 @@
 @tile-size: 30px;
 
-.map-grid {
+.canvas {
   font-size: 0;
 
-  .row {
-    .tile {
-      display: inline-block;
-      width: @tile-size;
-      height: @tile-size;
-      vertical-align: top;
+  .ui-element {
+    position: absolute;
+    display: block;
+    width: @tile-size;
+    height: @tile-size;
+    content: '';
 
-      .ui-element {
-        position: absolute;
-        display: block;
-        width: @tile-size;
-        height: @tile-size;
-        content: '';
+    &.cursor {
+      background-image: url(/png/map-tile-selection-cursor.png);
+      z-index: 10000;
+      -webkit-animation-duration: 0.5s;
+      -webkit-animation-delay: 0s;
+    }
 
-        &.selected {
-          background-image: url(/png/map-tile-selection-cursor.png);
-          z-index: 10000;
-          -webkit-animation-duration: 0.5s;
-          -webkit-animation-delay: 0s;
-        }
+    &.grassland {
+      background-image: url(/png/grassland.png);
+      z-index: 100;
+    }
 
-        &.grass-land {
-          background-image: url(/png/grass-land.png);
-          z-index: 100;
-        }
+    &.guy {
+      background-image: url(/png/guy.png);
+      z-index: 1000;
+    }
 
-        &.guy {
-          background-image: url(/png/guy.png);
-          z-index: 1000;
-        }
-
-        &.balloon {
-          z-index: 2000;
-          margin-top: -95px;
-        }
-      }
-
-      &:hover:after {
-        position: absolute;
-        display: block;
-        width: @tile-size;
-        height: @tile-size;
-        content: '';
-
-        opacity: 0.9;
-
-        background-image: url(/png/map-tile-selection-cursor.png);
-        z-index: 10000;
-      }
+    &.balloon {
+      z-index: 2000;
+      margin-top: -95px;
     }
   }
 }
+
+//.tile {
+//  &:hover:after {
+//    position: absolute;
+//    display: block;
+//    width: @tile-size;
+//    height: @tile-size;
+//    content: '';
+//
+//    opacity: 0.9;
+//
+//    background-image: url(/png/map-tile-selection-cursor.png);
+//    z-index: 10000;
+//  }
+//}

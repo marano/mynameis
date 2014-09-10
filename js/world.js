@@ -9,12 +9,17 @@ function World(worldObjecFactory) {
   self.selectedTile = ko.observable();
   self.selectedWorldObject = ko.observable();
 
-  this.lines = ko.computed(function () {
-    return self.tiles().toMatrix(self.width);
-  });
+  this.widthInPixels = this.width * 30;
+  this.heightInPixels = this.height * 30;
+
+  this.canvasStyle = 'width: ' + this.widthInPixels + 'px; height' + this.heightInPixels + 'px;';
 
   this.worldObjects = ko.computed(function () {
     return _(self.tiles()).map(function (tile) { return tile.worldObjects(); }).flatten().value();
+  });
+
+  this.uiElements = ko.computed(function () {
+    return _(self.tiles()).map(function (tile) { return tile.uiElements(); }).flatten().value();
   });
 
   this.activeAction = ko.computed(function () {
@@ -40,12 +45,12 @@ World.prototype.loadObjects = function () {
   var self = this;
 
   _.each(this.tiles(), function (tile) {
-    self.worldObjecFactory.create('Grassland', tile);
+    self.worldObjecFactory.createWorldObject('Grassland', tile);
   });
 
-  this.worldObjecFactory.create('Guy', this.tileAt(1, 0));
-  this.worldObjecFactory.create('Guy', this.tileAt(9, 9));
-  this.worldObjecFactory.create('Guy', this.tileAt(14, 14));
+  this.worldObjecFactory.createWorldObject('Guy', this.tileAt(1, 0));
+  this.worldObjecFactory.createWorldObject('Guy', this.tileAt(9, 9));
+  this.worldObjecFactory.createWorldObject('Guy', this.tileAt(14, 14));
 };
 
 World.prototype.tileAt = function (x, y) {

@@ -5,14 +5,12 @@ function WorldTile(world, x, y) {
   this.y = y;
   this.worldObjects = ko.observableArray([]);
   this.selected = ko.observable(false);
-
-  var cursorUiElement = new UIElement({image: 'selected', animated: 'bounceIn'});
   this.uiElements = ko.computed(function () {
     var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
       return worldObject.uiElements();
     }).flatten().value();
     if (self.selected()) {
-      computedWorldUiElements.push(cursorUiElement);
+      computedWorldUiElements.push(world.worldObjecFactory.createUiElmentOnTile(self, 'cursor'));
     }
     return computedWorldUiElements;
   });
@@ -83,7 +81,7 @@ WorldTile.prototype.distanceFrom = function (anotherTile) {
   return Math.sqrt(Math.pow(this.x - anotherTile.x, 2) + Math.pow(this.y - anotherTile.y, 2));
 };
 
-WorldTile.prototype.onClick = function (action, event) {
+WorldTile.prototype.onClick = function () {
   var activeAction = world.activeAction();
   if (activeAction) {
     activeAction.fulfill(this);

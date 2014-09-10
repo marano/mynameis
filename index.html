@@ -30,9 +30,7 @@
     <script src="js/initializer.js"></script>
   </head>
   <body>
-    <div id="viewport">
-        <div class="canvas" data-bind="template: {name: 'map-view-template'}"></div>
-    </div>
+    <div class="canvas" data-bind="template: {name: 'map-view-template'}, attr: {style: world.canvasStyle}"></div>
 
     <div data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
 
@@ -54,21 +52,15 @@
     </script>
 
     <script type="text/html" id="map-view-template">
-        <div class="map-grid" data-bind="template: {name: 'map-view-row-template', foreach: world.lines, as: 'line'}"></div>
-    </script>
-
-    <script type="text/html" id="map-view-row-template">
-        <div class="row">
-            <div data-bind="template: {name: 'map-view-tile-template', foreach: line, as: 'tile'}"></div>
-        </div>
-    </script>
-
-    <script type="text/html" id="map-view-tile-template">
-        <div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: tile.uiElements, as: 'uiElement'}"></div>
+        <div class="map-grid" data-bind="template: {name: 'ui-element-template', foreach: world.uiElements, as: 'uiElement'}"></div>
     </script>
 
     <script type="text/html" id="ui-element-template">
-        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}">{{uiElement.content}}</div>
+        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}" data-bind="click: onClick, attr: {style: uiElement.style}">{{uiElement.content}}</div>
     </script>
+
+    <!--<script type="text/html" id="map-view-tile-template">-->
+        <!--<div class="tile" data-bind="click: onClick, template: {name: 'ui-element-template', foreach: tile.uiElements, as: 'uiElement'}"></div>-->
+    <!--</script>-->
   </body>
 </html>

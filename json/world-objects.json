@@ -1,25 +1,35 @@
 {
-  "world_objects": [
+  "worldObjects": [
     {
       "name": "Grassland",
-      "uiElements": [{
-        "image": "grass-land"
-      }],
+      "uiElements": ["grassland"],
       "allowPassThrough": true
     },
     {
       "name": "Guy",
-      "uiElements": [{
-        "image": "guy",
-        "movementEase": "ease"
-      },{
-        "image": "balloon",
-        "content": "ah!",
-        "movementEase": "linear"
-      }],
+      "uiElements": ["guy", "balloon"],
       "sidebar-actions": ["move"],
       "allowPassThrough": false,
       "selectable": true
+    }
+  ],
+  "uiElements": [
+    {
+      "name": "grassland"
+    },
+    {
+      "name": "guy",
+      "movementEase": "ease"
+    },
+    {
+      "name": "balloon",
+      "movementEase": "linear",
+      "content": "ah!"
+    },
+    {
+      "name": "cursor",
+      "animated": "bounceIn",
+      "movementEase": "ease"
     }
   ]
 }

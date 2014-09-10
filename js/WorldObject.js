@@ -7,12 +7,13 @@ function WorldObject(world, data) {
   this.selectable = data.selectable;
   this.allowPassThrough = data.allowPassThrough;
   this.tile = ko.observable();
-  var cursorUiElement = new UIElement({image: 'selected', animated: 'bounceIn'});
-  var originalUiElements = _.map(data.uiElements, function (uiElementData) { return new UIElement(uiElementData); });
+  var originalUiElements = _.map(data.uiElements, function (uiElementName) {
+    return world.worldObjecFactory.createUiElmentOnWorldObject(self, uiElementName);
+  });
   this.uiElements = ko.computed(function () {
     var computedUiElements = _.clone(originalUiElements);
     if (self.selected()) {
-      computedUiElements.push(cursorUiElement);
+      computedUiElements.push(world.worldObjecFactory.createUiElmentOnWorldObject(self, 'cursor'));
     }
     return computedUiElements;
   });

@@ -1,18 +1,3 @@
-Array.prototype.toMatrix = function (elementsPerSubArray) {
-  var matrix = [], i, k;
-
-  for (i = 0, k = -1; i < this.length; i++) {
-    if (i % elementsPerSubArray === 0) {
-      k++;
-      matrix[k] = [];
-    }
-
-    matrix[k].push(this[i]);
-  }
-
-  return matrix;
-}
-
 Array.prototype.remove = function (element) {
   this.splice(this.indexOf(element), 1);
 };
