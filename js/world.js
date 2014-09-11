@@ -1,6 +1,8 @@
 function World(worldObjecFactory) {
   var self = this;
 
+  worldObjecFactory.world = this;
+
   this.worldObjecFactory = worldObjecFactory;
   this.width = 50;
   this.height = 25;
@@ -18,9 +20,7 @@ function World(worldObjecFactory) {
     return _(self.tiles()).map(function (tile) { return tile.worldObjects(); }).flatten().value();
   });
 
-  this.uiElements = ko.computed(function () {
-    return _(self.tiles()).map(function (tile) { return tile.uiElements(); }).flatten().value();
-  });
+  this.uiElements = ko.observableArray([]);
 
   this.activeAction = ko.computed(function () {
     return _(self.worldObjects()).map(function (worldObject) {

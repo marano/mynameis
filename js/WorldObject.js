@@ -1,21 +1,29 @@
-function WorldObject(world, data) {
+function WorldObject(tile, data) {
   var self = this;
 
-  this.world = world;
+  this.world = tile.world;
   this.name = data.name;
+  this.uiElements = [];
+  this.cursor = undefined;
   this.selected = ko.observable(false);
+  this.selected.subscribe(function (newValue) {
+    if (newValue) {
+      self.cursor = world.worldObjecFactory.createUiElmentOnWorldObject(self, 'cursor');
+      self.uiElements.push(self.cursor);
+    } else {
+      self.uiElements.remove(self.cursor);
+      self.cursor.remove();
+    }
+  });
   this.selectable = data.selectable;
   this.allowPassThrough = data.allowPassThrough;
-  this.tile = ko.observable();
-  var originalUiElements = _.map(data.uiElements, function (uiElementName) {
-    return world.worldObjecFactory.createUiElmentOnWorldObject(self, uiElementName);
+  this.tile = ko.observable(tile);
+  this.tile.subscribe(function (newTile) {
+    _.each(self.uiElements, function (uiElement) { uiElement.tile(newTile); });
   });
-  this.uiElements = ko.computed(function () {
-    var computedUiElements = _.clone(originalUiElements);
-    if (self.selected()) {
-      computedUiElements.push(world.worldObjecFactory.createUiElmentOnWorldObject(self, 'cursor'));
-    }
-    return computedUiElements;
+  _.each(data.uiElements, function (uiElementName) {
+    var uiElement = world.worldObjecFactory.createUiElmentOnWorldObject(self, uiElementName);
+    self.uiElements.push(uiElement);
   });
   this.actions = _.map(data['sidebar-actions'], function (action) {
     var actions = {

@@ -5,7 +5,6 @@
 
   .ui-element {
     position: absolute;
-    display: block;
     width: @tile-size;
     height: @tile-size;
     content: '';
@@ -27,7 +26,7 @@
 
     &.cursor {
       background-image: url(/png/map-tile-selection-cursor.png);
-      z-index: 10000;
+      z-index: 4000;
       -webkit-animation-duration: 0.5s;
       -webkit-animation-delay: 0s;
     }
@@ -43,7 +42,7 @@
     }
 
     &.balloon {
-      z-index: 2000;
+      z-index: 5000;
       margin-top: -95px;
     }
   }

@@ -1,23 +1,27 @@
-function UIElement(worldTileProvider, data) {
+function UIElement(tile, world, data) {
   var self = this;
-  this.worldTileProvider = worldTileProvider;
+  this.world = world;
   this.image = data.image || data.name;
   this.content = data.content;
   this.movementEase = data.movementEase;
   this.animated = data.animated;
   this.classesToApply = this.image + (this.animated ? ' animated ' + this.animated : '');
   this.elementId = Math.round((new Date()).getTime() * Math.random());
+  this.tile = ko.observable(tile);
   this.style = ko.computed(function () {
-    if (self.worldTileProvider()) {
-      return "left: " + self.worldTileProvider().x * 30 + "px; top: " + self.worldTileProvider().y * 30 + "px;";
-    }
+    var tile = self.tile();
+    return "left: " + tile.x * 30 + "px; top: " + tile.y * 30 + "px;";
   });
 }
+
+UIElement.prototype.remove = function () {
+  this.world.uiElements.remove(this);
+};
 
 UIElement.prototype.domElement = function () {
   return $('#' + this.elementId);
 };
 
 UIElement.prototype.onClick = function () {
-  this.worldTileProvider().onClick();
+  this.tile().onClick();
 };

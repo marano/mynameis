@@ -4,15 +4,14 @@ function WorldTile(world, x, y) {
   this.x = x;
   this.y = y;
   this.worldObjects = ko.observableArray([]);
+  this.cursor = undefined;
   this.selected = ko.observable(false);
-  this.uiElements = ko.computed(function () {
-    var computedWorldUiElements = _(self.worldObjects()).map(function (worldObject) {
-      return worldObject.uiElements();
-    }).flatten().value();
-    if (self.selected()) {
-      computedWorldUiElements.push(world.worldObjecFactory.createUiElmentOnTile(self, 'cursor'));
+  this.selected.subscribe(function (newValue) {
+    if (newValue) {
+      this.cursor = world.worldObjecFactory.createUiElmentOnTile(self, 'cursor');
+    } else {
+      this.cursor.remove();
     }
-    return computedWorldUiElements;
   });
 }
 
@@ -20,7 +19,7 @@ WorldTile.prototype.moveWorldObjectHandler = function (worldObject, targetTile, 
   var self = this;
   var callOnCompleteCallback = true;
 
-  _.each(worldObject.uiElements(), function (uiElement) {
+  _.each(worldObject.uiElements, function (uiElement) {
     var callOnCompleteCallbackForCurrentElement = callOnCompleteCallback;
     callOnCompleteCallback = false;
 
@@ -41,8 +40,8 @@ WorldTile.prototype.moveWorldObjectHandler = function (worldObject, targetTile, 
     var deltaY = targetTile.y === self.y ? 0 : (targetTile.y > self.y ? 30 : -30);
 
     uiElement.domElement().transition({
-      x: deltaX,
-      y: deltaY,
+      left: (self.x * 30) + deltaX,
+      top: (self.y * 30) + deltaY,
       complete: function () {
         if (callOnCompleteCallbackForCurrentElement) {
           onMoveCompleteCallback(rollbackMove);

@@ -1,14 +1,19 @@
 function WorldObjecFactory() {
+  var self = this;
   this.data = [];
+  this.world = undefined;
 }
 
 WorldObjecFactory.prototype.createUiElmentOnTile = function (tile, uiElementName) {
-  var tileProvider = function () { return tile; };
-  return new UIElement(tileProvider, this.uiElementData(uiElementName));
+  var uiElement = new UIElement(tile, this.world, this.uiElementData(uiElementName));
+  this.world.uiElements.push(uiElement);
+  return uiElement;
 };
 
 WorldObjecFactory.prototype.createUiElmentOnWorldObject = function (worldObject, uiElementName) {
-  return new UIElement(worldObject.tile, this.uiElementData(uiElementName));
+  var uiElement = new UIElement(worldObject.tile(), this.world, this.uiElementData(uiElementName));
+  this.world.uiElements.push(uiElement);
+  return uiElement;
 };
 
 WorldObjecFactory.prototype.uiElementData = function (uiElementName) {
@@ -18,7 +23,7 @@ WorldObjecFactory.prototype.uiElementData = function (uiElementName) {
 };
 
 WorldObjecFactory.prototype.createWorldObject = function (worldObjectName, tile) {
-  var newWorldObject = new WorldObject(tile.world, _.find(this.data.worldObjects, function (worldObjectData) {
+  var newWorldObject = new WorldObject(tile, _.find(this.data.worldObjects, function (worldObjectData) {
     return worldObjectData.name === worldObjectName;
   }));
   tile.addWorldObject(newWorldObject);
