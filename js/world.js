@@ -14,7 +14,7 @@ function World(worldObjecFactory) {
   this.widthInPixels = this.width * 30;
   this.heightInPixels = this.height * 30;
 
-  this.canvasStyle = 'width: ' + this.widthInPixels + 'px; height' + this.heightInPixels + 'px;';
+  this.canvasStyle = 'width: ' + this.widthInPixels + 'px; height: ' + this.heightInPixels + 'px;';
 
   this.worldObjects = ko.computed(function () {
     return _(self.tiles()).map(function (tile) { return tile.worldObjects(); }).flatten().value();
