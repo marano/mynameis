@@ -15,6 +15,10 @@ function WorldTile(world, x, y) {
   });
 }
 
+WorldTile.prototype.tileAtDelta = function (xDelta, yDelta) {
+  return this.world.tileAt(this.x + xDelta, this.y + yDelta);
+};
+
 WorldTile.prototype.moveWorldObjectHandler = function (worldObject, targetTile, interval, onMoveCompleteCallback) {
   var self = this;
   var callOnCompleteCallback = true;

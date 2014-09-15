@@ -3,7 +3,18 @@ function OpenTile(tile, destinationTile, cost, fromOpenTile) {
   this.cost = cost;
   this.totalCostSinceOrigin = this.calculateCost(tile, destinationTile, cost, fromOpenTile);
   this.fromOpenTile = fromOpenTile;
-  this.isDestinationTile = tile === destinationTile;
+  if (destinationTile.canBePassedThrough()) {
+    this.isDestinationTile = tile === destinationTile;
+  } else {
+    this.isDestinationTile = _([
+      destinationTile.tileAtDelta(+0, +1),
+      destinationTile.tileAtDelta(+1, +0),
+      destinationTile.tileAtDelta(+0, -1),
+      destinationTile.tileAtDelta(-1, +0)
+    ]).compact().any(function (targetTile) {
+      return tile === targetTile;
+    });
+  }
   this.destinationTile = destinationTile;
 }
 

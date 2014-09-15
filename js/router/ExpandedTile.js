@@ -17,12 +17,8 @@ ExpandedTile.prototype.calculatePossibleOpenTiles = function () {
 };
 
 ExpandedTile.prototype.possibleOpenTile = function (xDelta, yDelta, cost) {
-  var targetTile = this.tileAtDelta(xDelta, yDelta);
+  var targetTile = this.openTile.tile.tileAtDelta(xDelta, yDelta);
   if (targetTile && targetTile.canBePassedThrough()) {
      return new OpenTile(targetTile, this.openTile.destinationTile, cost, this.openTile);
   }
-};
-
-ExpandedTile.prototype.tileAtDelta = function (xDelta, yDelta) {
-  return this.openTile.tile.world.tileAt(this.openTile.tile.x + xDelta, this.openTile.tile.y + yDelta);
 };
