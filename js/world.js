@@ -5,7 +5,7 @@ function World(worldObjecFactory) {
 
   this.worldObjecFactory = worldObjecFactory;
   this.width = 50;
-  this.height = 25;
+  this.height = 30;
   this.tickInterval = 500;
   this.tiles = ko.observableArray([]);
   self.selectedTile = ko.observable();
