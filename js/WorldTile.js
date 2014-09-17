@@ -20,40 +20,15 @@ WorldTile.prototype.tileAtDelta = function (xDelta, yDelta) {
 };
 
 WorldTile.prototype.moveWorldObjectHandler = function (worldObject, targetTile, interval, onMoveCompleteCallback) {
-  var self = this;
-  var callOnCompleteCallback = true;
-
   _.each(worldObject.uiElements, function (uiElement) {
-    var callOnCompleteCallbackForCurrentElement = callOnCompleteCallback;
-    callOnCompleteCallback = false;
-
-    var rollbackMove = function (onRollbackFinished) {
-      uiElement.domElement().transition({
-        x: 0,
-        y: 0,
-        duration: 200,
-        complete: function () {
-          if (callOnCompleteCallbackForCurrentElement) {
-            onRollbackFinished();
-          }
-        }
-      });
-    };
-
-    var deltaX = targetTile.x === self.x ? 0 : (targetTile.x > self.x ? 30 : -30);
-    var deltaY = targetTile.y === self.y ? 0 : (targetTile.y > self.y ? 30 : -30);
-
-    uiElement.domElement().transition({
-      left: (self.x * 30) + deltaX,
-      top: (self.y * 30) + deltaY,
-      complete: function () {
-        if (callOnCompleteCallbackForCurrentElement) {
-          onMoveCompleteCallback(rollbackMove);
-        }
-      }
-    }, interval, uiElement.movementEase);
+    uiElement.transitionDuration(interval);
+    uiElement.tile(targetTile);
   });
-}
+
+  setTimeout(function () {
+    onMoveCompleteCallback();
+  }, interval);
+};
 
 WorldTile.prototype.canBePassedThrough = function () {
   return _.all(this.worldObjects(), 'allowPassThrough');
@@ -61,17 +36,10 @@ WorldTile.prototype.canBePassedThrough = function () {
 
 WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMoveCallback) {
   var self = this;
-  this.moveWorldObjectHandler(worldObject, targetTile, interval, function (rollbackMove) {
-    var success = targetTile.canBePassedThrough();
-    if (success) {
-      self.worldObjects.remove(worldObject);
-      targetTile.addWorldObject(worldObject);
-      onMoveCallback(true);
-    } else {
-      rollbackMove(function () {
-        onMoveCallback(false);
-      });
-    }
+  this.moveWorldObjectHandler(worldObject, targetTile, interval, function () {
+    self.worldObjects.remove(worldObject);
+    targetTile.addWorldObject(worldObject);
+    onMoveCallback(true);
   });
 };
 

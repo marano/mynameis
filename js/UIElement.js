@@ -7,10 +7,19 @@ function UIElement(tile, world, data) {
   this.animated = data.animated;
   this.classesToApply = this.image + (this.animated ? ' animated ' + this.animated : '');
   this.elementId = Math.round((new Date()).getTime() * Math.random());
+  this.transitionDuration = ko.observable(0);
   this.tile = ko.observable(tile);
   this.style = ko.computed(function () {
     var tile = self.tile();
-    return "left: " + tile.x * 30 + "px; top: " + tile.y * 30 + "px;";
+    return _({
+      left: tile.x * 30 + "px",
+      top: tile.y * 30 + "px",
+      '-webkit-transition-timing-function': self.movementEase + ', ' + self.movementEase,
+      'transition-delay': 'initial, initial',
+      'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
+    }).map(function (property, value) {
+      return value + ': ' + property;
+    }).join('; ');
   });
 }
 
