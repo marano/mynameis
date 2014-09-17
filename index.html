@@ -33,11 +33,11 @@
   <body>
     <div class="canvas" data-bind="template: {name: 'map-view-template'}, attr: {style: world.canvasStyle}"></div>
 
-    <div data-bind="template: {name: 'sidebar-template', data: sidebar}"></div>
+    <div data-bind="template: {name: 'sidebar-template', data: sidebar, as: 'sidebar'}"></div>
 
     <script type="text/html" id="sidebar-template">
         <div id="sidebar">
-          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: worldObjectsFromSelection, as: 'worldObject'}"></div>
+          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: sidebar.worldObjectsFromSelection, as: 'worldObject'}"></div>
         </div>
     </script>
 
