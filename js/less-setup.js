@@ -1,0 +1,3 @@
+less = {
+  logLevel: 0
+};
