@@ -33,6 +33,20 @@ function WorldObject(tile, data) {
   });
 }
 
+WorldObject.prototype.moveTo = function (targetTile, interval, onMoveCallback) {
+  var self = this;
+
+  _.each(this.uiElements, function (uiElement) {
+    uiElement.moveTo(targetTile, interval);
+  });
+
+  setTimeout(function () {
+    self.tile().worldObjects.remove(self);
+    targetTile.addWorldObject(self);
+    onMoveCallback();
+  }, interval);
+};
+
 WorldObject.prototype.tick = function () {
 };
 
@@ -44,10 +58,10 @@ WorldObject.prototype.goTo = function (targetTile) {
     if (route.length === 0) {
       return;
     } else {
-      var moveToTile = route.shift();
-      if (moveToTile.tile.canBePassedThrough()) {
-        var interval = self.world.tickInterval * moveToTile.cost;
-        self.tile().moveTo(self, moveToTile.tile, interval, function () {
+      var movement = route.shift();
+      if (movement.tile.canBePassedThrough()) {
+        var interval = self.world.tickInterval * movement.cost;
+        self.moveTo(movement.tile, interval, function () {
           go();
         });
       } else {

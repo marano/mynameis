@@ -23,20 +23,6 @@ WorldTile.prototype.canBePassedThrough = function () {
   return _.all(this.worldObjects(), 'allowPassThrough');
 };
 
-WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMoveCallback) {
-  var self = this;
-
-  _.each(worldObject.uiElements, function (uiElement) {
-    uiElement.moveTo(targetTile, interval);
-  });
-
-  setTimeout(function () {
-    self.worldObjects.remove(worldObject);
-    targetTile.addWorldObject(worldObject);
-    onMoveCallback();
-  }, interval);
-};
-
 WorldTile.prototype.addWorldObject = function (worldObject) {
   worldObject.tile(this);
   this.worldObjects.push(worldObject);
