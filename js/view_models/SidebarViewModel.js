@@ -2,6 +2,7 @@ function SidebarViewModel(game) {
   var self = this;
 
   this.game = game;
+  this.pauseAction = new PauseAction(game.world);
 
   this.worldObjectsFromSelection = ko.computed(function () {
     if (self.game.world.selectedWorldObject()) {

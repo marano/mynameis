@@ -10,6 +10,7 @@ function World(worldObjecFactory) {
   this.tiles = ko.observableArray([]);
   self.selectedTile = ko.observable();
   self.selectedWorldObject = ko.observable();
+  this.paused = false;
 
   this.widthInPixels = this.width * 30;
   this.heightInPixels = this.height * 30;
@@ -66,5 +67,15 @@ World.prototype.startTicking = function () {
 };
 
 World.prototype.tick = function () {
-  _.each(this.worldObjects(), function (worldObject) { worldObject.tick(); });
+  if (!this.paused) {
+    _.each(this.worldObjects(), function (worldObject) { worldObject.tick(); });
+  }
+};
+
+World.prototype.pause = function () {
+  this.paused = true;
+};
+
+World.prototype.unpause = function () {
+  this.paused = false;
 };
