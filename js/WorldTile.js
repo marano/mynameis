@@ -19,28 +19,22 @@ WorldTile.prototype.tileAtDelta = function (xDelta, yDelta) {
   return this.world.tileAt(this.x + xDelta, this.y + yDelta);
 };
 
-WorldTile.prototype.moveWorldObjectHandler = function (worldObject, targetTile, interval, onMoveCompleteCallback) {
-  _.each(worldObject.uiElements, function (uiElement) {
-    uiElement.transitionDuration(interval);
-    uiElement.tile(targetTile);
-  });
-
-  setTimeout(function () {
-    onMoveCompleteCallback();
-  }, interval);
-};
-
 WorldTile.prototype.canBePassedThrough = function () {
   return _.all(this.worldObjects(), 'allowPassThrough');
 };
 
 WorldTile.prototype.moveTo = function (worldObject, targetTile, interval, onMoveCallback) {
   var self = this;
-  this.moveWorldObjectHandler(worldObject, targetTile, interval, function () {
+
+  _.each(worldObject.uiElements, function (uiElement) {
+    uiElement.moveTo(targetTile, interval);
+  });
+
+  setTimeout(function () {
     self.worldObjects.remove(worldObject);
     targetTile.addWorldObject(worldObject);
-    onMoveCallback(true);
-  });
+    onMoveCallback();
+  }, interval);
 };
 
 WorldTile.prototype.addWorldObject = function (worldObject) {

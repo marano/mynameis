@@ -44,13 +44,10 @@ WorldObject.prototype.goTo = function (targetTile) {
     if (route.length === 0) {
       return;
     } else {
-      var moveToTile = _.first(route);
+      var moveToTile = route.shift();
       if (moveToTile.tile.canBePassedThrough()) {
         var interval = self.world.tickInterval * moveToTile.cost;
-        self.tile().moveTo(self, moveToTile.tile, interval, function (success) {
-          if (success) {
-            route.shift();
-          }
+        self.tile().moveTo(self, moveToTile.tile, interval, function () {
           go();
         });
       } else {

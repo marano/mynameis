@@ -23,6 +23,11 @@ function UIElement(tile, world, data) {
   });
 }
 
+UIElement.prototype.moveTo = function (targetTile, interval) {
+  this.transitionDuration(interval);
+  this.tile(targetTile);
+};
+
 UIElement.prototype.remove = function () {
   this.world.uiElements.remove(this);
 };
