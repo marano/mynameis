@@ -1,19 +1,10 @@
 function WorldObjecFactory() {
-  var self = this;
   this.data = [];
   this.world = undefined;
 }
 
-WorldObjecFactory.prototype.createUiElmentOnTile = function (tile, uiElementName) {
-  var uiElement = new UIElement(tile, this.world, this.uiElementData(uiElementName));
-  this.world.uiElements.push(uiElement);
-  return uiElement;
-};
-
-WorldObjecFactory.prototype.createUiElmentOnWorldObject = function (worldObject, uiElementName) {
-  var uiElement = new UIElement(worldObject.tile(), this.world, this.uiElementData(uiElementName));
-  this.world.uiElements.push(uiElement);
-  return uiElement;
+WorldObjecFactory.prototype.createUiElement = function (tile, uiElementName) {
+  return new UIElement(tile, this.world, this.uiElementData(uiElementName));
 };
 
 WorldObjecFactory.prototype.uiElementData = function (uiElementName) {

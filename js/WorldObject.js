@@ -9,10 +9,8 @@ function WorldObject(tile, data) {
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
     if (newValue) {
-      self.cursor = world.worldObjecFactory.createUiElmentOnWorldObject(self, 'cursor');
-      self.uiElements.push(self.cursor);
+      self.cursor = new UIElementHolder('cursor', self, self.tile());
     } else {
-      self.uiElements.remove(self.cursor);
       self.cursor.remove();
     }
   });
@@ -23,8 +21,7 @@ function WorldObject(tile, data) {
     _.each(self.uiElements, function (uiElement) { uiElement.tile(newTile); });
   });
   _.each(data.uiElements, function (uiElementName) {
-    var uiElement = world.worldObjecFactory.createUiElmentOnWorldObject(self, uiElementName);
-    self.uiElements.push(uiElement);
+    new UIElementHolder(uiElementName, self, self.tile());
   });
   this.actions = _.map(data['sidebar-actions'], function (action) {
     var actions = {

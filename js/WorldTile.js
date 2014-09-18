@@ -8,9 +8,9 @@ function WorldTile(world, x, y) {
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
     if (newValue) {
-      this.cursor = world.worldObjecFactory.createUiElmentOnTile(self, 'cursor');
+      self.cursor = new UIElementHolder('cursor', self, self);
     } else {
-      this.cursor.remove();
+      self.cursor.remove();
     }
   });
   this.canBePassedThrough = ko.computed(function () {
