@@ -6,7 +6,7 @@ function MoveRoutineStep(worldObject, targetTile, cost) {
 
 MoveRoutineStep.prototype.perform = function () {
   if (this.targetTile.canBePassedThrough()) {
-    var interval = this.cost * 100;
+    var interval = this.cost * this.worldObject.world.tickInterval;
     this.worldObject.moveTo(this.targetTile, interval);
   }
 };
