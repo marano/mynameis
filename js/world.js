@@ -63,18 +63,24 @@ World.prototype.tileAt = function (x, y) {
 World.prototype.startTicking = function () {
   var self = this;
 
+  var nextTickInterval = this.tickInterval;
 
   setTimeout(function () {
     if (self.log.tickDuration) {
       var tickStart = new Date();
     }
     self.tick();
+    var tickEnd = new Date();
+    var tickDuration = (tickEnd - tickStart);
+    nextTickInterval = self.tickInterval - tickDuration;
+    if (nextTickInterval < 0) {
+      nextTickInterval = 0;
+    }
     if (self.log.tickDuration) {
-      var tickEnd = new Date();
-      console.log('Tick took ' + (tickEnd - tickStart) + 'ms');
+      console.log('tick duration: ' + tickDuration + 'ms, next tick interval: ' + nextTickInterval + 'ms');
     }
     self.startTicking();
-  }, self.tickInterval);
+  }, nextTickInterval);
 };
 
 World.prototype.tick = function () {
