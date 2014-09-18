@@ -4,7 +4,7 @@ function WorldObjecFactory() {
 }
 
 WorldObjecFactory.prototype.createUiElement = function (tile, uiElementName) {
-  return new UIElement(tile, this.world, this.uiElementData(uiElementName));
+  return new UIElement(uiElementName, tile);
 };
 
 WorldObjecFactory.prototype.uiElementData = function (uiElementName) {

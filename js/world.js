@@ -6,7 +6,7 @@ function World(worldObjecFactory) {
   this.log = {
     tickDuration: false
   };
-  this.worldObjecFactory = worldObjecFactory;
+  this.worldObjectFactory = worldObjecFactory;
   this.width = 50;
   this.height = 30;
   this.tickInterval = 100;
@@ -49,11 +49,11 @@ World.prototype.loadObjects = function () {
   var self = this;
 
   _.each(this.tiles(), function (tile) {
-    self.worldObjecFactory.createWorldObject('Grassland', tile);
+    self.worldObjectFactory.createWorldObject('Grassland', tile);
   });
 
-  this.worldObjecFactory.createWorldObject('Guy', this.tileAt(9, 9));
-  this.worldObjecFactory.createWorldObject('Guy', this.tileAt(14, 14));
+  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(9, 9));
+  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(14, 14));
 };
 
 World.prototype.tileAt = function (x, y) {

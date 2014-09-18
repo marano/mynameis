@@ -1,6 +1,6 @@
-function UIElement(tile, world, data) {
+function UIElement(name, tile) {
   var self = this;
-  this.world = world;
+  var data = tile.world.worldObjectFactory.uiElementData(name);
   this.image = data.image || data.name;
   this.content = data.content;
   this.movementEase = data.movementEase;
@@ -29,7 +29,7 @@ UIElement.prototype.moveTo = function (targetTile, interval) {
 };
 
 UIElement.prototype.remove = function () {
-  this.world.uiElements.remove(this);
+  this.tile().world.uiElements.remove(this);
 };
 
 UIElement.prototype.domElement = function () {
