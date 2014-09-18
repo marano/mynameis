@@ -9,7 +9,7 @@ function WorldObject(tile, data) {
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
     if (newValue) {
-      self.cursor = new UIElementHolder('cursor', self, self.tile());
+      self.cursor = new UIElement('cursor', self, self.tile());
     } else {
       self.cursor.remove();
     }
@@ -21,7 +21,7 @@ function WorldObject(tile, data) {
     _.each(self.uiElements, function (uiElement) { uiElement.tile(newTile); });
   });
   _.each(data.uiElements, function (uiElementName) {
-    new UIElementHolder(uiElementName, self, self.tile());
+    new UIElement(uiElementName, self, self.tile());
   });
   this.actions = _.map(data['sidebar-actions'], function (action) {
     var actions = {

@@ -8,7 +8,7 @@ function WorldTile(world, x, y) {
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
     if (newValue) {
-      self.cursor = new UIElementHolder('cursor', self, self);
+      self.cursor = new UIElement('cursor', self, self);
     } else {
       self.cursor.remove();
     }

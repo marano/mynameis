@@ -1,6 +1,9 @@
-function UIElement(name, tile) {
+function UIElement(name, holder, tile) {
   var self = this;
+
   var data = tile.world.worldObjectFactory.uiElementData(name);
+
+  this.holder = holder;
   this.image = data.image || data.name;
   this.content = data.content;
   this.movementEase = data.movementEase;
@@ -21,6 +24,11 @@ function UIElement(name, tile) {
       return value + ': ' + property;
     }).join('; ');
   });
+
+  if (this.holder.uiElements) {
+    this.holder.uiElements.push(this);
+  }
+  tile.world.uiElements.push(this);
 }
 
 UIElement.prototype.moveTo = function (targetTile, interval) {
@@ -29,6 +37,9 @@ UIElement.prototype.moveTo = function (targetTile, interval) {
 };
 
 UIElement.prototype.remove = function () {
+  if (this.holder.uiElements) {
+    this.holder.uiElements.remove(this);
+  }
   this.tile().world.uiElements.remove(this);
 };
 
