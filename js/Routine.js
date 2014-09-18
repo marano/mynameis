@@ -13,10 +13,9 @@ Routine.prototype.tick = function () {
     this.actionPoints = this.actionPoints - this.nextStep.cost;
     this.nextStep.perform();
     this.nextStep = this.remainingSteps.shift();
-    console.log(this.nextStep);
   }
 
-  if (this.remainingSteps.length === 0) {
+  if (!this.nextStep) {
     this.isDone = true;
   }
 };
