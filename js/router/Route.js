@@ -1,9 +1,11 @@
-function Route(fromTile, toTile) {
+function Route(worldObject, fromTile, toTile) {
+  this.worldObject = worldObject;
   this.fromTile = fromTile;
   this.toTile = toTile;
 }
 
 Route.prototype.solve = function () {
+  var self = this;
   var fromOpenTile = new OpenTile(this.fromTile, this.toTile, 0);
   var openTiles = [fromOpenTile];
   var expandedTiles = [];
@@ -31,7 +33,9 @@ Route.prototype.solve = function () {
   }
 
   if (found) {
-    return found.path();
+    return new Routine(_.map(found.path(), function (openTile) {
+      return new MoveRoutineStep(self.worldObject, openTile.tile, openTile.cost);
+    }));
   } else {
     return [];
   }

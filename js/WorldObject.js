@@ -4,6 +4,7 @@ function WorldObject(tile, data) {
   this.world = tile.world;
   this.name = data.name;
   this.uiElements = [];
+  self.activeRoutine = undefined;
   this.cursor = undefined;
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
@@ -33,42 +34,27 @@ function WorldObject(tile, data) {
   });
 }
 
-WorldObject.prototype.moveTo = function (targetTile, interval, onMoveCallback) {
+WorldObject.prototype.moveTo = function (targetTile, interval) {
   var self = this;
 
   _.each(this.uiElements, function (uiElement) {
     uiElement.moveTo(targetTile, interval);
   });
 
-  setTimeout(function () {
-    self.tile().worldObjects.remove(self);
-    targetTile.addWorldObject(self);
-    onMoveCallback();
-  }, interval);
+  self.tile().worldObjects.remove(self);
+  targetTile.addWorldObject(self);
 };
 
 WorldObject.prototype.tick = function () {
+  if (this.activeRoutine) {
+    this.activeRoutine.tick();
+
+    if (this.activeRoutine.isDone) {
+      this.activeRoutine = undefined;
+    }
+  }
 };
 
 WorldObject.prototype.goTo = function (targetTile) {
-  var self = this;
-  var route = new Route(this.tile(), targetTile).solve();
-
-  function go() {
-    if (route.length === 0) {
-      return;
-    } else {
-      var movement = route.shift();
-      if (movement.tile.canBePassedThrough()) {
-        var interval = self.world.tickInterval * movement.cost;
-        self.moveTo(movement.tile, interval, function () {
-          go();
-        });
-      } else {
-        self.goTo(targetTile);
-      }
-    }
-  }
-
-  go();
+  this.activeRoutine = new Route(this, this.tile(), targetTile).solve();
 };
