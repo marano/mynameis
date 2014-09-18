@@ -3,6 +3,9 @@ function World(worldObjecFactory) {
 
   worldObjecFactory.world = this;
 
+  this.log = {
+    tickDuration: false
+  };
   this.worldObjecFactory = worldObjecFactory;
   this.width = 50;
   this.height = 30;
@@ -60,8 +63,16 @@ World.prototype.tileAt = function (x, y) {
 World.prototype.startTicking = function () {
   var self = this;
 
+
   setTimeout(function () {
+    if (self.log.tickDuration) {
+      var tickStart = new Date();
+    }
     self.tick();
+    if (self.log.tickDuration) {
+      var tickEnd = new Date();
+      console.log('Tick took ' + (tickEnd - tickStart) + 'ms');
+    }
     self.startTicking();
   }, self.tickInterval);
 };

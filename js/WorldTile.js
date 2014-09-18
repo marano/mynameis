@@ -13,14 +13,13 @@ function WorldTile(world, x, y) {
       this.cursor.remove();
     }
   });
+  this.canBePassedThrough = ko.computed(function () {
+    return _.all(self.worldObjects(), 'allowPassThrough');
+  });
 }
 
 WorldTile.prototype.tileAtDelta = function (xDelta, yDelta) {
   return this.world.tileAt(this.x + xDelta, this.y + yDelta);
-};
-
-WorldTile.prototype.canBePassedThrough = function () {
-  return _.all(this.worldObjects(), 'allowPassThrough');
 };
 
 WorldTile.prototype.addWorldObject = function (worldObject) {
