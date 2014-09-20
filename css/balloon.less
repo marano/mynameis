@@ -1,40 +1,54 @@
 @import "helper";
 
-.balloon {
-  font-family: "Times New Roman";
-  .with-font-smooth();
-  position: relative;
-  width: 300px;
-  padding: 15px 25px 20px;
-  margin: 20px auto;
-  font: 26px/1.4 Georgia, serif;
-  color: black;
-  background: white;
-  opacity: 0.8;
-  pointer-events: none;
-}
+.canvas {
+  .ui-element.balloon {
+    z-index: 5000;
+    pointer-events: none;
+    width: 1000px;
+    height: initial;
 
-.balloon:after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  right: 25px;
-  border-width: 30px 30px 0 0;
-  border-style: solid;
-  border-color: white transparent;
-  /* css3 extras */
-  -webkit-transform: skewX(-15deg);
-  -moz-transform: skewX(-15deg);
-  -ms-transform: skewX(-15deg);
-  -o-transform: skewX(-15deg);
-  transform: skewX(-15deg);
-}
+    .content-wrapper {
+      position: absolute;
+      bottom: 10px;
+      left: -12px;
 
-.credit {
-  margin: 1em 0 0;
-  font: 14px/1.2 Arial, sans-serif;
-}
+      .content {
+        position: relative;
+        min-width: 40px;
+        max-width: 75px;
+        padding: 10px 10px;
+        background: rgba(255, 255, 255, 0.8);
+        color: black;
+        font: 16px Georgia, serif;
+        font-family: "Times New Roman";
+        .with-font-smooth();
+        text-align: center;
 
-.credit:before {
-  content: "— ";
+        &:after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 36px;
+          border-width: 12px 12px 0 0;
+          border-style: solid;
+          border-color: rgba(255, 255, 255, 0.8) transparent;
+          /* css3 extras */
+          -webkit-transform: skewX(-15deg);
+          -moz-transform: skewX(-15deg);
+          -ms-transform: skewX(-15deg);
+          -o-transform: skewX(-15deg);
+          transform: skewX(-15deg);
+        }
+
+        .credit {
+          margin: 1em 0 0;
+          font: 14px/1.2 Arial, sans-serif;
+        }
+
+        .credit:before {
+          content: "— ";
+        }
+      }
+    }
+  }
 }

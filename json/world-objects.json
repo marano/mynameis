@@ -7,7 +7,7 @@
     },
     {
       "name": "Guy",
-      "uiElements": ["guy", "balloon"],
+      "uiElements": ["guy"],
       "sidebar-actions": ["move"],
       "allowPassThrough": false,
       "selectable": true
@@ -24,7 +24,7 @@
     {
       "name": "balloon",
       "movementEase": "linear",
-      "content": "ah!"
+      "content": ""
     },
     {
       "name": "cursor",

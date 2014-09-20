@@ -4,6 +4,7 @@ function WorldObject(tile, data) {
   this.world = tile.world;
   this.name = data.name;
   this.uiElements = [];
+  this.tickables = [];
   self.activeRoutine = undefined;
   this.cursor = undefined;
   this.selected = ko.observable(false);
@@ -31,6 +32,14 @@ function WorldObject(tile, data) {
   });
 }
 
+WorldObject.prototype.say = function (content) {
+  var balloon = new UIElement('balloon', this, this.tile());
+  balloon.content(content);
+  new Tickable(this, 3000, function () {
+    balloon.remove();
+  });
+};
+
 WorldObject.prototype.moveTo = function (targetTile, interval) {
   var self = this;
 
@@ -43,6 +52,10 @@ WorldObject.prototype.moveTo = function (targetTile, interval) {
 };
 
 WorldObject.prototype.tick = function () {
+  _.each(this.tickables, function (tickable) {
+    tickable.tick();
+  });
+
   if (this.activeRoutine) {
     this.activeRoutine.tick();
 
@@ -54,4 +67,5 @@ WorldObject.prototype.tick = function () {
 
 WorldObject.prototype.goTo = function (targetTile) {
   this.activeRoutine = new Route(this, this.tile(), targetTile).solve();
+  this.say("Let's go there!");
 };

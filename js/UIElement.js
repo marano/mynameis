@@ -5,7 +5,7 @@ function UIElement(name, holder, tile) {
 
   this.holder = holder;
   this.image = data.image || data.name;
-  this.content = data.content;
+  this.content = ko.observable(data.content);
   this.movementEase = data.movementEase;
   this.animated = data.animated;
   this.classesToApply = this.image + (this.animated ? ' animated ' + this.animated : '');
@@ -15,8 +15,8 @@ function UIElement(name, holder, tile) {
   this.style = ko.computed(function () {
     var tile = self.tile();
     return _({
-      left: tile.x * 30 + "px",
-      top: tile.y * 30 + "px",
+      left: tile.x * 30 + 'px',
+      top: tile.y * 30 + 'px',
       '-webkit-transition-timing-function': self.movementEase + ', ' + self.movementEase,
       'transition-delay': 'initial, initial',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'

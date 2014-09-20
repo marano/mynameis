@@ -1,6 +1,10 @@
+@import "helper";
+
 @tile-size: 30px;
 
 .canvas {
+  position: relative;
+  overflow: hidden;
   font-size: 0;
 
   .ui-element {
@@ -11,7 +15,6 @@
     transition-property: left, top;
 
     &:hover:before {
-      z-index: 100000;
       position: absolute;
       display: block;
       width: @tile-size;
@@ -23,7 +26,6 @@
       background-image: url(/png/map-tile-selection-cursor.png);
       z-index: 10000;
     }
-
 
     &.cursor {
       background-image: url(/png/map-tile-selection-cursor.png);
@@ -40,11 +42,6 @@
     &.guy {
       background-image: url(/png/guy.png);
       z-index: 1000;
-    }
-
-    &.balloon {
-      z-index: 5000;
-      margin-top: -95px;
     }
   }
 }
