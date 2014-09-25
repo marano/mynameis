@@ -13,6 +13,7 @@
     height: @tile-size;
     content: '';
     transition-property: left, top;
+    background-size: 30px;
 
     &:hover:before {
       position: absolute;
@@ -23,24 +24,22 @@
 
       opacity: 0.9;
 
-      background-image: url(/png/map-tile-selection-cursor.png);
+      background-image: url(/png/cursor.png);
       z-index: 10000;
     }
 
     &.cursor {
-      background-image: url(/png/map-tile-selection-cursor.png);
+      background-image: url(/png/cursor.png);
       z-index: 4000;
       -webkit-animation-duration: 0.5s;
       -webkit-animation-delay: 0s;
     }
 
     &.grassland {
-      background-image: url(/png/grassland.png);
       z-index: 100;
     }
 
-    &.guy {
-      background-image: url(/png/guy.png);
+    &.human {
       z-index: 1000;
     }
   }

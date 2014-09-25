@@ -6,8 +6,8 @@
       "allowPassThrough": true
     },
     {
-      "name": "Guy",
-      "uiElements": ["guy"],
+      "name": "Human",
+      "uiElements": ["human"],
       "sidebar-actions": ["move"],
       "allowPassThrough": false,
       "selectable": true
@@ -15,11 +15,18 @@
   ],
   "uiElements": [
     {
-      "name": "grassland"
+      "name": "grassland",
+      "images": [
+        "grassland-full-1",
+        "grassland-full-2"
+      ]
     },
     {
-      "name": "guy",
-      "movementEase": "ease"
+      "name": "human",
+      "movementEase": "ease",
+      "images": [
+        "human-01"
+      ]
     },
     {
       "name": "balloon",

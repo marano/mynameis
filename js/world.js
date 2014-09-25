@@ -52,12 +52,12 @@ World.prototype.loadObjects = function () {
     self.worldObjectFactory.createWorldObject('Grassland', tile);
   });
 
-  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(5, 5));
-  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(5, 6));
-  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(5, 7));
-  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(5, 8));
-  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(9, 9));
-  this.worldObjectFactory.createWorldObject('Guy', this.tileAt(14, 14));
+  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 5));
+  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 6));
+  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 7));
+  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 8));
+  this.worldObjectFactory.createWorldObject('Human', this.tileAt(9, 9));
+  this.worldObjectFactory.createWorldObject('Human', this.tileAt(14, 14));
 };
 
 World.prototype.tileAt = function (x, y) {

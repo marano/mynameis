@@ -4,11 +4,11 @@ function UIElement(name, holder, tile) {
   var data = tile.world.worldObjectFactory.uiElementData(name);
 
   this.holder = holder;
-  this.image = data.image || data.name;
+  this.image = data.images ? _.sample(data.images) : data.name;
   this.content = ko.observable(data.content);
   this.movementEase = data.movementEase;
   this.animated = data.animated;
-  this.classesToApply = this.image + (this.animated ? ' animated ' + this.animated : '');
+  this.classesToApply = data.name + (this.animated ? ' animated ' + this.animated : '');
   this.elementId = Math.round((new Date()).getTime() * Math.random());
   this.transitionDuration = ko.observable(0);
   this.tile = ko.observable(tile);
@@ -17,6 +17,7 @@ function UIElement(name, holder, tile) {
     return _({
       left: tile.x * 30 + 'px',
       top: tile.y * 30 + 'px',
+      'background-image': 'url(/png/' + self.image + '.png)',
       '-webkit-transition-timing-function': self.movementEase + ', ' + self.movementEase,
       'transition-delay': 'initial, initial',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
