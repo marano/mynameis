@@ -5,7 +5,7 @@ function WorldObject(tile, data) {
   this.name = data.name;
   this.uiElements = [];
   this.tickables = [];
-  self.activeRoutine = undefined;
+  this.activeRoutine = undefined;
   this.cursor = undefined;
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
