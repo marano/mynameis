@@ -1,9 +1,9 @@
-function UIElement(name, holder, tile) {
+function UIElement(name, owner, tile) {
   var self = this;
 
   var data = tile.world.worldObjectFactory.uiElementData(name);
 
-  this.holder = holder;
+  this.owner = owner;
   this.image = _.sample(data.images || []);
   this.content = ko.observable(data.content);
   this.movementEase = data.movementEase;
@@ -13,10 +13,9 @@ function UIElement(name, holder, tile) {
   this.transitionDuration = ko.observable(0);
   this.tile = ko.observable(tile);
   this.style = ko.computed(function () {
-    var tile = self.tile();
     var styleProperties = {
-      left: tile.x * 30 + 'px',
-      top: tile.y * 30 + 'px',
+      left: self.tile().x * 30 + 'px',
+      top: self.tile().y * 30 + 'px',
       '-webkit-transition-timing-function': self.movementEase + ', ' + self.movementEase,
       'transition-delay': 'initial, initial',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
@@ -29,8 +28,8 @@ function UIElement(name, holder, tile) {
     }).join('; ');
   });
 
-  if (this.holder.uiElements) {
-    this.holder.uiElements.push(this);
+  if (this.owner.uiElements) {
+    this.owner.uiElements.push(this);
   }
   tile.world.uiElements.push(this);
 }
@@ -41,8 +40,8 @@ UIElement.prototype.moveTo = function (targetTile, interval) {
 };
 
 UIElement.prototype.remove = function () {
-  if (this.holder.uiElements) {
-    this.holder.uiElements.remove(this);
+  if (this.owner.uiElements) {
+    this.owner.uiElements.remove(this);
   }
   this.tile().world.uiElements.remove(this);
 };
