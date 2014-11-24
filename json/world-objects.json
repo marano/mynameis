@@ -36,7 +36,8 @@
     {
       "name": "cursor",
       "animated": "bounceIn",
-      "movementEase": "ease"
+      "movementEase": "ease",
+      "images": ["cursor"]
     }
   ]
 }
