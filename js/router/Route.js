@@ -36,8 +36,6 @@ Route.prototype.solve = function () {
     return new Routine(_.map(found.path(), function (openTile) {
       return new MoveRoutineStep(self.worldObject, openTile.tile, openTile.cost);
     }));
-  } else {
-    return [];
   }
 };
 
