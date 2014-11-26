@@ -70,3 +70,26 @@ WorldObject.prototype.goTo = function (targetTile) {
   this.activeRoutine = new Route(this, this.tile(), targetTile).solve();
   this.say("Let's go there!");
 };
+
+WorldObject.prototype.lookAt = function (thatTile) {
+  var thisTile = this.tile();
+  var deltaX = thisTile.x - thatTile.x;
+  var deltaY = thisTile.y - thatTile.y;
+  if (deltaX == 0 && deltaY > 0) {
+    this.direction(Direction.NORTH);
+  } else if (deltaX == 0 && deltaY < 0) {
+    this.direction(Direction.SOUTH);
+  } else if (deltaY == 0 && deltaX > 0) {
+    this.direction(Direction.WEST);
+  } else if (deltaY == 0 && deltaX < 0) {
+    this.direction(Direction.EAST);
+  } else if (deltaX > 0 && deltaY > 0) {
+    this.direction(Direction.NORTHWEST);
+  } else if (deltaX > 0 && deltaY < 0) {
+    this.direction(Direction.SOUTHWEST);
+  } else if (deltaX < 0 && deltaY > 0) {
+    this.direction(Direction.NORTHEAST);
+  } else if (deltaX < 0 && deltaY < 0) {
+    this.direction(Direction.SOUTHEAST);
+  }
+};
