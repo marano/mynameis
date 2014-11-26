@@ -53,7 +53,7 @@ WorldObject.prototype.moveTo = function (targetTile, interval) {
 };
 
 WorldObject.prototype.tick = function () {
-  _.each(this.tickables, function (tickable) {
+  _(this.tickables).compact().each(function (tickable) {
     tickable.tick();
   });
 
