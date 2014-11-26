@@ -13,6 +13,7 @@ function WorldObject(tile, data) {
       self.cursor = new UIElement('cursor', self, self.tile());
     } else {
       self.cursor.remove();
+      self.cursor = undefined;
     }
   });
   this.selectable = data.selectable;
