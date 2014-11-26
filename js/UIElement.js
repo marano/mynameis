@@ -1,14 +1,26 @@
 function UIElement(name, owner, tile) {
   var self = this;
 
+  this.owner = owner;
+
   var data = tile.world.worldObjectFactory.uiElementData(name);
 
-  this.owner = owner;
+  this.followDirection = data.followDirection;
   this.image = _.sample(data.images || []);
   this.content = ko.observable(data.content);
   this.movementEase = data.movementEase;
   this.animated = data.animated;
-  this.classesToApply = data.name + (this.animated ? ' animated ' + this.animated : '');
+  this.classesToApply = ko.computed(function () {
+    var classes = [data.name];
+    if (self.animated) {
+      classes.push('animated');
+      classes.push(self.animated);
+    }
+    if (self.followDirection) {
+      classes = _.union(classes, self.owner.direction().uiElementClasses);
+    }
+    return classes.join(' ');
+  });
   this.elementId = Math.round((new Date()).getTime() * Math.random());
   this.transitionDuration = ko.observable(0);
   this.tile = ko.observable(tile);

@@ -24,6 +24,7 @@
     {
       "name": "human",
       "movementEase": "ease",
+      "followDirection": true,
       "images": [
         "human-01"
       ]

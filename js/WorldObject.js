@@ -18,6 +18,7 @@ function WorldObject(tile, data) {
   this.selectable = data.selectable;
   this.allowPassThrough = data.allowPassThrough;
   this.tile = ko.observable(tile);
+  this.direction = ko.observable(_.sample(Direction.ALL_DIRECTIONS));
   this.tile.subscribe(function (newTile) {
     _.each(self.uiElements, function (uiElement) { uiElement.tile(newTile); });
   });
