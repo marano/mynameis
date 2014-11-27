@@ -58,6 +58,8 @@ World.prototype.loadObjects = function () {
   this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 8));
   this.worldObjectFactory.createWorldObject('Human', this.tileAt(9, 9));
   this.worldObjectFactory.createWorldObject('Human', this.tileAt(14, 14));
+elem
+  this.worldObjectFactory.createWorldObject('Tree', this.tileAt(9, 11));
 };
 
 World.prototype.tileAt = function (x, y) {

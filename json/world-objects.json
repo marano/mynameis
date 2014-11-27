@@ -11,6 +11,11 @@
       "sidebar-actions": ["move"],
       "allowPassThrough": false,
       "selectable": true
+    },
+    {
+      "name": "Tree",
+      "uiElements": ["tree"],
+      "allowPassThrough": false
     }
   ],
   "uiElements": [
@@ -20,6 +25,10 @@
         "grassland-full-1",
         "grassland-full-2"
       ]
+    },
+    {
+      "name": "tree",
+      "images": ["tree"]
     },
     {
       "name": "human",
