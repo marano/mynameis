@@ -1,4 +1,4 @@
-function SidebarViewModel(game) {
+function HudViewModel(game) {
   var self = this;
 
   this.game = game;

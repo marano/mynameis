@@ -26,7 +26,7 @@ function WorldObject(tile, data) {
   _.each(data.uiElements, function (uiElementName) {
     new UIElement(uiElementName, self, self.tile());
   });
-  this.actions = _.map(data['sidebar-actions'], function (action) {
+  this.actions = _.map(data['hud-actions'], function (action) {
     var actions = {
       'move': MoveAction
     };

@@ -4,7 +4,7 @@
     <link rel="stylesheet/less" type="text/css" href="css/helper.less" />
     <link rel="stylesheet/less" type="text/css" href="css/common.less" />
     <link rel="stylesheet/less" type="text/css" href="css/viewport.less" />
-    <link rel="stylesheet/less" type="text/css" href="css/sidebar.less" />
+    <link rel="stylesheet/less" type="text/css" href="css/hud.less" />
     <link rel="stylesheet/less" type="text/css" href="css/map-view.less" />
     <link rel="stylesheet/less" type="text/css" href="css/balloon.less" />
     <link rel="stylesheet" type="text/css" href="vendor/animate.css" />
@@ -32,31 +32,31 @@
     <script src="js/router/OpenTile.js"></script>
     <script src="js/router/ExpandedTile.js"></script>
     <script src="js/view_models/GameViewModel.js"></script>
-    <script src="js/view_models/SidebarViewModel.js"></script>
+    <script src="js/view_models/HudViewModel.js"></script>
     <script src="js/initializer.js"></script>
   </head>
   <body>
     <div class="canvas" data-bind="template: {name: 'map-view-template'}, attr: {style: world.canvasStyle}"></div>
 
-    <div data-bind="template: {name: 'sidebar-template', data: sidebar, as: 'sidebar'}"></div>
+    <div data-bind="template: {name: 'hud-template', data: hud, as: 'hud'}"></div>
 
-    <script type="text/html" id="sidebar-template">
-        <div id="sidebar">
+    <script type="text/html" id="hud-template">
+        <div id="hud">
           <div class="object">
-              <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', data: sidebar.pauseAction, as: 'action'}"></div>
+              <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', data: hud.pauseAction, as: 'action'}"></div>
           </div>
-          <div data-bind="template: {name: 'sidebar-object-item-template', foreach: sidebar.worldObjectsFromSelection, as: 'worldObject'}"></div>
+          <div data-bind="template: {name: 'hud-object-item-template', foreach: hud.worldObjectsFromSelection, as: 'worldObject'}"></div>
         </div>
     </script>
 
-    <script type="text/html" id="sidebar-object-item-template">
+    <script type="text/html" id="hud-object-item-template">
         <div class="object">
             <div class="name">{{worldObject.name}}</div>
-            <div class="actions" data-bind="template: {name: 'sidebar-object-item-action-template', foreach: worldObject.actions, as: 'action'}"></div>
+            <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', foreach: worldObject.actions, as: 'action'}"></div>
         </div>
     </script>
 
-    <script type="text/html" id="sidebar-object-item-action-template">
+    <script type="text/html" id="hud-object-item-action-template">
         <div class="action {{action.name}}" data-bind="click: action.select, event: {mouseover: action.mouseover}, css: {'active': action.active}">{{action.name}}</div>
     </script>
 

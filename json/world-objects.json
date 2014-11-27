@@ -8,7 +8,7 @@
     {
       "name": "Human",
       "uiElements": ["human"],
-      "sidebar-actions": ["move"],
+      "hud-actions": ["move"],
       "allowPassThrough": false,
       "selectable": true
     },
