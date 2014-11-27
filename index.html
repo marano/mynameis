@@ -41,37 +41,37 @@
     <div data-bind="template: {name: 'hud-template', data: hud, as: 'hud'}"></div>
 
     <script type="text/html" id="hud-template">
-        <div id="hud">
-          <div class="object">
-              <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', data: hud.pauseAction, as: 'action'}"></div>
-          </div>
-          <div data-bind="template: {name: 'hud-object-item-template', foreach: hud.worldObjectsFromSelection, as: 'worldObject'}"></div>
+      <div id="hud">
+        <div class="object">
+          <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', data: hud.pauseAction, as: 'action'}"></div>
         </div>
+        <div data-bind="template: {name: 'hud-object-item-template', foreach: hud.worldObjectsFromSelection, as: 'worldObject'}"></div>
+      </div>
     </script>
 
     <script type="text/html" id="hud-object-item-template">
-        <div class="object">
-            <div class="name">{{worldObject.name}}</div>
-            <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', foreach: worldObject.actions, as: 'action'}"></div>
-        </div>
+      <div class="object">
+        <div class="name">{{worldObject.name}}</div>
+        <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', foreach: worldObject.actions, as: 'action'}"></div>
+      </div>
     </script>
 
     <script type="text/html" id="hud-object-item-action-template">
-        <div class="action {{action.name}}" data-bind="click: action.select, event: {mouseover: action.mouseover}, css: {'active': action.active}">{{action.name}}</div>
+      <div class="action {{action.name}}" data-bind="click: action.select, event: {mouseover: action.mouseover}, css: {'active': action.active}">{{action.name}}</div>
     </script>
 
     <script type="text/html" id="map-view-template">
-        <div class="map-grid" data-bind="template: {name: 'ui-element-template', foreach: world.uiElements, as: 'uiElement'}"></div>
+      <div class="map-grid" data-bind="template: {name: 'ui-element-template', foreach: world.uiElements, as: 'uiElement'}"></div>
     </script>
 
     <script type="text/html" id="ui-element-template">
-        <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}" data-bind="if: uiElement.content, click: onClick, attr: {style: uiElement.style}">
-            <div class="content-wrapper">
-                <div class="content">
-                    {{uiElement.content}}
-                </div>
-            </div>
+      <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}" data-bind="if: uiElement.content, click: onClick, attr: {style: uiElement.style}">
+        <div class="content-wrapper">
+          <div class="content">
+            {{uiElement.content}}
+          </div>
         </div>
+      </div>
     </script>
   </body>
 </html>
