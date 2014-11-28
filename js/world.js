@@ -69,26 +69,30 @@ World.prototype.tileAt = function (x, y) {
 };
 
 World.prototype.startTicking = function () {
+  this.tickAfter(this.tickInterval);
+};
+
+World.prototype.tickAndEnqueuTick = function () {
+  var tickStart = new Date();
+  this.tick();
+  var tickEnd = new Date();
+  var tickDuration = (tickEnd - tickStart);
+  var nextTickWait = this.tickInterval - tickDuration;
+  if (nextTickWait < 0) {
+    nextTickWait = 0;
+  }
+  if (this.log.tickDuration) {
+    console.log('tick duration: ' + tickDuration + 'ms, next tick wait: ' + nextTickWait + 'ms');
+  }
+  this.tickAfter(nextTickWait);
+}
+
+World.prototype.tickAfter = function (wait) {
   var self = this;
 
-  var nextTickInterval = this.tickInterval;
-
   setTimeout(function () {
-    if (self.log.tickDuration) {
-      var tickStart = new Date();
-    }
-    self.tick();
-    var tickEnd = new Date();
-    var tickDuration = (tickEnd - tickStart);
-    nextTickInterval = self.tickInterval - tickDuration;
-    if (nextTickInterval < 0) {
-      nextTickInterval = 0;
-    }
-    if (self.log.tickDuration) {
-      console.log('tick duration: ' + tickDuration + 'ms, next tick interval: ' + nextTickInterval + 'ms');
-    }
-    self.startTicking();
-  }, nextTickInterval);
+    self.tickAndEnqueuTick();
+  }, wait);
 };
 
 World.prototype.tick = function () {
