@@ -15,7 +15,7 @@ function World(worldObjecFactory) {
   self.selectedWorldObject = ko.observable();
   this.paused = false;
 
-  this.tileSize = 30;
+  this.tileSize = 24;
 
   this.widthInPixels = this.width * this.tileSize;
   this.heightInPixels = this.height * this.tileSize;
