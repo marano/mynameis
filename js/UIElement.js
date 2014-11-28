@@ -8,6 +8,7 @@ function UIElement(name, owner, tile) {
   this.followDirection = data.followDirection;
   this.image = _.sample(data.images || []);
   this.content = ko.observable(data.content);
+  this.size = data.size;
   this.movementEase = data.movementEase;
   this.animated = data.animated;
   this.classesToApply = ko.computed(function () {
@@ -26,14 +27,21 @@ function UIElement(name, owner, tile) {
   this.tile = ko.observable(tile);
   this.style = ko.computed(function () {
     var styleProperties = {
-      left: self.tile().x * 30 + 'px',
-      top: self.tile().y * 30 + 'px',
+      left: (self.tile().x * self.tile().world.tileSize) + 'px',
+      top: (self.tile().y * self.tile().world.tileSize) + 'px',
       '-webkit-transition-timing-function': self.movementEase + ', ' + self.movementEase,
       'transition-delay': 'initial, initial',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
     };
     if (self.image) {
       styleProperties['background-image'] = 'url(/png/' + self.image + '.png)';
+    }
+    if (self.size) {
+      var xOffset = Math.round((self.tile().world.tileSize - self.size) / 2);
+      var yOffset = self.tile().world.tileSize - self.size;
+      styleProperties['background-position-x'] = xOffset + 'px';
+      styleProperties['background-position-y'] = yOffset + 'px';
+      styleProperties['background-size'] = self.size + 'px ' + self.size + 'px';
     }
     return _(styleProperties).map(function (property, value) {
       return value + ': ' + property;

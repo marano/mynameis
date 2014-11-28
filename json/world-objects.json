@@ -16,6 +16,11 @@
       "name": "Tree",
       "uiElements": ["tree"],
       "allowPassThrough": false
+    },
+    {
+      "name": "Red Mushroom",
+      "uiElements": ["red-mushroom"],
+      "allowPassThrough": true
     }
   ],
   "uiElements": [
@@ -29,6 +34,11 @@
     {
       "name": "tree",
       "images": ["tree"]
+    },
+    {
+      "name": "red-mushroom",
+      "size": 10,
+      "images": ["red-mushroom"]
     },
     {
       "name": "human",

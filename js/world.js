@@ -15,8 +15,10 @@ function World(worldObjecFactory) {
   self.selectedWorldObject = ko.observable();
   this.paused = false;
 
-  this.widthInPixels = this.width * 30;
-  this.heightInPixels = this.height * 30;
+  this.tileSize = 30;
+
+  this.widthInPixels = this.width * this.tileSize;
+  this.heightInPixels = this.height * this.tileSize;
 
   this.canvasStyle = 'width: ' + this.widthInPixels + 'px; height: ' + this.heightInPixels + 'px;';
 
@@ -59,6 +61,7 @@ World.prototype.loadObjects = function () {
   this.worldObjectFactory.createWorldObject('Human', this.tileAt(9, 9));
   this.worldObjectFactory.createWorldObject('Human', this.tileAt(14, 14));
   this.worldObjectFactory.createWorldObject('Tree', this.tileAt(9, 11));
+  this.worldObjectFactory.createWorldObject('Red Mushroom', this.tileAt(15, 11));
 };
 
 World.prototype.tileAt = function (x, y) {
