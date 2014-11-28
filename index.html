@@ -42,21 +42,25 @@
 
     <script type="text/html" id="hud-template">
       <div id="hud">
-        <div class="object">
-          <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', data: hud.pauseAction, as: 'action'}"></div>
+        <div class="side-menu">
+          <div data-bind="template: {name: 'side-menu-object-template', foreach: hud.worldObjectsFromSelection, as: 'worldObject'}"></div>
         </div>
-        <div data-bind="template: {name: 'hud-object-item-template', foreach: hud.worldObjectsFromSelection, as: 'worldObject'}"></div>
+        <div class="bottom-menu-wrapper">
+          <div class="bottom-menu">
+            <div class="pause" data-bind="template: {name: 'hud-action-template', data: hud.pauseAction, as: 'action'}"></div>
+          </div>
+        </div>
       </div>
     </script>
 
-    <script type="text/html" id="hud-object-item-template">
+    <script type="text/html" id="side-menu-object-template">
       <div class="object">
         <div class="name">{{worldObject.name}}</div>
-        <div class="actions" data-bind="template: {name: 'hud-object-item-action-template', foreach: worldObject.actions, as: 'action'}"></div>
+        <div class="actions" data-bind="template: {name: 'hud-action-template', foreach: worldObject.actions, as: 'action'}"></div>
       </div>
     </script>
 
-    <script type="text/html" id="hud-object-item-action-template">
+    <script type="text/html" id="hud-action-template">
       <div class="action {{action.name}}" data-bind="click: action.select, event: {mouseover: action.mouseover}, css: {'active': action.active}">{{action.name}}</div>
     </script>
 
