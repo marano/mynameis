@@ -11,8 +11,8 @@ function World(worldObjecFactory) {
   this.height = 30;
   this.tickInterval = 100;
   this.tiles = ko.observableArray([]);
-  self.selectedTile = ko.observable();
-  self.selectedWorldObject = ko.observable();
+  this.selectedTile = ko.observable();
+  this.selectedWorldObject = ko.observable();
   this.paused = false;
 
   this.tileSize = 24;
