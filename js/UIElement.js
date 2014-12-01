@@ -29,10 +29,12 @@ function UIElement(name, owner, tile) {
     var styleProperties = {
       left: (self.tile().x * self.tile().world.tileSize) + 'px',
       top: (self.tile().y * self.tile().world.tileSize) + 'px',
-      '-webkit-transition-timing-function': self.movementEase + ', ' + self.movementEase,
       'transition-delay': 'initial, initial',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
     };
+    if (self.movementEase) {
+      styleProperties['-webkit-transition-timing-function'] = self.movementEase + ', ' + self.movementEase;
+    }
     if (self.image) {
       styleProperties['background-image'] = 'url(/png/' + self.image + '.png)';
     }
