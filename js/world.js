@@ -85,7 +85,7 @@ World.prototype.tickAndEnqueuTick = function () {
     console.log('tick duration: ' + tickDuration + 'ms, next tick wait: ' + nextTickWait + 'ms');
   }
   this.tickAfter(nextTickWait);
-}
+};
 
 World.prototype.tickAfter = function (wait) {
   var self = this;

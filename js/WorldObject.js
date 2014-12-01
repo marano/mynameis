@@ -76,13 +76,13 @@ WorldObject.prototype.lookAt = function (thatTile) {
   var thisTile = this.tile();
   var deltaX = thisTile.x - thatTile.x;
   var deltaY = thisTile.y - thatTile.y;
-  if (deltaX == 0 && deltaY > 0) {
+  if (deltaX === 0 && deltaY > 0) {
     this.direction(Direction.NORTH);
-  } else if (deltaX == 0 && deltaY < 0) {
+  } else if (deltaX === 0 && deltaY < 0) {
     this.direction(Direction.SOUTH);
-  } else if (deltaY == 0 && deltaX > 0) {
+  } else if (deltaY === 0 && deltaX > 0) {
     this.direction(Direction.WEST);
-  } else if (deltaY == 0 && deltaX < 0) {
+  } else if (deltaY === 0 && deltaX < 0) {
     this.direction(Direction.EAST);
   } else if (deltaX > 0 && deltaY > 0) {
     this.direction(Direction.NORTHWEST);

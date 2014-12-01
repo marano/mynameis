@@ -10,7 +10,7 @@ Route.prototype.solve = function () {
   var openTiles = [fromOpenTile];
   var expandedTiles = [];
 
-  var found = undefined;
+  var found;
   var shouldStop = false;
   while (!shouldStop) {
     var cheapestOpenTileForExpansion = _.min(openTiles, 'totalCostSinceOrigin');
