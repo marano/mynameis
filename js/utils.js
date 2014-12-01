@@ -15,3 +15,9 @@ function animated(element, animation) {
     $(this).removeClass(animationClasses);
   });
 }
+
+function toCss(properties) {
+  return _(properties).map(function (property, value) {
+    return value + ': ' + property;
+  }).join('; ');
+};

@@ -44,9 +44,7 @@ function UIElement(name, owner, tile) {
       styleProperties['background-position-y'] = yOffset + 'px';
       styleProperties['background-size'] = self.size + 'px ' + self.size + 'px';
     }
-    return _(styleProperties).map(function (property, value) {
-      return value + ': ' + property;
-    }).join('; ');
+    return toCss(styleProperties);
   });
 
   if (this.owner.uiElements) {
