@@ -29,7 +29,6 @@ function UIElement(name, owner, tile) {
     var styleProperties = {
       left: (self.tile().x * self.tile().world.tileSize) + 'px',
       top: (self.tile().y * self.tile().world.tileSize) + 'px',
-      'transition-delay': 'initial, initial',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
     };
     if (self.movementEase) {
