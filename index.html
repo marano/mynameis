@@ -65,7 +65,7 @@
     </script>
 
     <script type="text/html" id="ui-element-template">
-      <div id="{{uiElement.elementId}}" class="ui-element {{uiElement.classesToApply}}" data-bind="if: uiElement.content, click: onClick, attr: {style: uiElement.style}">
+      <div class="ui-element {{uiElement.classesToApply}}" data-bind="if: uiElement.content, click: onClick, attr: {style: uiElement.style}">
         <div class="content-wrapper">
           <div class="content">
             {{uiElement.content}}

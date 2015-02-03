@@ -22,7 +22,6 @@ function UIElement(name, owner, tile) {
     }
     return classes.join(' ');
   });
-  this.elementId = Math.round((new Date()).getTime() * Math.random());
   this.transitionDuration = ko.observable(0);
   this.tile = ko.observable(tile);
   this.style = ko.computed(function () {
@@ -63,10 +62,6 @@ UIElement.prototype.remove = function () {
     this.owner.uiElements.remove(this);
   }
   this.tile().world.uiElements.remove(this);
-};
-
-UIElement.prototype.domElement = function () {
-  return $('#' + this.elementId);
 };
 
 UIElement.prototype.onClick = function () {
