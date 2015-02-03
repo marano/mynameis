@@ -1,3 +1,4 @@
 less = {
-  logLevel: 0
+  logLevel: 0,
+  async: true
 };
