@@ -5,10 +5,10 @@ function HudViewModel(game) {
   this.pauseAction = new PauseAction(game.world);
 
   this.worldObjectsFromSelection = ko.computed(function () {
-    if (self.game.world.selectedWorldObject()) {
-      return [self.game.world.selectedWorldObject()];
-    } else if (self.game.world.selectedTile()) {
-      return self.game.world.selectedTile().worldObjects();
+    var selectedWorldObject = self.game.world.selectedWorldObject();
+    if (selectedWorldObject) {
+      var tileWorldObjects = _.without(selectedWorldObject.tile().worldObjects(), selectedWorldObject);
+      return [selectedWorldObject].concat(tileWorldObjects);
     } else {
       return [];
     }

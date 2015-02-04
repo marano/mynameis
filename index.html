@@ -36,7 +36,7 @@
     <script src="js/initializer.js"></script>
   </head>
   <body>
-    <div class="canvas" data-bind="template: {name: 'ui-element-template', foreach: world.uiElements, as: 'uiElement'}"></div>
+    <div class="canvas" data-bind="template: {name: 'ui-element-template', foreach: world.viewportUiElements, as: 'uiElement'}"></div>
 
     <div data-bind="template: {name: 'hud-template', data: hud, as: 'hud'}"></div>
 

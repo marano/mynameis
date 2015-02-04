@@ -1,9 +1,9 @@
-function UIElement(name, owner, tile) {
+function UIElement(name, owner) {
   var self = this;
 
   this.owner = owner;
 
-  var data = tile.world.worldObjectFactory.uiElementData(name);
+  var data = this.owner.world.worldObjectFactory.uiElementData(name);
 
   this.followDirection = data.followDirection;
   this.image = _.sample(data.images || []);
@@ -11,6 +11,9 @@ function UIElement(name, owner, tile) {
   this.size = data.size;
   this.movementEase = data.movementEase;
   this.animated = data.animated;
+
+  this.tile = this.owner.tile;
+
   this.classesToApply = ko.computed(function () {
     var classes = [data.name];
     if (self.animated) {
@@ -23,11 +26,12 @@ function UIElement(name, owner, tile) {
     return classes.join(' ');
   });
   this.transitionDuration = ko.observable(0);
-  this.tile = ko.observable(tile);
-  this.style = ko.computed(function () {
+
+  this.style = ko.computed({read: function () {
+    var tile = self.tile();
     var styleProperties = {
-      left: (self.tile().x * self.tile().world.tileSize) + 'px',
-      top: (self.tile().y * self.tile().world.tileSize) + 'px',
+      left: (tile.x * tile.world.tileSize) + 'px',
+      top: (tile.y * tile.world.tileSize) + 'px',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
     };
     if (self.movementEase) {
@@ -37,32 +41,15 @@ function UIElement(name, owner, tile) {
       styleProperties['background-image'] = 'url(/png/' + self.image + '.png)';
     }
     if (self.size) {
-      var xOffset = Math.round((self.tile().world.tileSize - self.size) / 2);
-      var yOffset = self.tile().world.tileSize - self.size;
+      var xOffset = Math.round((tile.world.tileSize - self.size) / 2);
+      var yOffset = tile.world.tileSize - self.size;
       styleProperties['background-position-x'] = xOffset + 'px';
       styleProperties['background-position-y'] = yOffset + 'px';
       styleProperties['background-size'] = self.size + 'px ' + self.size + 'px';
     }
     return toCss(styleProperties);
-  });
-
-  if (this.owner.uiElements) {
-    this.owner.uiElements.push(this);
-  }
-  tile.world.uiElements.push(this);
+  }, deferEvaluation: true});
 }
-
-UIElement.prototype.moveTo = function (targetTile, interval) {
-  this.transitionDuration(interval);
-  this.tile(targetTile);
-};
-
-UIElement.prototype.remove = function () {
-  if (this.owner.uiElements) {
-    this.owner.uiElements.remove(this);
-  }
-  this.tile().world.uiElements.remove(this);
-};
 
 UIElement.prototype.onClick = function () {
   this.tile().onClick();

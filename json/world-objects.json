@@ -10,17 +10,19 @@
       "uiElements": ["human"],
       "hud-actions": ["move"],
       "allowPassThrough": false,
-      "selectable": true
+      "selectionPriority": 3
     },
     {
       "name": "Tree",
       "uiElements": ["tree"],
-      "allowPassThrough": false
+      "allowPassThrough": false,
+      "selectionPriority": 2
     },
     {
       "name": "Red Mushroom",
       "uiElements": ["red-mushroom"],
-      "allowPassThrough": true
+      "allowPassThrough": true,
+      "selectionPriority": 1
     }
   ],
   "uiElements": [

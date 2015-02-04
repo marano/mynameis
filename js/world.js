@@ -10,9 +10,11 @@ function World(worldObjecFactory) {
   this.width = 50;
   this.height = 30;
   this.tickInterval = 100;
+  this.viewportX = ko.observable(0);
+  this.viewportY = ko.observable(0);
   this.tiles = ko.observableArray([]);
-  this.selectedTile = ko.observable();
-  this.selectedWorldObject = ko.observable();
+  this.viewportUiElements = ko.observableArray([]);
+
   this.paused = false;
 
   this.tileSize = 24;
@@ -21,7 +23,9 @@ function World(worldObjecFactory) {
     return _(self.tiles()).map(function (tile) { return tile.worldObjects(); }).flatten().value();
   });
 
-  this.uiElements = ko.observableArray([]);
+  this.selectedWorldObject = ko.computed(function () {
+    return _.find(self.worldObjects(), function (worldObject) { return worldObject.selected(); });
+  });
 
   this.activeAction = ko.computed(function () {
     return _(self.worldObjects()).map(function (worldObject) {
@@ -102,4 +106,30 @@ World.prototype.pause = function () {
 
 World.prototype.unpause = function () {
   this.paused = false;
+};
+
+World.prototype.uiElementCreated = function (uiElement) {
+  if (uiElement.tile().visibleInViewport()) {
+    this.viewportUiElements.push(uiElement);
+  }
+};
+
+World.prototype.uiElementRemoved = function (uiElement) {
+  if (uiElement.tile().visibleInViewport()) {
+    this.viewportUiElements.remove(uiElement);
+  }
+};
+
+World.prototype.worldObjectMovedToTile = function (worldObject, targetTile, fromTile) {
+  var self = this;
+
+  if (targetTile.visibleInViewport() && (!fromTile || !fromTile.visibleInViewport())) {
+    _.each(worldObject.uiElements(), function (uiElement) {
+      self.viewportUiElements.push(uiElement);
+    });
+  } else if (fromTile.visibleInViewport() && !targetTile.visibleInViewport()) {
+    _.each(worldObject.uiElements(), function (uiElement) {
+      self.viewportUiElements.remove(uiElement);
+    });
+  }
 };

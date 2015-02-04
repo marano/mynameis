@@ -1,18 +1,10 @@
 function WorldTile(world, x, y) {
   var self = this;
+
   this.world = world;
   this.x = x;
   this.y = y;
   this.worldObjects = ko.observableArray([]);
-  this.cursor = undefined;
-  this.selected = ko.observable(false);
-  this.selected.subscribe(function (newValue) {
-    if (newValue) {
-      self.cursor = new UIElement('cursor', self, self);
-    } else {
-      self.cursor.remove();
-    }
-  });
   this.canBePassedThrough = ko.computed(function () {
     return _.all(self.worldObjects(), 'allowPassThrough');
   });
@@ -23,6 +15,7 @@ WorldTile.prototype.tileAtDelta = function (xDelta, yDelta) {
 };
 
 WorldTile.prototype.addWorldObject = function (worldObject) {
+  worldObject.tile().worldObjects.remove(worldObject);
   worldObject.tile(this);
   this.worldObjects.push(worldObject);
 };
@@ -36,27 +29,19 @@ WorldTile.prototype.onClick = function () {
   if (activeAction) {
     activeAction.fulfill(this);
   } else {
-    this.select();
+    this.selectWorldObject();
   }
 };
 
-WorldTile.prototype.select = function () {
-  var selectedTile = this.world.selectedTile();
-  if (selectedTile && selectedTile !== this) {
-    this.world.selectedTile().selected(false);
-    this.world.selectedTile(null);
-  }
-  var selectedWorldObject = this.world.selectedWorldObject();
-  if (selectedWorldObject && !_.include(this.worldObjects(), selectedWorldObject)) {
-    selectedWorldObject.selected(false);
-    this.world.selectedWorldObject(null);
-  }
-  var selectableWorldObject = _.find(this.worldObjects(), function (worldObject) { return worldObject.selectable; });
-  if (selectableWorldObject) {
-    this.world.selectedWorldObject(selectableWorldObject);
-    selectableWorldObject.selected(true);
-  } else {
-    this.world.selectedTile(this);
-    this.selected(true);
+WorldTile.prototype.selectWorldObject = function () {
+  var worldObjectForSelection = _.max(this.worldObjects() , function (worldObject) {
+    return worldObject.selectionPriority;
+  });
+  if (worldObjectForSelection) {
+    worldObjectForSelection.selected(true);
   }
 };
+
+WorldTile.prototype.visibleInViewport = ko.computed({read: function () {
+  return true;
+}, deferEvaluation: true});

@@ -3,53 +3,68 @@ function WorldObject(tile, data) {
 
   this.world = tile.world;
   this.name = data.name;
-  this.uiElements = [];
+  this.dataUiElements = [];
   this.tickables = [];
   this.activeRoutine = undefined;
-  this.cursor = undefined;
+  this.cursorUiElement = ko.observable(null);
+  this.speachBalloonUiElement = ko.observable(null);
   this.selected = ko.observable(false);
   this.selected.subscribe(function (newValue) {
     if (newValue) {
-      self.cursor = new UIElement('cursor', self, self.tile());
+      if (self.world.selectedWorldObject()) {
+        self.world.selectedWorldObject().selected(false);
+      }
+      self.cursorUiElement(new UIElement('cursor', self));
+      self.world.uiElementCreated(self.cursorUiElement());
     } else {
-      self.cursor.remove();
-      self.cursor = undefined;
+      self.world.uiElementRemoved(self.cursorUiElement());
+      self.cursorUiElement(null);
     }
   });
-  this.selectable = data.selectable;
+  this.selectionPriority = data.selectionPriority || 0;
   this.allowPassThrough = data.allowPassThrough;
-  this.tile = ko.observable(tile);
   this.direction = ko.observable(_.sample(Direction.ALL_DIRECTIONS));
-  this.tile.subscribe(function (newTile) {
-    _.each(self.uiElements, function (uiElement) { uiElement.tile(newTile); });
-  });
-  _.each(data.uiElements, function (uiElementName) {
-    new UIElement(uiElementName, self, self.tile());
-  });
   this.actions = _.map(data['hud-actions'], function (action) {
     var actions = {
       'move': MoveAction
     };
     return new actions[action](self);
   });
+  this.tile = ko.observable(tile);
+  this.previousTile = undefined;
+  _.each(data.uiElements, function (uiElementName) {
+    var newUiElement = new UIElement(uiElementName, self);
+    self.dataUiElements.push(newUiElement);
+    self.world.uiElementCreated(newUiElement);
+  });
+  this.uiElements = ko.computed(function () {
+    return _(self.dataUiElements).concat([self.cursorUiElement(), self.speachBalloonUiElement()]).compact().value();
+  });
+  this.tile.subscribe(function (targetTile) {
+    self.world.worldObjectMovedToTile(self, targetTile, self.previousTile);
+    self.previousTile = targetTile;
+  });
 }
 
 WorldObject.prototype.say = function (content) {
-  var balloon = new UIElement('balloon', this, this.tile());
+  var self = this;
+  var balloon = new UIElement('balloon', this);
+  this.speachBalloonUiElement(balloon);
   balloon.content(content);
+  this.world.uiElementCreated(balloon);
   new Tickable(this, 3000, function () {
-    balloon.remove();
+    self.world.uiElementRemoved(self.speachBalloonUiElement());
+    self.speachBalloonUiElement(null);
   });
 };
 
 WorldObject.prototype.moveTo = function (targetTile, interval) {
   var self = this;
 
-  _.each(this.uiElements, function (uiElement) {
-    uiElement.moveTo(targetTile, interval);
+  _.each(this.uiElements(), function (uiElement) {
+    uiElement.transitionDuration(interval);
   });
 
-  self.tile().worldObjects.remove(self);
   targetTile.addWorldObject(self);
 };
 
