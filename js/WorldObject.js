@@ -37,9 +37,9 @@ function WorldObject(tile, data) {
     self.dataUiElements.push(newUiElement);
     self.world.uiElementCreated(newUiElement);
   });
-  this.uiElements = ko.computed(function () {
+  this.uiElements = ko.computed({read: function () {
     return _(self.dataUiElements).concat([self.cursorUiElement(), self.speachBalloonUiElement()]).compact().value();
-  });
+  }, deferEvaluation: true});
   this.tile.subscribe(function (targetTile) {
     self.world.worldObjectMovedToTile(self, targetTile, self.previousTile);
     self.previousTile = targetTile;

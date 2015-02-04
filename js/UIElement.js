@@ -15,7 +15,9 @@ function UIElement(name, owner) {
 
   this.tile = this.owner.tile;
 
-  this.classesToApply = ko.computed(function () {
+  this.transitionDuration = ko.observable(0);
+
+  this.classesToApply = ko.computed({read: function () {
     var classes = [data.name];
     if (self.animated) {
       classes.push('animated');
@@ -25,8 +27,7 @@ function UIElement(name, owner) {
       classes = _.union(classes, self.owner.direction().uiElementClasses);
     }
     return classes.join(' ');
-  });
-  this.transitionDuration = ko.observable(0);
+  }, deferEvaluation: true});
 
   this.style = ko.computed({read: function () {
     var tile = self.tile();
