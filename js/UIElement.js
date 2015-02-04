@@ -11,6 +11,7 @@ function UIElement(name, owner) {
   this.size = data.size;
   this.movementEase = data.movementEase;
   this.animated = data.animated;
+  this.zIndex = data.zIndex;
 
   this.tile = this.owner.tile;
 
@@ -46,6 +47,9 @@ function UIElement(name, owner) {
       styleProperties['background-position-x'] = xOffset + 'px';
       styleProperties['background-position-y'] = yOffset + 'px';
       styleProperties['background-size'] = self.size + 'px ' + self.size + 'px';
+    }
+    if (self.zIndex) {
+      styleProperties['z-index'] = self.zIndex;
     }
     return toCss(styleProperties);
   }, deferEvaluation: true});

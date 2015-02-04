@@ -12,6 +12,8 @@ function World(worldObjecFactory) {
   this.tickInterval = 100;
   this.viewportX = ko.observable(0);
   this.viewportY = ko.observable(0);
+  this.viewportSizeX = ko.observable(0);
+  this.viewportSizeY = ko.observable(0);
   this.tiles = ko.observableArray([]);
   this.viewportUiElements = ko.observableArray([]);
 
@@ -41,6 +43,9 @@ function World(worldObjecFactory) {
         self.tiles.push(new WorldTile(self, x, y));
       });
     });
+
+    self.updateViewportSize();
+    $(window).on('resize', function () { self.updateViewportSize(); })
   }
 
   initialize();
@@ -127,9 +132,27 @@ World.prototype.worldObjectMovedToTile = function (worldObject, targetTile, from
     _.each(worldObject.uiElements(), function (uiElement) {
       self.viewportUiElements.push(uiElement);
     });
-  } else if (fromTile.visibleInViewport() && !targetTile.visibleInViewport()) {
+  } else if ((fromTile && fromTile.visibleInViewport()) && !targetTile.visibleInViewport()) {
     _.each(worldObject.uiElements(), function (uiElement) {
       self.viewportUiElements.remove(uiElement);
     });
   }
+};
+
+World.prototype.updateViewportSize = function () {
+  var $canvas = $(window);
+  this.viewportSizeX(Math.ceil($canvas.width() / this.tileSize));
+  this.viewportSizeY(Math.ceil($canvas.height() / this.tileSize));
+  this.updateViewportUiElements();
+};
+
+World.prototype.updateViewportUiElements = function (uiElement) {
+  var uiElements = _(this.tiles()).map(function (tile) {
+    if (tile.visibleInViewport()) {
+      return tile.uiElements();
+    } else {
+      return [];
+    }
+  }).flatten().value();
+  this.viewportUiElements(uiElements);
 };

@@ -5,9 +5,21 @@ function WorldTile(world, x, y) {
   this.x = x;
   this.y = y;
   this.worldObjects = ko.observableArray([]);
+  this.uiElements = ko.computed({read: function () {
+    return _(self.worldObjects()).map(function (worldObject) {
+      return worldObject.uiElements();
+    }).flatten().value();
+  }, deferEvaluation: true});
   this.canBePassedThrough = ko.computed(function () {
     return _.all(self.worldObjects(), 'allowPassThrough');
   });
+
+  this.visibleInViewport = ko.computed({read: function () {
+    return self.x >= self.world.viewportX() &&
+           self.x < (self.world.viewportX() + self.world.viewportSizeX()) &&
+           self.y >= self.world.viewportY() &&
+           self.y < (self.world.viewportY() + self.world.viewportSizeY());
+  }, deferEvaluation: true});
 }
 
 WorldTile.prototype.tileAtDelta = function (xDelta, yDelta) {
@@ -41,7 +53,3 @@ WorldTile.prototype.selectWorldObject = function () {
     worldObjectForSelection.selected(true);
   }
 };
-
-WorldTile.prototype.visibleInViewport = ko.computed({read: function () {
-  return true;
-}, deferEvaluation: true});

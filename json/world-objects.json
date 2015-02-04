@@ -35,12 +35,14 @@
     },
     {
       "name": "tree",
-      "images": ["tree"]
+      "images": ["tree"],
+      "zIndex": 1
     },
     {
       "name": "red-mushroom",
       "size": 10,
-      "images": ["red-mushroom"]
+      "images": ["red-mushroom"],
+      "zIndex": 2
     },
     {
       "name": "human",
@@ -48,7 +50,8 @@
       "followDirection": true,
       "images": [
         "human-01"
-      ]
+      ],
+      "zIndex": 10
     },
     {
       "name": "balloon",
@@ -59,7 +62,8 @@
       "name": "cursor",
       "animated": "bounceIn",
       "movementEase": "ease",
-      "images": ["cursor"]
+      "images": ["cursor"],
+      "zIndex": 100
     }
   ]
 }
