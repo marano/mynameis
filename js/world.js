@@ -37,6 +37,28 @@ function World(worldObjecFactory) {
 
     self.updateViewportSize();
     $(window).on('resize', function () { self.updateViewportSize(); })
+
+    var listener = new window.keypress.Listener();
+
+    listener.simple_combo("d", function () {
+      self.viewportX(self.viewportX() + 1);
+      self.updateViewportUiElements();
+    });
+
+    listener.simple_combo("a", function () {
+      self.viewportX(self.viewportX() - 1);
+      self.updateViewportUiElements();
+    });
+
+    listener.simple_combo("s", function () {
+      self.viewportY(self.viewportY() + 1);
+      self.updateViewportUiElements();
+    });
+
+    listener.simple_combo("w", function () {
+      self.viewportY(self.viewportY() - 1);
+      self.updateViewportUiElements();
+    });
   }
 
   initialize();
