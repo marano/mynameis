@@ -153,9 +153,9 @@ World.prototype.worldObjectMovedToTile = function (worldObject, targetTile, from
 };
 
 World.prototype.updateViewportSize = function () {
-  var $canvas = $(window);
-  this.viewportSizeX(Math.ceil($canvas.width() / this.tileSize));
-  this.viewportSizeY(Math.ceil($canvas.height() / this.tileSize));
+  var $viewport = $(window);
+  this.viewportSizeX(Math.ceil($viewport.width() / this.tileSize));
+  this.viewportSizeY(Math.ceil($viewport.height() / this.tileSize));
   this.updateViewportUiElements();
 };
 
