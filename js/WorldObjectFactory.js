@@ -18,6 +18,7 @@ WorldObjecFactory.prototype.createWorldObject = function (worldObjectName, tile)
     return worldObjectData.name === worldObjectName;
   }));
   tile.addWorldObject(newWorldObject);
+  this.world.worldObjects.push(newWorldObject);
   return newWorldObject;
 };
 

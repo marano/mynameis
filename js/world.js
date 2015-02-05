@@ -15,34 +15,25 @@ function World(worldObjecFactory) {
   this.viewportSizeX = ko.observable(0);
   this.viewportSizeY = ko.observable(0);
   this.tiles = ko.observableArray([]);
+  this.worldObjects = ko.observableArray([]);
   this.viewportUiElements = ko.observableArray([]);
 
   this.paused = false;
 
   this.tileSize = 24;
 
-  this.worldObjects = ko.computed(function () {
-    return _(self.tiles()).map(function (tile) { return tile.worldObjects(); }).flatten().value();
-  });
-
-  this.selectedWorldObject = ko.computed(function () {
-    return _.find(self.worldObjects(), function (worldObject) { return worldObject.selected(); });
-  });
-
-  this.activeAction = ko.computed(function () {
-    return _(self.worldObjects()).map(function (worldObject) {
-      return worldObject.actions;
-    }).flatten().find(function (action) {
-      return action.active();
-    });
-  });
+  this.selectedWorldObject = ko.observable();
+  this.activeAction = ko.observable();
 
   function initialize() {
+    var newTiles = [];
     _.times(self.height, function (y) {
       _.times(self.width, function (x) {
-        self.tiles.push(new WorldTile(self, x, y));
+        newTiles.push(new WorldTile(self, x, y));
       });
     });
+
+    self.tiles(newTiles);
 
     self.updateViewportSize();
     $(window).on('resize', function () { self.updateViewportSize(); })

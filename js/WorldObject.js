@@ -14,9 +14,11 @@ function WorldObject(tile, data) {
       if (self.world.selectedWorldObject()) {
         self.world.selectedWorldObject().selected(false);
       }
+      self.world.selectedWorldObject(self);
       self.cursorUiElement(new UIElement('cursor', self));
       self.world.uiElementCreated(self.cursorUiElement());
     } else {
+      self.world.selectedWorldObject(null);
       self.world.uiElementRemoved(self.cursorUiElement());
       self.cursorUiElement(null);
     }
