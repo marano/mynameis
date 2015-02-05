@@ -6,24 +6,39 @@ function World(worldObjecFactory) {
   this.log = {
     tickDuration: false
   };
+
   this.worldObjectFactory = worldObjecFactory;
+
+  this.tileSize = 24;
   this.width = 60;
   this.height = 60;
+  this.widthInPixels = this.width * this.tileSize;
+  this.heightInPixels = this.height * this.tileSize;
+
   this.tickInterval = 100;
+  this.paused = false;
+
   this.viewportX = ko.observable(0);
   this.viewportY = ko.observable(0);
   this.viewportSizeX = ko.observable(0);
   this.viewportSizeY = ko.observable(0);
+
   this.tiles = ko.observableArray([]);
   this.worldObjects = ko.observableArray([]);
   this.viewportUiElements = ko.observableArray([]);
 
-  this.paused = false;
-
-  this.tileSize = 24;
-
   this.selectedWorldObject = ko.observable();
   this.activeAction = ko.observable();
+
+  this.viewportStyle = ko.computed(function () {
+    var properties = {
+      left: (self.viewportX() * self.tileSize * -1) + 'px',
+      top: (self.viewportY() * self.tileSize * -1) + 'px',
+      width: self.widthInPixels + 'px',
+      height: self.heightInPixels + 'px'
+    };
+    return toCss(properties);
+  });
 
   function initialize() {
     var newTiles = [];

@@ -37,7 +37,9 @@
     <script src="js/initializer.js"></script>
   </head>
   <body>
-    <div class="viewport" data-bind="template: {name: 'ui-element-template', foreach: world.viewportUiElements, as: 'uiElement'}"></div>
+    <div class="viewport-wrapper">
+      <div class="viewport" data-bind="attr: {style: world.viewportStyle}, template: {name: 'ui-element-template', foreach: world.viewportUiElements, as: 'uiElement'}"></div>
+    </div>
 
     <div data-bind="template: {name: 'hud-template', data: hud, as: 'hud'}"></div>
 

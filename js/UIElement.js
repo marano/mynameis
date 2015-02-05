@@ -32,8 +32,8 @@ function UIElement(name, owner) {
   this.style = ko.computed({read: function () {
     var tile = self.tile();
     var styleProperties = {
-      left: ((tile.x * tile.world.tileSize) - (tile.world.viewportX() * tile.world.tileSize)) + 'px',
-      top: ((tile.y * tile.world.tileSize) - (tile.world.viewportY() * tile.world.tileSize)) + 'px',
+      left: (tile.x * tile.world.tileSize) + 'px',
+      top: (tile.y * tile.world.tileSize) + 'px',
       'transition-duration': self.transitionDuration() + 'ms ,' + self.transitionDuration() + 'ms'
     };
     if (self.movementEase) {
