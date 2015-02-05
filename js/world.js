@@ -7,8 +7,8 @@ function World(worldObjecFactory) {
     tickDuration: false
   };
   this.worldObjectFactory = worldObjecFactory;
-  this.width = 70;
-  this.height = 40;
+  this.width = 60;
+  this.height = 60;
   this.tickInterval = 100;
   this.viewportX = ko.observable(0);
   this.viewportY = ko.observable(0);
