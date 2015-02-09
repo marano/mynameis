@@ -10,8 +10,8 @@ function World(worldObjecFactory) {
   this.worldObjectFactory = worldObjecFactory;
 
   this.tileSize = 24;
-  this.width = 60;
-  this.height = 60;
+  this.width = 70;
+  this.height = 50;
   this.widthInPixels = this.width * this.tileSize;
   this.heightInPixels = this.height * this.tileSize;
 
@@ -24,6 +24,7 @@ function World(worldObjecFactory) {
   this.viewportSizeY = ko.observable(0);
 
   this.tiles = ko.observableArray([]);
+  this.tilesMatrix;
   this.worldObjects = ko.observableArray([]);
   this.viewportUiElements = ko.observableArray([]);
 
@@ -42,9 +43,14 @@ function World(worldObjecFactory) {
 
   function initialize() {
     var newTiles = [];
+    self.tilesMatrix = [];
     _.times(self.height, function (y) {
+      var row = [];
+      self.tilesMatrix.push(row);
       _.times(self.width, function (x) {
-        newTiles.push(new WorldTile(self, x, y));
+        var newTile = new WorldTile(self, x, y);
+        row.push(newTile);
+        newTiles.push(newTile);
       });
     });
 
@@ -56,23 +62,19 @@ function World(worldObjecFactory) {
     var listener = new window.keypress.Listener();
 
     listener.simple_combo("d", function () {
-      self.viewportX(self.viewportX() + 1);
-      self.updateViewportUiElements();
+      self.moveViewport(1, 0);
     });
 
     listener.simple_combo("a", function () {
-      self.viewportX(self.viewportX() - 1);
-      self.updateViewportUiElements();
+      self.moveViewport(-1, 0);
     });
 
     listener.simple_combo("s", function () {
-      self.viewportY(self.viewportY() + 1);
-      self.updateViewportUiElements();
+      self.moveViewport(0, 1);
     });
 
     listener.simple_combo("w", function () {
-      self.viewportY(self.viewportY() - 1);
-      self.updateViewportUiElements();
+      self.moveViewport(0, -1);
     });
   }
 
@@ -173,6 +175,91 @@ World.prototype.updateViewportSize = function () {
   this.viewportSizeY(Math.ceil($viewport.height() / this.tileSize));
   this.updateViewportUiElements();
 };
+
+World.prototype.moveViewport = function (deltaX, deltaY) {
+  var self = this;
+
+  var uiElementsForRemoval = [];
+  var uiElementsForAddition = [];
+
+  if (deltaX === 1) {
+    for (var y = this.viewportY(); y < (this.viewportY() + this.viewportSizeY()); y++) {
+      var row = this.tilesMatrix[y];
+
+      if (row) {
+        var tileForRemoval = row[this.viewportX()];
+        if (tileForRemoval) {
+          uiElementsForRemoval.addAll(tileForRemoval.uiElements());
+        }
+
+        var tileForAddition = row[this.viewportX() + this.viewportSizeX()];
+        if (tileForAddition) {
+          uiElementsForAddition.addAll(tileForAddition.uiElements());
+        }
+      }
+    }
+  } else if (deltaX === -1) {
+    for (var y = this.viewportY(); y < (this.viewportY() + this.viewportSizeY()); y++) {
+      var row = this.tilesMatrix[y];
+
+      if (row) {
+        var tileForAddition = row[this.viewportX() - 1];
+        if (tileForAddition) {
+          uiElementsForAddition.addAll(tileForAddition.uiElements());
+        }
+
+        var tileForRemoval = row[this.viewportX() + this.viewportSizeX() - 1];
+        if (tileForRemoval) {
+          uiElementsForRemoval.addAll(tileForRemoval.uiElements());
+        }
+      }
+    }
+  } else if (deltaY === 1) {
+    var rowForRemoval = this.tilesMatrix[this.viewportY()];
+    var rowForAddition = this.tilesMatrix[this.viewportY() + this.viewportSizeY()];
+
+    for (var x = this.viewportX(); x < (this.viewportX() + this.viewportSizeX()); x++) {
+      if (rowForRemoval) {
+        var tileForRemoval = rowForRemoval[x];
+        if (tileForRemoval) {
+          uiElementsForRemoval.addAll(tileForRemoval.uiElements());
+        }
+      }
+
+      if (rowForAddition) {
+        var tileForAddition = rowForAddition[x];
+        if (tileForAddition) {
+          uiElementsForAddition.addAll(tileForAddition.uiElements());
+        }
+      }
+    }
+  } else if (deltaY === -1) {
+    var rowForRemoval = this.tilesMatrix[this.viewportY() + this.viewportSizeY() - 1];
+    var rowForAddition = this.tilesMatrix[this.viewportY() - 1];
+
+    for (var x = this.viewportX(); x < (this.viewportX() + this.viewportSizeX()); x++) {
+      if (rowForRemoval) {
+        var tileForRemoval = rowForRemoval[x];
+        if (tileForRemoval) {
+          uiElementsForRemoval.addAll(tileForRemoval.uiElements());
+        }
+      }
+
+      if (rowForAddition) {
+        var tileForAddition = rowForAddition[x];
+        if (tileForAddition) {
+          uiElementsForAddition.addAll(tileForAddition.uiElements());
+        }
+      }
+    }
+  }
+
+  self.viewportUiElements.removeAll(uiElementsForRemoval);
+  self.viewportUiElements.pushAll(uiElementsForAddition);
+
+  this.viewportX(this.viewportX() + deltaX);
+  this.viewportY(this.viewportY() + deltaY);
+}
 
 World.prototype.updateViewportUiElements = function (uiElement) {
   var uiElements = _(this.tiles()).map(function (tile) {
