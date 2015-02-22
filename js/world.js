@@ -88,14 +88,28 @@ World.prototype.loadObjects = function () {
     self.worldObjectFactory.createWorldObject('Grassland', tile);
   });
 
-  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 5));
-  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 6));
-  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 7));
-  this.worldObjectFactory.createWorldObject('Human', this.tileAt(5, 8));
-  this.worldObjectFactory.createWorldObject('Human', this.tileAt(9, 9));
-  this.worldObjectFactory.createWorldObject('Human', this.tileAt(14, 14));
+  _.times(200, function () {
+    var x = Math.floor(Math.random() * self.width);
+    var y = Math.floor(Math.random() * self.height);
+    self.worldObjectFactory.createWorldObject('Human', self.tileAt(x, y));
+  });
+
   this.worldObjectFactory.createWorldObject('Tree', this.tileAt(9, 11));
   this.worldObjectFactory.createWorldObject('Red Mushroom', this.tileAt(15, 11));
+};
+
+World.prototype.goCrazy = function () {
+  var self = this;
+
+  _(self.worldObjects()).select(function (worldObject) {
+    return worldObject.name === 'Human';
+  }).each(function (human) {
+    var x = Math.floor(Math.random() * self.width);
+    var y = Math.floor(Math.random() * self.height);
+    setTimeout(function () {
+      human.goTo(self.tileAt(x, y));
+    }, Math.floor(Math.random() * 30000) + 5000);
+  });
 };
 
 World.prototype.tileAt = function (x, y) {
