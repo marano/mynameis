@@ -99,7 +99,9 @@ World.prototype.loadObjects = function () {
 };
 
 World.prototype.tileAt = function (x, y) {
-  return _.find(this.tiles(), function (tile) { return tile.x === x && tile.y === y; });
+  if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+    return this.tilesMatrix[y][x];
+  }
 };
 
 World.prototype.startTicking = function () {
