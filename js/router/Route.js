@@ -6,6 +6,9 @@ function Route(worldObject, fromTile, toTile) {
 
 Route.prototype.solve = function () {
   var self = this;
+
+  var startedAt = performance.now();
+
   var fromOpenTile = new OpenTile(this.fromTile, this.toTile, 0);
   var openTiles = [fromOpenTile];
   var expandedTiles = [];
@@ -30,6 +33,11 @@ Route.prototype.solve = function () {
     } else {
       shouldStop = true;
     }
+  }
+
+  if (self.worldObject.world.log.solveDuration) {
+    var duration = performance.now() - startedAt;
+    console.log('Solve took: ' + duration);
   }
 
   if (found) {

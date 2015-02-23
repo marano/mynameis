@@ -4,7 +4,8 @@ function World(worldObjecFactory) {
   worldObjecFactory.world = this;
 
   this.log = {
-    tickDuration: false
+    tickDuration: false,
+    solveDuration: false
   };
 
   this.worldObjectFactory = worldObjecFactory;
