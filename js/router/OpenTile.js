@@ -1,27 +1,13 @@
-function OpenTile(tile, destinationTile, cost, fromOpenTile) {
+function OpenTile(tile, destinationTile, costFromParent, fromOpenTile) {
   this.tile = tile;
-  this.cost = cost;
-  this.totalCostSinceOrigin = this.calculateCost(tile, destinationTile, cost, fromOpenTile);
+  this.costFromParent = costFromParent;
+  this.totalCostSinceOrigin = (fromOpenTile ? fromOpenTile.totalCostSinceOrigin : 0) + costFromParent;
+  this.estimatedCostToDestination = this.totalCostSinceOrigin + (tile.distanceFrom(destinationTile) * destinationTile.movementCost);
   this.fromOpenTile = fromOpenTile;
-  if (destinationTile.canBePassedThrough()) {
-    this.isDestinationTile = tile === destinationTile;
-  } else {
-    this.isDestinationTile = _([
-      destinationTile.tileAtDelta(+0, +1),
-      destinationTile.tileAtDelta(+1, +0),
-      destinationTile.tileAtDelta(+0, -1),
-      destinationTile.tileAtDelta(-1, +0)
-    ]).compact().any(function (targetTile) {
-      return tile === targetTile;
-    });
-  }
+  this.isDestinationTile = tile === destinationTile;
   this.destinationTile = destinationTile;
 }
 
 OpenTile.prototype.path = function () {
   return (this.fromOpenTile ? this.fromOpenTile.path().concat([this]) : []);
-};
-
-OpenTile.prototype.calculateCost = function (tile, destinationTile, costFromParent, fromOpenTile) {
-  return (fromOpenTile ? fromOpenTile.totalCostSinceOrigin : 0) + costFromParent + tile.distanceFrom(destinationTile);
 };

@@ -4,6 +4,7 @@ function WorldTile(world, x, y) {
   this.world = world;
   this.x = x;
   this.y = y;
+  this.movementCost = 5;
   this.worldObjects = ko.observableArray([]);
   this.uiElements = ko.computed({read: function () {
     return _(self.worldObjects()).map(function (worldObject) {

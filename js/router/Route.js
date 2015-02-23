@@ -13,7 +13,7 @@ Route.prototype.solve = function () {
   var found;
   var shouldStop = false;
   while (!shouldStop) {
-    var cheapestOpenTileForExpansion = _.min(openTiles, 'totalCostSinceOrigin');
+    var cheapestOpenTileForExpansion = _.min(openTiles, 'estimatedCostToDestination');
     if (cheapestOpenTileForExpansion) {
       var expandedTile = new ExpandedTile(cheapestOpenTileForExpansion);
       var openTileMatchingDestination = _.find(expandedTile.possibleOpenTiles, 'isDestinationTile');
@@ -34,7 +34,7 @@ Route.prototype.solve = function () {
 
   if (found) {
     return new Routine(_.map(found.path(), function (openTile) {
-      return new MoveRoutineStep(self.worldObject, openTile.tile, openTile.cost);
+      return new MoveRoutineStep(self.worldObject, openTile.tile, openTile.costFromParent);
     }));
   }
 };
