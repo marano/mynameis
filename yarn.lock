@@ -775,7 +775,14 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
-chalk@^1.1.0:
+cerebral@beta:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/cerebral/-/cerebral-2.0.0-beta.3.tgz#7059a4c4eb620e858ef0bb6c724da0010be6e5d7"
+  dependencies:
+    eventemitter3 "^2.0.2"
+    function-tree "^1.0.0-beta.3"
+
+chalk@^1.1.0, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
   dependencies:
@@ -1230,6 +1237,10 @@ eventemitter3@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
 
+eventemitter3@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
+
 events@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
@@ -1425,6 +1436,14 @@ fstream@^1.0.0, fstream@^1.0.10, fstream@^1.0.2:
     inherits "~2.0.0"
     mkdirp ">=0.5 0"
     rimraf "2"
+
+function-tree@^1.0.0-beta.3:
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/function-tree/-/function-tree-1.0.0-beta.3.tgz#d2391ef86d42d754fc9a76d6e18dfbf87e106312"
+  dependencies:
+    chalk "^1.1.3"
+    eventemitter3 "^2.0.2"
+    universal-websocket-client "^1.0.1"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -1637,6 +1656,23 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
+inferno-component@3.6.1, inferno-component@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.6.1.tgz#006c0f75574d395364953963d66f7149d0d48afc"
+  dependencies:
+    inferno "3.6.1"
+    inferno-shared "3.6.1"
+    inferno-vnode-flags "3.6.1"
+
+inferno-create-element@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-3.6.1.tgz#1c1128e8778f90549d577bdd1e6f392fa7b62d08"
+  dependencies:
+    inferno "3.6.1"
+    inferno-component "3.6.1"
+    inferno-shared "3.6.1"
+    inferno-vnode-flags "3.6.1"
+
 inferno-shared@3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-3.6.1.tgz#d8a5e2ff4946b49bf57a05bb0127358918e28cb2"
@@ -1649,7 +1685,7 @@ inferno-vnode-flags@3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.6.1.tgz#a62cf0f67572f906db7f7702a3d353444b3f379d"
 
-inferno@^3.6.1:
+inferno@3.6.1, inferno@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.6.1.tgz#4e5e73a430c49b9185d8a8a18418d87d82a665d7"
   dependencies:
@@ -2632,6 +2668,10 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@~5.1.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
+safe-buffer@~5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -2982,6 +3022,16 @@ uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
+ultron@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.0.tgz#b07a2e6a541a815fc6a34ccd4533baec307ca864"
+
+universal-websocket-client@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/universal-websocket-client/-/universal-websocket-client-1.0.1.tgz#ad7c00e22cea16a2a83d6ab5e67ada2928dbe96f"
+  dependencies:
+    ws "^2.2.0"
+
 unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
@@ -3173,6 +3223,13 @@ wrap-ansi@^2.0.0:
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+
+ws@^2.2.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-2.3.1.tgz#6b94b3e447cb6a363f785eaf94af6359e8e81c80"
+  dependencies:
+    safe-buffer "~5.0.1"
+    ultron "~1.1.0"
 
 xtend@^4.0.0:
   version "4.0.1"
