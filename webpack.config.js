@@ -8,17 +8,20 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        presets: ['es2015'],
-        plugins: ['inferno']
+    loaders: [
+      {
+        include: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015'],
+          plugins: ['inferno']
+        }
       }
-    }]
+    ]
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.json']
   },
   devServer: {
     historyApiFallback: true,
