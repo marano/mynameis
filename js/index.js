@@ -7,7 +7,7 @@ import uiElements from '../json/ui-elements.json';
 import entities from '../json/entities.json';
 import world from '../json/world.json';
 
-import App from './App';
+import App from './components/App';
 
 controller.getSignal('worldLoaded')({ world, entities, uiElements });
 

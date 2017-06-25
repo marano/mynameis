@@ -6,7 +6,7 @@ export default function ({ uiElement }) {
   );
 
   function style() {
-    const image = require(`../sprites/${uiElement.sprite}`);
+    const image = require(`../../sprites/${uiElement.sprite}`);
 
     return {
       position: 'absolute',
