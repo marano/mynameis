@@ -4,13 +4,12 @@ import { state, props } from 'cerebral/tags';
 
 import UiElement from './UiElement';
 
-function WorldObject({ tileIndex, worldObjectIndex, worldObject, tileSize }) {
+function WorldObject({ tileIndex, worldObjectIndex, uiElemetsIndexes, tileSize }) {
   return (
     <world-object style={style()}>
       {
-        worldObject
-          .uiElements
-          .map((uiElement, uiElementIndex) => {
+        uiElemetsIndexes
+          .map((uiElementIndex) => {
             return <UiElement
                      tileIndex={tileIndex}
                      worldObjectIndex={worldObjectIndex}
@@ -31,6 +30,6 @@ function WorldObject({ tileIndex, worldObjectIndex, worldObject, tileSize }) {
 };
 
 export default connect({
-  worldObject: state`world.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}`,
+  uiElemetsIndexes: state`world.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.*`,
   tileSize: state`viewport.tileSize`
 }, WorldObject);
