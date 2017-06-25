@@ -7,15 +7,15 @@ import uiElements from '../json/ui-elements.json';
 import entities from '../json/entities.json';
 import world from '../json/world.json';
 
-import App from './components/App';
+import Main from './components/Main';
 
 controller.getSignal('worldLoaded')({ world, entities, uiElements });
 
 Inferno.render(
   (
     <Container controller={controller}>
-      <App />
+      <Main />
     </Container>
   ),
-  document.getElementById("app")
+  document.getElementById('root')
 );
