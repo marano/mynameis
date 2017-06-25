@@ -11,6 +11,7 @@ export default function ({ uiElement }) {
     return {
       width: 24,
       height: 24,
+      backgroundRepeat: 'no-repeat',
       backgroundImage: `url(${image})`
     };
   }
