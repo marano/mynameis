@@ -24,7 +24,7 @@ export function fillWorldObjects({ props: { entities, uiElements, world } }) {
 }
 
 function tileAt(world, x, y) {
-  return _.find(world.tiles, { x, y });
+  return world.tiles[(y * world.dimension.width) + x];
 }
 
 function createWorldTile(x, y) {
