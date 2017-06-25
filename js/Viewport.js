@@ -2,12 +2,12 @@ import Inferno from 'inferno';
 import { connect } from 'cerebral/inferno';
 import { state } from 'cerebral/tags';
 
-import WorldObject from './WorldObject';
+import WorldTile from './WorldTile';
 
-function Viewport({ objectIndexes }) {
+function Viewport({ tilesIndexes }) {
   return (
     <div style={style()}>
-      {objectIndexes.map((objectIndex) => <WorldObject objectIndex={objectIndex} />)}
+      {tilesIndexes.map((tileIndex) => <WorldTile tileIndex={tileIndex} />)}
     </div>
   );
 
@@ -19,5 +19,5 @@ function Viewport({ objectIndexes }) {
 }
 
 export default connect({
-  objectIndexes: state`world.objects.*`
+  tilesIndexes: state`world.tiles.*`
 }, Viewport);

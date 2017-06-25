@@ -2,11 +2,17 @@
 import { state, props } from 'cerebral/tags';
 import { set } from 'cerebral/operators';
 
-import { instantiateWorldObjects } from './actions';
+import {
+  createWorldTiles,
+  fillWorldTiles,
+  fillWorldObjects
+} from './actions';
 
 export default {
   worldLoaded: [
-    instantiateWorldObjects,
+    createWorldTiles,
+    fillWorldTiles,
+    fillWorldObjects,
     set(state`world`, props`world`)
   ]
 };

@@ -1,6 +1,10 @@
 {
   "definitions": [
     {
+      "name": "grass",
+      "uiElements": ["grass"]
+    },
+    {
       "name": "tree",
       "uiElements": ["tree"]
     }

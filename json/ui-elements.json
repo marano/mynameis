@@ -1,8 +1,16 @@
 {
   "definitions": [
     {
+      "name": "grass",
+      "sprites": [
+        "grassland-full-1.png",
+        "grassland-full-2.png"
+      ]
+    },
+    {
       "name": "tree",
-      "sprite": "tree.png"
+      "sprites": ["tree.png"],
+      "zIndex": 10
     }
   ]
 }
