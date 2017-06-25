@@ -13,9 +13,6 @@ export default Controller({
   state: {
     viewport: {
       tileSize: 40
-    },
-    world: {
-      objects: []
     }
   },
   signals,
