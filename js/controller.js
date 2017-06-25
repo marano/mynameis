@@ -12,7 +12,7 @@ export default Controller({
   }),
   state: {
     viewport: {
-      tileSize: 24
+      tileSize: 40
     },
     world: {
       objects: []
