@@ -5,7 +5,9 @@ import { set } from 'cerebral/operators';
 import {
   createWorldTiles,
   fillWorldTiles,
-  fillWorldObjects
+  fillWorldObjects,
+  adjustViewportSize,
+  updateViewportVisibleTiles
 } from './actions';
 
 export default {
@@ -13,6 +15,8 @@ export default {
     createWorldTiles,
     fillWorldTiles,
     fillWorldObjects,
-    set(state`world`, props`world`)
+    set(state`world`, props`world`),
+    adjustViewportSize,
+    updateViewportVisibleTiles
   ]
 };

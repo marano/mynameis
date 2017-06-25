@@ -4,7 +4,7 @@ import { state } from 'cerebral/tags';
 
 import WorldTile from './WorldTile';
 
-function Viewport({ tilesIndexes, tileSize, worldDimension }) {
+function Viewport({ tilesIndexes, tileSize, viewportSize }) {
   return (
     <div style={wrapperStyle()}>
       <div style={innerStyle()}>
@@ -26,14 +26,14 @@ function Viewport({ tilesIndexes, tileSize, worldDimension }) {
   function innerStyle() {
     return {
       position: 'relative',
-      width: worldDimension.width * tileSize,
-      height: worldDimension.height * tileSize
+      height: viewportSize.x * tileSize,
+      width: viewportSize.y * tileSize
     };
   }
 }
 
 export default connect({
-  tilesIndexes: state`world.tiles.*`,
+  tilesIndexes: state`viewport.visibleTiles.*`,
   tileSize: state`viewport.tileSize`,
-  worldDimension: state`world.dimension`
+  viewportSize: state`viewport.size`
 }, Viewport);

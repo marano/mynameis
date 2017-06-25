@@ -1,7 +1,7 @@
 {
-  "dimension": {
-    "width": 15,
-    "height": 15
+  "size": {
+    "x": 15,
+    "y": 15
   },
   "filling": {
     "floor": "grass",

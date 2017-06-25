@@ -29,6 +29,6 @@ function WorldTile({ tileIndex, worldTile, tileSize }) {
 }
 
 export default connect({
-  worldTile: state`world.tiles.${props`tileIndex`}`,
+  worldTile: state`viewport.visibleTiles.${props`tileIndex`}`,
   tileSize: state`viewport.tileSize`
 }, WorldTile);

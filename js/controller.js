@@ -12,7 +12,15 @@ export default Controller({
   }),
   state: {
     viewport: {
-      tileSize: 40
+      tileSize: 40,
+      size: {
+        x: 0,
+        y: 0
+      },
+      position: {
+        x: 0,
+        y: 0
+      }
     }
   },
   signals,
