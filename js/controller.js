@@ -11,6 +11,9 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
+    viewport: {
+      tileSize: 24
+    },
     world: {
       objects: []
     }

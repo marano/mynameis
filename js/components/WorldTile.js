@@ -4,24 +4,31 @@ import { state, props } from 'cerebral/tags';
 
 import WorldObject from './WorldObject';
 
-function WorldTile({ worldTile }) {
+function WorldTile({ tileIndex, worldTile, tileSize }) {
   return (
     <world-tile style={style()}>
-      {worldTile.worldObjects.map((worldObject) => <WorldObject worldObject={worldObject} />)}
+      {
+        worldTile
+          .worldObjects
+          .map((worldObject, worldObjectIndex) => {
+            return <WorldObject tileIndex={tileIndex} worldObjectIndex={worldObjectIndex} />;
+          })
+      }
     </world-tile>
   );
 
   function style() {
     return {
       position: 'absolute',
-      width: 24,
-      height: 24,
-      left: worldTile.x * 24,
-      top: worldTile.y * 24
+      width: tileSize,
+      height: tileSize,
+      left: worldTile.x * tileSize,
+      top: worldTile.y * tileSize
     };
   }
 }
 
 export default connect({
-  worldTile: state`world.tiles.${props`tileIndex`}`
+  worldTile: state`world.tiles.${props`tileIndex`}`,
+  tileSize: state`viewport.tileSize`
 }, WorldTile);

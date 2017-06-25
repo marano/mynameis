@@ -6,9 +6,9 @@ import WorldTile from './WorldTile';
 
 function Viewport({ tilesIndexes }) {
   return (
-    <div style={style()}>
+    <viewport style={style()}>
       {tilesIndexes.map((tileIndex) => <WorldTile tileIndex={tileIndex} />)}
-    </div>
+    </viewport>
   );
 
   function style() {

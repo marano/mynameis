@@ -1,6 +1,8 @@
 import Inferno from 'inferno';
+import { connect } from 'cerebral/inferno';
+import { state, props } from 'cerebral/tags';
 
-export default function ({ uiElement }) {
+function UiElement({ uiElement, tileSize }) {
   return (
     <ui-element style={style()}></ui-element>
   );
@@ -10,11 +12,18 @@ export default function ({ uiElement }) {
 
     return {
       position: 'absolute',
-      width: 24,
-      height: 24,
+      imageRendering: 'pixelated',
+      width: tileSize,
+      height: tileSize,
       zIndex: uiElement.zIndex,
       backgroundRepeat: 'no-repeat',
-      backgroundImage: `url(${image})`
+      backgroundImage: `url(${image})`,
+      backgroundSize: tileSize
     };
   }
 }
+
+export default connect({
+  tileSize: state`viewport.tileSize`,
+  uiElement: state`world.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.${props`uiElementIndex`}`
+}, UiElement);
