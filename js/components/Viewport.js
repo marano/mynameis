@@ -7,7 +7,7 @@ import WorldTile from './WorldTile';
 function Viewport({ tilesIndexes, tileSize, worldDimension }) {
   return (
     <div style={wrapperStyle()}>
-      <div style={containerStyle()}>
+      <div style={innerStyle()}>
         {tilesIndexes.map((tileIndex) => <WorldTile tileIndex={tileIndex} />)}
       </div>
     </div>
@@ -18,13 +18,12 @@ function Viewport({ tilesIndexes, tileSize, worldDimension }) {
       width: '100%',
       height: '100%',
       display: 'flex',
-      flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center'
     };
   }
 
-  function containerStyle() {
+  function innerStyle() {
     return {
       position: 'relative',
       width: worldDimension.width * tileSize,
