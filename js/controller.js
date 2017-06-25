@@ -10,7 +10,11 @@ export default Controller({
     storeMutations: true,
     preventExternalMutations: true
   }),
-  state: {},
+  state: {
+    world: {
+      objects: []
+    }
+  },
   signals,
   modules: {}
 });

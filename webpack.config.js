@@ -10,6 +10,10 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.png$/,
+        use: 'file-loader?name=./png/[name].[ext]'
+      },
+      {
         include: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',

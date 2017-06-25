@@ -1,7 +1,7 @@
 import Inferno from 'inferno';
 
-import World from './World';
+import Viewport from './Viewport';
 
 export default function () {
-  return <World />;
+  return <Viewport />;
 }

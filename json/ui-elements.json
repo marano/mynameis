@@ -2,7 +2,7 @@
   "definitions": [
     {
       "name": "tree",
-      "uiElements": ["tree"]
+      "image": "tree.png"
     }
   ]
 }
