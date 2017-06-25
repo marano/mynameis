@@ -10,8 +10,8 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.png$/,
-        use: 'file-loader?name=./png/[name].[ext]'
+        test: /\.(png)$/,
+        use: 'file-loader?name=./images/[name].[ext]'
       },
       {
         include: /\.js$/,
