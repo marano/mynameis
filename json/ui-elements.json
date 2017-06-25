@@ -2,7 +2,7 @@
   "definitions": [
     {
       "name": "tree",
-      "image": "tree.png"
+      "sprite": "tree.png"
     }
   ]
 }

@@ -6,7 +6,7 @@ export default function ({ uiElement }) {
   );
 
   function style() {
-    const image = require(`../png/${uiElement.name}.png`);
+    const image = require(`../sprites/${uiElement.sprite}`);
 
     return {
       width: 24,
