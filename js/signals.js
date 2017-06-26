@@ -18,5 +18,9 @@ export default {
     set(state`world`, props`world`),
     adjustViewportSize,
     updateViewportVisibleTiles
+  ],
+  windowResized: [
+    adjustViewportSize,
+    updateViewportVisibleTiles
   ]
 };
