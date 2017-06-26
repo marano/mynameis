@@ -4,9 +4,9 @@ import { state, props } from 'cerebral/tags';
 
 import WorldObject from './WorldObject';
 
-function WorldTile({ tileIndex, worldTile, tileSize }) {
+function WorldTile({ tileIndex, worldTile, tileSize, viewportPosition }) {
   return (
-    <world-tile style={style()}>
+    <world-tile style={style()} data={JSON.stringify({ tile: { x: worldTile.x, y: worldTile.y } })}>
       {
         worldTile
           .worldObjects
@@ -22,13 +22,14 @@ function WorldTile({ tileIndex, worldTile, tileSize }) {
       position: 'absolute',
       width: tileSize,
       height: tileSize,
-      left: worldTile.x * tileSize,
-      top: worldTile.y * tileSize
+      left: worldTile.y * tileSize,
+      top: worldTile.x * tileSize
     };
   }
 }
 
 export default connect({
   worldTile: state`viewport.visibleTiles.${props`tileIndex`}`,
-  tileSize: state`viewport.tileSize`
+  tileSize: state`viewport.tileSize`,
+  viewportPosition: state`viewport.position`
 }, WorldTile);

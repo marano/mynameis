@@ -7,7 +7,8 @@ import {
   fillWorldTiles,
   fillWorldObjects,
   adjustViewportSize,
-  updateViewportVisibleTiles
+  updateViewportVisibleTiles,
+  handleKeyPress
 } from './actions';
 
 export default {
@@ -22,5 +23,8 @@ export default {
   windowResized: [
     adjustViewportSize,
     updateViewportVisibleTiles
+  ],
+  keyPressed: [
+    handleKeyPress
   ]
 };

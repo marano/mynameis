@@ -15,10 +15,20 @@ controller.getSignal('worldLoaded')({ world, entities, uiElements, ...getScreenD
 window.addEventListener(
   'resize',
   throttle(
-    controller.getSignal('windowResized'),
+    function () {
+      controller.getSignal('windowResized')(getScreenDimensions());
+    },
     500,
     { leading: false, trailing: true }
   ),
+  true
+);
+
+window.addEventListener(
+  'keypress',
+  function (event) {
+    controller.getSignal('keyPressed')({ key: event.key.toLowerCase() });
+  },
   true
 );
 
@@ -34,5 +44,5 @@ Inferno.render(
 function getScreenDimensions() {
   const screenWidth = document.documentElement.clientWidth;
   const screenHeight = document.documentElement.clientHeight;
-  return { screenWidth,screenHeight };
+  return { screenWidth, screenHeight };
 }
