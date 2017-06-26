@@ -10,7 +10,7 @@ import world from '../json/world.json';
 
 import Main from './components/Main';
 
-controller.getSignal('worldLoaded')({ world, entities, uiElements });
+controller.getSignal('worldLoaded')({ world, entities, uiElements, ...getScreenDimensions() });
 
 window.addEventListener(
   'resize',
@@ -30,3 +30,9 @@ Inferno.render(
   ),
   document.getElementById('root')
 );
+
+function getScreenDimensions() {
+  const screenWidth = document.documentElement.clientWidth;
+  const screenHeight = document.documentElement.clientHeight;
+  return { screenWidth,screenHeight };
+}

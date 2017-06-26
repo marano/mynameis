@@ -48,10 +48,7 @@ function createUiElement(name, uiElements) {
   };
 }
 
-export function adjustViewportSize({ state }) {
-  const screenHeight = document.documentElement.clientHeight;
-  const screenWidth = document.documentElement.clientWidth;
-
+export function adjustViewportSize({ state, props: { screenWidth, screenHeight } }) {
   const tileSize = state.get('viewport.tileSize');
 
   const maxFitSizeX = Math.floor(screenHeight / tileSize);
