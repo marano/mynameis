@@ -3,7 +3,7 @@ import { cross } from 'd3-array';
 
 export function createWorldTiles({ props: { world } }) {
   const xRange = range(0, world.size.x);
-  const yRange = world.size.x == world.size.y ? xRange : range(0, world.size.y);
+  const yRange = range(0, world.size.y);
   world.tiles = cross(xRange, yRange, createWorldTile);
 }
 
