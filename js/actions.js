@@ -74,11 +74,14 @@ export function updateViewportVisibleTiles({ state }) {
   const worldSizeX = state.get('world.size.x');
   const worldSizeY = state.get('world.size.y');
 
+  const minX = Math.max(0, viewportPositionX);
+  const minY = Math.max(0, viewportPositionY);
+
   const maxX = Math.min(viewportPositionX + viewportSizeX, worldSizeX);
   const maxY = Math.min(viewportPositionY + viewportSizeY, worldSizeY);
 
-  var xRange = _.range(viewportPositionX, maxX);
-  var yRange = _.range(viewportPositionY, maxY);
+  var xRange = _.range(minX, maxX);
+  var yRange = _.range(minY, maxY);
 
   const world = state.get('world');
   const visibleTiles = cross(xRange, yRange, (x, y) => tileAt(world, x, y));

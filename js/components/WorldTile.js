@@ -6,7 +6,7 @@ import WorldObject from './WorldObject';
 
 function WorldTile({ tileIndex, worldTile, tileSize, viewportPosition }) {
   return (
-    <world-tile style={style()} data={JSON.stringify({ tile: { x: worldTile.x, y: worldTile.y } })}>
+    <world-tile style={style()}>
       {
         worldTile
           .worldObjects
