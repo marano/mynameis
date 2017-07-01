@@ -28,18 +28,18 @@ function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worl
   function windowStyle() {
     return {
       position: 'relative',
-      height: viewportSize.x * tileSize,
-      width: viewportSize.y * tileSize
+      width: viewportSize.x * tileSize,
+      height: viewportSize.y * tileSize
     };
   }
 
   function contentStyle() {
     return {
       position: 'absolute',
-      height: worldSize.x * tileSize,
-      width: worldSize.y * tileSize,
-      left: -(viewportPosition.y * tileSize),
-      top: -(viewportPosition.x * tileSize)
+      width: worldSize.x * tileSize,
+      height: worldSize.y * tileSize,
+      left: -(viewportPosition.x * tileSize),
+      top: -(viewportPosition.y * tileSize)
     };
   }
 }

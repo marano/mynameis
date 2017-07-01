@@ -22,8 +22,8 @@ function WorldTile({ tileIndex, worldTile, tileSize, viewportPosition }) {
       position: 'absolute',
       width: tileSize,
       height: tileSize,
-      left: worldTile.y * tileSize,
-      top: worldTile.x * tileSize
+      left: worldTile.x * tileSize,
+      top: worldTile.y * tileSize
     };
   }
 }
