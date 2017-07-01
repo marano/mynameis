@@ -119,5 +119,8 @@ const keyHandler = {
 }
 
 export function handleKeyPress({ state, props: { key }}) {
-  keyHandler[key](state);
+  const handler = keyHandler[key];
+  if (handler) {
+    handler(state);
+  }
 }
