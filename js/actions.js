@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import { find, range, sample, throttle } from 'lodash';
 import { cross } from 'd3-array';
 
 export function createWorldTiles({ props: { world } }) {
-  const xRange = _.range(0, world.size.x);
-  const yRange = world.size.x == world.size.y ? xRange : _.range(0, world.size.y);
+  const xRange = range(0, world.size.x);
+  const yRange = world.size.x == world.size.y ? xRange : range(0, world.size.y);
   world.tiles = cross(xRange, yRange, createWorldTile);
 }
 
@@ -32,7 +32,7 @@ function createWorldTile(x, y) {
 }
 
 function createWorldObject(name, entities, uiElements) {
-  const entity = _.find(entities.definitions, { name });
+  const entity = find(entities.definitions, { name });
   return {
     name,
     uiElements: entity.uiElements.map((uiElement) => createUiElement(uiElement, uiElements))
@@ -40,10 +40,10 @@ function createWorldObject(name, entities, uiElements) {
 }
 
 function createUiElement(name, uiElements) {
-  const uiElement = _.find(uiElements.definitions, { name });
+  const uiElement = find(uiElements.definitions, { name });
   return {
     name: uiElement.name,
-    sprite: _.sample(uiElement.sprites),
+    sprite: sample(uiElement.sprites),
     zIndex: uiElement.zIndex || 0
   };
 }
@@ -64,30 +64,34 @@ export function adjustViewportSize({ state, props: { screenWidth, screenHeight }
   state.set('viewport.size.y', viewportSizeY);
 }
 
-export function updateViewportVisibleTiles({ state }) {
-  const viewportPositionX = state.get('viewport.position.x');
-  const viewportPositionY = state.get('viewport.position.y');
+export const updateViewportVisibleTiles = throttle(
+  function ({ state }) {
+    const viewportPositionX = state.get('viewport.position.x');
+    const viewportPositionY = state.get('viewport.position.y');
 
-  const viewportSizeX = state.get('viewport.size.x');
-  const viewportSizeY = state.get('viewport.size.y');
+    const viewportSizeX = state.get('viewport.size.x');
+    const viewportSizeY = state.get('viewport.size.y');
 
-  const worldSizeX = state.get('world.size.x');
-  const worldSizeY = state.get('world.size.y');
+    const worldSizeX = state.get('world.size.x');
+    const worldSizeY = state.get('world.size.y');
 
-  const minX = Math.max(0, viewportPositionX);
-  const minY = Math.max(0, viewportPositionY);
+    const minX = Math.max(0, viewportPositionX);
+    const minY = Math.max(0, viewportPositionY);
 
-  const maxX = Math.min(viewportPositionX + viewportSizeX, worldSizeX);
-  const maxY = Math.min(viewportPositionY + viewportSizeY, worldSizeY);
+    const maxX = Math.min(viewportPositionX + viewportSizeX, worldSizeX);
+    const maxY = Math.min(viewportPositionY + viewportSizeY, worldSizeY);
 
-  var xRange = _.range(minX, maxX);
-  var yRange = _.range(minY, maxY);
+    var xRange = range(minX, maxX);
+    var yRange = range(minY, maxY);
 
-  const world = state.get('world');
-  const visibleTiles = cross(xRange, yRange, (x, y) => tileAt(world, x, y));
+    const world = state.get('world');
+    const visibleTiles = cross(xRange, yRange, (x, y) => tileAt(world, x, y));
 
-  state.set('viewport.visibleTiles', visibleTiles);
-}
+    state.set('viewport.visibleTiles', visibleTiles);
+  },
+  100,
+  { leading: false, trailing: true }
+);
 
 function panViewportPosition(deltaX, deltaY, state) {
   const position = state.get('viewport.position');
