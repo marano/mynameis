@@ -28,6 +28,7 @@ function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worl
   function windowStyle() {
     return {
       position: 'relative',
+      overflow: 'hidden',
       width: viewportSize.x * tileSize,
       height: viewportSize.y * tileSize
     };

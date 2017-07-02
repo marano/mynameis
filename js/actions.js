@@ -97,7 +97,6 @@ function panViewportPosition(deltaX, deltaY, state) {
     y: position.y + deltaY
   };
   state.set('viewport.position', newPosition);
-  updateViewportVisibleTiles({ state });
 }
 
 const keyHandler = {
@@ -115,9 +114,10 @@ const keyHandler = {
   }
 }
 
-export function handleKeyPress({ state, props: { key }}) {
+export function handleKeyPress({ state, path, props: { key }}) {
   const handler = keyHandler[key];
   if (handler) {
     handler(state);
+    return path.updateViewportVisibleTiles();
   }
 }

@@ -4,7 +4,12 @@ import { state, props } from 'cerebral/tags';
 
 import WorldObject from './WorldObject';
 
-function WorldTile({ tileIndex, worldTile, tileSize, viewportPosition }) {
+function WorldTile({ tileIndex, worldTile, tileSize }) {
+  if (!worldTile)  {
+    // Rack to give updateViewportVisibleTiles a chance to run after paning the viewport
+    return;
+  }
+
   return (
     <world-tile style={style()}>
       {
@@ -30,6 +35,5 @@ function WorldTile({ tileIndex, worldTile, tileSize, viewportPosition }) {
 
 export default connect({
   worldTile: state`viewport.visibleTiles.${props`tileIndex`}`,
-  tileSize: state`viewport.tileSize`,
-  viewportPosition: state`viewport.position`
+  tileSize: state`viewport.tileSize`
 }, WorldTile);
