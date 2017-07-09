@@ -22,7 +22,11 @@ export function fillWorldObjects({ props: { entities, uiElements, world } }) {
 }
 
 function tileAt(world, x, y) {
-  return world.tiles[(x * world.size.y) + y];
+  return world.tiles[indexOfTileAt(world, x, y)];
+}
+
+function indexOfTileAt(world, x, y) {
+  return (x * world.size.y) + y;
 }
 
 function createWorldTile(x, y) {
@@ -77,7 +81,6 @@ export function updateViewportVisibleTiles({ state }) {
   const minX = Math.max(0, viewportPositionX);
   const minY = Math.max(0, viewportPositionY);
 
-
   const maxX = Math.min(viewportPositionX + viewportSizeX, worldSizeX);
   const maxY = Math.min(viewportPositionY + viewportSizeY, worldSizeY);
 
@@ -85,9 +88,9 @@ export function updateViewportVisibleTiles({ state }) {
   var yRange = range(minY, maxY);
 
   const world = state.get('world');
-  const visibleTiles = cross(xRange, yRange, (x, y) => tileAt(world, x, y));
+  const visibleTilesIndexes = cross(xRange, yRange, (x, y) => indexOfTileAt(world, x, y));
 
-  state.set('viewport.visibleTiles', visibleTiles);
+  state.set('viewport.visibleTilesIndexes', visibleTilesIndexes);
 }
 
 function panViewportPosition(deltaX, deltaY, state) {
@@ -114,10 +117,10 @@ const keyHandler = {
   }
 }
 
-export function handleKeyPress({ state, path, props: { key }}) {
+export function handleKeyPress({ state, path: { updateViewportVisibleTiles }, props: { key }}) {
   const handler = keyHandler[key];
   if (handler) {
     handler(state);
-    return path.updateViewportVisibleTiles();
+    return updateViewportVisibleTiles();
   }
 }

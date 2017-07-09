@@ -9,7 +9,7 @@ function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worl
     <div style={outerStyle()}>
       <div style={windowStyle()}>
         <div style={contentStyle()}>
-          {tilesIndexes.map((tileIndex) => <WorldTile tileIndex={tileIndex} />)}
+          {tilesIndexes.map((tileIndex) => <WorldTile key={tileIndex} tileIndex={tileIndex} />)}
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@ function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worl
 }
 
 export default connect({
-  tilesIndexes: state`viewport.visibleTiles.*`,
+  tilesIndexes: state`viewport.visibleTilesIndexes`,
   tileSize: state`viewport.tileSize`,
   viewportSize: state`viewport.size`,
   viewportPosition: state`viewport.position`,

@@ -30,6 +30,6 @@ function WorldObject({ tileIndex, worldObjectIndex, uiElemetsIndexes, tileSize }
 };
 
 export default connect({
-  uiElemetsIndexes: state`viewport.visibleTiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.*`,
+  uiElemetsIndexes: state`world.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.*`,
   tileSize: state`viewport.tileSize`
 }, WorldObject);
