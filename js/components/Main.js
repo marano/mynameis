@@ -5,11 +5,11 @@ import { state } from 'cerebral/tags';
 import Viewport from './Viewport';
 import SideMenu from './SideMenu';
 
-function Main({ sideMenuWidth }) {
+function Main({ sideMenuWidth, setViewportRef }) {
   return (
     <main style={containerStyle()}>
       <div style={viewportStyle()}>
-        <Viewport />
+        <Viewport setViewportRef={setViewportRef} />
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu />
@@ -30,7 +30,8 @@ function Main({ sideMenuWidth }) {
   function viewportStyle() {
     return {
       gridRow: '1',
-      gridColumn: '1'
+      gridColumn: '1',
+      overflow: 'hidden'
     };
   }
 

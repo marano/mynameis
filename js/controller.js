@@ -15,6 +15,7 @@ export default Controller({
       width: 300
     },
     viewport: {
+      visibleTilesIndexes: [],
       tileSize: 40,
       size: {
         x: 0,

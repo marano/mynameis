@@ -4,9 +4,9 @@ import { state } from 'cerebral/tags';
 
 import WorldTile from './WorldTile';
 
-function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worldSize }) {
+function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worldSize, setViewportRef }) {
   return (
-    <viewport style={outerStyle()}>
+    <viewport ref={setViewportRef} style={outerStyle()}>
       <viewport-window style={windowStyle()}>
         <viewport-content style={contentStyle()}>
           {tilesIndexes.map((tileIndex) => <WorldTile key={tileIndex} tileIndex={tileIndex} />)}

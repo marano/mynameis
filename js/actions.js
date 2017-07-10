@@ -52,14 +52,11 @@ function createUiElement(name, uiElements) {
   };
 }
 
-export function adjustViewportSize({ state, props: { screenWidth, screenHeight } }) {
+export function adjustViewportSize({ state, props: { viewportWidth, viewportHeight } }) {
   const tileSize = state.get('viewport.tileSize');
 
-  const sideMenuWidth = state.get('sideMenu.width');
-  const viewportWrapperWidth = screenWidth - sideMenuWidth;
-
-  const maxFitSizeX = Math.floor(viewportWrapperWidth / tileSize);
-  const maxFitSizeY = Math.floor(screenHeight / tileSize);
+  const maxFitSizeX = Math.floor(viewportWidth / tileSize);
+  const maxFitSizeY = Math.floor(viewportHeight / tileSize);
 
   const worldSizeX = state.get('world.size.x');
   const worldSizeY = state.get('world.size.y');

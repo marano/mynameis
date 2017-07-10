@@ -12,17 +12,25 @@ import Main from './components/Main';
 
 Inferno.options.recyclingEnabled = true;
 
-controller.getSignal('worldLoaded')({ world, entities, uiElements, ...getScreenDimensions() });
+controller.getSignal('worldLoaded')({ world, entities, uiElements });
+
+let viewportRef = null;
+
+const onWindowResize = throttle(
+  function () {
+    if (viewportRef) {
+      const viewportWidth = viewportRef.offsetWidth;
+      const viewportHeight = viewportRef.offsetHeight;
+      controller.getSignal('windowResized')({ viewportWidth, viewportHeight });
+    }
+  },
+  200,
+  { leading: false, trailing: true }
+);
 
 window.addEventListener(
   'resize',
-  throttle(
-    function () {
-      controller.getSignal('windowResized')(getScreenDimensions());
-    },
-    500,
-    { leading: false, trailing: true }
-  ),
+  onWindowResize,
   true
 );
 
@@ -37,14 +45,13 @@ window.addEventListener(
 Inferno.render(
   (
     <Container controller={controller}>
-      <Main />
+      <Main setViewportRef={setViewportRef} />
     </Container>
   ),
   document.getElementById('root')
 );
 
-function getScreenDimensions() {
-  const screenWidth = document.documentElement.clientWidth;
-  const screenHeight = document.documentElement.clientHeight;
-  return { screenWidth, screenHeight };
+function setViewportRef(viewport) {
+  viewportRef = viewport;
+  onWindowResize();
 }
