@@ -11,6 +11,9 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
+    sideMenu: {
+      width: 300
+    },
     viewport: {
       tileSize: 40,
       size: {

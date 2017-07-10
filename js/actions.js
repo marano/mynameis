@@ -55,7 +55,10 @@ function createUiElement(name, uiElements) {
 export function adjustViewportSize({ state, props: { screenWidth, screenHeight } }) {
   const tileSize = state.get('viewport.tileSize');
 
-  const maxFitSizeX = Math.floor(screenWidth / tileSize);
+  const sideMenuWidth = state.get('sideMenu.width');
+  const viewportWrapperWidth = screenWidth - sideMenuWidth;
+
+  const maxFitSizeX = Math.floor(viewportWrapperWidth / tileSize);
   const maxFitSizeY = Math.floor(screenHeight / tileSize);
 
   const worldSizeX = state.get('world.size.x');

@@ -6,13 +6,13 @@ import WorldTile from './WorldTile';
 
 function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worldSize }) {
   return (
-    <div style={outerStyle()}>
-      <div style={windowStyle()}>
-        <div style={contentStyle()}>
+    <viewport style={outerStyle()}>
+      <viewport-window style={windowStyle()}>
+        <viewport-content style={contentStyle()}>
           {tilesIndexes.map((tileIndex) => <WorldTile key={tileIndex} tileIndex={tileIndex} />)}
-        </div>
-      </div>
-    </div>
+        </viewport-content>
+      </viewport-window>
+    </viewport>
   );
 
   function outerStyle() {
@@ -21,7 +21,8 @@ function Viewport({ tilesIndexes, tileSize, viewportSize, viewportPosition, worl
       height: '100%',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: 'black'
     };
   }
 
