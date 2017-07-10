@@ -10,6 +10,8 @@ import world from '../json/world.json';
 
 import Main from './components/Main';
 
+Inferno.options.recyclingEnabled = true;
+
 controller.getSignal('worldLoaded')({ world, entities, uiElements, ...getScreenDimensions() });
 
 window.addEventListener(
