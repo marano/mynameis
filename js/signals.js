@@ -1,6 +1,6 @@
 // import { setWorld } from './actions';
 import { state, props } from 'cerebral/tags';
-import { set, debounce } from 'cerebral/operators';
+import { set } from 'cerebral/operators';
 
 import {
   createWorldTiles,
@@ -28,12 +28,7 @@ export default {
     [
       handleKeyPress,
       {
-        updateViewportVisibleTiles: [
-          debounce(200), {
-            continue: updateViewportVisibleTiles,
-            discard: []
-          }
-        ]
+        updateViewportVisibleTiles
       }
     ]
   ]
