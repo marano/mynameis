@@ -21,7 +21,7 @@ const onWindowResize = throttle(
     if (viewportRef) {
       const viewportWidth = viewportRef.offsetWidth;
       const viewportHeight = viewportRef.offsetHeight;
-      controller.getSignal('windowResized')({ viewportWidth, viewportHeight });
+      controller.getSignal('viewportResized')({ viewportWidth, viewportHeight });
     }
   },
   200,

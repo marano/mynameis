@@ -18,7 +18,7 @@ export default {
     fillWorldObjects,
     set(state`world`, props`world`)
   ],
-  windowResized: [
+  viewportResized: [
     adjustViewportSize,
     updateViewportVisibleTiles
   ],
