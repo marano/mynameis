@@ -19,14 +19,14 @@ export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { s
   state.set(sceneDataPath, { tiles, size, viewport });
 }
 
-export function createWorldTiles({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
+export function createSceneTiles({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
   const xRange = range(0, size.x);
   const yRange = range(0, size.y);
-  const tiles = cross(xRange, yRange, createWorldTile);
+  const tiles = cross(xRange, yRange, createSceneTile);
   state.set(`${sceneDataPath}.tiles`, tiles);
 }
 
-export function fillWorldTiles({ props: { sceneDataPath, sceneTemplate: { filling: { floor } } }, state }) {
+export function fillSceneTiles({ props: { sceneDataPath, sceneTemplate: { filling: { floor } } }, state }) {
   const entities = state.get('definitions.entities');
   const uiElements = state.get('definitions.uiElements');
   const tiles = state.get(`${sceneDataPath}.tiles`);
@@ -51,7 +51,7 @@ function indexOfTileAt(scene, x, y) {
   return (x * scene.size.y) + y;
 }
 
-function createWorldTile(x, y) {
+function createSceneTile(x, y) {
   return {
     x, y, worldObjects: []
   };
@@ -80,11 +80,11 @@ export function adjustViewportSize({ state, props: { sceneDataPath, viewportWidt
   const maxFitSizeX = Math.floor(viewportWidth / tileSize);
   const maxFitSizeY = Math.floor(viewportHeight / tileSize);
 
-  const worldSizeX = state.get(`${sceneDataPath}.size.x`);
-  const worldSizeY = state.get(`${sceneDataPath}.size.y`);
+  const sceneSizeX = state.get(`${sceneDataPath}.size.x`);
+  const sceneSizeY = state.get(`${sceneDataPath}.size.y`);
 
-  const viewportSizeX = Math.min(maxFitSizeX, worldSizeX);
-  const viewportSizeY = Math.min(maxFitSizeY, worldSizeY);
+  const viewportSizeX = Math.min(maxFitSizeX, sceneSizeX);
+  const viewportSizeY = Math.min(maxFitSizeY, sceneSizeY);
 
   state.set(`${sceneDataPath}.viewport.size.x`, viewportSizeX);
   state.set(`${sceneDataPath}.viewport.size.y`, viewportSizeY);
@@ -97,14 +97,14 @@ export function updateViewportVisibleTiles({ state, props: { sceneDataPath } }) 
   const viewportSizeX = state.get(`${sceneDataPath}.viewport.size.x`);
   const viewportSizeY = state.get(`${sceneDataPath}.viewport.size.y`);
 
-  const worldSizeX = state.get(`${sceneDataPath}.size.x`);
-  const worldSizeY = state.get(`${sceneDataPath}.size.y`);
+  const sceneSizeX = state.get(`${sceneDataPath}.size.x`);
+  const sceneSizeY = state.get(`${sceneDataPath}.size.y`);
 
   const minX = Math.max(0, viewportPositionX);
   const minY = Math.max(0, viewportPositionY);
 
-  const maxX = Math.min(viewportPositionX + viewportSizeX, worldSizeX);
-  const maxY = Math.min(viewportPositionY + viewportSizeY, worldSizeY);
+  const maxX = Math.min(viewportPositionX + viewportSizeX, sceneSizeX);
+  const maxY = Math.min(viewportPositionY + viewportSizeY, sceneSizeY);
 
   var xRange = range(minX, maxX);
   var yRange = range(minY, maxY);

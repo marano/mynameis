@@ -4,8 +4,8 @@ import { set } from 'cerebral/operators';
 
 import {
   initializeSceneData,
-  createWorldTiles,
-  fillWorldTiles,
+  createSceneTiles,
+  fillSceneTiles,
   fillWorldObjects,
   adjustViewportSize,
   updateViewportVisibleTiles,
@@ -21,8 +21,8 @@ export default {
   ],
   sceneTemplateLoaded: [
     initializeSceneData,
-    createWorldTiles,
-    fillWorldTiles,
+    createSceneTiles,
+    fillSceneTiles,
     fillWorldObjects
   ],
   viewportResized: [

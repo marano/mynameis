@@ -6,7 +6,7 @@ import { assign } from 'lodash';
 
 import onWindowResize from '../on-window-resize';
 
-import WorldTile from './WorldTile';
+import SceneTile from './SceneTile';
 
 class Viewport extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class Viewport extends Component {
                 .map(
                   (tileIndex) => {
                     return (
-                      <WorldTile
+                      <SceneTile
                         sceneDataPath={this.props.sceneDataPath}
                         key={tileIndex}
                         tileIndex={tileIndex}

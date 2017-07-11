@@ -4,7 +4,7 @@ import { props, state } from 'cerebral/tags';
 
 import WorldObject from './WorldObject';
 
-function WorldTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
+function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
   return (
     <world-tile style={style()}>
       {
@@ -37,4 +37,4 @@ function WorldTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
 export default connect({
   worldTile: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}`,
   tileSize: state`${props`sceneDataPath`}.viewport.tileSize`
-}, WorldTile);
+}, SceneTile);
