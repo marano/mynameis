@@ -10,7 +10,7 @@ const onWindowResize = throttle(
       }
     });
   },
-  200,
+  50,
   { leading: false, trailing: true }
 );
 
