@@ -14,26 +14,6 @@ Inferno.options.recyclingEnabled = true;
 
 controller.getSignal('worldLoaded')({ world, entities, uiElements });
 
-let viewportRef = null;
-
-const onWindowResize = throttle(
-  function () {
-    if (viewportRef) {
-      const viewportWidth = viewportRef.offsetWidth;
-      const viewportHeight = viewportRef.offsetHeight;
-      controller.getSignal('viewportResized')({ viewportWidth, viewportHeight });
-    }
-  },
-  200,
-  { leading: false, trailing: true }
-);
-
-window.addEventListener(
-  'resize',
-  onWindowResize,
-  true
-);
-
 window.addEventListener(
   'keypress',
   function (event) {
@@ -45,13 +25,8 @@ window.addEventListener(
 Inferno.render(
   (
     <Container controller={controller}>
-      <Main setViewportRef={setViewportRef} />
+      <Main />
     </Container>
   ),
   document.getElementById('root')
 );
-
-function setViewportRef(viewport) {
-  viewportRef = viewport;
-  onWindowResize();
-}

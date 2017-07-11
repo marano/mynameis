@@ -5,11 +5,11 @@ import { state } from 'cerebral/tags';
 import Viewport from './Viewport';
 import SideMenu from './SideMenu';
 
-function Main({ sideMenuWidth, setViewportRef }) {
+function Main({ sideMenuWidth }) {
   return (
     <main style={containerStyle()}>
       <div style={viewportStyle()}>
-        <Viewport setViewportRef={setViewportRef} />
+        <Viewport />
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu />
