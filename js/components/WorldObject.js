@@ -1,16 +1,18 @@
 import Inferno from 'inferno';
 import { connect } from 'cerebral/inferno';
-import { state, props } from 'cerebral/tags';
+import { props, state } from 'cerebral/tags';
 
 import UiElement from './UiElement';
 
-function WorldObject({ tileIndex, worldObjectIndex, uiElemetsIndexes, tileSize }) {
+function WorldObject({ viewportDataPath, sceneDataPath, tileIndex, worldObjectIndex, uiElemetsIndexes, tileSize }) {
   return (
     <world-object style={style()}>
       {
         uiElemetsIndexes
           .map((uiElementIndex) => {
             return <UiElement
+                     viewportDataPath={viewportDataPath}
+                     sceneDataPath={sceneDataPath}
                      tileIndex={tileIndex}
                      worldObjectIndex={worldObjectIndex}
                      uiElementIndex={uiElementIndex}
@@ -30,6 +32,6 @@ function WorldObject({ tileIndex, worldObjectIndex, uiElemetsIndexes, tileSize }
 };
 
 export default connect({
-  uiElemetsIndexes: state`world.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.*`,
-  tileSize: state`viewport.tileSize`
+  uiElemetsIndexes: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.*`,
+  tileSize: state`${props`viewportDataPath`}.tileSize`
 }, WorldObject);

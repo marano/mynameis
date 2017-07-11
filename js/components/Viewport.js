@@ -1,7 +1,7 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 import { connect } from 'cerebral/inferno';
-import { state, signal } from 'cerebral/tags';
+import { props, state, signal } from 'cerebral/tags';
 import { assign } from 'lodash';
 
 import onWindowResize from '../on-window-resize';
@@ -34,7 +34,23 @@ class Viewport extends Component {
       <viewport ref={this.setViewportRef} style={this.outerStyle()}>
         <viewport-window style={this.windowStyle()}>
           <viewport-content style={this.contentStyle()}>
-            {this.props.tilesIndexes.map((tileIndex) => <WorldTile key={tileIndex} tileIndex={tileIndex} />)}
+            {
+              this
+                .props
+                .tilesIndexes
+                .map(
+                  (tileIndex) => {
+                    return (
+                      <WorldTile
+                        viewportDataPath={this.props.viewportDataPath}
+                        sceneDataPath={this.props.sceneDataPath}
+                        key={tileIndex}
+                        tileIndex={tileIndex}
+                      />
+                    );
+                  }
+                )
+            }
           </viewport-content>
         </viewport-window>
       </viewport>
@@ -77,10 +93,10 @@ class Viewport extends Component {
 }
 
 export default connect({
-  tilesIndexes: state`viewport.visibleTilesIndexes`,
-  tileSize: state`viewport.tileSize`,
-  viewportSize: state`viewport.size`,
-  viewportPosition: state`viewport.position`,
-  worldSize: state`world.size`,
+  tilesIndexes: state`${props`viewportDataPath`}.visibleTilesIndexes`,
+  tileSize: state`${props`viewportDataPath`}.tileSize`,
+  viewportSize: state`${props`viewportDataPath`}.size`,
+  viewportPosition: state`${props`viewportDataPath`}.position`,
+  worldSize: state`${props`sceneDataPath`}.size`,
   viewportResized: signal`viewportResized`
 }, Viewport);

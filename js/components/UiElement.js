@@ -1,6 +1,6 @@
 import Inferno from 'inferno';
 import { connect } from 'cerebral/inferno';
-import { state, props } from 'cerebral/tags';
+import { props, state } from 'cerebral/tags';
 
 function UiElement({ uiElement, tileSize }) {
   return (
@@ -24,6 +24,6 @@ function UiElement({ uiElement, tileSize }) {
 }
 
 export default connect({
-  tileSize: state`viewport.tileSize`,
-  uiElement: state`world.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.${props`uiElementIndex`}`
+  tileSize: state`${props`viewportDataPath`}.tileSize`,
+  uiElement: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.${props`uiElementIndex`}`
 }, UiElement);
