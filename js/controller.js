@@ -11,6 +11,10 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
+    definitions: {
+      uiElements: [],
+      entities: []
+    },
     sideMenu: {
       width: 300
     },
@@ -25,6 +29,8 @@ export default Controller({
         x: 0,
         y: 0
       }
+    },
+    scene: {
     }
   },
   signals,

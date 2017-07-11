@@ -9,7 +9,7 @@ function Main({ sideMenuWidth }) {
   return (
     <main style={containerStyle()}>
       <div style={viewportStyle()}>
-        <Viewport viewportDataPath="viewport" sceneDataPath="world" />
+        <Viewport viewportDataPath="viewport" sceneDataPath="scene" />
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu />

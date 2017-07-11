@@ -24,9 +24,10 @@ class Viewport extends Component {
   }
 
   callViewportResized() {
+    const { viewportDataPath, sceneDataPath } = this.props;
     const viewportWidth = this.viewportRef.offsetWidth;
     const viewportHeight = this.viewportRef.offsetHeight;
-    this.props.viewportResized({ viewportWidth, viewportHeight });
+    this.props.viewportResized({ viewportDataPath, sceneDataPath, viewportWidth, viewportHeight });
   }
 
   render() {

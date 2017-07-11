@@ -3,6 +3,7 @@ import { state, props } from 'cerebral/tags';
 import { set } from 'cerebral/operators';
 
 import {
+  initializeSceneData,
   createWorldTiles,
   fillWorldTiles,
   fillWorldObjects,
@@ -12,11 +13,17 @@ import {
 } from './actions';
 
 export default {
-  worldLoaded: [
+  uiElementsLoaded: [
+    set(state`definitions.uiElements`, props`uiElements`)
+  ],
+  entitiesLoaded: [
+    set(state`definitions.entities`, props`entities`)
+  ],
+  sceneTemplateLoaded: [
+    initializeSceneData,
     createWorldTiles,
     fillWorldTiles,
-    fillWorldObjects,
-    set(state`world`, props`world`)
+    fillWorldObjects
   ],
   viewportResized: [
     adjustViewportSize,

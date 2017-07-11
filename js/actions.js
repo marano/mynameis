@@ -1,32 +1,40 @@
 import { find, range, sample, throttle } from 'lodash';
 import { cross } from 'd3-array';
 
-export function createWorldTiles({ props: { world } }) {
-  const xRange = range(0, world.size.x);
-  const yRange = range(0, world.size.y);
-  world.tiles = cross(xRange, yRange, createWorldTile);
+export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
+  state.set(sceneDataPath, { size });
 }
 
-export function fillWorldTiles({ props: { entities, uiElements, world: { tiles, filling: { floor } } } }) {
-  tiles.forEach((tile) => {
-    tile.worldObjects = [createWorldObject(floor, entities, uiElements)];
+export function createWorldTiles({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
+  const xRange = range(0, size.x);
+  const yRange = range(0, size.y);
+  const tiles = cross(xRange, yRange, createWorldTile);
+  state.set(`${sceneDataPath}.tiles`, tiles);
+}
+
+export function fillWorldTiles({ props: { sceneDataPath, sceneTemplate: { filling: { floor } } }, state }) {
+  const entities = state.get('definitions.entities');
+  const uiElements = state.get('definitions.uiElements');
+  const tiles = state.get(`${sceneDataPath}.tiles`);
+
+  tiles.forEach((tile, index) => {
+    state.push(`${sceneDataPath}.tiles.${index}.worldObjects`, createWorldObject(floor, entities, uiElements));
   });
 }
 
-export function fillWorldObjects({ props: { entities, uiElements, world } }) {
-  world.filling.objects.forEach((object) => {
-    tileAt(world, object.location.x, object.location.y)
-      .worldObjects
-      .push(createWorldObject(object.entity, entities, uiElements));
+export function fillWorldObjects({ props: { sceneDataPath, sceneTemplate: { filling: { objects } } }, state }) {
+  const entities = state.get('definitions.entities');
+  const uiElements = state.get('definitions.uiElements');
+  const scene = state.get(sceneDataPath);
+
+  objects.forEach((object, index) => {
+    let tileIndex = indexOfTileAt(scene, object.location.x, object.location.y);
+    state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(object.entity, entities, uiElements));
   })
 }
 
-function tileAt(world, x, y) {
-  return world.tiles[indexOfTileAt(world, x, y)];
-}
-
-function indexOfTileAt(world, x, y) {
-  return (x * world.size.y) + y;
+function indexOfTileAt(scene, x, y) {
+  return (x * scene.size.y) + y;
 }
 
 function createWorldTile(x, y) {
@@ -36,7 +44,7 @@ function createWorldTile(x, y) {
 }
 
 function createWorldObject(name, entities, uiElements) {
-  const entity = find(entities.definitions, { name });
+  const entity = find(entities, { name });
   return {
     name,
     uiElements: entity.uiElements.map((uiElement) => createUiElement(uiElement, uiElements))
@@ -44,7 +52,7 @@ function createWorldObject(name, entities, uiElements) {
 }
 
 function createUiElement(name, uiElements) {
-  const uiElement = find(uiElements.definitions, { name });
+  const uiElement = find(uiElements, { name });
   return {
     name: uiElement.name,
     sprite: sample(uiElement.sprites),
@@ -52,31 +60,31 @@ function createUiElement(name, uiElements) {
   };
 }
 
-export function adjustViewportSize({ state, props: { viewportWidth, viewportHeight } }) {
-  const tileSize = state.get('viewport.tileSize');
+export function adjustViewportSize({ state, props: { viewportDataPath, sceneDataPath, viewportWidth, viewportHeight } }) {
+  const tileSize = state.get(`${viewportDataPath}.tileSize`);
 
   const maxFitSizeX = Math.floor(viewportWidth / tileSize);
   const maxFitSizeY = Math.floor(viewportHeight / tileSize);
 
-  const worldSizeX = state.get('world.size.x');
-  const worldSizeY = state.get('world.size.y');
+  const worldSizeX = state.get(`${sceneDataPath}.size.x`);
+  const worldSizeY = state.get(`${sceneDataPath}.size.y`);
 
   const viewportSizeX = Math.min(maxFitSizeX, worldSizeX);
   const viewportSizeY = Math.min(maxFitSizeY, worldSizeY);
 
-  state.set('viewport.size.x', viewportSizeX);
-  state.set('viewport.size.y', viewportSizeY);
+  state.set(`${viewportDataPath}.size.x`, viewportSizeX);
+  state.set(`${viewportDataPath}.size.y`, viewportSizeY);
 }
 
-export function updateViewportVisibleTiles({ state }) {
-  const viewportPositionX = state.get('viewport.position.x');
-  const viewportPositionY = state.get('viewport.position.y');
+export function updateViewportVisibleTiles({ state, props: { viewportDataPath, sceneDataPath } }) {
+  const viewportPositionX = state.get(`${viewportDataPath}.position.x`);
+  const viewportPositionY = state.get(`${viewportDataPath}.position.y`);
 
-  const viewportSizeX = state.get('viewport.size.x');
-  const viewportSizeY = state.get('viewport.size.y');
+  const viewportSizeX = state.get(`${viewportDataPath}.size.x`);
+  const viewportSizeY = state.get(`${viewportDataPath}.size.y`);
 
-  const worldSizeX = state.get('world.size.x');
-  const worldSizeY = state.get('world.size.y');
+  const worldSizeX = state.get(`${sceneDataPath}.size.x`);
+  const worldSizeY = state.get(`${sceneDataPath}.size.y`);
 
   const minX = Math.max(0, viewportPositionX);
   const minY = Math.max(0, viewportPositionY);
@@ -87,10 +95,10 @@ export function updateViewportVisibleTiles({ state }) {
   var xRange = range(minX, maxX);
   var yRange = range(minY, maxY);
 
-  const world = state.get('world');
-  const visibleTilesIndexes = cross(xRange, yRange, (x, y) => indexOfTileAt(world, x, y));
+  const scene = state.get(sceneDataPath);
+  const visibleTilesIndexes = cross(xRange, yRange, (x, y) => indexOfTileAt(scene, x, y));
 
-  state.set('viewport.visibleTilesIndexes', visibleTilesIndexes);
+  state.set(`${viewportDataPath}.visibleTilesIndexes`, visibleTilesIndexes);
 }
 
 function panViewportPosition(deltaX, deltaY, state) {

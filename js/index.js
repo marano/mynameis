@@ -4,15 +4,17 @@ import { throttle } from 'lodash';
 
 import controller from './controller';
 
-import uiElements from '../json/ui-elements.json';
-import entities from '../json/entities.json';
-import world from '../json/world.json';
+import { definitions as uiElements } from '../json/ui-elements.json';
+import { definitions as entities } from '../json/entities.json';
+import sceneTemplate from '../json/world.json';
 
 import Main from './components/Main';
 
 Inferno.options.recyclingEnabled = true;
 
-controller.getSignal('worldLoaded')({ world, entities, uiElements });
+controller.getSignal('uiElementsLoaded')({ uiElements });
+controller.getSignal('entitiesLoaded')({ entities });
+controller.getSignal('sceneTemplateLoaded')({ sceneDataPath: 'scene', sceneTemplate });
 
 window.addEventListener(
   'keypress',
