@@ -18,19 +18,12 @@ export default Controller({
     sideMenu: {
       width: 300
     },
-    viewport: {
-      visibleTilesIndexes: [],
-      tileSize: 40,
+    scene: {
+      tiles: [],
       size: {
         x: 0,
         y: 0
-      },
-      position: {
-        x: 0,
-        y: 0
       }
-    },
-    scene: {
     }
   },
   signals,

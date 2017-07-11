@@ -24,6 +24,6 @@ function UiElement({ uiElement, tileSize }) {
 }
 
 export default connect({
-  tileSize: state`${props`viewportDataPath`}.tileSize`,
+  tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
   uiElement: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.${props`uiElementIndex`}`
 }, UiElement);

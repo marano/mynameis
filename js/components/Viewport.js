@@ -24,10 +24,10 @@ class Viewport extends Component {
   }
 
   callViewportResized() {
-    const { viewportDataPath, sceneDataPath } = this.props;
+    const { sceneDataPath } = this.props;
     const viewportWidth = this.viewportRef.offsetWidth;
     const viewportHeight = this.viewportRef.offsetHeight;
-    this.props.viewportResized({ viewportDataPath, sceneDataPath, viewportWidth, viewportHeight });
+    this.props.viewportResized({ sceneDataPath, viewportWidth, viewportHeight });
   }
 
   render() {
@@ -43,7 +43,6 @@ class Viewport extends Component {
                   (tileIndex) => {
                     return (
                       <WorldTile
-                        viewportDataPath={this.props.viewportDataPath}
                         sceneDataPath={this.props.sceneDataPath}
                         key={tileIndex}
                         tileIndex={tileIndex}
@@ -94,10 +93,10 @@ class Viewport extends Component {
 }
 
 export default connect({
-  tilesIndexes: state`${props`viewportDataPath`}.visibleTilesIndexes`,
-  tileSize: state`${props`viewportDataPath`}.tileSize`,
-  viewportSize: state`${props`viewportDataPath`}.size`,
-  viewportPosition: state`${props`viewportDataPath`}.position`,
+  tilesIndexes: state`${props`sceneDataPath`}.viewport.visibleTilesIndexes`,
+  tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
+  viewportSize: state`${props`sceneDataPath`}.viewport.size`,
+  viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
   worldSize: state`${props`sceneDataPath`}.size`,
   viewportResized: signal`viewportResized`
 }, Viewport);
