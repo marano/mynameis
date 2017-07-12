@@ -8,22 +8,22 @@ function UiElement({ uiElement, tileSize }) {
   );
 
   function style() {
-    const image = require(`../../sprites/${uiElement.sprite}`);
+    const sprite = uiElement.sprites[uiElement.currentSpriteIndex || 0];
+    const spritePath = require(`../../sprites/${sprite}`);
 
     return {
       position: 'absolute',
       imageRendering: 'pixelated',
       width: tileSize,
       height: tileSize,
-      zIndex: uiElement.zIndex,
+      zIndex: uiElement.zIndex || 0,
       backgroundRepeat: 'no-repeat',
-      backgroundImage: `url(${image})`,
+      backgroundImage: `url(${spritePath})`,
       backgroundSize: tileSize
     };
   }
 }
 
 export default connect({
-  tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
-  uiElement: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.${props`uiElementIndex`}`
+  uiElement: state`${props`uiElementDataPath`}`
 }, UiElement);

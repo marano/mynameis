@@ -1,7 +1,13 @@
-import { find, range, sample, throttle } from 'lodash';
+import { cloneDeep, find, range, sample, throttle } from 'lodash';
 import { cross } from 'd3-array';
 
 import indexOfTileAt from './index-of-tile-at';
+
+export function setEntitiesUiElements({ state, props: { entities, uiElements } }) {
+  entities.forEach(function (entity) {
+    entity.uiElements = entity.uiElements.map((name) => find(uiElements, { name }));
+  });
+}
 
 export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
   const tiles = [];
@@ -29,22 +35,20 @@ export function createSceneTiles({ props: { sceneDataPath, sceneTemplate: { size
 
 export function fillSceneTiles({ props: { sceneDataPath, sceneTemplate: { filling: { floor } } }, state }) {
   const entities = state.get('definitions.entities');
-  const uiElements = state.get('definitions.uiElements');
   const tiles = state.get(`${sceneDataPath}.tiles`);
 
   tiles.forEach((tile, index) => {
-    state.push(`${sceneDataPath}.tiles.${index}.worldObjects`, createWorldObject(floor, entities, uiElements));
+    state.push(`${sceneDataPath}.tiles.${index}.worldObjects`, createWorldObject(floor, entities));
   });
 }
 
 export function fillWorldObjects({ props: { sceneDataPath, sceneTemplate: { filling: { objects } } }, state }) {
   const entities = state.get('definitions.entities');
-  const uiElements = state.get('definitions.uiElements');
   const sceneSizeY = state.get(`${sceneDataPath}.size.y`);
 
   objects.forEach((object, index) => {
     let tileIndex = indexOfTileAt(sceneSizeY, object.location.x, object.location.y);
-    state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(object.entity, entities, uiElements));
+    state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(object.entity, entities));
   })
 }
 
@@ -54,20 +58,18 @@ function createSceneTile(x, y) {
   };
 }
 
-function createWorldObject(name, entities, uiElements) {
+function createWorldObject(name, entities) {
   const entity = find(entities, { name });
   return {
     name,
-    uiElements: entity.uiElements.map((uiElement) => createUiElement(uiElement, uiElements))
+    uiElements: entity.uiElements.map(createWorldObjectUiElement)
   };
 }
 
-function createUiElement(name, uiElements) {
-  const uiElement = find(uiElements, { name });
+function createWorldObjectUiElement(uiElement) {
   return {
-    name: uiElement.name,
-    sprite: sample(uiElement.sprites),
-    zIndex: uiElement.zIndex || 0
+    ...uiElement,
+    currentSpriteIndex: sample(range(0, uiElement.sprites.length))
   };
 }
 

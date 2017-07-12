@@ -10,16 +10,20 @@ function WorldObject({ sceneDataPath, tileIndex, worldObjectIndex, uiElemetsInde
       {
         uiElemetsIndexes
           .map((uiElementIndex) => {
-            return <UiElement
-                     sceneDataPath={sceneDataPath}
-                     tileIndex={tileIndex}
-                     worldObjectIndex={worldObjectIndex}
-                     uiElementIndex={uiElementIndex}
-                   />;
+            return (
+              <UiElement
+                uiElementDataPath={uiElementDataPath(uiElementIndex)}
+                tileSize={tileSize}
+              />
+            );
           })
       }
     </world-object>
   );
+
+  function uiElementDataPath(uiElementIndex) {
+    return `${sceneDataPath}.tiles.${tileIndex}.worldObjects.${worldObjectIndex}.uiElements.${uiElementIndex}`;
+  }
 
   function style() {
     return {

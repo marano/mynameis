@@ -3,6 +3,7 @@ import { state, props } from 'cerebral/tags';
 import { set } from 'cerebral/operators';
 
 import {
+  setEntitiesUiElements,
   initializeSceneData,
   createSceneTiles,
   fillSceneTiles,
@@ -13,11 +14,9 @@ import {
 } from './actions';
 
 export default {
-  uiElementsLoaded: [
-    set(state`definitions.uiElements`, props`uiElements`)
-  ],
   entitiesLoaded: [
-    set(state`definitions.entities`, props`entities`)
+    setEntitiesUiElements,
+    set(state`definitions.entities`, props`entities`),
   ],
   sceneTemplateLoaded: [
     initializeSceneData,

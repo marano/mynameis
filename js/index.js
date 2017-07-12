@@ -12,8 +12,7 @@ import Main from './components/Main';
 
 Inferno.options.recyclingEnabled = true;
 
-controller.getSignal('uiElementsLoaded')({ uiElements });
-controller.getSignal('entitiesLoaded')({ entities });
+controller.getSignal('entitiesLoaded')({ entities, uiElements });
 controller.getSignal('sceneTemplateLoaded')({ sceneDataPath: 'scene', sceneTemplate });
 
 window.addEventListener(

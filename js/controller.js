@@ -11,14 +11,14 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
-    definitions: {
-      uiElements: [],
-      entities: []
-    },
+    scene: null,
+    objectPicker: null,
     sideMenu: {
       width: 300
     },
-    scene: null
+    definitions: {
+      entities: null
+    }
   },
   signals,
   modules: {}
