@@ -36,7 +36,7 @@ class Viewport extends Component {
     return (
       <viewport ref={this.setViewportRef} style={this.outerStyle()}>
         <viewport-window style={this.windowStyle()}>
-          <viewport-content style={this.contentStyle()}>
+          <viewport-content style={this.contentStyle()} hasKeyedChildren>
             {
               this
                 .props
@@ -48,7 +48,6 @@ class Viewport extends Component {
                         sceneDataPath={this.props.sceneDataPath}
                         key={tileIndex}
                         tileIndex={tileIndex}
-                        hasKeyedChildren
                       />
                     );
                   }
