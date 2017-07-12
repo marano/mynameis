@@ -39,7 +39,8 @@ function Main({ sideMenuWidth }) {
     return {
       gridRow: '1',
       gridColumn: '2',
-      backgroundColor: 'black'
+      backgroundColor: 'black',
+      padding: 20
     };
   }
 }
