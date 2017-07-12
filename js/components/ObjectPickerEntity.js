@@ -5,7 +5,7 @@ import { state, props } from 'cerebral/tags';
 import UiElement from './UiElement';
 
 function ObjectPickerEntity({ entityIndex, uiElementsIndexes }) {
-  const tileSize = 30;
+  const tileSize = 50;
 
   return (
     <object-picker-entity style={style()}>
