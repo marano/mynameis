@@ -18,13 +18,7 @@ export default Controller({
     sideMenu: {
       width: 300
     },
-    scene: {
-      tiles: [],
-      size: {
-        x: 0,
-        y: 0
-      }
-    }
+    scene: null
   },
   signals,
   modules: {}

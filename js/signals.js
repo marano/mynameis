@@ -26,15 +26,7 @@ export default {
     fillWorldObjects
   ],
   viewportResized: [
-    adjustViewportSize,
-    updateViewportVisibleTiles
+    adjustViewportSize
   ],
-  keyPressed: [
-    [
-      handleKeyPress,
-      {
-        updateViewportVisibleTiles
-      }
-    ]
-  ]
+  keyPressed: handleKeyPress
 };

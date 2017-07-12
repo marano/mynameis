@@ -19,7 +19,10 @@ controller.getSignal('sceneTemplateLoaded')({ sceneDataPath: 'scene', sceneTempl
 window.addEventListener(
   'keypress',
   function (event) {
-    controller.getSignal('keyPressed')({ key: event.key.toLowerCase() });
+    controller.getSignal('keyPressed')({
+      key: event.key.toLowerCase(),
+      sceneDataPath: 'scene'
+    });
   },
   true
 );

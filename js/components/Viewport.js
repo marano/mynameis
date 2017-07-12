@@ -6,6 +6,8 @@ import { assign } from 'lodash';
 
 import onWindowResize from '../on-window-resize';
 
+import { computeVisibleTileIndexes } from '../computes';
+
 import SceneTile from './SceneTile';
 
 class Viewport extends Component {
@@ -46,6 +48,7 @@ class Viewport extends Component {
                         sceneDataPath={this.props.sceneDataPath}
                         key={tileIndex}
                         tileIndex={tileIndex}
+                        hasKeyedChildren
                       />
                     );
                   }
@@ -93,7 +96,7 @@ class Viewport extends Component {
 }
 
 export default connect({
-  tilesIndexes: state`${props`sceneDataPath`}.viewport.visibleTilesIndexes`,
+  tilesIndexes: computeVisibleTileIndexes(props`sceneDataPath`),
   tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
   viewportSize: state`${props`sceneDataPath`}.viewport.size`,
   viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
