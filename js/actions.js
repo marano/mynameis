@@ -35,11 +35,13 @@ export function createSceneTiles({ props: { sceneDataPath, sceneTemplate: { size
 
 export function fillSceneTiles({ props: { sceneDataPath, sceneTemplate: { filling: { floor } } }, state }) {
   const entities = state.get('definitions.entities');
-  const tiles = state.get(`${sceneDataPath}.tiles`);
+  const tiles = cloneDeep(state.get(`${sceneDataPath}.tiles`));
 
-  tiles.forEach((tile, index) => {
-    state.push(`${sceneDataPath}.tiles.${index}.worldObjects`, createWorldObject(floor, entities));
+  tiles.forEach((tile) => {
+    tile.worldObjects.push(createWorldObject(floor, entities));
   });
+
+  state.set(`${sceneDataPath}.tiles`, tiles);
 }
 
 export function fillWorldObjects({ props: { sceneDataPath, sceneTemplate: { filling: { objects } } }, state }) {
