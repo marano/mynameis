@@ -51,7 +51,7 @@ export function fillWorldObjects({ props: { sceneDataPath, sceneTemplate: { fill
   objects.forEach((object, index) => {
     let tileIndex = indexOfTileAt(sceneSizeY, object.location.x, object.location.y);
     state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(object.entity, entities));
-  })
+  });
 }
 
 function createSceneTile(x, y) {
