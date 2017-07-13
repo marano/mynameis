@@ -12,7 +12,9 @@ export default Controller({
   }),
   state: {
     scene: null,
-    objectPicker: null,
+    objectPicker: {
+      selectedEntityIndex: null
+    },
     sideMenu: {
       width: 300
     },

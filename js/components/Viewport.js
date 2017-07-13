@@ -17,12 +17,17 @@ class Viewport extends Component {
   }
 
   componentDidMount() {
+    this.setTileSizeCssVariable();
     this.callViewportResized();
     onWindowResize('viewport', this.callViewportResized.bind(this));
   }
 
   componentWillUnmount() {
     onWindowResize('viewport', null);
+  }
+
+  setTileSizeCssVariable() {
+    this.viewportRef.style.setProperty('--tile-size', `${this.props.tileSize}px`);
   }
 
   callViewportResized() {

@@ -15,6 +15,20 @@
         width: 100%;
         height: 100%;
       }
+
+      .object-picker-entity-border-color-on-hover:hover {
+        border-color: white;
+      }
+
+      .scene-tile-border-color-on-hover:hover:after {
+        border-color: white;
+        position: absolute;
+        z-index: 100000;
+        box-shadow: inset 0px 0px 0px 1px white;
+        content: '';
+        width: var(--tile-size);
+        height: var(--tile-size);
+      }
     </style>
   </head>
   <body>

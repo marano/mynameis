@@ -6,7 +6,7 @@ import WorldObject from './WorldObject';
 
 function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
   return (
-    <world-tile style={style()}>
+    <scene-tile style={style()} className="scene-tile-border-color-on-hover">
       {
         worldTile
           .worldObjects
@@ -20,7 +20,7 @@ function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
             );
           })
       }
-    </world-tile>
+    </scene-tile>
   );
 
   function style() {

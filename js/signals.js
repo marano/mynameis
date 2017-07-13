@@ -24,6 +24,9 @@ export default {
     fillSceneTiles,
     fillWorldObjects
   ],
+  objectPickerEntitySelected: [
+    set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
+  ],
   viewportResized: [
     adjustViewportSize
   ],
