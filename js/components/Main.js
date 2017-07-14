@@ -40,7 +40,7 @@ function Main({ sideMenuWidth }) {
       gridRow: '1',
       gridColumn: '2',
       backgroundColor: 'black',
-      padding: 20
+      padding: 10
     };
   }
 }

@@ -13,6 +13,7 @@ function ObjectPicker({ entitiesIndexes }) {
 
   function style() {
     return {
+      padding: 10
     };
   }
 }
