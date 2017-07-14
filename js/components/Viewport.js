@@ -2,7 +2,7 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 import { connect } from 'cerebral/inferno';
 import { props, state, signal } from 'cerebral/tags';
-import { assign } from 'lodash';
+import { map } from 'lodash';
 
 import onWindowResize from '../on-window-resize';
 
@@ -17,17 +17,12 @@ class Viewport extends Component {
   }
 
   componentDidMount() {
-    this.setTileSizeCssVariable();
     this.callViewportResized();
     onWindowResize('viewport', this.callViewportResized.bind(this));
   }
 
   componentWillUnmount() {
     onWindowResize('viewport', null);
-  }
-
-  setTileSizeCssVariable() {
-    this.viewportRef.style.setProperty('--tile-size', `${this.props.tileSize}px`);
   }
 
   callViewportResized() {
@@ -69,14 +64,15 @@ class Viewport extends Component {
   }
 
   outerStyle() {
-    return {
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'black'
-    };
+    return `
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      --tile-size: ${this.props.tileSize}px;
+    `;
   }
 
   windowStyle() {
