@@ -9,7 +9,7 @@ export default connect({
 
 function SceneSizeEditor({ sceneSize }) {
   return (
-    <scene-menu style={style()}>
+    <scene-size-editor style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>
         <ChangeSceneSizeButton axis="y" delta={1} mode="start" />
       </div>
@@ -39,7 +39,7 @@ function SceneSizeEditor({ sceneSize }) {
           {sceneSize.x}x{sceneSize.y}
         </span>
       </div>
-    </scene-menu>
+    </scene-size-editor>
   );
 };
 
@@ -49,7 +49,8 @@ function style() {
     display: 'grid',
     gridTemplateRows: 'repeat(7, 20px)',
     gridTemplateColumns: 'repeat(7, 20px)',
-    color: 'white'
+    color: 'white',
+    justifyContent: 'center'
   };
 }
 
