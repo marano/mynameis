@@ -153,10 +153,12 @@ export function changeSceneSize({ state, props: { axis, delta, mode } }) {
     }[axis]();
 
     const selectedEntityIndex = state.get('objectPicker.selectedEntityIndex');
-    const selectedEntity = state.get(`definitions.entities.${selectedEntityIndex}`);
-    aditionalTiles.forEach(function (tile) {
-      tile.worldObjects.push(createWorldObject(selectedEntity));
-    });
+    if (selectedEntityIndex) {
+      const selectedEntity = state.get(`definitions.entities.${selectedEntityIndex}`);
+      aditionalTiles.forEach(function (tile) {
+        tile.worldObjects.push(createWorldObject(selectedEntity));
+      });
+    }
 
     newTiles = aditionalTiles.concat(currentTiles);
   } else if (delta < 0) {
