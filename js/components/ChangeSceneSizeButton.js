@@ -5,7 +5,7 @@ import { signal } from 'cerebral/tags';
 function ChangeSceneSizeButton(props) {
   return (
     <div style={style()} onClick={linkEvent(props, onClick)}>
-      +
+      {props.delta > 0 ? '+' : '-'}
     </div>
   );
 }
