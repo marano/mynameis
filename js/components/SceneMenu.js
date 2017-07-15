@@ -35,7 +35,9 @@ function SceneMenu({ sceneSize }) {
         <ChangeSceneSizeButton axis="x" delta={-1} mode="start" />
       </div>
       <div style={buttonWrapperStyle(4, '3/6')}>
-        <span style="font-size: 12px; font-family: monospace">{sceneSize.x}x{sceneSize.y}</span>
+        <span style="font-size: 12px; font-family: monospace">
+          {sceneSize.x}x{sceneSize.y}
+        </span>
       </div>
     </scene-menu>
   );

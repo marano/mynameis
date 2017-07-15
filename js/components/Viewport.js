@@ -48,17 +48,13 @@ export default connect(
                 this
                   .props
                   .tilesIndexes
-                  .map(
-                    (tileIndex) => {
-                      return (
-                        <SceneTile
-                          sceneDataPath={this.props.sceneDataPath}
-                          key={tileIndex}
-                          tileIndex={tileIndex}
-                        />
-                      );
-                    }
-                  )
+                  .map((tileIndex) => (
+                    <SceneTile
+                      sceneDataPath={this.props.sceneDataPath}
+                      key={tileIndex}
+                      tileIndex={tileIndex}
+                    />
+                  ))
               }
             </viewport-content>
           </viewport-window>

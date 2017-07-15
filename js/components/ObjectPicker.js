@@ -10,7 +10,11 @@ export default connect({
 function ObjectPicker({ entitiesIndexes }) {
   return (
     <object-picker style={style()}>
-      {entitiesIndexes.map((entityIndex) => <ObjectPickerEntity entityIndex={entityIndex} />)}
+      {
+        entitiesIndexes.map(function (entityIndex) {
+          return <ObjectPickerEntity entityIndex={entityIndex} />;
+        })
+      }
     </object-picker>
   );
 }

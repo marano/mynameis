@@ -14,7 +14,7 @@ function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
       {
         worldTile
           .worldObjects
-          .map((worldObject, worldObjectIndex) => {
+          .map(function (worldObject, worldObjectIndex) {
             return (
               <WorldObject
                 sceneDataPath={sceneDataPath}

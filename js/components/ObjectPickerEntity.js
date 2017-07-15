@@ -10,24 +10,25 @@ export default connect({
   objectPickerEntitySelected: signal`objectPickerEntitySelected`
 }, ObjectPickerEntity);
 
-function ObjectPickerEntity({ entityIndex, uiElementsIndexes, selectedEntityIndex, objectPickerEntitySelected }) {
+function ObjectPickerEntity(props) {
+  const { entityIndex, uiElementsIndexes, selectedEntityIndex } = props;
   const tileSize = 50;
 
   return (
     <object-picker-entity
       style={style(tileSize, entityIndex, selectedEntityIndex)}
-      onClick={linkEvent(entityIndex, onClick)}
+      onClick={linkEvent(props, onClick)}
       className="object-picker-entity-border-color-on-hover"
     >
       {
-        uiElementsIndexes.map(
-          (uiElementIndex) => (
+        uiElementsIndexes.map(function (uiElementIndex) {
+          return (
             <UiElement
               uiElementDataPath={uiElementDataPath(entityIndex, uiElementIndex)}
               tileSize={tileSize}
             />
-          )
-        )
+          );
+        })
       }
     </object-picker-entity>
   );
@@ -54,6 +55,6 @@ function style(tileSize, entityIndex, selectedEntityIndex) {
   return baseStyle;
 }
 
-function onClick(entityIndex) {
+function onClick({ objectPickerEntitySelected, entityIndex }) {
   objectPickerEntitySelected({ entityIndex });
 }

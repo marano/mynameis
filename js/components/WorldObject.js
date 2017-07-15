@@ -13,7 +13,7 @@ function WorldObject({ sceneDataPath, tileIndex, worldObjectIndex, uiElemetsInde
     <world-object style={style(tileSize)}>
       {
         uiElemetsIndexes
-          .map((uiElementIndex) => {
+          .map(function (uiElementIndex) {
             return (
               <UiElement
                 uiElementDataPath={uiElementDataPath(sceneDataPath, tileIndex, worldObjectIndex, uiElementIndex)}
