@@ -11,7 +11,7 @@ import {
   adjustViewportSize,
   updateViewportVisibleTiles,
   handleKeyPress,
-  addRowToScene
+  changeSceneSize
 } from './actions';
 
 export default {
@@ -28,8 +28,9 @@ export default {
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
   ],
-  sceneRowAdded: [
-    addRowToScene
+  sceneSizeChanged: [
+    changeSceneSize,
+    adjustViewportSize
   ],
   viewportResized: [
     set(state`${props`sceneDataPath`}.viewport.containerDimension.width`, props`viewportWidth`),

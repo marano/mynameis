@@ -1,34 +1,34 @@
 import { connect } from 'cerebral/inferno';
 import { state } from 'cerebral/tags';
 
-import IncreaseSceneButton from './IncreaseSceneButton';
+import ChangeSceneSizeButton from './ChangeSceneSizeButton';
 
 function SceneMenu({ sceneSize }) {
   return (
     <scene-menu style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="y" delta={1} />
       </div>
       <div style={buttonWrapperStyle(2, 4)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="y" delta={-1} />
       </div>
       <div style={buttonWrapperStyle(4, 7)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="x" delta={1} />
       </div>
       <div style={buttonWrapperStyle(4, 6)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="x" delta={-1} />
       </div>
       <div style={buttonWrapperStyle(7, 4)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="y" delta={1} />
       </div>
       <div style={buttonWrapperStyle(6, 4)}>
-        <IncreaseSceneButton />
-      </div>
-      <div style={buttonWrapperStyle(4, 2)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="y" delta={-1} />
       </div>
       <div style={buttonWrapperStyle(4, 1)}>
-        <IncreaseSceneButton />
+        <ChangeSceneSizeButton axis="x" delta={1} />
+      </div>
+      <div style={buttonWrapperStyle(4, 2)}>
+        <ChangeSceneSizeButton axis="x" delta={-1} />
       </div>
       <div style={buttonWrapperStyle(4, '3/6')}>
         <span style="font-size: 12px; font-family: monospace">{sceneSize.x}x{sceneSize.y}</span>

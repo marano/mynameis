@@ -2,16 +2,16 @@ import { linkEvent } from 'inferno';
 import { connect } from 'cerebral/inferno';
 import { signal } from 'cerebral/tags';
 
-function IncreaseSceneButton({ sceneRowAdded }) {
+function ChangeSceneSizeButton(props) {
   return (
-    <div style={style()} onClick={linkEvent(sceneRowAdded, onClick)}>
+    <div style={style()} onClick={linkEvent(props, onClick)}>
       +
     </div>
   );
 }
 
-function onClick(sceneRowAdded) {
-  sceneRowAdded();
+function onClick({ sceneSizeChanged, axis, delta }) {
+  sceneSizeChanged({ sceneDataPath: 'scene', axis, delta });
 }
 
 function style() {
@@ -28,5 +28,5 @@ function style() {
 }
 
 export default connect({
-  sceneRowAdded: signal`sceneRowAdded`
-}, IncreaseSceneButton);
+  sceneSizeChanged: signal`sceneSizeChanged`
+}, ChangeSceneSizeButton);

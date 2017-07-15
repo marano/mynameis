@@ -128,28 +128,45 @@ export function handleKeyPress({ state, props: { key, sceneDataPath }}) {
   }
 }
 
-export function addRowToScene({ state }) {
-  // Change actual size
-  const sceneSizeY = state.get('scene.size.y');
-  state.set('scene.size.y', sceneSizeY + 1);
+export function changeSceneSize({ state, props: { axis, delta } }) {
+  const sceneAxisSize = state.get(`scene.size.${axis}`);
+  state.set(`scene.size.${axis}`, sceneAxisSize + delta);
 
   // Move stuff because of its a prepend
   const currentTiles = cloneDeep(state.get('scene.tiles'));
   currentTiles.forEach(function (tile) {
-    tile.y = tile.y + 1;
+    tile[axis] = tile[axis] + delta;
   });
 
-  // Create additional tiles
-  const sceneSizeX = state.get('scene.size.x');
-  const aditionalTiles = cross(range(0, sceneSizeX), [0], createSceneTile);
+  let newTiles;
+  if (delta > 0) {
+    const sceneSize = state.get('scene.size');
+    const deltaRange = range(0, delta);
+    const otherAxisSizeRange = range(0, sceneSize[{ x: 'y', y: 'x' }[axis]]);
+    const aditionalTiles = {
+      x:  () => cross(deltaRange, otherAxisSizeRange, createSceneTile),
+      y: () => cross(otherAxisSizeRange, deltaRange, createSceneTile)
+    }[axis]();
 
-  // Fill selected entity
-  const selectedEntityIndex = state.get('objectPicker.selectedEntityIndex');
-  const selectedEntity = state.get(`definitions.entities.${selectedEntityIndex}`);
-  aditionalTiles.forEach(function (tile) {
-    tile.worldObjects.push(createWorldObject(selectedEntity));
-  });
+    const selectedEntityIndex = state.get('objectPicker.selectedEntityIndex');
+    const selectedEntity = state.get(`definitions.entities.${selectedEntityIndex}`);
+    aditionalTiles.forEach(function (tile) {
+      tile.worldObjects.push(createWorldObject(selectedEntity));
+    });
 
-  const newTiles = _.sortBy(aditionalTiles.concat(currentTiles), ['x', 'y']);
-  state.set('scene.tiles', newTiles);
+    newTiles = aditionalTiles.concat(currentTiles);
+  } else if (delta < 0) {
+    const sceneSize = state.get('scene.size');
+    newTiles = _.reject(
+      currentTiles,
+      function (tile) {
+        return tile.x < 0 || tile.y < 0 || tile.x >= sceneSize.x || tile.y >= sceneSize.y;
+      }
+    );
+  } else {
+    newTiles = currentTiles;
+  }
+
+  const sortedTiles = _.sortBy(newTiles, ['x', 'y']);
+  state.set('scene.tiles', sortedTiles);
 }
