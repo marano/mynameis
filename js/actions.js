@@ -1,4 +1,4 @@
-import { cloneDeep, find, range, sample, throttle } from 'lodash';
+import { sortBy, cloneDeep, find, range, sample, throttle } from 'lodash';
 import { cross } from 'd3-array';
 
 import indexOfTileAt from './index-of-tile-at';
@@ -35,10 +35,11 @@ export function createSceneTiles({ props: { sceneDataPath, sceneTemplate: { size
 
 export function fillSceneTiles({ props: { sceneDataPath, sceneTemplate: { filling: { floor } } }, state }) {
   const entities = state.get('definitions.entities');
+  const entity = find(entities, { name: floor });
   const tiles = cloneDeep(state.get(`${sceneDataPath}.tiles`));
 
   tiles.forEach((tile) => {
-    tile.worldObjects.push(createWorldObject(floor, entities));
+    tile.worldObjects.push(createWorldObject(entity));
   });
 
   state.set(`${sceneDataPath}.tiles`, tiles);
@@ -50,7 +51,8 @@ export function fillWorldObjects({ props: { sceneDataPath, sceneTemplate: { fill
 
   objects.forEach((object, index) => {
     let tileIndex = indexOfTileAt(sceneSizeY, object.location.x, object.location.y);
-    state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(object.entity, entities));
+    const entity = find(entities, { name: object.entity });
+    state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(entity));
   });
 }
 
@@ -60,8 +62,7 @@ function createSceneTile(x, y) {
   };
 }
 
-function createWorldObject(name, entities) {
-  const entity = find(entities, { name });
+function createWorldObject(entity) {
   return {
     name,
     uiElements: entity.uiElements.map(createWorldObjectUiElement)
@@ -120,4 +121,30 @@ export function handleKeyPress({ state, props: { key, sceneDataPath }}) {
   if (handler) {
     handler(state, sceneDataPath);
   }
+}
+
+export function addRowToScene({ state }) {
+  // Change actual size
+  const sceneSizeY = state.get('scene.size.y');
+  state.set('scene.size.y', sceneSizeY + 1);
+
+  // Move stuff because of its a prepend
+  const currentTiles = cloneDeep(state.get('scene.tiles'));
+  currentTiles.forEach(function (tile) {
+    tile.y = tile.y + 1;
+  });
+
+  // Create additional tiles
+  const sceneSizeX = state.get('scene.size.x');
+  const aditionalTiles = cross(range(0, sceneSizeX), [0], createSceneTile);
+
+  // Fill selected entity
+  const selectedEntityIndex = state.get('objectPicker.selectedEntityIndex');
+  const selectedEntity = state.get(`definitions.entities.${selectedEntityIndex}`);
+  aditionalTiles.forEach(function (tile) {
+    tile.worldObjects.push(createWorldObject(selectedEntity));
+  });
+
+  const newTiles = _.sortBy(aditionalTiles.concat(currentTiles), ['x', 'y']);
+  state.set('scene.tiles', newTiles);
 }

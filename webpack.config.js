@@ -19,7 +19,13 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['es2015'],
-          plugins: ['transform-object-rest-spread', 'inferno']
+          plugins: [
+            'transform-object-rest-spread',
+            [
+              'inferno',
+              { imports: true }
+            ]
+          ]
         }
       }
     ]

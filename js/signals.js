@@ -10,7 +10,8 @@ import {
   fillWorldObjects,
   adjustViewportSize,
   updateViewportVisibleTiles,
-  handleKeyPress
+  handleKeyPress,
+  addRowToScene
 } from './actions';
 
 export default {
@@ -26,6 +27,9 @@ export default {
   ],
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
+  ],
+  sceneRowAdded: [
+    addRowToScene
   ],
   viewportResized: [
     adjustViewportSize
