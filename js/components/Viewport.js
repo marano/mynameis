@@ -1,4 +1,3 @@
-import Inferno from 'inferno';
 import Component from 'inferno-component';
 import { connect } from 'cerebral/inferno';
 import { props, state, signal } from 'cerebral/tags';
