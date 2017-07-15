@@ -5,9 +5,9 @@ import ChangeSceneSizeButton from './ChangeSceneSizeButton';
 
 export default connect({
   sceneSize: state`scene.size`
-}, SceneMenu);
+}, SceneSizeEditor);
 
-function SceneMenu({ sceneSize }) {
+function SceneSizeEditor({ sceneSize }) {
   return (
     <scene-menu style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>

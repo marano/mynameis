@@ -1,7 +1,7 @@
 import { connect } from 'cerebral/inferno';
 import { state } from 'cerebral/tags';
 
-import SceneMenu from './SceneMenu';
+import SceneSizeEditor from './SceneSizeEditor';
 import ObjectPicker from './ObjectPicker';
 
 export default connect({
@@ -11,7 +11,7 @@ export default connect({
 function SideMenu({ width }) {
   return (
     <side-menu style={style()}>
-      <SceneMenu />
+      <SceneSizeEditor />
       <ObjectPicker />
     </side-menu>
   );
