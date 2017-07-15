@@ -7,28 +7,28 @@ function SceneMenu({ sceneSize }) {
   return (
     <scene-menu style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={1} />
+        <ChangeSceneSizeButton axis="y" delta={1} mode="start" />
       </div>
       <div style={buttonWrapperStyle(2, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={-1} />
+        <ChangeSceneSizeButton axis="y" delta={-1} mode="start" />
       </div>
       <div style={buttonWrapperStyle(4, 7)}>
-        <ChangeSceneSizeButton axis="x" delta={1} />
+        <ChangeSceneSizeButton axis="x" delta={1} mode="end" />
       </div>
       <div style={buttonWrapperStyle(4, 6)}>
-        <ChangeSceneSizeButton axis="x" delta={-1} />
+        <ChangeSceneSizeButton axis="x" delta={-1} mode="end" />
       </div>
       <div style={buttonWrapperStyle(7, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={1} />
+        <ChangeSceneSizeButton axis="y" delta={1} mode="end" />
       </div>
       <div style={buttonWrapperStyle(6, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={-1} />
+        <ChangeSceneSizeButton axis="y" delta={-1} mode="end" />
       </div>
       <div style={buttonWrapperStyle(4, 1)}>
-        <ChangeSceneSizeButton axis="x" delta={1} />
+        <ChangeSceneSizeButton axis="x" delta={1} mode="start" />
       </div>
       <div style={buttonWrapperStyle(4, 2)}>
-        <ChangeSceneSizeButton axis="x" delta={-1} />
+        <ChangeSceneSizeButton axis="x" delta={-1} mode="start" />
       </div>
       <div style={buttonWrapperStyle(4, '3/6')}>
         <span style="font-size: 12px; font-family: monospace">{sceneSize.x}x{sceneSize.y}</span>

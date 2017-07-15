@@ -128,20 +128,24 @@ export function handleKeyPress({ state, props: { key, sceneDataPath }}) {
   }
 }
 
-export function changeSceneSize({ state, props: { axis, delta } }) {
+export function changeSceneSize({ state, props: { axis, delta, mode } }) {
   const sceneAxisSize = state.get(`scene.size.${axis}`);
   state.set(`scene.size.${axis}`, sceneAxisSize + delta);
 
-  // Move stuff because of its a prepend
   const currentTiles = cloneDeep(state.get('scene.tiles'));
-  currentTiles.forEach(function (tile) {
-    tile[axis] = tile[axis] + delta;
-  });
+  if (mode == 'start') {
+    currentTiles.forEach(function (tile) {
+      tile[axis] = tile[axis] + delta;
+    });
+  }
 
   let newTiles;
   if (delta > 0) {
     const sceneSize = state.get('scene.size');
-    const deltaRange = range(0, delta);
+    const deltaRange = {
+      start: () => range(0, delta),
+      end: () => range(sceneSize[axis] - 1, (sceneSize[axis] + delta - 1))
+    }[mode]();
     const otherAxisSizeRange = range(0, sceneSize[{ x: 'y', y: 'x' }[axis]]);
     const aditionalTiles = {
       x:  () => cross(deltaRange, otherAxisSizeRange, createSceneTile),
