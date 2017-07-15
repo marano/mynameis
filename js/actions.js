@@ -13,6 +13,10 @@ export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { s
   const tiles = [];
   const viewport = {
     tileSize: 40,
+    containerDimension: {
+      width: null,
+      height: null
+    },
     size: {
       x: 0,
       y: 0
@@ -76,11 +80,12 @@ function createWorldObjectUiElement(uiElement) {
   };
 }
 
-export function adjustViewportSize({ state, props: { sceneDataPath, viewportWidth, viewportHeight } }) {
+export function adjustViewportSize({ state, props: { sceneDataPath } }) {
+  const viewportContainerDimension = state.get(`${sceneDataPath}.viewport.containerDimension`);
   const tileSize = state.get(`${sceneDataPath}.viewport.tileSize`);
 
-  const maxFitSizeX = Math.floor(viewportWidth / tileSize);
-  const maxFitSizeY = Math.floor(viewportHeight / tileSize);
+  const maxFitSizeX = Math.floor(viewportContainerDimension.width / tileSize);
+  const maxFitSizeY = Math.floor(viewportContainerDimension.height / tileSize);
 
   const sceneSizeX = state.get(`${sceneDataPath}.size.x`);
   const sceneSizeY = state.get(`${sceneDataPath}.size.y`);

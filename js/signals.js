@@ -32,6 +32,8 @@ export default {
     addRowToScene
   ],
   viewportResized: [
+    set(state`${props`sceneDataPath`}.viewport.containerDimension.width`, props`viewportWidth`),
+    set(state`${props`sceneDataPath`}.viewport.containerDimension.height`, props`viewportHeight`),
     adjustViewportSize
   ],
   keyPressed: handleKeyPress
