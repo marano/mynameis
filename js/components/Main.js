@@ -1,12 +1,16 @@
-import { connect } from 'cerebral/inferno';
+  import { connect } from 'cerebral/inferno';
 import { state } from 'cerebral/tags';
 
 import Viewport from './Viewport';
 import SideMenu from './SideMenu';
 
+export default connect({
+  sideMenuWidth: state`sideMenu.width`
+}, Main);
+
 function Main({ sideMenuWidth }) {
   return (
-    <main style={containerStyle()}>
+    <main style={containerStyle(sideMenuWidth)}>
       <div style={viewportStyle()}>
         <Viewport sceneDataPath="scene" />
       </div>
@@ -15,35 +19,31 @@ function Main({ sideMenuWidth }) {
       </div>
     </main>
   );
-
-  function containerStyle() {
-    return {
-      display: 'grid',
-      width: '100%',
-      height: '100%',
-      gridTemplateRows: '100%',
-      gridTemplateColumns: `auto ${sideMenuWidth}px`
-    };
-  }
-
-  function viewportStyle() {
-    return {
-      gridRow: '1',
-      gridColumn: '1',
-      overflow: 'hidden'
-    };
-  }
-
-  function sideMenuStyle() {
-    return {
-      gridRow: '1',
-      gridColumn: '2',
-      backgroundColor: 'black',
-      padding: 10
-    };
-  }
 }
 
-export default connect({
-  sideMenuWidth: state`sideMenu.width`
-}, Main);
+function containerStyle(sideMenuWidth) {
+  return {
+    display: 'grid',
+    width: '100%',
+    height: '100%',
+    gridTemplateRows: '100%',
+    gridTemplateColumns: `auto ${sideMenuWidth}px`
+  };
+}
+
+function viewportStyle() {
+  return {
+    gridRow: '1',
+    gridColumn: '1',
+    overflow: 'hidden'
+  };
+}
+
+function sideMenuStyle() {
+  return {
+    gridRow: '1',
+    gridColumn: '2',
+    backgroundColor: 'black',
+    padding: 10
+  };
+}

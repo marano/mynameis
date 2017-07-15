@@ -3,6 +3,10 @@ import { state } from 'cerebral/tags';
 
 import ChangeSceneSizeButton from './ChangeSceneSizeButton';
 
+export default connect({
+  sceneSize: state`scene.size`
+}, SceneMenu);
+
 function SceneMenu({ sceneSize }) {
   return (
     <scene-menu style={style()}>
@@ -35,27 +39,22 @@ function SceneMenu({ sceneSize }) {
       </div>
     </scene-menu>
   );
-
-  function style() {
-    return {
-      padding: 10,
-      display: 'grid',
-      gridTemplateRows: 'repeat(7, 20px)',
-      gridTemplateColumns: 'repeat(7, 20px)',
-      color: 'white',
-      alignItems: 'centerx`'
-    };
-  }
-
-  function buttonWrapperStyle(row, column) {
-    return {
-      gridRow: row,
-      gridColumn: column,
-      textAlign: 'center'
-    }
-  }
 };
 
-export default connect({
-  sceneSize: state`scene.size`
-}, SceneMenu);
+function style() {
+  return {
+    padding: 10,
+    display: 'grid',
+    gridTemplateRows: 'repeat(7, 20px)',
+    gridTemplateColumns: 'repeat(7, 20px)',
+    color: 'white'
+  };
+}
+
+function buttonWrapperStyle(row, column) {
+  return {
+    gridRow: row,
+    gridColumn: column,
+    textAlign: 'center'
+  }
+}

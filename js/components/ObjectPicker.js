@@ -3,20 +3,20 @@ import { state, props } from 'cerebral/tags';
 
 import ObjectPickerEntity from './ObjectPickerEntity';
 
+export default connect({
+  entitiesIndexes: state`definitions.entities.*`
+}, ObjectPicker);
+
 function ObjectPicker({ entitiesIndexes }) {
   return (
     <object-picker style={style()}>
       {entitiesIndexes.map((entityIndex) => <ObjectPickerEntity entityIndex={entityIndex} />)}
     </object-picker>
   );
-
-  function style() {
-    return {
-      padding: 10
-    };
-  }
 }
 
-export default connect({
-  entitiesIndexes: state`definitions.entities.*`
-}, ObjectPicker);
+function style() {
+  return {
+    padding: 10
+  };
+}

@@ -2,6 +2,10 @@ import { linkEvent } from 'inferno';
 import { connect } from 'cerebral/inferno';
 import { signal } from 'cerebral/tags';
 
+export default connect({
+  sceneSizeChanged: signal`sceneSizeChanged`
+}, ChangeSceneSizeButton);
+
 function ChangeSceneSizeButton(props) {
   return (
     <div style={style()} onClick={linkEvent(props, onClick)}>
@@ -26,7 +30,3 @@ function style() {
     cursor: 'pointer'
   }
 }
-
-export default connect({
-  sceneSizeChanged: signal`sceneSizeChanged`
-}, ChangeSceneSizeButton);
