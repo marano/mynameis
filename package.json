@@ -24,9 +24,9 @@
     "d3-array": "^1.2.0",
     "express": "^4.15.3",
     "file-loader": "^0.11.2",
-    "inferno": "^3.6.1",
-    "inferno-component": "^3.6.1",
-    "inferno-create-element": "^3.6.1",
+    "inferno": "^3.7.0",
+    "inferno-component": "^3.7.0",
+    "inferno-create-element": "^3.7.0",
     "lodash": "^4.17.4",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
