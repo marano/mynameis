@@ -13,6 +13,7 @@ export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { s
   const tiles = [];
   const viewport = {
     tileSize: 40,
+    cameraLockMode: 'locked',
     containerDimension: {
       width: null,
       height: null
@@ -83,26 +84,59 @@ function createWorldObjectUiElement(uiElement) {
 export function adjustViewportSize({ state, props: { sceneDataPath } }) {
   const viewportContainerDimension = state.get(`${sceneDataPath}.viewport.containerDimension`);
   const tileSize = state.get(`${sceneDataPath}.viewport.tileSize`);
+  const sceneSize = state.get(`${sceneDataPath}.size`);
+  const cameraLockMode = state.get(`${sceneDataPath}.viewport.cameraLockMode`);
 
-  const maxFitSizeX = Math.floor(viewportContainerDimension.width / tileSize);
-  const maxFitSizeY = Math.floor(viewportContainerDimension.height / tileSize);
+  const maxFitSize = {
+    x: Math.floor(viewportContainerDimension.width / tileSize),
+    y: Math.floor(viewportContainerDimension.height / tileSize)
+  };
 
-  const sceneSizeX = state.get(`${sceneDataPath}.size.x`);
-  const sceneSizeY = state.get(`${sceneDataPath}.size.y`);
+  const viewportSizeByAxis = {
+    free: function (axis) { return maxFitSize[axis]; },
+    locked: function (axis) { return Math.min(maxFitSize[axis], sceneSize[axis]); }
+  }[cameraLockMode];
 
-  const viewportSizeX = Math.min(maxFitSizeX, sceneSizeX);
-  const viewportSizeY = Math.min(maxFitSizeY, sceneSizeY);
+  const viewportSize = {
+    x: viewportSizeByAxis('x'),
+    y: viewportSizeByAxis('y')
+  };
 
-  state.set(`${sceneDataPath}.viewport.size.x`, viewportSizeX);
-  state.set(`${sceneDataPath}.viewport.size.y`, viewportSizeY);
+  state.set(`${sceneDataPath}.viewport.size`, viewportSize);
 }
 
 function panViewportPosition(deltaX, deltaY, state, sceneDataPath) {
   const position = state.get(`${sceneDataPath}.viewport.position`);
-  const newPosition = {
-    x: position.x + deltaX,
-    y: position.y + deltaY
+  const viewportSize = state.get(`${sceneDataPath}.viewport.size`);
+  const sceneSize = state.get(`${sceneDataPath}.size`);
+  const cameraLockMode = state.get(`${sceneDataPath}.viewport.cameraLockMode`);
+
+  const delta = {
+    x: deltaX,
+    y: deltaY
   };
+
+  const positionByAxis = {
+    free: function (axis) { return position[axis] + delta[axis]; },
+    locked: function (axis) {
+      const axisCurrentPosition = position[axis];
+      const axisDelta = delta[axis];
+      const nextPosition = axisCurrentPosition + axisDelta;
+      if (axisDelta < 0 && nextPosition < 0) {
+        return axisCurrentPosition;
+      }
+      if (axisDelta > 0 && nextPosition + viewportSize[axis] > sceneSize[axis]) {
+        return axisCurrentPosition;
+      }
+      return nextPosition;
+    }
+  }[cameraLockMode];
+
+  const newPosition = {
+    x: positionByAxis('x'),
+    y: positionByAxis('y')
+  };
+
   state.set(`${sceneDataPath}.viewport.position`, newPosition);
 }
 
