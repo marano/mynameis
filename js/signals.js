@@ -9,6 +9,7 @@ import {
   fillSceneTiles,
   fillWorldObjects,
   adjustViewportSize,
+  adjustViewportPositionForCameraMode,
   updateViewportVisibleTiles,
   handleKeyPress,
   changeSceneSize
@@ -30,7 +31,8 @@ export default {
   ],
   cameraModeChanged: [
     set(state`${props`sceneDataPath`}.viewport.cameraLockMode`, props`cameraLockMode`),
-    adjustViewportSize
+    adjustViewportSize,
+    adjustViewportPositionForCameraMode
   ],
   sceneSizeChanged: [
     changeSceneSize,

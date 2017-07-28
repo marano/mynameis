@@ -105,6 +105,35 @@ export function adjustViewportSize({ state, props: { sceneDataPath } }) {
   state.set(`${sceneDataPath}.viewport.size`, viewportSize);
 }
 
+export function adjustViewportPositionForCameraMode({ state, props: { sceneDataPath } }) {
+  const currentViewportPosition = state.get(`${sceneDataPath}.viewport.position`);
+  const cameraLockMode = state.get(`${sceneDataPath}.viewport.cameraLockMode`);
+  const sceneSize = state.get(`${sceneDataPath}.size`);
+  const viewportSize = state.get(`${sceneDataPath}.viewport.size`);
+
+  const newAxisPosition = {
+    free: function (axis) {
+      return currentViewportPosition[axis];
+    },
+    locked: function (axis) {
+      if (currentViewportPosition[axis] < 0) {
+        return 0;
+      }
+      if (currentViewportPosition[axis] + viewportSize[axis] > sceneSize[axis]) {
+        return sceneSize[axis] - viewportSize[axis];
+      }
+      return currentViewportPosition[axis];
+    }
+  }[cameraLockMode];
+
+  const newPosition = {
+    x: newAxisPosition('x'),
+    y: newAxisPosition('y')
+  };
+
+  state.set(`${sceneDataPath}.viewport.position`, newPosition);
+}
+
 function panViewportPosition(deltaX, deltaY, state, sceneDataPath) {
   const position = state.get(`${sceneDataPath}.viewport.position`);
   const viewportSize = state.get(`${sceneDataPath}.viewport.size`);
