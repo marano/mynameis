@@ -28,6 +28,10 @@ export default {
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
   ],
+  cameraModeChanged: [
+    set(state`${props`sceneDataPath`}.viewport.cameraLockMode`, props`cameraLockMode`),
+    adjustViewportSize
+  ],
   sceneSizeChanged: [
     changeSceneSize,
     adjustViewportSize
