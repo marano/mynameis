@@ -36,7 +36,8 @@ export default {
   ],
   sceneSizeChanged: [
     changeSceneSize,
-    adjustViewportSize
+    adjustViewportSize,
+    adjustViewportPositionForCameraMode
   ],
   viewportResized: [
     set(state`${props`sceneDataPath`}.viewport.containerDimension.width`, props`viewportWidth`),
