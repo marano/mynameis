@@ -44,5 +44,8 @@ export default {
     set(state`${props`sceneDataPath`}.viewport.containerDimension.height`, props`viewportHeight`),
     adjustViewportSize
   ],
+  viewportPositionUpdated: [
+    set(state`${props`sceneDataPath`}.viewport.position`, props`position`)
+  ],
   keyPressed: handleKeyPress
 };

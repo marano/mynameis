@@ -1,11 +1,13 @@
 import Component from 'inferno-component';
 import { connect } from 'cerebral/inferno';
 import { props, state, signal } from 'cerebral/tags';
+import { isEqual, throttle } from 'lodash';
 
 import onWindowResize from '../on-window-resize';
 
 import { computeVisibleTileIndexes } from '../computes';
 
+import Dragdealer from './Dragdealer';
 import SceneTile from './SceneTile';
 
 export default connect(
@@ -14,13 +16,19 @@ export default connect(
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     viewportSize: state`${props`sceneDataPath`}.viewport.size`,
     viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
-    worldSize: state`${props`sceneDataPath`}.size`,
-    viewportResized: signal`viewportResized`
+    sceneSize: state`${props`sceneDataPath`}.size`,
+    viewportResized: signal`viewportResized`,
+    viewportPositionUpdated: signal`viewportPositionUpdated`
   },
   class Viewport extends Component {
     constructor(props) {
       super(props);
       this.setViewportRef = this.setViewportRef.bind(this);
+      this.dragdealerAnimationCallback = throttle(
+        this.dragdealerAnimationCallback.bind(this),
+        150,
+        { leading: false, trailing: true }
+      );
     }
 
     componentDidMount() {
@@ -32,34 +40,37 @@ export default connect(
       onWindowResize('viewport', null);
     }
 
+    render() {
+      return (
+        <viewport ref={this.setViewportRef} style={this.outerStyle()}>
+          <Dragdealer
+            options={this.dragdealerOptions()}
+            wrapperStyle={this.windowStyle()}
+            handleStyle={this.contentStyle()}
+            hasKeyedChildren
+          >
+            {
+              this
+                .props
+                .tilesIndexes
+                .map((tileIndex) => (
+                  <SceneTile
+                    sceneDataPath={this.props.sceneDataPath}
+                    key={tileIndex}
+                    tileIndex={tileIndex}
+                  />
+                ))
+            }
+          </Dragdealer>
+        </viewport>
+      );
+    }
+
     callViewportResized() {
       const { sceneDataPath } = this.props;
       const viewportWidth = this.viewportRef.offsetWidth;
       const viewportHeight = this.viewportRef.offsetHeight;
       this.props.viewportResized({ sceneDataPath, viewportWidth, viewportHeight });
-    }
-
-    render() {
-      return (
-        <viewport ref={this.setViewportRef} style={this.outerStyle()}>
-          <viewport-window style={this.windowStyle()}>
-            <viewport-content style={this.contentStyle()} hasKeyedChildren>
-              {
-                this
-                  .props
-                  .tilesIndexes
-                  .map((tileIndex) => (
-                    <SceneTile
-                      sceneDataPath={this.props.sceneDataPath}
-                      key={tileIndex}
-                      tileIndex={tileIndex}
-                    />
-                  ))
-              }
-            </viewport-content>
-          </viewport-window>
-        </viewport>
-      );
     }
 
     setViewportRef(viewportRef) {
@@ -90,11 +101,27 @@ export default connect(
     contentStyle() {
       return {
         position: 'absolute',
-        width: this.props.worldSize.x * this.props.tileSize,
-        height: this.props.worldSize.y * this.props.tileSize,
-        left: -(this.props.viewportPosition.x * this.props.tileSize),
-        top: -(this.props.viewportPosition.y * this.props.tileSize)
+        width: this.props.sceneSize.x * this.props.tileSize,
+        height: this.props.sceneSize.y * this.props.tileSize
       };
+    }
+
+    dragdealerOptions() {
+      return {
+        x: this.props.viewportPosition.x,
+        y: this.props.viewportPosition.y,
+        vertical: true,
+        speed: 0.2,
+        loose: true,
+        requestAnimationFrame: true,
+        animationCallback: this.dragdealerAnimationCallback
+      };
+    }
+
+    dragdealerAnimationCallback(x, y) {
+      const position = { x, y };
+      const { sceneDataPath } = this.props;
+      this.props.viewportPositionUpdated({ sceneDataPath, position });
     }
   }
 );
