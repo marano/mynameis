@@ -112,7 +112,8 @@ export default connect(
         y: this.props.viewportPosition.y,
         vertical: true,
         speed: 0.2,
-        loose: true,
+        steps: this.props.sceneSize.x - this.props.viewportSize.x,
+        snap: true,
         requestAnimationFrame: true,
         animationCallback: this.dragdealerAnimationCallback
       };
