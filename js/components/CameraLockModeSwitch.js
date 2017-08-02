@@ -1,6 +1,6 @@
 import CameraLockModeSwitchButton from './CameraLockModeSwitchButton';
 
-export default function CameraLockModeSwitch({ cameraModeChanged }) {
+export default function CameraLockModeSwitch() {
   return (
     <div>
       <CameraLockModeSwitchButton cameraLockMode="free" />
