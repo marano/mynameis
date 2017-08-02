@@ -5,14 +5,15 @@ import Viewport from './Viewport';
 import SideMenu from './SideMenu';
 
 export default connect({
+  currentSceneDataPath: state`currentSceneDataPath`,
   sideMenuWidth: state`sideMenu.width`
 }, Main);
 
-function Main({ sideMenuWidth }) {
+function Main({ currentSceneDataPath, sideMenuWidth }) {
   return (
     <main style={containerStyle(sideMenuWidth)}>
       <div style={viewportStyle()}>
-        <Viewport sceneDataPath="scene" />
+        <Viewport sceneDataPath={currentSceneDataPath} />
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu />

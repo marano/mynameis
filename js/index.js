@@ -13,14 +13,14 @@ import Main from './components/Main';
 Inferno.options.recyclingEnabled = true;
 
 controller.getSignal('entitiesLoaded')({ entities, uiElements });
-controller.getSignal('sceneTemplateLoaded')({ sceneDataPath: 'scene', sceneTemplate });
+controller.getSignal('sceneTemplateLoaded')({ sceneTemplate });
 
 window.addEventListener(
   'keypress',
   function (event) {
     controller.getSignal('keyPressed')({
       key: event.key.toLowerCase(),
-      sceneDataPath: 'scene'
+      sceneDataPath: controller.getState('currentSceneDataPath')
     });
   },
   true

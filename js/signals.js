@@ -24,7 +24,8 @@ export default {
     initializeSceneData,
     createSceneTiles,
     fillSceneTiles,
-    fillWorldObjects
+    fillWorldObjects,
+    set(state`currentSceneDataPath`, props`sceneDataPath`)
   ],
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)

@@ -4,7 +4,7 @@ import { state } from 'cerebral/tags';
 import ChangeSceneSizeButton from './ChangeSceneSizeButton';
 
 export default connect({
-  sceneSize: state`scene.size`
+  sceneSize: state`${state`currentSceneDataPath`}.size`
 }, SceneSizeEditor);
 
 function SceneSizeEditor({ sceneSize }) {

@@ -1,8 +1,9 @@
 import { linkEvent } from 'inferno';
 import { connect } from 'cerebral/inferno';
-import { signal } from 'cerebral/tags';
+import { state, signal } from 'cerebral/tags';
 
 export default connect({
+  sceneDataPath: state`currentSceneDataPath`,
   sceneSizeChanged: signal`sceneSizeChanged`
 }, ChangeSceneSizeButton);
 
@@ -14,8 +15,8 @@ function ChangeSceneSizeButton(props) {
   );
 }
 
-function onClick({ sceneSizeChanged, axis, delta, mode }) {
-  sceneSizeChanged({ sceneDataPath: 'scene', axis, delta, mode });
+function onClick({ sceneDataPath, axis, delta, mode, sceneSizeChanged }) {
+  sceneSizeChanged({ sceneDataPath, axis, delta, mode });
 }
 
 function style() {

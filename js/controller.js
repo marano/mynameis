@@ -11,7 +11,8 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
-    scene: null,
+    currentSceneDataPath: null,
+    scenes: [],
     objectPicker: {
       selectedEntityIndex: null
     },

@@ -9,7 +9,7 @@ export function setEntitiesUiElements({ state, props: { entities, uiElements } }
   });
 }
 
-export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
+export function initializeSceneData({ props: { sceneTemplate: { size } }, state }) {
   const tiles = [];
   const viewport = {
     tileSize: 40,
@@ -28,7 +28,10 @@ export function initializeSceneData({ props: { sceneDataPath, sceneTemplate: { s
     }
   };
 
-  state.set(sceneDataPath, { tiles, size, viewport });
+  state.push('scenes', { tiles, size, viewport });
+  const lastLoadedSceneIndex = state.get('scenes').length - 1;
+  const sceneDataPath = `scenes.${lastLoadedSceneIndex}`;
+  return { sceneDataPath };
 }
 
 export function createSceneTiles({ props: { sceneDataPath, sceneTemplate: { size } }, state }) {
@@ -191,11 +194,11 @@ export function handleKeyPress({ state, props: { key, sceneDataPath }}) {
   }
 }
 
-export function changeSceneSize({ state, props: { axis, delta, mode } }) {
-  const sceneAxisSize = state.get(`scene.size.${axis}`);
-  state.set(`scene.size.${axis}`, sceneAxisSize + delta);
+export function changeSceneSize({ state, props: { sceneDataPath, axis, delta, mode } }) {
+  const sceneAxisSize = state.get(`${sceneDataPath}.size.${axis}`);
+  state.set(`${sceneDataPath}.size.${axis}`, sceneAxisSize + delta);
 
-  const currentTiles = cloneDeep(state.get('scene.tiles'));
+  const currentTiles = cloneDeep(state.get(`${sceneDataPath}.tiles`));
   if (mode == 'start') {
     currentTiles.forEach(function (tile) {
       tile[axis] = tile[axis] + delta;
@@ -204,7 +207,7 @@ export function changeSceneSize({ state, props: { axis, delta, mode } }) {
 
   let newTiles;
   if (delta > 0) {
-    const sceneSize = state.get('scene.size');
+    const sceneSize = state.get(`${sceneDataPath}.size`);
     const deltaRange = {
       start: () => range(0, delta),
       end: () => range(sceneSize[axis] - 1, (sceneSize[axis] + delta - 1))
@@ -225,7 +228,7 @@ export function changeSceneSize({ state, props: { axis, delta, mode } }) {
 
     newTiles = aditionalTiles.concat(currentTiles);
   } else if (delta < 0) {
-    const sceneSize = state.get('scene.size');
+    const sceneSize = state.get(`${sceneDataPath}.size`);
     newTiles = _.reject(
       currentTiles,
       function (tile) {
@@ -237,5 +240,5 @@ export function changeSceneSize({ state, props: { axis, delta, mode } }) {
   }
 
   const sortedTiles = _.sortBy(newTiles, ['x', 'y']);
-  state.set('scene.tiles', sortedTiles);
+  state.set(`${sceneDataPath}.tiles`, sortedTiles);
 }
