@@ -10,9 +10,9 @@ export default connect({
 
 function CameraLockModeSwitchButton(props) {
   return (
-    <button onClick={linkEvent(props, onClick)} style={style(props)}>
+    <div onClick={linkEvent(props, onClick)} style={style(props)}>
       {props.cameraLockMode}
-    </button>
+    </div>
   );
 }
 
@@ -25,6 +25,10 @@ function style({ cameraLockMode, currentCameraLockMode }) {
   return {
     border: '1px white solid',
     backgroundColor: isSelected ? 'white' : 'black',
-    color: isSelected ? 'black' : 'white'
+    color: isSelected ? 'black' : 'white',
+    display: 'inline-block',
+    padding: 5,
+    fontFamily: 'monospace',
+    cursor: 'pointer'
   };
 }
