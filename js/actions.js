@@ -69,7 +69,7 @@ function createSceneTile(x, y) {
 
 function createWorldObject(entity) {
   return {
-    name,
+    entityName: entity.name,
     uiElements: entity.uiElements.map(createWorldObjectUiElement)
   };
 }
