@@ -5,9 +5,9 @@ import { props, state, signal } from 'cerebral/tags';
 import UiElement from './UiElement';
 
 export default connect({
-  uiElemetsIndexes: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.uiElements.*`,
-  zIndex: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.zIndex`,
-  isSelected: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.isSelected`,
+  uiElemetsIndexes: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.uiElements.*`,
+  zIndex: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.zIndex`,
+  isSelected: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.isSelected`,
   tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
   worldObjectSelected: signal`worldObjectSelected`
 }, WorldObject);
@@ -34,8 +34,8 @@ function WorldObject(props) {
   );
 };
 
-function uiElementDataPath(uiElementIndex, { sceneDataPath, tileIndex, worldObjectIndex }) {
-  return `${sceneDataPath}.tiles.${tileIndex}.worldObjects.${worldObjectIndex}.uiElements.${uiElementIndex}`;
+function uiElementDataPath(uiElementIndex, { sceneDataPath, worldObjectId }) {
+  return `${sceneDataPath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`;
 }
 
 function style({ zIndex, isSelected, tileSize }) {
@@ -51,6 +51,6 @@ function style({ zIndex, isSelected, tileSize }) {
   return style;
 }
 
-function onClick({ sceneDataPath, tileIndex, worldObjectIndex, worldObjectSelected }) {
-  worldObjectSelected({ sceneDataPath, tileIndex, worldObjectIndex });
+function onClick({ sceneDataPath, worldObjectId, worldObjectSelected }) {
+  worldObjectSelected({ sceneDataPath, worldObjectId });
 }

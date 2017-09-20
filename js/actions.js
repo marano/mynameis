@@ -11,7 +11,8 @@ export function setEntitiesUiElements({ state, props: { entities, uiElements } }
 
 export function initializeSceneData({ props: { sceneTemplate: { size } }, state }) {
   const tiles = [];
-  const selectedWorldObject = null;
+  const worldObjects = {};
+  const selectedWorldObjectId = null;
   const viewport = {
     tileSize: 40,
     cameraLockMode: 'locked',
@@ -29,7 +30,7 @@ export function initializeSceneData({ props: { sceneTemplate: { size } }, state 
     }
   };
 
-  state.push('scenes', { tiles, size, selectedWorldObject, viewport });
+  state.push('scenes', { tiles, worldObjects, size, selectedWorldObjectId, viewport });
   const lastLoadedSceneIndex = state.get('scenes').length - 1;
   const sceneDataPath = `scenes.${lastLoadedSceneIndex}`;
   return { sceneDataPath };
@@ -48,7 +49,7 @@ export function fillSceneTiles({ props: { sceneDataPath, sceneTemplate: { fillin
   const tiles = cloneDeep(state.get(`${sceneDataPath}.tiles`));
 
   tiles.forEach((tile) => {
-    tile.worldObjects.push(createWorldObject(entity));
+    tile.worldObjectIds.push(createWorldObject(entity, tile, sceneDataPath, state));
   });
 
   state.set(`${sceneDataPath}.tiles`, tiles);
@@ -60,27 +61,39 @@ export function fillWorldObjects({ props: { sceneDataPath, sceneTemplate: { fill
 
   objects.forEach((object, index) => {
     let tileIndex = indexOfTileAt(sceneSizeY, object.location.x, object.location.y);
+    const tile = state.get(`${sceneDataPath}.tiles.${tileIndex}`)
     const entity = find(entities, { name: object.entity });
-    state.push(`${sceneDataPath}.tiles.${tileIndex}.worldObjects`, createWorldObject(entity));
+    state.push(
+      `${sceneDataPath}.tiles.${tileIndex}.worldObjectIds`,
+      createWorldObject(entity, tile, sceneDataPath, state)
+    );
   });
 }
 
 function createSceneTile(x, y) {
   return {
-    x, y, worldObjects: []
+    x, y, worldObjectIds: []
   };
 }
 
 let worldObjectId = 0;
 
-function createWorldObject(entity) {
-  return {
-    id: ++worldObjectId,
+function createWorldObject(entity, tile, sceneDataPath, state) {
+  const id = ++worldObjectId;
+  const worldObject = {
+    id,
     entityName: entity.name,
     zIndex: entity.zIndex,
     isSelected: false,
-    uiElements: entity.uiElements.map(createWorldObjectUiElement)
+    uiElements: entity.uiElements.map(createWorldObjectUiElement),
+    location: {
+      x: tile.x,
+      y: tile.y
+    }
   };
+
+  state.set(`${sceneDataPath}.worldObjects.${id}`, worldObject);
+  return id;
 }
 
 function createWorldObjectUiElement(uiElement) {
@@ -228,7 +241,7 @@ export function changeSceneSize({ state, props: { sceneDataPath, axis, delta, mo
     if (selectedEntityIndex) {
       const selectedEntity = state.get(`definitions.entities.${selectedEntityIndex}`);
       aditionalTiles.forEach(function (tile) {
-        tile.worldObjects.push(createWorldObject(selectedEntity));
+        tile.worldObjectIds.push(createWorldObject(selectedEntity, tile, sceneDataPath, state));
       });
     }
 

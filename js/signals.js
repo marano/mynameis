@@ -28,14 +28,13 @@ export default {
     set(state`currentSceneDataPath`, props`sceneDataPath`)
   ],
   worldObjectSelected: [
-    when(state`${props`sceneDataPath`}.selectedWorldObject`),
+    when(state`${props`sceneDataPath`}.selectedWorldObjectId`),
       {
-        true: set(state`${props`sceneDataPath`}.selectedWorldObject.isSelected`, false),
+        true: set(state`${props`sceneDataPath`}.worldObjects.${state`${props`sceneDataPath`}.selectedWorldObjectId`}.isSelected`, false),
         false: []
       },
-    // set(state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.isSelected`, true),
-    set(state`${props`sceneDataPath`}.selectedWorldObject`, state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}`),
-    set(state`${props`sceneDataPath`}.selectedWorldObject.isSelected`, true)
+    set(state`${props`sceneDataPath`}.selectedWorldObjectId`, props`worldObjectId`),
+    set(state`${props`sceneDataPath`}.worldObjects.${state`${props`sceneDataPath`}.selectedWorldObjectId`}.isSelected`, true)
   ],
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)

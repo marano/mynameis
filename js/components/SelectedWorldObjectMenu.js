@@ -1,8 +1,10 @@
 import { connect } from '@cerebral/inferno';
-import { state } from 'cerebral/tags';
+import { props, state } from 'cerebral/tags';
+
+import { computeSelectedWorldObject } from '../computes';
 
 export default connect({
-  selectedWorldObject: state`${state`currentSceneDataPath`}.selectedWorldObject`
+  selectedWorldObject: computeSelectedWorldObject(state`currentSceneDataPath`)
 }, SelectedWorldObjectMenu);
 
 function SelectedWorldObjectMenu({ selectedWorldObject }) {

@@ -27,3 +27,12 @@ export function computeVisibleTileIndexes(sceneDataPath) {
     }
   );
 }
+
+export function computeSelectedWorldObject(sceneDataPath) {
+  return compute(
+    state`${sceneDataPath}.selectedWorldObjectId`,
+    function (worldObjectId, get) {
+      return get(state`${sceneDataPath}.worldObjects.${worldObjectId}`);
+    }
+  );
+}

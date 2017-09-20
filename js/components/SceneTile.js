@@ -14,13 +14,12 @@ function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
       <div style={tileContentStyle(tileSize)}>
         {
           worldTile
-            .worldObjects
-            .map(function (worldObject, worldObjectIndex) {
+            .worldObjectIds
+            .map(function (worldObjectId) {
               return (
                 <WorldObject
                   sceneDataPath={sceneDataPath}
-                  tileIndex={tileIndex}
-                  worldObjectIndex={worldObjectIndex}
+                  worldObjectId={worldObjectId}
                 />
               );
             })
