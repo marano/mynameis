@@ -71,8 +71,11 @@ function createSceneTile(x, y) {
   };
 }
 
+let worldObjectId = 0;
+
 function createWorldObject(entity) {
   return {
+    id: ++worldObjectId,
     entityName: entity.name,
     zIndex: entity.zIndex,
     isSelected: false,
