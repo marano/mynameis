@@ -1,5 +1,5 @@
 import Component from 'inferno-component';
-import { connect } from 'cerebral/inferno';
+import { connect } from '@cerebral/inferno';
 import { props, state, signal } from 'cerebral/tags';
 
 import onWindowResize from '../on-window-resize';

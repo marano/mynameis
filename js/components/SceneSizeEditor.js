@@ -1,4 +1,4 @@
-import { connect } from 'cerebral/inferno';
+import { connect } from '@cerebral/inferno';
 import { state } from 'cerebral/tags';
 
 import ChangeSceneSizeButton from './ChangeSceneSizeButton';

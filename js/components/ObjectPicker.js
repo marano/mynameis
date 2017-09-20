@@ -1,4 +1,4 @@
-import { connect } from 'cerebral/inferno';
+import { connect } from '@cerebral/inferno';
 import { state, props } from 'cerebral/tags';
 
 import ObjectPickerEntity from './ObjectPickerEntity';
