@@ -10,21 +10,23 @@ export default connect({
 
 function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
   return (
-    <scene-tile style={style(worldTile, tileSize)} className="scene-tile-border-color-on-hover">
-      {
-        worldTile
-          .worldObjects
-          .map(function (worldObject, worldObjectIndex) {
-            return (
-              <WorldObject
-                sceneDataPath={sceneDataPath}
-                tileIndex={tileIndex}
-                worldObjectIndex={worldObjectIndex}
-              />
-            );
-          })
-      }
-    </scene-tile>
+    <div style={style(worldTile, tileSize)} className="scene-tile-border-color-on-hover">
+      <div style={tileContentStyle(tileSize)}>
+        {
+          worldTile
+            .worldObjects
+            .map(function (worldObject, worldObjectIndex) {
+              return (
+                <WorldObject
+                  sceneDataPath={sceneDataPath}
+                  tileIndex={tileIndex}
+                  worldObjectIndex={worldObjectIndex}
+                />
+              );
+            })
+        }
+      </div>
+    </div>
   );
 }
 
@@ -36,4 +38,12 @@ function style(worldTile, tileSize) {
     left: worldTile.x * tileSize,
     top: worldTile.y * tileSize
   };
+}
+
+function tileContentStyle(tileSize) {
+  return {
+    position: 'relative', // Avoids click events to be triggered on the tile div instead of world object
+    width: tileSize,
+    height: tileSize
+  }
 }

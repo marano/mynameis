@@ -11,6 +11,7 @@ export function setEntitiesUiElements({ state, props: { entities, uiElements } }
 
 export function initializeSceneData({ props: { sceneTemplate: { size } }, state }) {
   const tiles = [];
+  const selectedWorldObject = null;
   const viewport = {
     tileSize: 40,
     cameraLockMode: 'locked',
@@ -28,7 +29,7 @@ export function initializeSceneData({ props: { sceneTemplate: { size } }, state 
     }
   };
 
-  state.push('scenes', { tiles, size, viewport });
+  state.push('scenes', { tiles, size, selectedWorldObject, viewport });
   const lastLoadedSceneIndex = state.get('scenes').length - 1;
   const sceneDataPath = `scenes.${lastLoadedSceneIndex}`;
   return { sceneDataPath };
@@ -73,6 +74,8 @@ function createSceneTile(x, y) {
 function createWorldObject(entity) {
   return {
     entityName: entity.name,
+    zIndex: entity.zIndex,
+    isSelected: false,
     uiElements: entity.uiElements.map(createWorldObjectUiElement)
   };
 }

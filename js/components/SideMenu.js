@@ -4,6 +4,7 @@ import { state } from 'cerebral/tags';
 import CameraLockModeSwitch from './CameraLockModeSwitch';
 import SceneSizeEditor from './SceneSizeEditor';
 import ObjectPicker from './ObjectPicker';
+import SelectedWorldObjectMenu from './SelectedWorldObjectMenu';
 
 export default connect({
   width: state`sideMenu.width`
@@ -15,6 +16,7 @@ function SideMenu({ width }) {
       <CameraLockModeSwitch />
       <SceneSizeEditor />
       <ObjectPicker />
+      <SelectedWorldObjectMenu />
     </side-menu>
   );
 };

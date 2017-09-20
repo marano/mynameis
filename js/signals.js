@@ -1,6 +1,6 @@
 // import { setWorld } from './actions';
 import { state, props } from 'cerebral/tags';
-import { set } from 'cerebral/operators';
+import { set, when } from 'cerebral/operators';
 
 import {
   setEntitiesUiElements,
@@ -26,6 +26,16 @@ export default {
     fillSceneTiles,
     fillWorldObjects,
     set(state`currentSceneDataPath`, props`sceneDataPath`)
+  ],
+  worldObjectSelected: [
+    when(state`${props`sceneDataPath`}.selectedWorldObject`),
+      {
+        true: set(state`${props`sceneDataPath`}.selectedWorldObject.isSelected`, false),
+        false: []
+      },
+    // set(state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}.isSelected`, true),
+    set(state`${props`sceneDataPath`}.selectedWorldObject`, state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.worldObjects.${props`worldObjectIndex`}`),
+    set(state`${props`sceneDataPath`}.selectedWorldObject.isSelected`, true)
   ],
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)

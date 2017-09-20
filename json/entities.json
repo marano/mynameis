@@ -2,11 +2,13 @@
   "definitions": [
     {
       "name": "grass",
-      "uiElements": ["grass"]
+      "uiElements": ["grass"],
+      "zIndex": 1
     },
     {
       "name": "tree",
-      "uiElements": ["tree"]
+      "uiElements": ["tree"],
+      "zIndex": 2
     }
   ]
 }
