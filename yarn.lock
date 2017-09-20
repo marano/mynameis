@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@cerebral/inferno@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@cerebral/inferno/-/inferno-2.0.1.tgz#05538623f40da03320f2a5db4cdec9a6314b05dc"
+  dependencies:
+    cerebral "^3.0.1"
+
 "@types/eventemitter3@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/eventemitter3/-/eventemitter3-1.2.0.tgz#4ebc1b9c6e92417c8e5c49204bb48189f7463dca"

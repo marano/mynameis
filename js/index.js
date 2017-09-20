@@ -1,5 +1,5 @@
 import Inferno from 'inferno';
-import { Container } from 'cerebral/inferno';
+import { Container } from '@cerebral/inferno';
 import { throttle } from 'lodash';
 
 import controller from './controller';
