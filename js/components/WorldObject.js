@@ -15,7 +15,7 @@ export default connect({
 function WorldObject(props) {
   return (
     <div
-      className="world-object-border-color-on-hover"
+      className={className(props)}
       style={style(props)}
       onClick={linkEvent(props, onClick)}
     >
@@ -34,6 +34,14 @@ function WorldObject(props) {
   );
 };
 
+function className({ isSelected }) {
+  if (isSelected) {
+    return 'world-object-border-color';
+  } else {
+    return 'world-object-border-color-on-hover';
+  }
+}
+
 function uiElementDataPath(uiElementIndex, { sceneDataPath, worldObjectId }) {
   return `${sceneDataPath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`;
 }
@@ -45,9 +53,6 @@ function style({ zIndex, isSelected, tileSize }) {
     height: tileSize,
     zIndex
   };
-  if (isSelected) {
-    style.border = '2px solid white';
-  }
   return style;
 }
 
