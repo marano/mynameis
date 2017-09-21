@@ -15,6 +15,8 @@ function style(uiElement, tileSize) {
 
   return {
     position: 'absolute',
+    top: 0,
+    left: 0,
     imageRendering: 'pixelated',
     width: tileSize,
     height: tileSize,

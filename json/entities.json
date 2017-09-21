@@ -3,12 +3,12 @@
     {
       "name": "grass",
       "uiElements": ["grass"],
-      "zIndex": 1
+      "zIndex": 10
     },
     {
       "name": "tree",
       "uiElements": ["tree"],
-      "zIndex": 2
+      "zIndex": 20
     }
   ]
 }

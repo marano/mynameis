@@ -51,7 +51,7 @@ function style({ zIndex, isSelected, tileSize }) {
     position: 'absolute',
     width: tileSize,
     height: tileSize,
-    zIndex
+    zIndex: zIndex + (isSelected ? 1 : 0)
   };
   return style;
 }
