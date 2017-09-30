@@ -83,17 +83,23 @@ export default connect(
         position: 'relative',
         overflow: 'hidden',
         width: this.props.viewportSize.x * this.props.tileSize,
-        height: this.props.viewportSize.y * this.props.tileSize
+        height: this.props.viewportSize.y * this.props.tileSize,
+        border: '2px solid white'
       };
     }
 
     contentStyle() {
+      const borderSize = 2;
+      const borderOffset = borderSize + 1;
       return {
         position: 'absolute',
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,
-        left: -(this.props.viewportPosition.x * this.props.tileSize),
-        top: -(this.props.viewportPosition.y * this.props.tileSize)
+        left: -(this.props.viewportPosition.x * this.props.tileSize) - borderOffset,
+        top: -(this.props.viewportPosition.y * this.props.tileSize) - borderOffset,
+        borderSize,
+        borderStyle: 'solid',
+        borderColor: 'white'
       };
     }
   }
