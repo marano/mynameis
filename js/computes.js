@@ -36,18 +36,3 @@ export function computeSelectedWorldObject(sceneDataPath) {
     }
   );
 }
-
-export function computeIsElementAtAxis(mode, axis, worldObjectId, sceneDataPath) {
-  return compute(
-    state`${sceneDataPath}.worldObjects.${worldObjectId}.location.${axis}`,
-    function (worldObjectLocation, get) {
-      return {
-        start: function () { return worldObjectLocation == 0; },
-        end: function () {
-          const sceneSize = get(state`${sceneDataPath}.size.${axis}`);
-          return worldObjectLocation == sceneSize - 1;
-        }
-      }[mode]();
-    }
-  );
-}
