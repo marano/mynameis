@@ -89,15 +89,14 @@ export default connect(
     }
 
     contentStyle() {
-      const borderSize = 2;
-      const borderOffset = borderSize + 1;
+      const borderWidth = 2;
       return {
         position: 'absolute',
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,
-        left: -(this.props.viewportPosition.x * this.props.tileSize) - borderOffset,
-        top: -(this.props.viewportPosition.y * this.props.tileSize) - borderOffset,
-        borderSize,
+        left: -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth,
+        top: -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth,
+        borderWidth,
         borderStyle: 'solid',
         borderColor: 'white'
       };
