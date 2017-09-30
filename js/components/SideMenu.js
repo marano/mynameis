@@ -13,10 +13,16 @@ export default connect({
 function SideMenu({ width }) {
   return (
     <side-menu style={style()}>
-      <CameraLockModeSwitch />
-      <SceneSizeEditor />
-      <ObjectPicker />
-      <SelectedWorldObjectMenu />
+      {[
+        CameraLockModeSwitch,
+        SceneSizeEditor,
+        ObjectPicker,
+        SelectedWorldObjectMenu
+      ].map(Component => (
+        <div style={itemStyle()}>
+          <Component />
+        </div>
+      ))}
     </side-menu>
   );
 };
@@ -25,5 +31,13 @@ function style() {
   return {
     display: 'flex',
     flexDirection: 'column'
+  };
+}
+
+function itemStyle() {
+  return {
+    border: '2px solid white',
+    margin: '10px 0',
+    padding: '10px 10px'
   };
 }
