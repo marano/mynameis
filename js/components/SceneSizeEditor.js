@@ -1,4 +1,5 @@
-import { connect } from '@cerebral/inferno';
+import React from 'react';
+import { connect } from '@cerebral/react';
 import { state } from 'cerebral/tags';
 
 import ChangeSceneSizeButton from './ChangeSceneSizeButton';
@@ -35,7 +36,7 @@ function SceneSizeEditor({ sceneSize }) {
         <ChangeSceneSizeButton axis="x" delta={-1} mode="start" />
       </div>
       <div style={buttonWrapperStyle(4, '3/6')}>
-        <span style="font-size: 12px; font-family: monospace">
+        <span style={{ fontSize: '12px', fontFamily: 'monospace'}}>
           {sceneSize.x}x{sceneSize.y}
         </span>
       </div>

@@ -1,4 +1,5 @@
-import { connect } from '@cerebral/inferno';
+import React from 'react';
+import { connect } from '@cerebral/react';
 import { props, state } from 'cerebral/tags';
 
 import WorldObject from './WorldObject';
@@ -18,6 +19,7 @@ function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
             .map(function (worldObjectId) {
               return (
                 <WorldObject
+                  key={worldObjectId}
                   sceneDataPath={sceneDataPath}
                   worldObjectId={worldObjectId}
                 />

@@ -1,4 +1,5 @@
-import { connect } from '@cerebral/inferno';
+import React from 'react';
+import { connect } from '@cerebral/react';
 import { state, props } from 'cerebral/tags';
 
 import ObjectPickerEntity from './ObjectPickerEntity';
@@ -12,7 +13,7 @@ function ObjectPicker({ entitiesIndexes }) {
     <object-picker style={style()}>
       {
         entitiesIndexes.map(function (entityIndex) {
-          return <ObjectPickerEntity entityIndex={entityIndex} />;
+          return <ObjectPickerEntity key={entityIndex} entityIndex={entityIndex} />;
         })
       }
     </object-picker>

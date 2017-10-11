@@ -1,5 +1,6 @@
-import { linkEvent } from 'inferno';
-import { connect } from '@cerebral/inferno';
+import React from 'react';
+import linkEvent from '../link-event';
+import { connect } from '@cerebral/react';
 import { state, props, signal } from 'cerebral/tags';
 
 import UiElement from './UiElement';
@@ -24,6 +25,7 @@ function ObjectPickerEntity(props) {
         uiElementsIndexes.map(function (uiElementIndex) {
           return (
             <UiElement
+              key={uiElementIndex}
               uiElementDataPath={uiElementDataPath(entityIndex, uiElementIndex)}
               tileSize={tileSize}
             />

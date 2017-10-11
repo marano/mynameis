@@ -1,6 +1,7 @@
+import React from 'react';
 import { map, filter } from 'lodash' ;
-import { linkEvent } from 'inferno';
-import { connect } from '@cerebral/inferno';
+import linkEvent from '../link-event';
+import { connect } from '@cerebral/react';
 import { props, state, signal } from 'cerebral/tags';
 
 import UiElement from './UiElement';

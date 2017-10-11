@@ -1,5 +1,6 @@
-import { linkEvent } from 'inferno';
-import { connect } from '@cerebral/inferno';
+import React from 'react';
+import linkEvent from '../link-event';
+import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
 
 export default connect({

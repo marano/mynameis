@@ -1,5 +1,6 @@
-import Inferno from 'inferno';
-import { Container } from '@cerebral/inferno';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Container } from '@cerebral/react';
 import { throttle } from 'lodash';
 
 import controller from './controller';
@@ -9,8 +10,6 @@ import { definitions as entities } from '../json/entities.json';
 import sceneTemplate from '../json/world.json';
 
 import Main from './components/Main';
-
-Inferno.options.recyclingEnabled = true;
 
 controller.getSignal('entitiesLoaded')({ entities, uiElements });
 controller.getSignal('sceneTemplateLoaded')({ sceneTemplate });
@@ -26,7 +25,7 @@ window.addEventListener(
   true
 );
 
-Inferno.render(
+ReactDOM.render(
   (
     <Container controller={controller}>
       <Main />

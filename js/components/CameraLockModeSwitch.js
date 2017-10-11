@@ -1,3 +1,4 @@
+import React from 'react';
 import CameraLockModeSwitchButton from './CameraLockModeSwitchButton';
 
 export default function CameraLockModeSwitch() {
