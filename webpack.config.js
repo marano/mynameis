@@ -35,10 +35,27 @@ const libs = {
         linkEvent: [path.resolve('./js/link-event.js'), 'default']
       })
     ]
+  },
+  preact: {
+    setupFile: null,
+    babelPresets: [],
+    babelPlugins: [
+      'preact-require',
+      ['transform-react-jsx', { 'pragma': 'h' }]
+    ],
+    webpackPlugins: [
+      new webpack.ProvidePlugin({
+        View: ['preact'],
+        Component: ['preact', 'Component'],
+        Container: ['@cerebral/preact', 'Container'],
+        connect: ['@cerebral/preact', 'connect'],
+        linkEvent: [path.resolve('./js/link-event.js'), 'default']
+      })
+    ]
   }
 }
 
-const lib = libs['react']
+const lib = libs['preact']
 
 module.exports = {
   entry: compact([
