@@ -1,4 +1,3 @@
-import { connect } from '@cerebral/inferno';
 import { state } from 'cerebral/tags';
 
 import CameraLockModeSwitch from './CameraLockModeSwitch';
@@ -18,8 +17,8 @@ function SideMenu({ width }) {
         SceneSizeEditor,
         ObjectPicker,
         SelectedWorldObjectMenu
-      ].map(Component => (
-        <div style={itemStyle()}>
+      ].map((Component, index)=> (
+        <div key={index} style={itemStyle()}>
           <Component />
         </div>
       ))}

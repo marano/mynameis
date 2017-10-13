@@ -1,5 +1,3 @@
-import { linkEvent } from 'inferno';
-import { connect } from '@cerebral/inferno';
 import { state, signal } from 'cerebral/tags';
 
 export default connect({

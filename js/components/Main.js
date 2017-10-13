@@ -1,4 +1,3 @@
-  import { connect } from '@cerebral/inferno';
 import { state } from 'cerebral/tags';
 
 import Viewport from './Viewport';

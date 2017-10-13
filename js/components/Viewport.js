@@ -1,5 +1,3 @@
-import Component from 'inferno-component';
-import { connect } from '@cerebral/inferno';
 import { props, state, signal } from 'cerebral/tags';
 
 import onWindowResize from '../on-window-resize';
@@ -41,7 +39,7 @@ export default connect(
 
     render() {
       return (
-        <viewport ref={this.setViewportRef} style={this.outerStyle()}>
+        <div ref={this.setViewportRef} style={this.outerStyle()}>
           <viewport-window style={this.windowStyle()}>
             <viewport-content style={this.contentStyle()} hasKeyedChildren>
               {
@@ -58,7 +56,7 @@ export default connect(
               }
             </viewport-content>
           </viewport-window>
-        </viewport>
+        </div>
       );
     }
 
@@ -67,15 +65,15 @@ export default connect(
     }
 
     outerStyle() {
-      return `
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: black;
-        --tile-size: ${this.props.tileSize}px;
-      `;
+      return {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'black',
+        '--tile-size': `${this.props.tileSize}px`
+      };
     }
 
     windowStyle() {

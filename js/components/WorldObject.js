@@ -1,6 +1,4 @@
 import { map, filter } from 'lodash' ;
-import { linkEvent } from 'inferno';
-import { connect } from '@cerebral/inferno';
 import { props, state, signal } from 'cerebral/tags';
 
 import UiElement from './UiElement';
@@ -25,6 +23,7 @@ function WorldObject(props) {
           .map(function (uiElementIndex) {
             return (
               <UiElement
+                key={uiElementIndex}
                 uiElementDataPath={uiElementDataPath(uiElementIndex, props)}
                 tileSize={props.tileSize}
               />

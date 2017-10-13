@@ -1,4 +1,3 @@
-import { connect } from '@cerebral/inferno';
 import { props, state } from 'cerebral/tags';
 
 export default connect({
