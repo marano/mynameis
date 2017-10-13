@@ -40,6 +40,8 @@ export default connect(
     render() {
       return (
         <div ref={this.setViewportRef} style={this.outerStyle()}>
+          <style jsx>{`--tile-size: ${this.props.tileSize}px;`}</style>
+
           <viewport-window style={this.windowStyle()}>
             <viewport-content style={this.contentStyle()} hasKeyedChildren>
               {
@@ -71,8 +73,7 @@ export default connect(
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'black',
-        '--tile-size': `${this.props.tileSize}px`
+        backgroundColor: 'black'
       };
     }
 

@@ -81,7 +81,7 @@ module.exports = {
           presets: ['stage-3'].concat(lib.babelPresets),
           plugins: [
             'transform-object-rest-spread',
-            'dynamic-import-webpack'
+            ['styled-jsx/babel', { optimizeForSpeed: true }]
           ].concat(lib.babelPlugins)
         }
       }
