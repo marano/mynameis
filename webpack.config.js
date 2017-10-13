@@ -55,7 +55,7 @@ const libs = {
   }
 }
 
-const lib = libs['preact']
+const lib = libs['inferno']
 
 module.exports = {
   entry: compact([

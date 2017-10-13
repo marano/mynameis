@@ -39,11 +39,15 @@ export default connect(
 
     render() {
       return (
-        <div ref={this.setViewportRef} style={this.outerStyle()}>
-          <style jsx>{`--tile-size: ${this.props.tileSize}px;`}</style>
+        <div className="viewport" ref={this.setViewportRef} style={this.outerStyle()}>
+          <style jsx>{`
+            .viewport {
+              --tile-size: ${this.props.tileSize}px;
+            }
+          `}</style>
 
-          <viewport-window style={this.windowStyle()}>
-            <viewport-content style={this.contentStyle()} hasKeyedChildren>
+          <div style={this.windowStyle()}>
+            <div style={this.contentStyle()} hasKeyedChildren>
               {
                 this
                   .props
@@ -56,8 +60,8 @@ export default connect(
                     />
                   ))
               }
-            </viewport-content>
-          </viewport-window>
+            </div>
+          </div>
         </div>
       );
     }
