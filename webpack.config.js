@@ -80,6 +80,7 @@ module.exports = {
         query: {
           presets: ['stage-3'].concat(lib.babelPresets),
           plugins: [
+            ['emotion', { sourceMap: false }],
             'transform-object-rest-spread',
             ['styled-jsx/babel', { optimizeForSpeed: true }]
           ].concat(lib.babelPlugins)

@@ -1,10 +1,41 @@
 import { props, state, signal } from 'cerebral/tags';
+import  { css } from 'emotion';
 
 import onWindowResize from '../on-window-resize';
 
 import { computeVisibleTileIndexes } from '../computes';
 
 import SceneTile from './SceneTile';
+
+const viewportClassName = props => css`
+  --tile-size: ${props.tileSize}px;
+`;
+
+const windowClassName = props => css`
+  position: relative;
+  overflow: hidden;
+  width: ${props.viewportSize.x * props.tileSize}px;
+  height: ${props.viewportSize.y * props.tileSize}px;
+  border: 2px solid white;
+`
+
+const contentClassName = props => css`
+  position: absolute;
+  width: ${props.worldSize.x * props.tileSize}px;
+  height: ${props.worldSize.y * props.tileSize}px;
+  left: ${-(props.viewportPosition.x * props.tileSize) - 2}px;
+  top: ${-(props.viewportPosition.y * props.tileSize) - 2}px;
+  border: 2px solid white;
+`;
+
+const outerClassName = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+`
 
 export default connect(
   {
@@ -39,15 +70,12 @@ export default connect(
 
     render() {
       return (
-        <div className="viewport" ref={this.setViewportRef} style={this.outerStyle()}>
-          <style jsx>{`
-            .viewport {
-              --tile-size: ${this.props.tileSize}px;
-            }
-          `}</style>
-
-          <div style={this.windowStyle()}>
-            <div style={this.contentStyle()} hasKeyedChildren>
+        <div
+          className={`${viewportClassName(this.props)} ${outerClassName}`}
+          ref={this.setViewportRef}
+        >
+          <div className={windowClassName(this.props)}>
+            <div className={contentClassName(this.props)} hasKeyedChildren>
               {
                 this
                   .props
@@ -68,27 +96,6 @@ export default connect(
 
     setViewportRef(viewportRef) {
       this.viewportRef = viewportRef;
-    }
-
-    outerStyle() {
-      return {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black'
-      };
-    }
-
-    windowStyle() {
-      return {
-        position: 'relative',
-        overflow: 'hidden',
-        width: this.props.viewportSize.x * this.props.tileSize,
-        height: this.props.viewportSize.y * this.props.tileSize,
-        border: '2px solid white'
-      };
     }
 
     contentStyle() {
