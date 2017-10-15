@@ -206,12 +206,15 @@ const keyHandler = {
   }
 }
 
-export function handleKeyPress({ state, props: { key, sceneDataPath }}) {
-  const handler = keyHandler[key];
-  if (handler) {
-    handler(state, sceneDataPath);
-  }
-}
+export const handleKeyPress = throttle(
+  function ({ state, props: { key, sceneDataPath }}) {
+    const handler = keyHandler[key];
+    if (handler) {
+      handler(state, sceneDataPath);
+    }
+  },
+  120
+);
 
 export function changeSceneSize({ state, props: { sceneDataPath, axis, delta, mode } }) {
   const sceneAxisSize = state.get(`${sceneDataPath}.size.${axis}`);
