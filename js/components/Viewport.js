@@ -96,7 +96,6 @@ export default connect(
       const x = -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth;
       const y = -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth;
       return {
-        position: 'absolute',
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,
         transform: `translate(${x}px, ${y}px)`,
