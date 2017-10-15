@@ -93,12 +93,15 @@ export default connect(
 
     contentStyle() {
       const borderWidth = 2;
+      const x = -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth;
+      const y = -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth;
       return {
         position: 'absolute',
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,
-        left: -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth,
-        top: -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth,
+        transform: `translate(${x}px, ${y}px)`,
+        willChange: 'transform',
+        transition: 'transform 120ms',
         borderWidth,
         borderStyle: 'solid',
         borderColor: 'white'
