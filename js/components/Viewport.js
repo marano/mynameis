@@ -12,8 +12,9 @@ export default connect(
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     viewportSize: state`${props`sceneDataPath`}.viewport.size`,
     viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
+    currentGameMode: state`editor.currentGameMode`,
     worldSize: state`${props`sceneDataPath`}.size`,
-    viewportResized: signal`viewportResized`
+    viewportResized: signal`viewportResized`,
   },
   class Viewport extends Component {
     constructor(props) {
@@ -94,12 +95,13 @@ export default connect(
       const borderWidth = 2;
       const x = -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth;
       const y = -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth;
+      const delay = this.props.currentGameMode === 'play' ? 350 : 0;
       return {
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,
         transform: `translate(${x}px, ${y}px)`,
         willChange: 'transform',
-        transition: 'transform 350ms',
+        transition: `transform ${delay}ms`,
         borderWidth,
         borderStyle: 'solid',
         borderColor: 'white'

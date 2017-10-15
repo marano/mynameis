@@ -1,10 +1,8 @@
 import { state } from 'cerebral/tags';
 
-import CameraLockModeSwitch from './CameraLockModeSwitch';
 import SceneSizeEditor from './SceneSizeEditor';
 import ObjectPicker from './ObjectPicker';
 import SelectedWorldObjectMenu from './SelectedWorldObjectMenu';
-import GameModeSwitch from './GameModeSwitch';
 
 export default connect({
   width: state`sideMenu.width`
@@ -14,8 +12,6 @@ function SideMenu({ width }) {
   return (
     <side-menu style={style()}>
       {[
-        GameModeSwitch,
-        CameraLockModeSwitch,
         SceneSizeEditor,
         ObjectPicker,
         SelectedWorldObjectMenu
