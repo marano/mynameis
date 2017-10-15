@@ -14,11 +14,11 @@ export function computeVisibleTileIndexes(sceneDataPath) {
     state`${sceneDataPath}.size.x`,
     state`${sceneDataPath}.size.y`,
     function (viewportPositionX, viewportPositionY, viewportSizeX, viewportSizeY, sceneSizeX, sceneSizeY) {
-      const minX = Math.max(0, viewportPositionX);
-      const minY = Math.max(0, viewportPositionY);
+      const minX = Math.max(0, viewportPositionX - 2);
+      const minY = Math.max(0, viewportPositionY - 2);
 
-      const maxX = Math.min(viewportPositionX + viewportSizeX, sceneSizeX);
-      const maxY = Math.min(viewportPositionY + viewportSizeY, sceneSizeY);
+      const maxX = Math.min(viewportPositionX + viewportSizeX + 2, sceneSizeX);
+      const maxY = Math.min(viewportPositionY + viewportSizeY + 2, sceneSizeY);
 
       var xRange = range(minX, maxX);
       var yRange = range(minY, maxY);

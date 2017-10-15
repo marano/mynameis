@@ -101,7 +101,7 @@ export default connect(
         height: this.props.worldSize.y * this.props.tileSize,
         transform: `translate(${x}px, ${y}px)`,
         willChange: 'transform',
-        transition: 'transform 120ms',
+        transition: 'transform 350ms',
         borderWidth,
         borderStyle: 'solid',
         borderColor: 'white'
