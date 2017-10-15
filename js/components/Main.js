@@ -35,7 +35,9 @@ function viewportStyle() {
   return {
     gridRow: '1',
     gridColumn: '1',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    padding: '15px 0px 15px 0px',
+    backgroundColor: 'black'
   };
 }
 
