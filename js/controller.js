@@ -13,6 +13,9 @@ export default Controller({
   state: {
     currentSceneDataPath: null,
     scenes: [],
+    editor: {
+      currentGameMode: 'stop',
+    },
     objectPicker: {
       selectedEntityIndex: null
     },

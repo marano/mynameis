@@ -15,7 +15,7 @@ export function initializeSceneData({ props: { sceneTemplate: { size } }, state 
   const selectedWorldObjectId = null;
   const viewport = {
     tileSize: 40,
-    cameraLockMode: 'locked',
+    cameraLockMode: 'free',
     containerDimension: {
       width: null,
       height: null

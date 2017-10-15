@@ -39,6 +39,9 @@ export default {
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
   ],
+  gameModeChanged: [
+    set(state`editor.currentGameMode`, props`gameMode`),
+  ],
   cameraModeChanged: [
     set(state`${props`sceneDataPath`}.viewport.cameraLockMode`, props`cameraLockMode`),
     adjustViewportSize,

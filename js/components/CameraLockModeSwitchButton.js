@@ -1,5 +1,7 @@
 import { props, state, signal } from 'cerebral/tags';
 
+import Button from './Button';
+
 export default connect({
   sceneDataPath: state`currentSceneDataPath`,
   currentCameraLockMode: state`${state`currentSceneDataPath`}.viewport.cameraLockMode`,
@@ -7,26 +9,15 @@ export default connect({
 }, CameraLockModeSwitchButton);
 
 function CameraLockModeSwitchButton(props) {
+  const { cameraLockMode, currentCameraLockMode } = props;
+  const isSelected = cameraLockMode == currentCameraLockMode;
   return (
-    <div onClick={linkEvent(props, onClick)} style={style(props)}>
-      {props.cameraLockMode}
-    </div>
+    <Button onClick={linkEvent(props, onClick)} isSelected={isSelected}>
+      {cameraLockMode}
+    </Button>
   );
 }
 
 function onClick({ sceneDataPath, cameraLockMode, cameraModeChanged }) {
   cameraModeChanged({ sceneDataPath, cameraLockMode });
-}
-
-function style({ cameraLockMode, currentCameraLockMode }) {
-  const isSelected = cameraLockMode == currentCameraLockMode;
-  return {
-    border: '1px white solid',
-    backgroundColor: isSelected ? 'white' : 'black',
-    color: isSelected ? 'black' : 'white',
-    display: 'inline-block',
-    padding: 5,
-    fontFamily: 'monospace',
-    cursor: 'pointer'
-  };
 }
