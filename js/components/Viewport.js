@@ -83,7 +83,6 @@ export default connect(
 
     windowStyle() {
       return {
-        position: 'relative',
         overflow: 'hidden',
         width: this.props.viewportSize.x * this.props.tileSize,
         height: this.props.viewportSize.y * this.props.tileSize,
