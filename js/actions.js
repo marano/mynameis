@@ -203,6 +203,9 @@ const keyHandler = {
   },
   d: function (state, sceneDataPath) {
     panViewportPosition(+1, 0, state, sceneDataPath);
+  },
+  escape: function (state) {
+    state.set('objectPicker.selectedEntityIndex', null);
   }
 }
 

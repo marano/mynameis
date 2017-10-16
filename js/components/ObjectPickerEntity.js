@@ -30,7 +30,8 @@ function style(entityIndex, selectedEntityIndex) {
     position: 'relative',
     display: 'inline-block',
     borderWidth: 1,
-    borderStyle: 'solid'
+    borderStyle: 'solid',
+    cursor: 'pointer'
   };
 
   if (entityIndex == selectedEntityIndex) {

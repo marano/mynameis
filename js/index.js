@@ -12,7 +12,7 @@ controller.getSignal('entitiesLoaded')({ entities, uiElements });
 controller.getSignal('sceneTemplateLoaded')({ sceneTemplate });
 
 window.addEventListener(
-  'keypress',
+  'keydown',
   function (event) {
     controller.getSignal('keyPressed')({
       key: event.key.toLowerCase(),

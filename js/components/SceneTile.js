@@ -11,7 +11,7 @@ export default connect({
 
 function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize, selectedEntityIndex }) {
   return (
-    <div style={style(worldTile, tileSize)} className="scene-tile-border-color-on-hover show-on-hover">
+    <div style={style(worldTile, tileSize, selectedEntityIndex)} className="scene-tile-border-color-on-hover show-on-hover">
       <div style={tileContentStyle(tileSize)}>
         {
           worldTile
@@ -43,13 +43,14 @@ function renderSelectedWorldEntityOverlay(selectedEntityIndex, tileSize) {
   }
 }
 
-function style(worldTile, tileSize) {
+function style(worldTile, tileSize, selectedEntityIndex) {
   return {
     position: 'absolute',
     width: tileSize,
     height: tileSize,
     left: worldTile.x * tileSize,
-    top: worldTile.y * tileSize
+    top: worldTile.y * tileSize,
+    cursor: selectedEntityIndex ? 'copy' : null
   };
 }
 
