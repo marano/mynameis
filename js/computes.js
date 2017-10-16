@@ -36,3 +36,10 @@ export function computeSelectedWorldObject(sceneDataPath) {
     }
   );
 }
+
+export const computeWorldObjectSelectable = compute(
+  state`objectPicker.selectedEntityIndex`,
+  function (selectedEntityIndex) {
+    return !selectedEntityIndex;
+  }
+);

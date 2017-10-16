@@ -1,15 +1,17 @@
 import { props, state } from 'cerebral/tags';
 
 import WorldObject from './WorldObject';
+import WorldEntity from './WorldEntity';
 
 export default connect({
   worldTile: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}`,
-  tileSize: state`${props`sceneDataPath`}.viewport.tileSize`
+  tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
+  selectedEntityIndex: state`objectPicker.selectedEntityIndex`
 }, SceneTile);
 
-function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
+function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize, selectedEntityIndex }) {
   return (
-    <div style={style(worldTile, tileSize)} className="scene-tile-border-color-on-hover">
+    <div style={style(worldTile, tileSize)} className="scene-tile-border-color-on-hover show-on-hover">
       <div style={tileContentStyle(tileSize)}>
         {
           worldTile
@@ -24,9 +26,21 @@ function SceneTile({ sceneDataPath, tileIndex, worldTile, tileSize }) {
               );
             })
         }
+
+        {renderSelectedWorldEntityOverlay(selectedEntityIndex, tileSize)}
       </div>
     </div>
   );
+}
+
+function renderSelectedWorldEntityOverlay(selectedEntityIndex, tileSize) {
+  if (selectedEntityIndex) {
+    return (
+      <div className="show-on-hover-target">
+        <WorldEntity entityIndex={selectedEntityIndex} tileSize={tileSize} />
+      </div>
+    )
+  }
 }
 
 function style(worldTile, tileSize) {
@@ -41,7 +55,6 @@ function style(worldTile, tileSize) {
 
 function tileContentStyle(tileSize) {
   return {
-    position: 'relative', // Avoids click events to be triggered on the tile div instead of world object
     width: tileSize,
     height: tileSize
   }

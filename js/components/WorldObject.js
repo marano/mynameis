@@ -1,6 +1,7 @@
 import { map, filter } from 'lodash' ;
 import { props, state, signal } from 'cerebral/tags';
 
+import { computeWorldObjectSelectable } from '../computes';
 import UiElement from './UiElement';
 
 export default connect({
@@ -8,6 +9,7 @@ export default connect({
   zIndex: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.zIndex`,
   isSelected: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.isSelected`,
   tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
+  worldObjectSelectable: computeWorldObjectSelectable,
   worldObjectSelected: signal`worldObjectSelected`
 }, WorldObject);
 
@@ -34,8 +36,10 @@ function WorldObject(props) {
   );
 };
 
-function className({ isSelected, isAtTopBorder, isAtBottomBorder, isAtLeftBorder, isAtRightBorder }) {
-  if (isSelected) {
+function className({ worldObjectSelectable, isSelected, isAtTopBorder, isAtBottomBorder, isAtLeftBorder, isAtRightBorder }) {
+  if (!worldObjectSelectable) {
+    return null;
+  } else if (isSelected) {
     return 'world-object-border-color';
   } else {
     return 'world-object-border-color-on-hover';
