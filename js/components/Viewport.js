@@ -1,10 +1,17 @@
 import { props, state, signal } from 'cerebral/tags';
+import { css } from 'emotion';
 
 import onWindowResize from '../on-window-resize';
 
 import { computeVisibleTileIndexes } from '../computes';
 
 import SceneTile from './SceneTile';
+
+function viewportClassName(tileSize) {
+  return css`
+    --tile-size: ${tileSize}px;
+  `;
+}
 
 export default connect(
   {
@@ -40,13 +47,7 @@ export default connect(
 
     render() {
       return (
-        <div className="viewport" ref={this.setViewportRef} style={this.outerStyle()}>
-          <style jsx>{`
-            .viewport {
-              --tile-size: ${this.props.tileSize}px;
-            }
-          `}</style>
-
+        <div className={viewportClassName(this.props.tileSize)} ref={this.setViewportRef} style={this.outerStyle()}>
           <div style={this.windowStyle()}>
             <div style={this.contentStyle()} hasKeyedChildren>
               {

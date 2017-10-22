@@ -2,7 +2,7 @@
   "name": "mynameis",
   "version": "0.0.2",
   "engines": {
-    "node": "6.10.3"
+    "node": "6.11.3"
   },
   "description": "- My name is",
   "main": "server.js",
@@ -29,6 +29,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "cerebral": "^3.2.0",
     "d3-array": "^1.2.1",
+    "emotion": "^8.0.8",
     "express": "^4.16.2",
     "file-loader": "^1.1.5",
     "inferno": "^3.9.0",
@@ -38,7 +39,6 @@
     "preact": "^8.2.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "styled-jsx": "^2.0.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
   }
