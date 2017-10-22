@@ -3,6 +3,7 @@ import { state } from 'cerebral/tags';
 import SceneSizeEditor from './SceneSizeEditor';
 import ObjectPicker from './ObjectPicker';
 import SelectedWorldObjectMenu from './SelectedWorldObjectMenu';
+import SelectedTileInspector from './SelectedTileInspector';
 
 export default connect({
   width: state`sideMenu.width`
@@ -14,9 +15,10 @@ function SideMenu({ width }) {
       {[
         SceneSizeEditor,
         ObjectPicker,
-        SelectedWorldObjectMenu
-      ].map((Component, index)=> (
-        <div key={index} style={itemStyle()}>
+        SelectedWorldObjectMenu,
+        SelectedTileInspector
+      ].map(Component => (
+        <div style={itemStyle()}>
           <Component />
         </div>
       ))}

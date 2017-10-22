@@ -29,6 +29,15 @@
         height: var(--tile-size);
       }
 
+      .scene-tile-border-color:before {
+        position: absolute;
+        z-index: 1000;
+        box-shadow: inset 0px 0px 0px 1px white;
+        content: '';
+        width: var(--tile-size);
+        height: var(--tile-size);
+      }
+
       .world-object-border-color-on-hover:hover:after {
         position: absolute;
         z-index: 1000;

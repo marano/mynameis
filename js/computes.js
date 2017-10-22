@@ -43,3 +43,9 @@ export const computeWorldObjectSelectable = compute(
     return !selectedEntityIndex;
   }
 );
+
+export function computeSelectedTile(sceneDataPath) {
+  return compute(
+    state`${sceneDataPath}.tiles.${state`editor.selectedTileIndex`}`
+  );
+}

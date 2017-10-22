@@ -39,6 +39,15 @@ export default {
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
   ],
+  sceneTileSelected: [
+    when(state`editor.selectedTileIndex`),
+      {
+        true: set(state`${props`sceneDataPath`}.tiles.${state`editor.selectedTileIndex`}.isSelected`, false),
+        false: []
+      },
+    set(state`editor.selectedTileIndex`, props`tileIndex`),
+    set(state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.isSelected`, true),
+  ],
   gameModeChanged: [
     set(state`editor.currentGameMode`, props`gameMode`),
   ],

@@ -15,6 +15,7 @@ export default Controller({
     scenes: [],
     editor: {
       currentGameMode: 'stop',
+      selectedTileIndex: null
     },
     objectPicker: {
       selectedEntityIndex: null
