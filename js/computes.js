@@ -13,12 +13,14 @@ export function computeVisibleTileIndexes(sceneDataPath) {
     state`${sceneDataPath}.viewport.size.y`,
     state`${sceneDataPath}.size.x`,
     state`${sceneDataPath}.size.y`,
-    function (viewportPositionX, viewportPositionY, viewportSizeX, viewportSizeY, sceneSizeX, sceneSizeY) {
-      const minX = Math.max(0, viewportPositionX - 2);
-      const minY = Math.max(0, viewportPositionY - 2);
+    state`editor.currentGameMode`,
+    function (viewportPositionX, viewportPositionY, viewportSizeX, viewportSizeY, sceneSizeX, sceneSizeY, currentGameMode) {
+      const animationOffset = currentGameMode == "play" ? 2 : 0;
+      const minX = Math.max(0, viewportPositionX - animationOffset);
+      const minY = Math.max(0, viewportPositionY - animationOffset);
 
-      const maxX = Math.min(viewportPositionX + viewportSizeX + 2, sceneSizeX);
-      const maxY = Math.min(viewportPositionY + viewportSizeY + 2, sceneSizeY);
+      const maxX = Math.min(viewportPositionX + viewportSizeX + animationOffset, sceneSizeX);
+      const maxY = Math.min(viewportPositionY + viewportSizeY + animationOffset, sceneSizeY);
 
       var xRange = range(minX, maxX);
       var yRange = range(minY, maxY);
