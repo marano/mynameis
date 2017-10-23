@@ -68,7 +68,7 @@ module.exports = {
         loader: "babel-loader",
         query: {
           presets: ["stage-3"].concat(lib.babelPresets),
-          plugins: ["transform-object-rest-spread", "emotion"].concat(
+          plugins: ["emotion", "transform-object-rest-spread"].concat(
             lib.babelPlugins
           )
         }
