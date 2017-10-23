@@ -1,4 +1,6 @@
 import { props, state, signal } from 'cerebral/tags';
+import { css } from 'emotion';
+import { cursor, cursorOnHover } from '../styles'
 
 import WorldObject from './WorldObject';
 import WorldEntity from './WorldEntity';
@@ -10,12 +12,24 @@ export default connect({
   sceneTileSelected: signal`sceneTileSelected`
 }, SceneTile);
 
+const selectedEntityOverlayClassName = css`
+  visibility: hidden;
+`;
+
+const showSelectedEntityOverlayOnHover = css`
+  :hover {
+    .${selectedEntityOverlayClassName} {
+      visibility: visible;
+    }
+  }
+`
+
 function SceneTile(props) {
   const { worldTile, sceneDataPath, tileIndex } = props
   return (
     <div
       style={style(props)}
-      className={`${worldTile.isSelected ? 'scene-tile-border-color' : 'scene-tile-border-color-on-hover'} show-on-hover`}
+      className={`${worldTile.isSelected ? cursor : cursorOnHover} ${showSelectedEntityOverlayOnHover}`}
       onClick={linkEvent(props, onClick)}
     >
       <div style={tileContentStyle(props)}>
@@ -42,7 +56,7 @@ function SceneTile(props) {
 function renderSelectedWorldEntityOverlay({ selectedEntityIndex, tileSize }) {
   if (selectedEntityIndex) {
     return (
-      <div className="show-on-hover-target">
+      <div className={selectedEntityOverlayClassName}>
         <WorldEntity entityIndex={selectedEntityIndex} tileSize={tileSize} />
       </div>
     )
