@@ -11,8 +11,30 @@ export const cursor = css`
   }
 `
 
+export const cursorExpanded = css`
+  :before {
+    ${cursor};
+    width: var(--tile-size) + 2;
+    height: var(--tile-size) + 2;
+    top: -1px;
+    left: -1px;
+  }
+`
+
 export const cursorOnHover = css`
   :hover {
     ${cursor};
+  }
+`
+
+export const hiddenChild = css`
+  visibility: hidden;
+`
+
+export const showHiddenChildOnHover = css`
+  :hover {
+    .${hiddenChild} {
+      visibility: visible;
+    }
   }
 `

@@ -1,4 +1,5 @@
 import { props, state, signal } from "cerebral/tags"
+import { cursorExpanded, cursorOnHover } from "../styles"
 
 import { computeWorldObjectSelectable } from "../computes"
 import UiElement from "./UiElement"
@@ -39,9 +40,9 @@ function className({ worldObjectSelectable, isSelected }) {
   if (!worldObjectSelectable) {
     return null
   } else if (isSelected) {
-    return "world-object-border-color"
+    return cursorExpanded
   } else {
-    return "world-object-border-color-on-hover"
+    return cursorOnHover
   }
 }
 
