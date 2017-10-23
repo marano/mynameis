@@ -20,6 +20,7 @@
     "@cerebral/react": "^2.2.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-emotion": "^8.0.6",
     "babel-plugin-inferno": "^3.2.0",
     "babel-plugin-preact-require": "^1.0.0",
     "babel-plugin-react-require": "^3.0.0",
