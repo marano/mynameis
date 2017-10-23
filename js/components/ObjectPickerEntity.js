@@ -1,22 +1,25 @@
-import { state, props, signal } from 'cerebral/tags';
-import { css } from 'emotion';
+import { state, signal } from "cerebral/tags"
+import { css } from "emotion"
 
-import WorldEntity from './WorldEntity';
+import WorldEntity from "./WorldEntity"
 
 const className = css`
   :hover {
     border-color: white;
   }
-`;
+`
 
-export default connect({
-  selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
-  objectPickerEntitySelected: signal`objectPickerEntitySelected`
-}, ObjectPickerEntity);
+export default connect(
+  {
+    selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
+    objectPickerEntitySelected: signal`objectPickerEntitySelected`
+  },
+  ObjectPickerEntity
+)
 
 function ObjectPickerEntity(props) {
-  const { entityIndex, selectedEntityIndex } = props;
-  const isSelected = entityIndex === selectedEntityIndex;
+  const { entityIndex, selectedEntityIndex } = props
+  const isSelected = entityIndex === selectedEntityIndex
 
   return (
     <div
@@ -26,29 +29,25 @@ function ObjectPickerEntity(props) {
     >
       <WorldEntity entityIndex={entityIndex} tileSize={50} />
     </div>
-  );
-}
-
-function uiElementDataPath(entityIndex, uiElementIndex) {
-  return `definitions.entities.${entityIndex}.uiElements.${uiElementIndex}`;
+  )
 }
 
 function style(isSelected) {
   const baseStyle = {
-    position: 'relative',
-    display: 'inline-block',
+    position: "relative",
+    display: "inline-block",
     borderWidth: 1,
-    borderStyle: 'solid',
-    cursor: 'pointer'
-  };
-
-  if (isSelected) {
-    baseStyle.borderColor = 'white';
+    borderStyle: "solid",
+    cursor: "pointer"
   }
 
-  return baseStyle;
+  if (isSelected) {
+    baseStyle.borderColor = "white"
+  }
+
+  return baseStyle
 }
 
 function onClick({ objectPickerEntitySelected, entityIndex }) {
-  objectPickerEntitySelected({ entityIndex });
+  objectPickerEntitySelected({ entityIndex })
 }

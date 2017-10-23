@@ -1,16 +1,16 @@
-import { props, state, signal } from 'cerebral/tags';
-import { css } from 'emotion';
+import { props, state, signal } from "cerebral/tags"
+import { css } from "emotion"
 
-import onWindowResize from '../on-window-resize';
+import onWindowResize from "../on-window-resize"
 
-import { computeVisibleTileIndexes } from '../computes';
+import { computeVisibleTileIndexes } from "../computes"
 
-import SceneTile from './SceneTile';
+import SceneTile from "./SceneTile"
 
 function viewportClassName(tileSize) {
   return css`
     --tile-size: ${tileSize}px;
-  `;
+  `
 }
 
 export default connect(
@@ -21,92 +21,97 @@ export default connect(
     viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
     currentGameMode: state`editor.currentGameMode`,
     worldSize: state`${props`sceneDataPath`}.size`,
-    viewportResized: signal`viewportResized`,
+    viewportResized: signal`viewportResized`
   },
   class Viewport extends Component {
     constructor(props) {
-      super(props);
-      this.setViewportRef = this.setViewportRef.bind(this);
+      super(props)
+      this.setViewportRef = this.setViewportRef.bind(this)
     }
 
     componentDidMount() {
-      this.callViewportResized();
-      onWindowResize('viewport', this.callViewportResized.bind(this));
+      this.callViewportResized()
+      onWindowResize("viewport", this.callViewportResized.bind(this))
     }
 
     componentWillUnmount() {
-      onWindowResize('viewport', null);
+      onWindowResize("viewport", null)
     }
 
     callViewportResized() {
-      const { sceneDataPath } = this.props;
-      const viewportWidth = this.viewportRef.offsetWidth;
-      const viewportHeight = this.viewportRef.offsetHeight;
-      this.props.viewportResized({ sceneDataPath, viewportWidth, viewportHeight });
+      const { sceneDataPath } = this.props
+      const viewportWidth = this.viewportRef.offsetWidth
+      const viewportHeight = this.viewportRef.offsetHeight
+      this.props.viewportResized({
+        sceneDataPath,
+        viewportWidth,
+        viewportHeight
+      })
     }
 
     render() {
       return (
-        <div className={viewportClassName(this.props.tileSize)} ref={this.setViewportRef} style={this.outerStyle()}>
+        <div
+          className={viewportClassName(this.props.tileSize)}
+          ref={this.setViewportRef}
+          style={this.outerStyle()}
+        >
           <div style={this.windowStyle()}>
             <div style={this.contentStyle()} hasKeyedChildren>
-              {
-                this
-                  .props
-                  .tilesIndexes
-                  .map((tileIndex) => (
-                    <SceneTile
-                      sceneDataPath={this.props.sceneDataPath}
-                      key={tileIndex}
-                      tileIndex={tileIndex}
-                    />
-                  ))
-              }
+              {this.props.tilesIndexes.map(tileIndex => (
+                <SceneTile
+                  sceneDataPath={this.props.sceneDataPath}
+                  key={tileIndex}
+                  tileIndex={tileIndex}
+                />
+              ))}
             </div>
           </div>
         </div>
-      );
+      )
     }
 
     setViewportRef(viewportRef) {
-      this.viewportRef = viewportRef;
+      this.viewportRef = viewportRef
     }
 
     outerStyle() {
       return {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black'
-      };
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "black"
+      }
     }
 
     windowStyle() {
       return {
-        overflow: 'hidden',
+        overflow: "hidden",
         width: this.props.viewportSize.x * this.props.tileSize,
         height: this.props.viewportSize.y * this.props.tileSize,
-        border: '2px solid white'
-      };
+        border: "2px solid white"
+      }
     }
 
     contentStyle() {
-      const borderWidth = 2;
-      const x = -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth;
-      const y = -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth;
-      const delay = this.props.currentGameMode === 'play' ? 350 : 0;
+      const borderWidth = 2
+      const x =
+        -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth
+      const y =
+        -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth
+      const delay = this.props.currentGameMode === "play" ? 350 : 0
       return {
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,
         transform: `translate(${x}px, ${y}px)`,
-        willChange: 'transform',
+        willChange: "transform",
         transition: `transform ${delay}ms`,
         borderWidth,
-        borderStyle: 'solid',
-        borderColor: 'white'
-      };
+        borderStyle: "solid",
+        borderColor: "white"
+      }
     }
   }
-);
+)

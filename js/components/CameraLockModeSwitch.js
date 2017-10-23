@@ -1,4 +1,4 @@
-import CameraLockModeSwitchButton from './CameraLockModeSwitchButton';
+import CameraLockModeSwitchButton from "./CameraLockModeSwitchButton"
 
 export default function CameraLockModeSwitch() {
   return (
@@ -6,5 +6,5 @@ export default function CameraLockModeSwitch() {
       <CameraLockModeSwitchButton cameraLockMode="free" />
       <CameraLockModeSwitchButton cameraLockMode="locked" />
     </div>
-  );
+  )
 }

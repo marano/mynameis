@@ -1,3 +1,3 @@
-import Inferno from 'inferno'
+import Inferno from "inferno"
 
-Inferno.options.recyclingEnabled = true;
+Inferno.options.recyclingEnabled = true

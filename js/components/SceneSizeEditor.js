@@ -1,10 +1,13 @@
-import { state } from 'cerebral/tags';
+import { state } from "cerebral/tags"
 
-import ChangeSceneSizeButton from './ChangeSceneSizeButton';
+import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
-export default connect({
-  sceneSize: state`${state`currentSceneDataPath`}.size`
-}, SceneSizeEditor);
+export default connect(
+  {
+    sceneSize: state`${state`currentSceneDataPath`}.size`
+  },
+  SceneSizeEditor
+)
 
 function SceneSizeEditor({ sceneSize }) {
   return (
@@ -33,30 +36,30 @@ function SceneSizeEditor({ sceneSize }) {
       <div style={buttonWrapperStyle(4, 2)}>
         <ChangeSceneSizeButton axis="x" delta={-1} mode="start" />
       </div>
-      <div style={buttonWrapperStyle(4, '3/6')}>
-        <span style={{ fontSize: '12px', fontFamily: 'monospace' }}>
+      <div style={buttonWrapperStyle(4, "3/6")}>
+        <span style={{ fontSize: "12px", fontFamily: "monospace" }}>
           {sceneSize.x}x{sceneSize.y}
         </span>
       </div>
     </scene-size-editor>
-  );
-};
+  )
+}
 
 function style() {
   return {
     padding: 10,
-    display: 'grid',
-    gridTemplateRows: 'repeat(7, 20px)',
-    gridTemplateColumns: 'repeat(7, 20px)',
-    color: 'white',
-    justifyContent: 'center'
-  };
+    display: "grid",
+    gridTemplateRows: "repeat(7, 20px)",
+    gridTemplateColumns: "repeat(7, 20px)",
+    color: "white",
+    justifyContent: "center"
+  }
 }
 
 function buttonWrapperStyle(row, column) {
   return {
     gridRow: row,
     gridColumn: column,
-    textAlign: 'center'
+    textAlign: "center"
   }
 }

@@ -1,17 +1,19 @@
-import { map, filter } from 'lodash' ;
-import { props, state, signal } from 'cerebral/tags';
+import { props, state, signal } from "cerebral/tags"
 
-import { computeWorldObjectSelectable } from '../computes';
-import UiElement from './UiElement';
+import { computeWorldObjectSelectable } from "../computes"
+import UiElement from "./UiElement"
 
-export default connect({
-  uiElemetsIndexes: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.uiElements.*`,
-  zIndex: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.zIndex`,
-  isSelected: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.isSelected`,
-  tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
-  worldObjectSelectable: computeWorldObjectSelectable,
-  worldObjectSelected: signal`worldObjectSelected`
-}, WorldObject);
+export default connect(
+  {
+    uiElemetsIndexes: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.uiElements.*`,
+    zIndex: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.zIndex`,
+    isSelected: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.isSelected`,
+    tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
+    worldObjectSelectable: computeWorldObjectSelectable,
+    worldObjectSelected: signal`worldObjectSelected`
+  },
+  WorldObject
+)
 
 function WorldObject(props) {
   return (
@@ -20,46 +22,50 @@ function WorldObject(props) {
       style={style(props)}
       onClick={linkEvent(props, onClick)}
     >
-      {
-        props.uiElemetsIndexes
-          .map(function (uiElementIndex) {
-            return (
-              <UiElement
-                key={uiElementIndex}
-                uiElementDataPath={uiElementDataPath(uiElementIndex, props)}
-                tileSize={props.tileSize}
-              />
-            );
-          })
-      }
+      {props.uiElemetsIndexes.map(function(uiElementIndex) {
+        return (
+          <UiElement
+            key={uiElementIndex}
+            uiElementDataPath={uiElementDataPath(uiElementIndex, props)}
+            tileSize={props.tileSize}
+          />
+        )
+      })}
     </div>
-  );
-};
+  )
+}
 
-function className({ worldObjectSelectable, isSelected, isAtTopBorder, isAtBottomBorder, isAtLeftBorder, isAtRightBorder }) {
+function className({
+  worldObjectSelectable,
+  isSelected,
+  isAtTopBorder,
+  isAtBottomBorder,
+  isAtLeftBorder,
+  isAtRightBorder
+}) {
   if (!worldObjectSelectable) {
-    return null;
+    return null
   } else if (isSelected) {
-    return 'world-object-border-color';
+    return "world-object-border-color"
   } else {
-    return 'world-object-border-color-on-hover';
+    return "world-object-border-color-on-hover"
   }
 }
 
 function uiElementDataPath(uiElementIndex, { sceneDataPath, worldObjectId }) {
-  return `${sceneDataPath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`;
+  return `${sceneDataPath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`
 }
 
 function style({ zIndex, isSelected, tileSize }) {
   const style = {
-    position: 'absolute',
+    position: "absolute",
     width: tileSize,
     height: tileSize,
     zIndex: zIndex + (isSelected ? 1 : 0)
-  };
-  return style;
+  }
+  return style
 }
 
 function onClick({ sceneDataPath, worldObjectId, worldObjectSelected }) {
-  worldObjectSelected({ sceneDataPath, worldObjectId });
+  worldObjectSelected({ sceneDataPath, worldObjectId })
 }

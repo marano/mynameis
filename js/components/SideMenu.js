@@ -1,13 +1,16 @@
-import { state } from 'cerebral/tags';
+import { state } from "cerebral/tags"
 
-import SceneSizeEditor from './SceneSizeEditor';
-import ObjectPicker from './ObjectPicker';
-import SelectedWorldObjectMenu from './SelectedWorldObjectMenu';
-import SelectedTileInspector from './SelectedTileInspector';
+import SceneSizeEditor from "./SceneSizeEditor"
+import ObjectPicker from "./ObjectPicker"
+import SelectedWorldObjectMenu from "./SelectedWorldObjectMenu"
+import SelectedTileInspector from "./SelectedTileInspector"
 
-export default connect({
-  width: state`sideMenu.width`
-}, SideMenu);
+export default connect(
+  {
+    width: state`sideMenu.width`
+  },
+  SideMenu
+)
 
 function SideMenu({ width }) {
   return (
@@ -23,20 +26,20 @@ function SideMenu({ width }) {
         </div>
       ))}
     </side-menu>
-  );
-};
+  )
+}
 
 function style() {
   return {
-    display: 'flex',
-    flexDirection: 'column'
-  };
+    display: "flex",
+    flexDirection: "column"
+  }
 }
 
 function itemStyle() {
   return {
-    border: '2px solid white',
-    margin: '10px 0',
-    padding: '10px 10px'
-  };
+    border: "2px solid white",
+    margin: "10px 0",
+    padding: "10px 10px"
+  }
 }

@@ -1,4 +1,4 @@
-import GameModeSwitchButton from './GameModeSwitchButton';
+import GameModeSwitchButton from "./GameModeSwitchButton"
 
 export default function GameModeSwitch() {
   return (
@@ -6,5 +6,5 @@ export default function GameModeSwitch() {
       <GameModeSwitchButton gameMode="stop" />
       <GameModeSwitchButton gameMode="play" />
     </div>
-  );
+  )
 }
