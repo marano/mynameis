@@ -11,7 +11,8 @@ export default connect(
     isSelected: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.isSelected`,
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     worldObjectSelectable: computeWorldObjectSelectable,
-    worldObjectSelected: signal`worldObjectSelected`
+    worldObjectSelected: signal`worldObjectSelected`,
+    gameMode: state`editor.currentGameMode`
   },
   WorldObject
 )
@@ -36,7 +37,7 @@ function WorldObject(props) {
   )
 }
 
-function className({ worldObjectSelectable, isSelected }) {
+function className({ worldObjectSelectable, isSelected, worldObjectId }) {
   if (!worldObjectSelectable) {
     return null
   } else if (isSelected) {
@@ -60,6 +61,13 @@ function style({ zIndex, isSelected, tileSize }) {
   return style
 }
 
-function onClick({ sceneDataPath, worldObjectId, worldObjectSelected }) {
-  worldObjectSelected({ sceneDataPath, worldObjectId })
+function onClick({
+  sceneDataPath,
+  worldObjectId,
+  worldObjectSelected,
+  gameMode
+}) {
+  if (gameMode === "play") {
+    worldObjectSelected({ sceneDataPath, worldObjectId })
+  }
 }

@@ -1,21 +1,24 @@
 import { css } from "emotion"
 
 export const cursor = css`
-  :before {
+  :after {
+    box-sizing: border-box;
     position: absolute;
     z-index: 1000;
-    box-shadow: inset 0px 0px 0px 1px white;
+    border: 1px solid white;
     content: "";
     width: var(--tile-size);
     height: var(--tile-size);
+    top: 0;
+    left: 0;
   }
 `
 
 export const cursorExpanded = css`
-  :before {
-    ${cursor};
-    width: var(--tile-size) + 2;
-    height: var(--tile-size) + 2;
+  ${cursor};
+  :after {
+    width: calc(var(--tile-size) + 2px);
+    height: calc(var(--tile-size) + 2px);
     top: -1px;
     left: -1px;
   }

@@ -55,8 +55,9 @@ export function computeSelectedWorldObject(sceneDataPath) {
 
 export const computeWorldObjectSelectable = compute(
   state`objectPicker.selectedEntityIndex`,
-  function(selectedEntityIndex) {
-    return !selectedEntityIndex
+  state`editor.currentGameMode`,
+  function(selectedEntityIndex, gameMode) {
+    return gameMode === "play" && !selectedEntityIndex
   }
 )
 
