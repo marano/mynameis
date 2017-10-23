@@ -1,6 +1,13 @@
 import { state, props, signal } from 'cerebral/tags';
+import { css } from 'emotion';
 
 import WorldEntity from './WorldEntity';
+
+const className = css`
+  :hover {
+    border-color: white;
+  }
+`;
 
 export default connect({
   selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
@@ -9,12 +16,13 @@ export default connect({
 
 function ObjectPickerEntity(props) {
   const { entityIndex, selectedEntityIndex } = props;
+  const isSelected = entityIndex === selectedEntityIndex;
 
   return (
     <div
-      style={style(entityIndex, selectedEntityIndex)}
+      style={style(isSelected)}
       onClick={linkEvent(props, onClick)}
-      className="object-picker-entity-border-color-on-hover"
+      className={className}
     >
       <WorldEntity entityIndex={entityIndex} tileSize={50} />
     </div>
@@ -25,7 +33,7 @@ function uiElementDataPath(entityIndex, uiElementIndex) {
   return `definitions.entities.${entityIndex}.uiElements.${uiElementIndex}`;
 }
 
-function style(entityIndex, selectedEntityIndex) {
+function style(isSelected) {
   const baseStyle = {
     position: 'relative',
     display: 'inline-block',
@@ -34,7 +42,7 @@ function style(entityIndex, selectedEntityIndex) {
     cursor: 'pointer'
   };
 
-  if (entityIndex == selectedEntityIndex) {
+  if (isSelected) {
     baseStyle.borderColor = 'white';
   }
 
