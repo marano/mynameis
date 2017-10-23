@@ -45,13 +45,13 @@ function SceneTile(props) {
   )
 }
 
-function className({ gameMode, worldTile }) {
+function className({ gameMode, worldTile, selectedEntityIndex }) {
   if (gameMode === "play") {
     return null
   } else if (gameMode === "stop") {
     if (worldTile.isSelected) {
       return cursor
-    } else {
+    } else if (!selectedEntityIndex) {
       return cursorOnHover
     }
   }
