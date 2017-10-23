@@ -35,14 +35,7 @@ function WorldObject(props) {
   )
 }
 
-function className({
-  worldObjectSelectable,
-  isSelected,
-  isAtTopBorder,
-  isAtBottomBorder,
-  isAtLeftBorder,
-  isAtRightBorder
-}) {
+function className({ worldObjectSelectable, isSelected }) {
   if (!worldObjectSelectable) {
     return null
   } else if (isSelected) {
