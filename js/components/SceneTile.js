@@ -46,9 +46,7 @@ function SceneTile(props) {
 }
 
 function className({ gameMode, worldTile, selectedEntityIndex }) {
-  if (gameMode === "play") {
-    return null
-  } else if (gameMode === "stop") {
+  if (gameMode === "stop") {
     if (worldTile.isSelected) {
       return cursor
     } else if (!selectedEntityIndex) {
