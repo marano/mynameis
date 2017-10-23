@@ -15,7 +15,7 @@ export default connect(
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
     sceneTileSelected: signal`sceneTileSelected`,
-    gameMode: state`editor.gameMode`
+    gameMode: state`editor.currentGameMode`
   },
   SceneTile
 )
@@ -85,6 +85,8 @@ function tileContentStyle({ tileSize }) {
   }
 }
 
-function onClick({ tileIndex, sceneDataPath, sceneTileSelected }) {
-  sceneTileSelected({ tileIndex, sceneDataPath })
+function onClick({ tileIndex, sceneDataPath, sceneTileSelected, gameMode }) {
+  if (gameMode === "stop") {
+    sceneTileSelected({ tileIndex, sceneDataPath })
+  }
 }
