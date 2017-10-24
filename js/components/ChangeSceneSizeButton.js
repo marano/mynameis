@@ -1,10 +1,7 @@
-import { state, signal } from "cerebral/tags"
+import { signal } from "cerebral/tags"
 
 export default connect(
-  {
-    sceneDataPath: state`currentSceneDataPath`,
-    sceneSizeChanged: signal`sceneSizeChanged`
-  },
+  { sceneSizeChanged: signal`sceneSizeChanged` },
   ChangeSceneSizeButton
 )
 

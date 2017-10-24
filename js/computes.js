@@ -13,7 +13,7 @@ export function computeVisibleTileIndexes(sceneDataPath) {
     state`${sceneDataPath}.viewport.size.y`,
     state`${sceneDataPath}.size.x`,
     state`${sceneDataPath}.size.y`,
-    state`editor.currentGameMode`,
+    state`currentGameMode`,
     function(
       viewportPositionX,
       viewportPositionY,
@@ -55,7 +55,7 @@ export function computeSelectedWorldObject(sceneDataPath) {
 
 export const computeWorldObjectSelectable = compute(
   state`objectPicker.selectedEntityIndex`,
-  state`editor.currentGameMode`,
+  state`currentGameMode`,
   function(selectedEntityIndex, gameMode) {
     return gameMode === "play" && !selectedEntityIndex
   }
@@ -66,3 +66,16 @@ export function computeSelectedTile(sceneDataPath) {
     state`${sceneDataPath}.tiles.${state`editor.selectedTileIndex`}`
   )
 }
+
+export const computeCurrentSceneDataPath = compute(
+  state`currentGameMode`,
+  state`game.currentSceneDataPath`,
+  state`editor.currentSceneDataPath`,
+  function(gameMode, gameSceneDataPath, editorSceneDataPath) {
+    if (gameMode === "play") {
+      return gameSceneDataPath
+    } else if (gameMode === "stop") {
+      return editorSceneDataPath
+    }
+  }
+)

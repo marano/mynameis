@@ -1,10 +1,16 @@
 import CameraLockModeSwitchButton from "./CameraLockModeSwitchButton"
 
-export default function CameraLockModeSwitch() {
+export default function CameraLockModeSwitch({ sceneDataPath }) {
   return (
     <div>
-      <CameraLockModeSwitchButton cameraLockMode="free" />
-      <CameraLockModeSwitchButton cameraLockMode="locked" />
+      <CameraLockModeSwitchButton
+        sceneDataPath={sceneDataPath}
+        cameraLockMode="free"
+      />
+      <CameraLockModeSwitchButton
+        sceneDataPath={sceneDataPath}
+        cameraLockMode="locked"
+      />
     </div>
   )
 }

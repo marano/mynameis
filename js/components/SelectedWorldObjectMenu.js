@@ -1,10 +1,10 @@
-import { state } from "cerebral/tags"
+import { props } from "cerebral/tags"
 
 import { computeSelectedWorldObject } from "../computes"
 
 export default connect(
   {
-    selectedWorldObject: computeSelectedWorldObject(state`currentSceneDataPath`)
+    selectedWorldObject: computeSelectedWorldObject(props`sceneDataPath`)
   },
   SelectedWorldObjectMenu
 )

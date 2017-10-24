@@ -14,7 +14,7 @@ export default connect(
     worldTile: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}`,
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
-    gameMode: state`editor.currentGameMode`,
+    gameMode: state`currentGameMode`,
     sceneTileSelected: signal`sceneTileSelected`,
     worldObjectAdded: signal`worldObjectAdded`
   },

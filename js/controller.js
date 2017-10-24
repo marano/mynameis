@@ -11,10 +11,13 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
-    currentSceneDataPath: null,
+    currentGameMode: "stop",
     scenes: {},
+    game: {
+      currentSceneDataPath: null
+    },
     editor: {
-      currentGameMode: "stop",
+      currentSceneDataPath: null,
       selectedTileIndex: null
     },
     objectPicker: {

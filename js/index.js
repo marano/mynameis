@@ -12,9 +12,16 @@ controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
 window.addEventListener(
   "keydown",
   function(event) {
+    const sceneDataPath = controller.getState(
+      {
+        play: "game.currentSceneDataPath",
+        stop: "editor.currentSceneDataPath"
+      }[controller.getState("currentGameMode")]
+    )
+
     controller.getSignal("keyPressed")({
-      key: event.key.toLowerCase(),
-      sceneDataPath: controller.getState("currentSceneDataPath")
+      sceneDataPath,
+      key: event.key.toLowerCase()
     })
   },
   true

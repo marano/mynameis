@@ -26,7 +26,7 @@ export default {
     createSceneTiles,
     fillSceneTiles,
     fillWorldObjects,
-    set(state`currentSceneDataPath`, props`sceneDataPath`)
+    set(state`editor.currentSceneDataPath`, props`sceneDataPath`)
   ],
   worldObjectSelected: [
     when(state`${props`sceneDataPath`}.selectedWorldObjectId`),
@@ -66,12 +66,12 @@ export default {
     )
   ],
   gameModeChanged: [
-    set(state`editor.currentGameMode`, props`gameMode`),
     equals(props`gameMode`),
     {
       play: [playScene, adjustViewportPositionForCameraMode],
       stop: []
-    }
+    },
+    set(state`currentGameMode`, props`gameMode`)
   ],
   cameraModeChanged: [
     set(

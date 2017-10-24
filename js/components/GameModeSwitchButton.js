@@ -4,7 +4,7 @@ import Button from "./Button"
 
 export default connect(
   {
-    currentGameMode: state`editor.currentGameMode`,
+    currentGameMode: state`currentGameMode`,
     gameModeChanged: signal`gameModeChanged`
   },
   GameModeSwitchButton

@@ -1,12 +1,12 @@
 import GameModeSwitch from "./GameModeSwitch"
 import CameraLockModeSwitch from "./CameraLockModeSwitch"
 
-export default function TopMenu() {
+export default function TopMenu({ sceneDataPath }) {
   return (
     <div style={style()}>
       {[GameModeSwitch, CameraLockModeSwitch].map((Component, index) => (
         <div key={index} style={itemStyle()}>
-          <Component />
+          <Component sceneDataPath={sceneDataPath} />
         </div>
       ))}
     </div>

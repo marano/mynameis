@@ -19,7 +19,7 @@ export default connect(
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     viewportSize: state`${props`sceneDataPath`}.viewport.size`,
     viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
-    currentGameMode: state`editor.currentGameMode`,
+    currentGameMode: state`currentGameMode`,
     worldSize: state`${props`sceneDataPath`}.size`,
     viewportResized: signal`viewportResized`
   },

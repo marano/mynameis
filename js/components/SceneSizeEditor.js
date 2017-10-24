@@ -1,40 +1,80 @@
-import { state } from "cerebral/tags"
+import { props, state } from "cerebral/tags"
 
 import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
 export default connect(
   {
-    sceneSize: state`${state`currentSceneDataPath`}.size`
+    sceneSize: state`${props`sceneDataPath`}.size`
   },
   SceneSizeEditor
 )
 
-function SceneSizeEditor({ sceneSize }) {
+function SceneSizeEditor({ sceneDataPath, sceneSize }) {
   return (
     <scene-size-editor style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={1} mode="start" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="y"
+          delta={1}
+          mode="start"
+        />
       </div>
       <div style={buttonWrapperStyle(2, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={-1} mode="start" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="y"
+          delta={-1}
+          mode="start"
+        />
       </div>
       <div style={buttonWrapperStyle(4, 7)}>
-        <ChangeSceneSizeButton axis="x" delta={1} mode="end" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="x"
+          delta={1}
+          mode="end"
+        />
       </div>
       <div style={buttonWrapperStyle(4, 6)}>
-        <ChangeSceneSizeButton axis="x" delta={-1} mode="end" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="x"
+          delta={-1}
+          mode="end"
+        />
       </div>
       <div style={buttonWrapperStyle(7, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={1} mode="end" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="y"
+          delta={1}
+          mode="end"
+        />
       </div>
       <div style={buttonWrapperStyle(6, 4)}>
-        <ChangeSceneSizeButton axis="y" delta={-1} mode="end" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="y"
+          delta={-1}
+          mode="end"
+        />
       </div>
       <div style={buttonWrapperStyle(4, 1)}>
-        <ChangeSceneSizeButton axis="x" delta={1} mode="start" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="x"
+          delta={1}
+          mode="start"
+        />
       </div>
       <div style={buttonWrapperStyle(4, 2)}>
-        <ChangeSceneSizeButton axis="x" delta={-1} mode="start" />
+        <ChangeSceneSizeButton
+          sceneDataPath={sceneDataPath}
+          axis="x"
+          delta={-1}
+          mode="start"
+        />
       </div>
       <div style={buttonWrapperStyle(4, "3/6")}>
         <span style={{ fontSize: "12px", fontFamily: "monospace" }}>

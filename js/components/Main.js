@@ -1,28 +1,30 @@
 import { state } from "cerebral/tags"
 
+import { computeCurrentSceneDataPath } from "../computes"
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
 
 export default connect(
   {
-    currentSceneDataPath: state`currentSceneDataPath`,
+    editorSceneDataPath: state`editor.currentSceneDataPath`,
+    currentSceneDataPath: computeCurrentSceneDataPath,
     sideMenuWidth: state`sideMenu.width`
   },
   Main
 )
 
-function Main({ currentSceneDataPath, sideMenuWidth }) {
+function Main({ currentSceneDataPath, editorSceneDataPath, sideMenuWidth }) {
   return (
     <main style={containerStyle(sideMenuWidth)}>
       <div style={topMenuStyle()}>
-        <TopMenu />
+        <TopMenu sceneDataPath={currentSceneDataPath} />
       </div>
       <div style={viewportStyle()}>
         <Viewport sceneDataPath={currentSceneDataPath} />
       </div>
       <div style={sideMenuStyle()}>
-        <SideMenu />
+        <SideMenu sceneDataPath={editorSceneDataPath} />
       </div>
     </main>
   )

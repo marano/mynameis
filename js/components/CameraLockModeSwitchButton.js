@@ -1,11 +1,10 @@
-import { state, signal } from "cerebral/tags"
+import { props, state, signal } from "cerebral/tags"
 
 import Button from "./Button"
 
 export default connect(
   {
-    sceneDataPath: state`currentSceneDataPath`,
-    currentCameraLockMode: state`${state`currentSceneDataPath`}.viewport.cameraLockMode`,
+    currentCameraLockMode: state`${props`sceneDataPath`}.viewport.cameraLockMode`,
     cameraModeChanged: signal`cameraModeChanged`
   },
   CameraLockModeSwitchButton
