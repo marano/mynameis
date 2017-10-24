@@ -22,10 +22,12 @@ export function setEntitiesUiElements({
   })
 }
 
+let sceneId = 0
 export function initializeSceneData({
   props: { sceneTemplate: { size } },
   state
 }) {
+  const id = ++sceneId
   const tiles = []
   const worldObjects = {}
   const selectedWorldObjectId = null
@@ -46,15 +48,17 @@ export function initializeSceneData({
     }
   }
 
-  state.push("scenes", {
+  const sceneDataPath = `scenes.${id}`
+
+  state.set(sceneDataPath, {
+    id,
     tiles,
     worldObjects,
     size,
     selectedWorldObjectId,
     viewport
   })
-  const lastLoadedSceneIndex = state.get("scenes").length - 1
-  const sceneDataPath = `scenes.${lastLoadedSceneIndex}`
+
   return { sceneDataPath }
 }
 
@@ -346,4 +350,15 @@ export function changeSceneSize({
 
   const sortedTiles = sortBy(newTiles, ["x", "y"])
   state.set(`${sceneDataPath}.tiles`, sortedTiles)
+}
+
+export function playScene({ state }) {
+  const editorSceneDataPath = state.get("currentSceneDataPath")
+  const scene = state.get(editorSceneDataPath)
+  const id = ++sceneId
+  const newScene = { ...cloneDeep(scene), id }
+  newScene.viewport.cameraLockMode = "locked"
+  const sceneDataPath = `scenes.${id}`
+  state.set(sceneDataPath, newScene)
+  state.set("currentSceneDataPath", sceneDataPath)
 }

@@ -12,7 +12,7 @@ export default Controller({
   }),
   state: {
     currentSceneDataPath: null,
-    scenes: [],
+    scenes: {},
     editor: {
       currentGameMode: "stop",
       selectedTileIndex: null

@@ -1,6 +1,6 @@
 // import { setWorld } from './actions';
 import { state, props } from "cerebral/tags"
-import { set, when } from "cerebral/operators"
+import { set, when, equals } from "cerebral/operators"
 
 import {
   setEntitiesUiElements,
@@ -12,7 +12,8 @@ import {
   adjustViewportPositionForCameraMode,
   handleKeyPress,
   changeSceneSize,
-  addWorldObject
+  addWorldObject,
+  playScene
 } from "./actions"
 
 export default {
@@ -64,7 +65,14 @@ export default {
       true
     )
   ],
-  gameModeChanged: [set(state`editor.currentGameMode`, props`gameMode`)],
+  gameModeChanged: [
+    set(state`editor.currentGameMode`, props`gameMode`),
+    equals(props`gameMode`),
+    {
+      play: [playScene],
+      stop: []
+    }
+  ],
   cameraModeChanged: [
     set(
       state`${props`sceneDataPath`}.viewport.cameraLockMode`,
