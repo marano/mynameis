@@ -14,8 +14,9 @@ export default connect(
     worldTile: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}`,
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
+    gameMode: state`editor.currentGameMode`,
     sceneTileSelected: signal`sceneTileSelected`,
-    gameMode: state`editor.currentGameMode`
+    worldObjectAdded: signal`worldObjectAdded`
   },
   SceneTile
 )
@@ -83,8 +84,23 @@ function tileContentStyle({ tileSize }) {
   }
 }
 
-function onClick({ tileIndex, sceneDataPath, sceneTileSelected, gameMode }) {
+function onClick({
+  tileIndex,
+  sceneDataPath,
+  sceneTileSelected,
+  gameMode,
+  selectedEntityIndex,
+  worldObjectAdded
+}) {
   if (gameMode === "stop") {
-    sceneTileSelected({ tileIndex, sceneDataPath })
+    if (selectedEntityIndex) {
+      worldObjectAdded({
+        sceneDataPath,
+        tileIndex,
+        entityIndex: selectedEntityIndex
+      })
+    } else {
+      sceneTileSelected({ tileIndex, sceneDataPath })
+    }
   }
 }

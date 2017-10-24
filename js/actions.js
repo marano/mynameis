@@ -107,6 +107,18 @@ export function fillWorldObjects({
   })
 }
 
+export function addWorldObject({
+  state,
+  props: { sceneDataPath, tileIndex, entityIndex }
+}) {
+  const entity = state.get(`definitions.entities.${entityIndex}`)
+  const tile = state.get(`${sceneDataPath}.tiles.${tileIndex}`)
+  state.push(
+    `${sceneDataPath}.tiles.${tileIndex}.worldObjectIds`,
+    createWorldObject(entity, tile, sceneDataPath, state)
+  )
+}
+
 function createSceneTile(x, y) {
   return {
     x,

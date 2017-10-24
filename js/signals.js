@@ -11,7 +11,8 @@ import {
   adjustViewportSize,
   adjustViewportPositionForCameraMode,
   handleKeyPress,
-  changeSceneSize
+  changeSceneSize,
+  addWorldObject
 } from "./actions"
 
 export default {
@@ -47,6 +48,7 @@ export default {
   objectPickerEntitySelected: [
     set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
   ],
+  worldObjectAdded: [addWorldObject],
   sceneTileSelected: [
     when(state`editor.selectedTileIndex`),
     {
