@@ -26,7 +26,9 @@ function SceneTile(props) {
   return (
     <div
       style={style(props)}
-      className={`${className(props)} ${showHiddenChildOnHover}`}
+      className={`${className(props)} ${props.gameMode === "stop"
+        ? showHiddenChildOnHover
+        : null}`}
       onClick={linkEvent(props, onClick)}
     >
       <div style={tileContentStyle(props)}>
@@ -66,14 +68,14 @@ function renderSelectedWorldEntityOverlay({ selectedEntityIndex, tileSize }) {
   }
 }
 
-function style({ worldTile, tileSize, selectedEntityIndex }) {
+function style({ worldTile, tileSize, selectedEntityIndex, gameMode }) {
   return {
     position: "absolute",
     width: tileSize,
     height: tileSize,
     left: worldTile.x * tileSize,
     top: worldTile.y * tileSize,
-    cursor: selectedEntityIndex ? "copy" : null
+    cursor: gameMode === "stop" && selectedEntityIndex ? "copy" : null
   }
 }
 
