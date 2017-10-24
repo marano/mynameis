@@ -352,13 +352,14 @@ export function changeSceneSize({
   state.set(`${sceneDataPath}.tiles`, sortedTiles)
 }
 
-export function playScene({ state }) {
+export function playScene({ state, props }) {
   const editorSceneDataPath = state.get("currentSceneDataPath")
   const scene = state.get(editorSceneDataPath)
   const id = ++sceneId
   const newScene = { ...cloneDeep(scene), id }
-  newScene.viewport.cameraLockMode = "locked"
   const sceneDataPath = `scenes.${id}`
   state.set(sceneDataPath, newScene)
   state.set("currentSceneDataPath", sceneDataPath)
+  state.set(`${sceneDataPath}.viewport.cameraLockMode`, "locked")
+  props.sceneDataPath = sceneDataPath
 }

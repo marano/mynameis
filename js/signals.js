@@ -69,7 +69,7 @@ export default {
     set(state`editor.currentGameMode`, props`gameMode`),
     equals(props`gameMode`),
     {
-      play: [playScene],
+      play: [playScene, adjustViewportPositionForCameraMode],
       stop: []
     }
   ],
