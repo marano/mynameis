@@ -5,7 +5,8 @@ module.exports = {
   globals: {
     Component: true,
     connect: true,
-    linkEvent: true
+    linkEvent: true,
+    View: true
   },
   rules: {
     "react/jsx-uses-vars": 2,
