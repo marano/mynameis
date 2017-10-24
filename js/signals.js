@@ -1,6 +1,6 @@
 // import { setWorld } from './actions';
 import { state, props } from "cerebral/tags"
-import { set, when, equals } from "cerebral/operators"
+import { debounce, set, when, equals, unset } from "cerebral/operators"
 
 import {
   setEntitiesUiElements,
@@ -66,12 +66,21 @@ export default {
     )
   ],
   gameModeChanged: [
+    set(state`currentGameMode`, props`gameMode`),
     equals(props`gameMode`),
     {
       play: [playScene, adjustViewportPositionForCameraMode],
-      stop: []
-    },
-    set(state`currentGameMode`, props`gameMode`)
+      stop: [
+        debounce(50),
+        {
+          continue: [
+            unset(state`${state`game.currentSceneDataPath`}`),
+            set(state`game.currentSceneDataPath`, null)
+          ],
+          discard: []
+        }
+      ]
+    }
   ],
   cameraModeChanged: [
     set(
