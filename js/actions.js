@@ -68,7 +68,7 @@ export function createSceneTiles({
 }) {
   const xRange = range(0, size.x)
   const yRange = range(0, size.y)
-  const tiles = cross(xRange, yRange, createSceneTile)
+  const tiles = cross(xRange, yRange, createSceneTileAt(sceneDataPath, state))
   state.set(`${sceneDataPath}.tiles`, tiles)
 }
 
@@ -123,12 +123,31 @@ export function addWorldObject({
   )
 }
 
-function createSceneTile(x, y) {
-  return {
+function createSceneTileAt(sceneDataPath, state) {
+  return (x, y) => createSceneTile(x, y, sceneDataPath, state)
+}
+
+let tileId = 0
+function createSceneTile(x, y, sceneDataPath, state) {
+  const tile = {
+    id: tileId++,
     x,
     y,
     worldObjectIds: []
   }
+
+  const selectedEntityIndex = state.get("objectPicker.selectedEntityIndex")
+  if (selectedEntityIndex) {
+    const selectedEntity = state.get(
+      `definitions.entities.${selectedEntityIndex}`
+    )
+
+    tile.worldObjectIds.push(
+      createWorldObject(selectedEntity, tile, sceneDataPath, state)
+    )
+  }
+
+  return tile
 }
 
 let worldObjectId = 0
@@ -316,22 +335,11 @@ export function changeSceneSize({
       end: () => range(sceneSize[axis] - 1, sceneSize[axis] + delta - 1)
     }[mode]()
     const otherAxisSizeRange = range(0, sceneSize[{ x: "y", y: "x" }[axis]])
+    const createTileAt = createSceneTileAt(sceneDataPath, state)
     const aditionalTiles = {
-      x: () => cross(deltaRange, otherAxisSizeRange, createSceneTile),
-      y: () => cross(otherAxisSizeRange, deltaRange, createSceneTile)
+      x: () => cross(deltaRange, otherAxisSizeRange, createTileAt),
+      y: () => cross(otherAxisSizeRange, deltaRange, createTileAt)
     }[axis]()
-
-    const selectedEntityIndex = state.get("objectPicker.selectedEntityIndex")
-    if (selectedEntityIndex) {
-      const selectedEntity = state.get(
-        `definitions.entities.${selectedEntityIndex}`
-      )
-      aditionalTiles.forEach(function(tile) {
-        tile.worldObjectIds.push(
-          createWorldObject(selectedEntity, tile, sceneDataPath, state)
-        )
-      })
-    }
 
     newTiles = aditionalTiles.concat(currentTiles)
   } else if (delta < 0) {
