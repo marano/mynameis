@@ -280,8 +280,9 @@ const keyHandler = {
   },
   escape: function(state) {
     const mode = state.get("currentMode")
-    // const objectPicker = state.get(`modes.${mode}.objectPicker`)
-    state.set(`modes.${mode}.objectPicker.selectedEntityIndex`, null)
+    if (mode === "editor") {
+      state.set(`modes.editor.objectPicker.selectedEntityIndex`, null)
+    }
   }
 }
 
