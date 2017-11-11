@@ -61,12 +61,7 @@ function style({ zIndex, isSelected, tileSize }) {
   return style
 }
 
-function onClick({
-  scenePath,
-  worldObjectId,
-  worldObjectSelected,
-  mode
-}) {
+function onClick({ scenePath, worldObjectId, worldObjectSelected, mode }) {
   if (mode === "game") {
     worldObjectSelected({ scenePath, worldObjectId })
   }
