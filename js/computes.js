@@ -64,5 +64,5 @@ export const computeWorldObjectSelectable = compute(
 )
 
 export function computeSelectedTile() {
-  return compute(state`${state`editor.selectedTilePath`}`)
+  return compute(state`${state`modes.editor.selectedTilePath`}`)
 }

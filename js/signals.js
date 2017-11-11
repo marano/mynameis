@@ -54,13 +54,16 @@ export default {
   ],
   worldObjectAdded: [addWorldObject],
   sceneTileSelected: [
-    when(state`editor.selectedTilePath`),
+    when(state`modes.editor.selectedTilePath`),
     {
-      true: set(state`${state`editor.selectedTilePath`}.isSelected`, false),
+      true: set(
+        state`${state`modes.editor.selectedTilePath`}.isSelected`,
+        false
+      ),
       false: []
     },
     selectSceneTile,
-    set(state`${state`editor.selectedTilePath`}.isSelected`, true)
+    set(state`${state`modes.editor.selectedTilePath`}.isSelected`, true)
   ],
   modeChanged: [
     set(state`currentMode`, props`mode`),

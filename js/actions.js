@@ -357,5 +357,5 @@ export function createSceneFromEditor({ state, props }) {
 }
 
 export function selectSceneTile({ state, props: { scenePath, tileId } }) {
-  state.set("editor.selectedTilePath", `${scenePath}.tiles.${tileId}`)
+  state.set("modes.editor.selectedTilePath", `${scenePath}.tiles.${tileId}`)
 }
