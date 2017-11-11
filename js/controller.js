@@ -15,8 +15,7 @@ export default Controller({
     scenes: {},
     modes: {
       game: {
-        currentScenePath: null,
-        selectedWorldObjectPath: null
+        currentScenePath: null
       },
       editor: {
         currentScenePath: null,
