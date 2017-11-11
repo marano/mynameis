@@ -63,7 +63,6 @@ function sideMenuStyle() {
     gridRow: "2",
     gridColumn: "2",
     backgroundColor: "black",
-    padding: 10,
-    overflow: "scroll"
+    padding: 10
   }
 }
