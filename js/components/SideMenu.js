@@ -12,7 +12,7 @@ export default connect(
   SideMenu
 )
 
-function SideMenu({ sceneDataPath, width }) {
+function SideMenu({ scenePath, width }) {
   return (
     <side-menu style={style()}>
       {[
@@ -22,7 +22,7 @@ function SideMenu({ sceneDataPath, width }) {
         SelectedTileInspector
       ].map(Component => (
         <div style={itemStyle()}>
-          <Component sceneDataPath={sceneDataPath} />
+          <Component scenePath={scenePath} />
         </div>
       ))}
     </side-menu>

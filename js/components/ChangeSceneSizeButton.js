@@ -13,8 +13,8 @@ function ChangeSceneSizeButton(props) {
   )
 }
 
-function onClick({ sceneDataPath, axis, delta, mode, sceneSizeChanged }) {
-  sceneSizeChanged({ sceneDataPath, axis, delta, mode })
+function onClick({ scenePath, axis, delta, mode, sceneSizeChanged }) {
+  sceneSizeChanged({ scenePath, axis, delta, mode })
 }
 
 function style() {

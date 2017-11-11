@@ -11,17 +11,20 @@ export default Controller({
     preventExternalMutations: true
   }),
   state: {
-    currentGameMode: "stop",
+    currentMode: "editor",
     scenes: {},
-    game: {
-      currentSceneDataPath: null
-    },
-    editor: {
-      currentSceneDataPath: null,
-      selectedTilePath: null
-    },
-    objectPicker: {
-      selectedEntityIndex: null
+    modes: {
+      game: {
+        currentScenePath: null,
+        selectedWorldObjectPath: null
+      },
+      editor: {
+        currentScenePath: null,
+        selectedTilePath: null,
+        objectPicker: {
+          selectedEntityIndex: null
+        }
+      }
     },
     sideMenu: {
       width: 300

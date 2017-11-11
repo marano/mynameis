@@ -4,22 +4,22 @@ import Button from "./Button"
 
 export default connect(
   {
-    currentGameMode: state`currentGameMode`,
-    gameModeChanged: signal`gameModeChanged`
+    currentMode: state`currentMode`,
+    modeChanged: signal`modeChanged`
   },
   GameModeSwitchButton
 )
 
 function GameModeSwitchButton(props) {
-  const { gameMode, currentGameMode } = props
-  const isSelected = gameMode === currentGameMode
+  const { mode, currentMode } = props
+  const isSelected = mode === currentMode
   return (
     <Button onClick={linkEvent(props, onClick)} isSelected={isSelected}>
-      {gameMode}
+      {mode}
     </Button>
   )
 }
 
-function onClick({ gameMode, gameModeChanged }) {
-  gameModeChanged({ gameMode })
+function onClick({ mode, modeChanged }) {
+  modeChanged({ mode })
 }

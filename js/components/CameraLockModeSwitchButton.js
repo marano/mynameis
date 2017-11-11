@@ -4,7 +4,7 @@ import Button from "./Button"
 
 export default connect(
   {
-    currentCameraLockMode: state`${props`sceneDataPath`}.viewport.cameraLockMode`,
+    currentCameraLockMode: state`${props`scenePath`}.viewport.cameraLockMode`,
     cameraModeChanged: signal`cameraModeChanged`
   },
   CameraLockModeSwitchButton
@@ -20,6 +20,6 @@ function CameraLockModeSwitchButton(props) {
   )
 }
 
-function onClick({ sceneDataPath, cameraLockMode, cameraModeChanged }) {
-  cameraModeChanged({ sceneDataPath, cameraLockMode })
+function onClick({ scenePath, cameraLockMode, cameraModeChanged }) {
+  cameraModeChanged({ scenePath, cameraLockMode })
 }

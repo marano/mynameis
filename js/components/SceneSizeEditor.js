@@ -4,17 +4,17 @@ import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
 export default connect(
   {
-    sceneSize: state`${props`sceneDataPath`}.size`
+    sceneSize: state`${props`scenePath`}.size`
   },
   SceneSizeEditor
 )
 
-function SceneSizeEditor({ sceneDataPath, sceneSize }) {
+function SceneSizeEditor({ scenePath, sceneSize }) {
   return (
     <scene-size-editor style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="y"
           delta={1}
           mode="start"
@@ -22,7 +22,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(2, 4)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="y"
           delta={-1}
           mode="start"
@@ -30,7 +30,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(4, 7)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="x"
           delta={1}
           mode="end"
@@ -38,7 +38,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(4, 6)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="x"
           delta={-1}
           mode="end"
@@ -46,7 +46,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(7, 4)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="y"
           delta={1}
           mode="end"
@@ -54,7 +54,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(6, 4)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="y"
           delta={-1}
           mode="end"
@@ -62,7 +62,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(4, 1)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="x"
           delta={1}
           mode="start"
@@ -70,7 +70,7 @@ function SceneSizeEditor({ sceneDataPath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(4, 2)}>
         <ChangeSceneSizeButton
-          sceneDataPath={sceneDataPath}
+          scenePath={scenePath}
           axis="x"
           delta={-1}
           mode="start"

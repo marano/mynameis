@@ -15,12 +15,12 @@ function viewportClassName(tileSize) {
 
 export default connect(
   {
-    tileIds: computeVisibleTileIds(props`sceneDataPath`),
-    tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
-    viewportSize: state`${props`sceneDataPath`}.viewport.size`,
-    viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
-    currentGameMode: state`currentGameMode`,
-    worldSize: state`${props`sceneDataPath`}.size`,
+    tileIds: computeVisibleTileIds(props`scenePath`),
+    tileSize: state`${props`scenePath`}.viewport.tileSize`,
+    viewportSize: state`${props`scenePath`}.viewport.size`,
+    viewportPosition: state`${props`scenePath`}.viewport.position`,
+    currentMode: state`currentMode`,
+    worldSize: state`${props`scenePath`}.size`,
     viewportResized: signal`viewportResized`
   },
   class Viewport extends Component {
@@ -39,11 +39,11 @@ export default connect(
     }
 
     callViewportResized() {
-      const { sceneDataPath } = this.props
+      const { scenePath } = this.props
       const viewportWidth = this.viewportRef.offsetWidth
       const viewportHeight = this.viewportRef.offsetHeight
       this.props.viewportResized({
-        sceneDataPath,
+        scenePath,
         viewportWidth,
         viewportHeight
       })
@@ -60,7 +60,7 @@ export default connect(
             <div style={this.contentStyle()} hasKeyedChildren>
               {this.props.tileIds.map(tileId => (
                 <SceneTile
-                  sceneDataPath={this.props.sceneDataPath}
+                  scenePath={this.props.scenePath}
                   key={tileId}
                   tileId={tileId}
                 />
@@ -101,7 +101,7 @@ export default connect(
         -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth
       const y =
         -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth
-      const delay = this.props.currentGameMode === "play" ? 350 : 0
+      const delay = this.props.currentMode === "game" ? 350 : 0
       return {
         width: this.props.worldSize.x * this.props.tileSize,
         height: this.props.worldSize.y * this.props.tileSize,

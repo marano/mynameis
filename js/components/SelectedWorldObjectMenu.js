@@ -4,7 +4,7 @@ import { computeSelectedWorldObject } from "../computes"
 
 export default connect(
   {
-    selectedWorldObject: computeSelectedWorldObject(props`sceneDataPath`)
+    selectedWorldObject: computeSelectedWorldObject(props`scenePath`)
   },
   SelectedWorldObjectMenu
 )

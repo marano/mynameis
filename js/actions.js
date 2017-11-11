@@ -41,9 +41,9 @@ export function initializeSceneData({
     }
   }
 
-  const sceneDataPath = `scenes.${id}`
+  const scenePath = `scenes.${id}`
 
-  state.set(sceneDataPath, {
+  state.set(scenePath, {
     id,
     tiles,
     sortedTileIds,
@@ -53,36 +53,36 @@ export function initializeSceneData({
     viewport
   })
 
-  return { sceneDataPath }
+  return { scenePath }
 }
 
 export function createSceneTiles({
-  props: { sceneDataPath, sceneTemplate: { size } },
+  props: { scenePath, sceneTemplate: { size } },
   state
 }) {
   const xRange = range(0, size.x)
   const yRange = range(0, size.y)
-  cross(xRange, yRange, createSceneTileAt(sceneDataPath, state))
+  cross(xRange, yRange, createSceneTileAt(scenePath, state))
 }
 
 export function fillSceneTiles({
-  props: { sceneDataPath, sceneTemplate: { filling: { floor } } },
+  props: { scenePath, sceneTemplate: { filling: { floor } } },
   state
 }) {
   const entities = state.get("definitions.entities")
   const entity = find(entities, { name: floor })
-  const tiles = state.get(`${sceneDataPath}.tiles`)
-  each(tiles, tile => createWorldObject(entity, tile, sceneDataPath, state))
+  const tiles = state.get(`${scenePath}.tiles`)
+  each(tiles, tile => createWorldObject(entity, tile, scenePath, state))
 }
 
 export function fillWorldObjects({
-  props: { sceneDataPath, sceneTemplate: { filling: { objects } } },
+  props: { scenePath, sceneTemplate: { filling: { objects } } },
   state
 }) {
   const entities = state.get("definitions.entities")
-  const sceneSizeY = state.get(`${sceneDataPath}.size.y`)
+  const sceneSizeY = state.get(`${scenePath}.size.y`)
 
-  const sortedTileIds = state.get(`${sceneDataPath}.sortedTileIds`)
+  const sortedTileIds = state.get(`${scenePath}.sortedTileIds`)
   objects.forEach((object, index) => {
     let tileId = idOfTileAt(
       sortedTileIds,
@@ -90,29 +90,29 @@ export function fillWorldObjects({
       object.location.x,
       object.location.y
     )
-    const tile = state.get(`${sceneDataPath}.tiles.${tileId}`)
+    const tile = state.get(`${scenePath}.tiles.${tileId}`)
     const entity = find(entities, { name: object.entity })
-    createWorldObject(entity, tile, sceneDataPath, state)
+    createWorldObject(entity, tile, scenePath, state)
   })
 }
 
 export function addWorldObject({
   state,
-  props: { sceneDataPath, tileId, entityIndex }
+  props: { scenePath, tileId, entityIndex }
 }) {
   const entity = state.get(`definitions.entities.${entityIndex}`)
-  const tile = state.get(`${sceneDataPath}.tiles.${tileId}`)
-  createWorldObject(entity, tile, sceneDataPath, state)
+  const tile = state.get(`${scenePath}.tiles.${tileId}`)
+  createWorldObject(entity, tile, scenePath, state)
 }
 
-function createSceneTileAt(sceneDataPath, state) {
+function createSceneTileAt(scenePath, state) {
   return (x, y) => {
-    createSceneTile(x, y, sceneDataPath, state)
+    createSceneTile(x, y, scenePath, state)
   }
 }
 
 let tileId = 0
-function createSceneTile(x, y, sceneDataPath, state) {
+function createSceneTile(x, y, scenePath, state) {
   const id = ++tileId
   const tile = {
     id,
@@ -121,14 +121,17 @@ function createSceneTile(x, y, sceneDataPath, state) {
     worldObjectIds: []
   }
 
-  state.set(`${sceneDataPath}.tiles.${tileId}`, tile)
+  state.set(`${scenePath}.tiles.${tileId}`, tile)
 
-  const selectedEntityIndex = state.get("objectPicker.selectedEntityIndex")
+  const mode = state.get("currentMode")
+  const selectedEntityIndex = state.get(
+    `modes.${mode}.objectPicker.selectedEntityIndex`
+  )
   if (selectedEntityIndex) {
     const selectedEntity = state.get(
       `definitions.entities.${selectedEntityIndex}`
     )
-    createWorldObject(selectedEntity, tile, sceneDataPath, state)
+    createWorldObject(selectedEntity, tile, scenePath, state)
   }
 
   return tile
@@ -136,7 +139,7 @@ function createSceneTile(x, y, sceneDataPath, state) {
 
 let worldObjectId = 0
 
-function createWorldObject(entity, tile, sceneDataPath, state) {
+function createWorldObject(entity, tile, scenePath, state) {
   const id = ++worldObjectId
   const worldObject = {
     id,
@@ -146,8 +149,8 @@ function createWorldObject(entity, tile, sceneDataPath, state) {
     uiElements: entity.uiElements.map(createWorldObjectUiElement)
   }
 
-  state.set(`${sceneDataPath}.worldObjects.${id}`, worldObject)
-  state.push(`${sceneDataPath}.tiles.${tile.id}.worldObjectIds`, id)
+  state.set(`${scenePath}.worldObjects.${id}`, worldObject)
+  state.push(`${scenePath}.tiles.${tile.id}.worldObjectIds`, id)
 }
 
 function createWorldObjectUiElement(uiElement) {
@@ -157,13 +160,13 @@ function createWorldObjectUiElement(uiElement) {
   }
 }
 
-export function adjustViewportSize({ state, props: { sceneDataPath } }) {
+export function adjustViewportSize({ state, props: { scenePath } }) {
   const viewportContainerDimension = state.get(
-    `${sceneDataPath}.viewport.containerDimension`
+    `${scenePath}.viewport.containerDimension`
   )
-  const tileSize = state.get(`${sceneDataPath}.viewport.tileSize`)
-  const sceneSize = state.get(`${sceneDataPath}.size`)
-  const cameraLockMode = state.get(`${sceneDataPath}.viewport.cameraLockMode`)
+  const tileSize = state.get(`${scenePath}.viewport.tileSize`)
+  const sceneSize = state.get(`${scenePath}.size`)
+  const cameraLockMode = state.get(`${scenePath}.viewport.cameraLockMode`)
 
   const maxFitSize = {
     x: Math.floor(viewportContainerDimension.width / tileSize),
@@ -184,19 +187,17 @@ export function adjustViewportSize({ state, props: { sceneDataPath } }) {
     y: viewportSizeByAxis("y")
   }
 
-  state.set(`${sceneDataPath}.viewport.size`, viewportSize)
+  state.set(`${scenePath}.viewport.size`, viewportSize)
 }
 
 export function adjustViewportPositionForCameraMode({
   state,
-  props: { sceneDataPath }
+  props: { scenePath }
 }) {
-  const currentViewportPosition = state.get(
-    `${sceneDataPath}.viewport.position`
-  )
-  const cameraLockMode = state.get(`${sceneDataPath}.viewport.cameraLockMode`)
-  const sceneSize = state.get(`${sceneDataPath}.size`)
-  const viewportSize = state.get(`${sceneDataPath}.viewport.size`)
+  const currentViewportPosition = state.get(`${scenePath}.viewport.position`)
+  const cameraLockMode = state.get(`${scenePath}.viewport.cameraLockMode`)
+  const sceneSize = state.get(`${scenePath}.size`)
+  const viewportSize = state.get(`${scenePath}.viewport.size`)
 
   const newAxisPosition = {
     free: function(axis) {
@@ -221,14 +222,14 @@ export function adjustViewportPositionForCameraMode({
     y: newAxisPosition("y")
   }
 
-  state.set(`${sceneDataPath}.viewport.position`, newPosition)
+  state.set(`${scenePath}.viewport.position`, newPosition)
 }
 
-function panViewportPosition(deltaX, deltaY, state, sceneDataPath) {
-  const position = state.get(`${sceneDataPath}.viewport.position`)
-  const viewportSize = state.get(`${sceneDataPath}.viewport.size`)
-  const sceneSize = state.get(`${sceneDataPath}.size`)
-  const cameraLockMode = state.get(`${sceneDataPath}.viewport.cameraLockMode`)
+function panViewportPosition(deltaX, deltaY, state, scenePath) {
+  const position = state.get(`${scenePath}.viewport.position`)
+  const viewportSize = state.get(`${scenePath}.viewport.size`)
+  const sceneSize = state.get(`${scenePath}.size`)
+  const cameraLockMode = state.get(`${scenePath}.viewport.cameraLockMode`)
 
   const delta = {
     x: deltaX,
@@ -261,67 +262,69 @@ function panViewportPosition(deltaX, deltaY, state, sceneDataPath) {
     y: positionByAxis("y")
   }
 
-  state.set(`${sceneDataPath}.viewport.position`, newPosition)
+  state.set(`${scenePath}.viewport.position`, newPosition)
 }
 
 const keyHandler = {
-  w: function(state, sceneDataPath) {
-    panViewportPosition(0, -1, state, sceneDataPath)
+  w: function(state, scenePath) {
+    panViewportPosition(0, -1, state, scenePath)
   },
-  s: function(state, sceneDataPath) {
-    panViewportPosition(0, +1, state, sceneDataPath)
+  s: function(state, scenePath) {
+    panViewportPosition(0, +1, state, scenePath)
   },
-  a: function(state, sceneDataPath) {
-    panViewportPosition(-1, 0, state, sceneDataPath)
+  a: function(state, scenePath) {
+    panViewportPosition(-1, 0, state, scenePath)
   },
-  d: function(state, sceneDataPath) {
-    panViewportPosition(+1, 0, state, sceneDataPath)
+  d: function(state, scenePath) {
+    panViewportPosition(+1, 0, state, scenePath)
   },
   escape: function(state) {
-    state.set("objectPicker.selectedEntityIndex", null)
+    const mode = state.get("currentMode")
+    // const objectPicker = state.get(`modes.${mode}.objectPicker`)
+    state.set(`modes.${mode}.objectPicker.selectedEntityIndex`, null)
   }
 }
 
 export const handleKeyPress = throttle(function({
   state,
-  props: { key, sceneDataPath }
+  props: { key, scenePath }
 }) {
   const handler = keyHandler[key]
   if (handler) {
-    handler(state, sceneDataPath)
+    handler(state, scenePath)
   }
 },
 120)
 
 export function changeSceneSize({
   state,
-  props: { sceneDataPath, axis, delta, mode }
+  props: { scenePath, axis, delta, mode }
 }) {
-  const sceneAxisSize = state.get(`${sceneDataPath}.size.${axis}`)
-  state.set(`${sceneDataPath}.size.${axis}`, sceneAxisSize + delta)
+  const sceneAxisSize = state.get(`${scenePath}.size.${axis}`)
+  state.set(`${scenePath}.size.${axis}`, sceneAxisSize + delta)
 
   if (mode === "start") {
-    const currentTiles = state.get(`${sceneDataPath}.tiles`)
+    const currentTiles = state.get(`${scenePath}.tiles`)
     each(currentTiles, function(tile) {
-      state.set(`${sceneDataPath}.tiles.${tile.id}.${axis}`, tile[axis] + delta)
+      state.set(`${scenePath}.tiles.${tile.id}.${axis}`, tile[axis] + delta)
     })
   }
 
   if (delta > 0) {
-    const sceneSize = state.get(`${sceneDataPath}.size`)
+    const sceneSize = state.get(`${scenePath}.size`)
     const deltaRange = {
       start: () => range(0, delta),
       end: () => range(sceneSize[axis] - 1, sceneSize[axis] + delta - 1)
     }[mode]()
     const otherAxisSizeRange = range(0, sceneSize[{ x: "y", y: "x" }[axis]])
-    const createTileAt = createSceneTileAt(sceneDataPath, state)
+    const createTileAt = createSceneTileAt(scenePath, state)
     ;({
       x: () => cross(deltaRange, otherAxisSizeRange, createTileAt),
       y: () => cross(otherAxisSizeRange, deltaRange, createTileAt)
     }[axis]())
   } else if (delta < 0) {
-    const currentTiles = state.get(`${sceneDataPath}.tiles`)
-    const sceneSize = state.get(`${sceneDataPath}.size`)
+    const currentTiles = state.get(`${scenePath}.tiles`)
+    const sceneSize = state.get(`${scenePath}.size`)
     each(currentTiles, function(tile, tileId) {
       const shouldRemove =
         tile.x < 0 ||
@@ -329,30 +332,30 @@ export function changeSceneSize({
         tile.x >= sceneSize.x ||
         tile.y >= sceneSize.y
       if (shouldRemove) {
-        state.unset(`${sceneDataPath}.tiles.${tileId}`)
+        state.unset(`${scenePath}.tiles.${tileId}`)
       }
     })
   }
 }
 
-export function updateSortedTileIds({ state, props: { sceneDataPath } }) {
-  const finalTiles = state.get(`${sceneDataPath}.tiles`)
+export function updateSortedTileIds({ state, props: { scenePath } }) {
+  const finalTiles = state.get(`${scenePath}.tiles`)
   const sortedTileIds = sortBy(finalTiles, ["x", "y"]).map(({ id }) => id)
-  state.set(`${sceneDataPath}.sortedTileIds`, sortedTileIds)
+  state.set(`${scenePath}.sortedTileIds`, sortedTileIds)
 }
 
-export function playScene({ state, props }) {
-  const editorSceneDataPath = state.get("editor.currentSceneDataPath")
-  const scene = state.get(editorSceneDataPath)
+export function createSceneFromEditor({ state, props }) {
+  const editorScenePath = state.get("modes.editor.currentScenePath")
+  const scene = state.get(editorScenePath)
   const id = ++sceneId
   const newScene = { ...cloneDeep(scene), id }
-  const sceneDataPath = `scenes.${id}`
-  state.set(sceneDataPath, newScene)
-  state.set("game.currentSceneDataPath", sceneDataPath)
-  state.set(`${sceneDataPath}.viewport.cameraLockMode`, "locked")
-  return { sceneDataPath }
+  const scenePath = `scenes.${id}`
+  state.set(scenePath, newScene)
+  state.set(`modes.game.currentScenePath`, scenePath)
+  state.set(`${scenePath}.viewport.cameraLockMode`, "locked")
+  return { scenePath }
 }
 
-export function selectSceneTile({ state, props: { sceneDataPath, tileId } }) {
-  state.set("editor.selectedTilePath", `${sceneDataPath}.tiles.${tileId}`)
+export function selectSceneTile({ state, props: { scenePath, tileId } }) {
+  state.set("editor.selectedTilePath", `${scenePath}.tiles.${tileId}`)
 }

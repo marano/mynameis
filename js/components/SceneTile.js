@@ -11,10 +11,10 @@ import WorldEntity from "./WorldEntity"
 
 export default connect(
   {
-    worldTile: state`${props`sceneDataPath`}.tiles.${props`tileId`}`,
-    tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
-    selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
-    gameMode: state`currentGameMode`,
+    worldTile: state`${props`scenePath`}.tiles.${props`tileId`}`,
+    tileSize: state`${props`scenePath`}.viewport.tileSize`,
+    selectedEntityIndex: state`modes.editor.objectPicker.selectedEntityIndex`,
+    mode: state`currentMode`,
     sceneTileSelected: signal`sceneTileSelected`,
     worldObjectAdded: signal`worldObjectAdded`
   },
@@ -22,12 +22,12 @@ export default connect(
 )
 
 function SceneTile(props) {
-  const { worldTile, sceneDataPath } = props
+  const { worldTile, scenePath } = props
 
   return (
     <div
       style={style(props)}
-      className={`${className(props)} ${props.gameMode === "stop"
+      className={`${className(props)} ${props.mode === "editor"
         ? showHiddenChildOnHover
         : null}`}
       onClick={linkEvent(props, onClick)}
@@ -37,7 +37,7 @@ function SceneTile(props) {
           return (
             <WorldObject
               key={worldObjectId}
-              sceneDataPath={sceneDataPath}
+              scenePath={scenePath}
               worldObjectId={worldObjectId}
             />
           )
@@ -49,8 +49,8 @@ function SceneTile(props) {
   )
 }
 
-function className({ gameMode, worldTile, selectedEntityIndex }) {
-  if (gameMode === "stop") {
+function className({ mode, worldTile, selectedEntityIndex }) {
+  if (mode === "editor") {
     if (worldTile.isSelected) {
       return cursor
     } else if (!selectedEntityIndex) {
@@ -69,14 +69,14 @@ function renderSelectedWorldEntityOverlay({ selectedEntityIndex, tileSize }) {
   }
 }
 
-function style({ worldTile, tileSize, selectedEntityIndex, gameMode }) {
+function style({ worldTile, tileSize, selectedEntityIndex, mode }) {
   return {
     position: "absolute",
     width: tileSize,
     height: tileSize,
     left: worldTile.x * tileSize,
     top: worldTile.y * tileSize,
-    cursor: gameMode === "stop" && selectedEntityIndex ? "copy" : null
+    cursor: mode === "editor" && selectedEntityIndex ? "copy" : null
   }
 }
 
@@ -89,21 +89,21 @@ function tileContentStyle({ tileSize }) {
 
 function onClick({
   tileId,
-  sceneDataPath,
+  scenePath,
   sceneTileSelected,
-  gameMode,
+  mode,
   selectedEntityIndex,
   worldObjectAdded
 }) {
-  if (gameMode === "stop") {
+  if (mode === "editor") {
     if (selectedEntityIndex) {
       worldObjectAdded({
-        sceneDataPath,
+        scenePath,
         tileId,
         entityIndex: selectedEntityIndex
       })
     } else {
-      sceneTileSelected({ tileId, sceneDataPath })
+      sceneTileSelected({ tileId, scenePath })
     }
   }
 }

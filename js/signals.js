@@ -14,7 +14,7 @@ import {
   changeSceneSize,
   updateSortedTileIds,
   addWorldObject,
-  playScene,
+  createSceneFromEditor,
   selectSceneTile
 } from "./actions"
 
@@ -26,31 +26,31 @@ export default {
   sceneTemplateLoaded: [
     initializeSceneData,
     createSceneTiles,
-    fillSceneTiles,
     updateSortedTileIds,
+    fillSceneTiles,
     fillWorldObjects,
-    set(state`editor.currentSceneDataPath`, props`sceneDataPath`)
+    set(state`modes.${state`currentMode`}.currentScenePath`, props`scenePath`)
   ],
   worldObjectSelected: [
-    when(state`${props`sceneDataPath`}.selectedWorldObjectId`),
+    when(state`${props`scenePath`}.selectedWorldObjectId`),
     {
       true: set(
-        state`${props`sceneDataPath`}.worldObjects.${state`${props`sceneDataPath`}.selectedWorldObjectId`}.isSelected`,
+        state`${props`scenePath`}.worldObjects.${state`${props`scenePath`}.selectedWorldObjectId`}.isSelected`,
         false
       ),
       false: []
     },
+    set(state`${props`scenePath`}.selectedWorldObjectId`, props`worldObjectId`),
     set(
-      state`${props`sceneDataPath`}.selectedWorldObjectId`,
-      props`worldObjectId`
-    ),
-    set(
-      state`${props`sceneDataPath`}.worldObjects.${state`${props`sceneDataPath`}.selectedWorldObjectId`}.isSelected`,
+      state`${props`scenePath`}.worldObjects.${state`${props`scenePath`}.selectedWorldObjectId`}.isSelected`,
       true
     )
   ],
   objectPickerEntitySelected: [
-    set(state`objectPicker.selectedEntityIndex`, props`entityIndex`)
+    set(
+      state`modes.editor.objectPicker.selectedEntityIndex`,
+      props`entityIndex`
+    )
   ],
   worldObjectAdded: [addWorldObject],
   sceneTileSelected: [
@@ -62,17 +62,17 @@ export default {
     selectSceneTile,
     set(state`${state`editor.selectedTilePath`}.isSelected`, true)
   ],
-  gameModeChanged: [
-    set(state`currentGameMode`, props`gameMode`),
-    equals(props`gameMode`),
+  modeChanged: [
+    set(state`currentMode`, props`mode`),
+    equals(props`mode`),
     {
-      play: [playScene, adjustViewportPositionForCameraMode],
-      stop: [
+      game: [createSceneFromEditor, adjustViewportPositionForCameraMode],
+      editor: [
         debounce(50),
         {
           continue: [
-            unset(state`${state`game.currentSceneDataPath`}`),
-            set(state`game.currentSceneDataPath`, null)
+            unset(state`${state`modes.game.currentScenePath`}`),
+            set(state`modes.game.currentScenePath`, null)
           ],
           discard: []
         }
@@ -81,7 +81,7 @@ export default {
   ],
   cameraModeChanged: [
     set(
-      state`${props`sceneDataPath`}.viewport.cameraLockMode`,
+      state`${props`scenePath`}.viewport.cameraLockMode`,
       props`cameraLockMode`
     ),
     adjustViewportSize,
@@ -95,11 +95,11 @@ export default {
   ],
   viewportResized: [
     set(
-      state`${props`sceneDataPath`}.viewport.containerDimension.width`,
+      state`${props`scenePath`}.viewport.containerDimension.width`,
       props`viewportWidth`
     ),
     set(
-      state`${props`sceneDataPath`}.viewport.containerDimension.height`,
+      state`${props`scenePath`}.viewport.containerDimension.height`,
       props`viewportHeight`
     ),
     adjustViewportSize

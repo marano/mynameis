@@ -6,13 +6,13 @@ import UiElement from "./UiElement"
 
 export default connect(
   {
-    uiElemetsIndexes: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.uiElements.*`,
-    zIndex: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.zIndex`,
-    isSelected: state`${props`sceneDataPath`}.worldObjects.${props`worldObjectId`}.isSelected`,
-    tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
+    uiElemetsIndexes: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElements.*`,
+    zIndex: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.zIndex`,
+    isSelected: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.isSelected`,
+    tileSize: state`${props`scenePath`}.viewport.tileSize`,
     worldObjectSelectable: computeWorldObjectSelectable,
     worldObjectSelected: signal`worldObjectSelected`,
-    gameMode: state`currentGameMode`
+    mode: state`currentMode`
   },
   WorldObject
 )
@@ -47,8 +47,8 @@ function className({ worldObjectSelectable, isSelected, worldObjectId }) {
   }
 }
 
-function uiElementDataPath(uiElementIndex, { sceneDataPath, worldObjectId }) {
-  return `${sceneDataPath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`
+function uiElementDataPath(uiElementIndex, { scenePath, worldObjectId }) {
+  return `${scenePath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`
 }
 
 function style({ zIndex, isSelected, tileSize }) {
@@ -62,12 +62,12 @@ function style({ zIndex, isSelected, tileSize }) {
 }
 
 function onClick({
-  sceneDataPath,
+  scenePath,
   worldObjectId,
   worldObjectSelected,
-  gameMode
+  mode
 }) {
-  if (gameMode === "play") {
-    worldObjectSelected({ sceneDataPath, worldObjectId })
+  if (mode === "game") {
+    worldObjectSelected({ scenePath, worldObjectId })
   }
 }
