@@ -1,5 +1,6 @@
 import { state } from "cerebral/tags"
 
+import ScenesMenu from "./ScenesMenu"
 import SceneSizeEditor from "./SceneSizeEditor"
 import ObjectPicker from "./ObjectPicker"
 import SelectedWorldObjectMenu from "./SelectedWorldObjectMenu"
@@ -16,6 +17,7 @@ function SideMenu({ scenePath, width }) {
   return (
     <side-menu style={style()}>
       {[
+        ScenesMenu,
         SceneSizeEditor,
         ObjectPicker,
         SelectedWorldObjectMenu,

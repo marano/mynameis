@@ -20,6 +20,7 @@ export function initializeSceneData({
   state
 }) {
   const id = ++sceneId
+  const name = `Scene ${id}`
   const tiles = {}
   const sortedTileIds = []
   const worldObjects = {}
@@ -45,6 +46,7 @@ export function initializeSceneData({
 
   state.set(scenePath, {
     id,
+    name,
     tiles,
     sortedTileIds,
     worldObjects,
