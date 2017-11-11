@@ -1,6 +1,9 @@
-export default function Button({ isSelected, children, ...props }) {
+export default function Button({ isSelected, children, onClick, ...props }) {
+  if (isSelected) {
+    onClick = null
+  }
   return (
-    <div {...props} style={style(isSelected)}>
+    <div style={style(isSelected)} onClick={onClick} {...props}>
       {children}
     </div>
   )
@@ -14,6 +17,6 @@ function style(isSelected) {
     display: "inline-block",
     padding: 5,
     fontFamily: "monospace",
-    cursor: "pointer"
+    cursor: isSelected ? "auto" : "pointer"
   }
 }

@@ -14,10 +14,7 @@ function GameModeSwitchButton(props) {
   const { mode, currentMode } = props
   const isSelected = mode === currentMode
   return (
-    <Button
-      onClick={isSelected ? null : linkEvent(props, onClick)}
-      isSelected={isSelected}
-    >
+    <Button onClick={linkEvent(props, onClick)} isSelected={isSelected}>
       {mode}
     </Button>
   )
