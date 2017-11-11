@@ -12,8 +12,10 @@ import {
   adjustViewportPositionForCameraMode,
   handleKeyPress,
   changeSceneSize,
+  updateSortedTileIds,
   addWorldObject,
-  playScene
+  playScene,
+  selectSceneTile
 } from "./actions"
 
 export default {
@@ -25,6 +27,7 @@ export default {
     initializeSceneData,
     createSceneTiles,
     fillSceneTiles,
+    updateSortedTileIds,
     fillWorldObjects,
     set(state`editor.currentSceneDataPath`, props`sceneDataPath`)
   ],
@@ -51,19 +54,13 @@ export default {
   ],
   worldObjectAdded: [addWorldObject],
   sceneTileSelected: [
-    when(state`editor.selectedTileIndex`),
+    when(state`editor.selectedTilePath`),
     {
-      true: set(
-        state`${props`sceneDataPath`}.tiles.${state`editor.selectedTileIndex`}.isSelected`,
-        false
-      ),
+      true: set(state`${state`editor.selectedTilePath`}.isSelected`, false),
       false: []
     },
-    set(state`editor.selectedTileIndex`, props`tileIndex`),
-    set(
-      state`${props`sceneDataPath`}.tiles.${props`tileIndex`}.isSelected`,
-      true
-    )
+    selectSceneTile,
+    set(state`${state`editor.selectedTilePath`}.isSelected`, true)
   ],
   gameModeChanged: [
     set(state`currentGameMode`, props`gameMode`),
@@ -92,6 +89,7 @@ export default {
   ],
   sceneSizeChanged: [
     changeSceneSize,
+    updateSortedTileIds,
     adjustViewportSize,
     adjustViewportPositionForCameraMode
   ],

@@ -3,10 +3,11 @@ import { state } from "cerebral/tags"
 import { range } from "lodash"
 import { cross } from "d3-array"
 
-import indexOfTileAt from "./index-of-tile-at"
+import { idOfTileAt } from "./tile-utils"
 
-export function computeVisibleTileIndexes(sceneDataPath) {
+export function computeVisibleTileIds(sceneDataPath) {
   return compute(
+    state`${sceneDataPath}.sortedTileIds`,
     state`${sceneDataPath}.viewport.position.x`,
     state`${sceneDataPath}.viewport.position.y`,
     state`${sceneDataPath}.viewport.size.x`,
@@ -15,6 +16,7 @@ export function computeVisibleTileIndexes(sceneDataPath) {
     state`${sceneDataPath}.size.y`,
     state`currentGameMode`,
     function(
+      sortedTileIds,
       viewportPositionX,
       viewportPositionY,
       viewportSizeX,
@@ -39,7 +41,9 @@ export function computeVisibleTileIndexes(sceneDataPath) {
       var xRange = range(minX, maxX)
       var yRange = range(minY, maxY)
 
-      return cross(xRange, yRange, (x, y) => indexOfTileAt(sceneSizeY, x, y))
+      return cross(xRange, yRange, (x, y) =>
+        idOfTileAt(sortedTileIds, sceneSizeY, x, y)
+      )
     }
   )
 }
@@ -61,10 +65,8 @@ export const computeWorldObjectSelectable = compute(
   }
 )
 
-export function computeSelectedTile(sceneDataPath) {
-  return compute(
-    state`${sceneDataPath}.tiles.${state`editor.selectedTileIndex`}`
-  )
+export function computeSelectedTile() {
+  return compute(state`${state`editor.selectedTilePath`}`)
 }
 
 export const computeCurrentSceneDataPath = compute(

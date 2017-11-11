@@ -1,15 +1,7 @@
-import {
-  cloneDeep,
-  find,
-  range,
-  reject,
-  sample,
-  sortBy,
-  throttle
-} from "lodash"
+import { cloneDeep, find, range, each, sample, sortBy, throttle } from "lodash"
 import { cross } from "d3-array"
 
-import indexOfTileAt from "./index-of-tile-at"
+import { idOfTileAt } from "./tile-utils"
 
 export function setEntitiesUiElements({
   state,
@@ -28,7 +20,8 @@ export function initializeSceneData({
   state
 }) {
   const id = ++sceneId
-  const tiles = []
+  const tiles = {}
+  const sortedTileIds = []
   const worldObjects = {}
   const selectedWorldObjectId = null
   const viewport = {
@@ -53,6 +46,7 @@ export function initializeSceneData({
   state.set(sceneDataPath, {
     id,
     tiles,
+    sortedTileIds,
     worldObjects,
     size,
     selectedWorldObjectId,
@@ -68,8 +62,7 @@ export function createSceneTiles({
 }) {
   const xRange = range(0, size.x)
   const yRange = range(0, size.y)
-  const tiles = cross(xRange, yRange, createSceneTileAt(sceneDataPath, state))
-  state.set(`${sceneDataPath}.tiles`, tiles)
+  cross(xRange, yRange, createSceneTileAt(sceneDataPath, state))
 }
 
 export function fillSceneTiles({
@@ -78,15 +71,8 @@ export function fillSceneTiles({
 }) {
   const entities = state.get("definitions.entities")
   const entity = find(entities, { name: floor })
-  const tiles = cloneDeep(state.get(`${sceneDataPath}.tiles`))
-
-  tiles.forEach(tile => {
-    tile.worldObjectIds.push(
-      createWorldObject(entity, tile, sceneDataPath, state)
-    )
-  })
-
-  state.set(`${sceneDataPath}.tiles`, tiles)
+  const tiles = state.get(`${sceneDataPath}.tiles`)
+  each(tiles, tile => createWorldObject(entity, tile, sceneDataPath, state))
 }
 
 export function fillWorldObjects({
@@ -96,55 +82,53 @@ export function fillWorldObjects({
   const entities = state.get("definitions.entities")
   const sceneSizeY = state.get(`${sceneDataPath}.size.y`)
 
+  const sortedTileIds = state.get(`${sceneDataPath}.sortedTileIds`)
   objects.forEach((object, index) => {
-    let tileIndex = indexOfTileAt(
+    let tileId = idOfTileAt(
+      sortedTileIds,
       sceneSizeY,
       object.location.x,
       object.location.y
     )
-    const tile = state.get(`${sceneDataPath}.tiles.${tileIndex}`)
+    const tile = state.get(`${sceneDataPath}.tiles.${tileId}`)
     const entity = find(entities, { name: object.entity })
-    state.push(
-      `${sceneDataPath}.tiles.${tileIndex}.worldObjectIds`,
-      createWorldObject(entity, tile, sceneDataPath, state)
-    )
+    createWorldObject(entity, tile, sceneDataPath, state)
   })
 }
 
 export function addWorldObject({
   state,
-  props: { sceneDataPath, tileIndex, entityIndex }
+  props: { sceneDataPath, tileId, entityIndex }
 }) {
   const entity = state.get(`definitions.entities.${entityIndex}`)
-  const tile = state.get(`${sceneDataPath}.tiles.${tileIndex}`)
-  state.push(
-    `${sceneDataPath}.tiles.${tileIndex}.worldObjectIds`,
-    createWorldObject(entity, tile, sceneDataPath, state)
-  )
+  const tile = state.get(`${sceneDataPath}.tiles.${tileId}`)
+  createWorldObject(entity, tile, sceneDataPath, state)
 }
 
 function createSceneTileAt(sceneDataPath, state) {
-  return (x, y) => createSceneTile(x, y, sceneDataPath, state)
+  return (x, y) => {
+    createSceneTile(x, y, sceneDataPath, state)
+  }
 }
 
 let tileId = 0
 function createSceneTile(x, y, sceneDataPath, state) {
+  const id = ++tileId
   const tile = {
-    id: tileId++,
+    id,
     x,
     y,
     worldObjectIds: []
   }
+
+  state.set(`${sceneDataPath}.tiles.${tileId}`, tile)
 
   const selectedEntityIndex = state.get("objectPicker.selectedEntityIndex")
   if (selectedEntityIndex) {
     const selectedEntity = state.get(
       `definitions.entities.${selectedEntityIndex}`
     )
-
-    tile.worldObjectIds.push(
-      createWorldObject(selectedEntity, tile, sceneDataPath, state)
-    )
+    createWorldObject(selectedEntity, tile, sceneDataPath, state)
   }
 
   return tile
@@ -159,15 +143,11 @@ function createWorldObject(entity, tile, sceneDataPath, state) {
     entityName: entity.name,
     zIndex: entity.zIndex,
     isSelected: false,
-    uiElements: entity.uiElements.map(createWorldObjectUiElement),
-    location: {
-      x: tile.x,
-      y: tile.y
-    }
+    uiElements: entity.uiElements.map(createWorldObjectUiElement)
   }
 
   state.set(`${sceneDataPath}.worldObjects.${id}`, worldObject)
-  return id
+  state.push(`${sceneDataPath}.tiles.${tile.id}.worldObjectIds`, id)
 }
 
 function createWorldObjectUiElement(uiElement) {
@@ -320,14 +300,13 @@ export function changeSceneSize({
   const sceneAxisSize = state.get(`${sceneDataPath}.size.${axis}`)
   state.set(`${sceneDataPath}.size.${axis}`, sceneAxisSize + delta)
 
-  const currentTiles = cloneDeep(state.get(`${sceneDataPath}.tiles`))
   if (mode === "start") {
-    currentTiles.forEach(function(tile) {
-      tile[axis] = tile[axis] + delta
+    const currentTiles = state.get(`${sceneDataPath}.tiles`)
+    each(currentTiles, function(tile) {
+      state.set(`${sceneDataPath}.tiles.${tile.id}.${axis}`, tile[axis] + delta)
     })
   }
 
-  let newTiles
   if (delta > 0) {
     const sceneSize = state.get(`${sceneDataPath}.size`)
     const deltaRange = {
@@ -336,28 +315,30 @@ export function changeSceneSize({
     }[mode]()
     const otherAxisSizeRange = range(0, sceneSize[{ x: "y", y: "x" }[axis]])
     const createTileAt = createSceneTileAt(sceneDataPath, state)
-    const aditionalTiles = {
+    ;({
       x: () => cross(deltaRange, otherAxisSizeRange, createTileAt),
       y: () => cross(otherAxisSizeRange, deltaRange, createTileAt)
-    }[axis]()
-
-    newTiles = aditionalTiles.concat(currentTiles)
+    }[axis]())
   } else if (delta < 0) {
+    const currentTiles = state.get(`${sceneDataPath}.tiles`)
     const sceneSize = state.get(`${sceneDataPath}.size`)
-    newTiles = reject(currentTiles, function(tile) {
-      return (
+    each(currentTiles, function(tile, tileId) {
+      const shouldRemove =
         tile.x < 0 ||
         tile.y < 0 ||
         tile.x >= sceneSize.x ||
         tile.y >= sceneSize.y
-      )
+      if (shouldRemove) {
+        state.unset(`${sceneDataPath}.tiles.${tileId}`)
+      }
     })
-  } else {
-    newTiles = currentTiles
   }
+}
 
-  const sortedTiles = sortBy(newTiles, ["x", "y"])
-  state.set(`${sceneDataPath}.tiles`, sortedTiles)
+export function updateSortedTileIds({ state, props: { sceneDataPath } }) {
+  const finalTiles = state.get(`${sceneDataPath}.tiles`)
+  const sortedTileIds = sortBy(finalTiles, ["x", "y"]).map(({ id }) => id)
+  state.set(`${sceneDataPath}.sortedTileIds`, sortedTileIds)
 }
 
 export function playScene({ state, props }) {
@@ -370,4 +351,8 @@ export function playScene({ state, props }) {
   state.set("game.currentSceneDataPath", sceneDataPath)
   state.set(`${sceneDataPath}.viewport.cameraLockMode`, "locked")
   return { sceneDataPath }
+}
+
+export function selectSceneTile({ state, props: { sceneDataPath, tileId } }) {
+  state.set("editor.selectedTilePath", `${sceneDataPath}.tiles.${tileId}`)
 }

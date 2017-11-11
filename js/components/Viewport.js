@@ -3,7 +3,7 @@ import { css } from "emotion"
 
 import onWindowResize from "../on-window-resize"
 
-import { computeVisibleTileIndexes } from "../computes"
+import { computeVisibleTileIds } from "../computes"
 
 import SceneTile from "./SceneTile"
 
@@ -15,7 +15,7 @@ function viewportClassName(tileSize) {
 
 export default connect(
   {
-    tilesIndexes: computeVisibleTileIndexes(props`sceneDataPath`),
+    tileIds: computeVisibleTileIds(props`sceneDataPath`),
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     viewportSize: state`${props`sceneDataPath`}.viewport.size`,
     viewportPosition: state`${props`sceneDataPath`}.viewport.position`,
@@ -58,11 +58,11 @@ export default connect(
         >
           <div style={this.windowStyle()}>
             <div style={this.contentStyle()} hasKeyedChildren>
-              {this.props.tilesIndexes.map(tileIndex => (
+              {this.props.tileIds.map(tileId => (
                 <SceneTile
                   sceneDataPath={this.props.sceneDataPath}
-                  key={tileIndex}
-                  tileIndex={tileIndex}
+                  key={tileId}
+                  tileId={tileId}
                 />
               ))}
             </div>

@@ -18,7 +18,7 @@ export default Controller({
     },
     editor: {
       currentSceneDataPath: null,
-      selectedTileIndex: null
+      selectedTilePath: null
     },
     objectPicker: {
       selectedEntityIndex: null

@@ -1,11 +1,10 @@
 import { connect } from "@cerebral/inferno"
-import { props } from "cerebral/tags"
 
 import { computeSelectedTile } from "../computes"
 
 export default connect(
   {
-    selectedTile: computeSelectedTile(props`sceneDataPath`)
+    selectedTile: computeSelectedTile()
   },
   SelectedTileInspector
 )

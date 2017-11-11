@@ -11,7 +11,7 @@ import WorldEntity from "./WorldEntity"
 
 export default connect(
   {
-    worldTile: state`${props`sceneDataPath`}.tiles.${props`tileIndex`}`,
+    worldTile: state`${props`sceneDataPath`}.tiles.${props`tileId`}`,
     tileSize: state`${props`sceneDataPath`}.viewport.tileSize`,
     selectedEntityIndex: state`objectPicker.selectedEntityIndex`,
     gameMode: state`currentGameMode`,
@@ -23,6 +23,7 @@ export default connect(
 
 function SceneTile(props) {
   const { worldTile, sceneDataPath } = props
+
   return (
     <div
       style={style(props)}
@@ -87,7 +88,7 @@ function tileContentStyle({ tileSize }) {
 }
 
 function onClick({
-  tileIndex,
+  tileId,
   sceneDataPath,
   sceneTileSelected,
   gameMode,
@@ -98,11 +99,11 @@ function onClick({
     if (selectedEntityIndex) {
       worldObjectAdded({
         sceneDataPath,
-        tileIndex,
+        tileId,
         entityIndex: selectedEntityIndex
       })
     } else {
-      sceneTileSelected({ tileIndex, sceneDataPath })
+      sceneTileSelected({ tileId, sceneDataPath })
     }
   }
 }
