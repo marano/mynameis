@@ -4,7 +4,7 @@ import { computeSelectedTile } from "../computes"
 
 export default connect(
   {
-    selectedTile: computeSelectedTile()
+    selectedTile: computeSelectedTile
   },
   SelectedTileInspector
 )

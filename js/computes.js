@@ -63,9 +63,12 @@ export const computeWorldObjectSelectable = compute(
   }
 )
 
-export function computeSelectedTile() {
-  return compute(state`${state`modes.editor.selectedTilePath`}`)
-}
+export const computeSelectedTile = compute(state`currentMode`, function(
+  mode,
+  get
+) {
+  return get(state`${state`modes.editor.selectedTilePath`}`)
+})
 
 export const computeCurrentSceneId = compute(state`currentMode`, function(
   mode,
