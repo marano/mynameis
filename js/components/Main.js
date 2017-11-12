@@ -61,6 +61,7 @@ function sideMenuStyle() {
     gridRow: "2",
     gridColumn: "2",
     backgroundColor: "black",
+    overflow: "auto",
     padding: 10
   }
 }
