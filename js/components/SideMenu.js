@@ -15,7 +15,7 @@ export default connect(
 
 function SideMenu({ scenePath, width }) {
   return (
-    <div style={style()} hasKeyedChildren>
+    <div style={style()}>
       <div style={itemStyle()}>
         <ScenesMenu />
       </div>
