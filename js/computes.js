@@ -1,5 +1,5 @@
 import { compute } from "cerebral"
-import { state } from "cerebral/tags"
+import { props, state } from "cerebral/tags"
 import { range } from "lodash"
 import { cross } from "d3-array"
 
@@ -48,12 +48,12 @@ export function computeVisibleTileIds(scenePath) {
   )
 }
 
-export function computeSelectedWorldObject(scenePath) {
-  return compute(function(get) {
-    const worldObjectId = get(state`${scenePath}.selectedWorldObjectId`)
-    return get(state`${scenePath}.worldObjects.${worldObjectId}`)
-  })
-}
+export const computeSelectedWorldObject = compute(
+  state`${props`scenePath`}.selectedWorldObjectId`,
+  function(selectedWorldObjectId, get) {
+    return get(state`${props`scenePath`}.worldObjects.${selectedWorldObjectId}`)
+  }
+)
 
 export const computeWorldObjectSelectable = compute(
   state`modes.editor.objectPicker.selectedEntityIndex`,
