@@ -73,12 +73,12 @@ export default {
         prepareSceneTemplateFromEditor,
         initializeSceneData,
         updateSortedTileIds,
-        adjustViewportPositionForCameraMode,
         set(state`modes.game.currentScenePath`, props`scenePath`),
         set(
           state`${state`modes.game.currentScenePath`}.viewport.cameraLockMode`,
           "locked"
-        )
+        ),
+        adjustViewportPositionForCameraMode
       ],
       editor: [
         debounce(50),
