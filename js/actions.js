@@ -16,7 +16,7 @@ export function setEntitiesUiElements({
 
 let sceneId = 0
 export function initializeSceneData({
-  props: { sceneTemplate: { size } },
+  props: { sceneTemplate: { filling, ...sceneTemplate } },
   state
 }) {
   const id = ++sceneId
@@ -43,19 +43,20 @@ export function initializeSceneData({
   }
 
   const scenePath = `scenes.${id}`
-
-  state.set(scenePath, {
-    id,
-    name,
+  const scene = {
     tiles,
-    sortedTileIds,
+    name,
     worldObjects,
-    size,
-    selectedWorldObjectId,
-    viewport
-  })
+    viewport,
+    ...sceneTemplate,
+    id,
+    sortedTileIds,
+    selectedWorldObjectId
+  }
 
-  return { scenePath }
+  state.set(scenePath, scene)
+
+  return { scenePath, filling }
 }
 
 export function createSceneTiles({
@@ -68,7 +69,7 @@ export function createSceneTiles({
 }
 
 export function fillSceneTiles({
-  props: { scenePath, sceneTemplate: { filling: { floor } } },
+  props: { scenePath, filling: { floor } },
   state
 }) {
   const entities = state.get("definitions.entities")
@@ -78,7 +79,7 @@ export function fillSceneTiles({
 }
 
 export function fillWorldObjects({
-  props: { scenePath, sceneTemplate: { filling: { objects } } },
+  props: { scenePath, filling: { objects } },
   state
 }) {
   const entities = state.get("definitions.entities")
@@ -347,16 +348,12 @@ export function updateSortedTileIds({ state, props: { scenePath } }) {
   state.set(`${scenePath}.sortedTileIds`, sortedTileIds)
 }
 
-export function createSceneFromEditor({ state, props }) {
-  const editorScenePath = state.get("modes.editor.currentScenePath")
-  const scene = state.get(editorScenePath)
-  const id = ++sceneId
-  const newScene = { ...cloneDeep(scene), id }
-  const scenePath = `scenes.${id}`
-  state.set(scenePath, newScene)
-  state.set(`modes.game.currentScenePath`, scenePath)
-  state.set(`${scenePath}.viewport.cameraLockMode`, "locked")
-  return { scenePath }
+export function prepareSceneTemplateFromEditor({ state, props }) {
+  const scenePath = state.get("modes.editor.currentScenePath")
+  const scene = state.get(scenePath)
+  const sceneTemplate = cloneDeep(scene)
+  sceneTemplate.name = `${scene.name} (play)`
+  return { sceneTemplate }
 }
 
 export function selectSceneTile({ state, props: { scenePath, tileId } }) {

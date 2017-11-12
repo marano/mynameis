@@ -14,7 +14,7 @@ import {
   changeSceneSize,
   updateSortedTileIds,
   addWorldObject,
-  createSceneFromEditor,
+  prepareSceneTemplateFromEditor,
   selectSceneTile
 } from "./actions"
 
@@ -69,7 +69,17 @@ export default {
     set(state`currentMode`, props`mode`),
     equals(props`mode`),
     {
-      game: [createSceneFromEditor, adjustViewportPositionForCameraMode],
+      game: [
+        prepareSceneTemplateFromEditor,
+        initializeSceneData,
+        updateSortedTileIds,
+        adjustViewportPositionForCameraMode,
+        set(state`modes.game.currentScenePath`, props`scenePath`),
+        set(
+          state`${state`modes.game.currentScenePath`}.cameraLockMode`,
+          "locked"
+        )
+      ],
       editor: [
         debounce(50),
         {
