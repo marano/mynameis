@@ -76,7 +76,7 @@ export default {
         adjustViewportPositionForCameraMode,
         set(state`modes.game.currentScenePath`, props`scenePath`),
         set(
-          state`${state`modes.game.currentScenePath`}.cameraLockMode`,
+          state`${state`modes.game.currentScenePath`}.viewport.cameraLockMode`,
           "locked"
         )
       ],
