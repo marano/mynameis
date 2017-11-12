@@ -11,7 +11,9 @@ export default connect(
 function ScenesMenu({ sceneIds }) {
   return (
     <div>
-      {sceneIds.map(sceneId => <ScenesMenuItem sceneId={parseInt(sceneId)} />)}
+      {sceneIds.map(sceneId => (
+        <ScenesMenuItem key={sceneId} sceneId={parseInt(sceneId)} />
+      ))}
     </div>
   )
 }

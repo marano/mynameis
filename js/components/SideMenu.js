@@ -15,19 +15,23 @@ export default connect(
 
 function SideMenu({ scenePath, width }) {
   return (
-    <side-menu style={style()}>
-      {[
-        ScenesMenu,
-        SceneSizeEditor,
-        ObjectPicker,
-        SelectedWorldObjectMenu,
-        SelectedTileInspector
-      ].map(Component => (
-        <div style={itemStyle()}>
-          <Component scenePath={scenePath} />
-        </div>
-      ))}
-    </side-menu>
+    <div style={style()} hasKeyedChildren>
+      <div style={itemStyle()}>
+        <ScenesMenu />
+      </div>
+      <div style={itemStyle()}>
+        <SceneSizeEditor scenePath={scenePath} />
+      </div>
+      <div style={itemStyle()}>
+        <ObjectPicker />
+      </div>
+      <div style={itemStyle()}>
+        <SelectedWorldObjectMenu scenePath={scenePath} />
+      </div>
+      <div style={itemStyle()}>
+        <SelectedTileInspector />
+      </div>
+    </div>
   )
 }
 
