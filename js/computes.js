@@ -1,4 +1,4 @@
-import { compute } from "cerebral"
+import { Compute } from "cerebral"
 import { props, state } from "cerebral/tags"
 import { range } from "lodash"
 import { cross } from "d3-array"
@@ -6,7 +6,7 @@ import { cross } from "d3-array"
 import { idOfTileAt } from "./tile-utils"
 
 export function computeVisibleTileIds(scenePath) {
-  return compute(
+  return Compute(
     state`${scenePath}.sortedTileIds`,
     state`${scenePath}.viewport.position.x`,
     state`${scenePath}.viewport.position.y`,
@@ -48,14 +48,14 @@ export function computeVisibleTileIds(scenePath) {
   )
 }
 
-export const computeSelectedWorldObject = compute(
+export const computeSelectedWorldObject = Compute(
   state`${props`scenePath`}.selectedWorldObjectId`,
   function(selectedWorldObjectId, get) {
     return get(state`${props`scenePath`}.worldObjects.${selectedWorldObjectId}`)
   }
 )
 
-export const computeWorldObjectSelectable = compute(
+export const computeWorldObjectSelectable = Compute(
   state`modes.editor.objectPicker.selectedEntityIndex`,
   state`currentMode`,
   function(selectedEntityIndex, mode) {
@@ -63,14 +63,14 @@ export const computeWorldObjectSelectable = compute(
   }
 )
 
-export const computeSelectedTile = compute(state`currentMode`, function(
+export const computeSelectedTile = Compute(state`currentMode`, function(
   mode,
   get
 ) {
   return get(state`${state`modes.editor.selectedTilePath`}`)
 })
 
-export const computeCurrentSceneId = compute(state`currentMode`, function(
+export const computeCurrentSceneId = Compute(state`currentMode`, function(
   mode,
   get
 ) {
