@@ -1,4 +1,3 @@
-// import { setWorld } from './actions';
 import { state, props } from "cerebral/tags"
 import { debounce, set, when, equals, unset } from "cerebral/operators"
 
