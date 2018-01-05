@@ -46,6 +46,7 @@
     "inferno": "^3.10.1",
     "inferno-component": "^3.10.1",
     "inferno-create-element": "^3.10.1",
+    "inferno-devtools": "^3.10.1",
     "lodash": "^4.17.4",
     "preact": "^8.2.5",
     "prettier": "^1.7.4",
