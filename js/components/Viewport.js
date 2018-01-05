@@ -26,12 +26,13 @@ export default connect(
   class Viewport extends Component {
     constructor(props) {
       super(props)
+      this.callViewportResized = this.callViewportResized.bind(this)
       this.setViewportRef = this.setViewportRef.bind(this)
     }
 
     componentDidMount() {
-      this.callViewportResized()
-      onWindowResize("viewport", this.callViewportResized.bind(this))
+      onWindowResize("viewport", this.callViewportResized)
+      setImmediate(this.callViewportResized)
     }
 
     componentWillUnmount() {
