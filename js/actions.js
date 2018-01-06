@@ -87,7 +87,7 @@ export function fillWorldObjects({
 
   const sortedTileIds = state.get(`${scenePath}.sortedTileIds`)
   objects.forEach((object, index) => {
-    let tileId = idOfTileAt(
+    const tileId = idOfTileAt(
       sortedTileIds,
       sceneSizeY,
       object.location.x,
