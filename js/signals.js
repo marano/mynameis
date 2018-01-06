@@ -77,6 +77,7 @@ export default {
           state`${state`modes.game.currentScenePath`}.viewport.cameraLockMode`,
           "locked"
         ),
+        adjustViewportSize,
         adjustViewportPositionForCameraMode
       ],
       editor: [
