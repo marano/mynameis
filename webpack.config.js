@@ -68,7 +68,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
-          presets: ["stage-3"].concat(lib.babelPresets),
+          presets: ["env"].concat(lib.babelPresets),
           plugins: ["emotion", "transform-object-rest-spread"].concat(
             lib.babelPlugins
           )
@@ -76,12 +76,16 @@ module.exports = {
       }
     ]
   },
-  plugins: lib.webpackPlugins,
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ].concat(lib.webpackPlugins),
   resolve: {
     extensions: [".js", ".json"]
   },
   devServer: {
+    contentBase: "./public",
     historyApiFallback: true,
-    contentBase: "./public"
+    hot: true
   }
 }

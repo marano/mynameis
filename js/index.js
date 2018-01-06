@@ -9,6 +9,8 @@ import Main from "./components/Main"
 controller.getSignal("entitiesLoaded")({ entities, uiElements })
 controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
 
+renderRoot(Main)
+
 window.addEventListener(
   "keydown",
   function(event) {
@@ -23,9 +25,17 @@ window.addEventListener(
   true
 )
 
-View.render(
-  <Container controller={controller}>
-    <Main />
-  </Container>,
-  document.getElementById("root")
-)
+function renderRoot() {
+  View.render(
+    <Container controller={controller}>
+      <Main />
+    </Container>,
+    document.getElementById("root")
+  )
+}
+
+if (module.hot) {
+  module.hot.accept("./components/Main", () => {
+    renderRoot()
+  })
+}
