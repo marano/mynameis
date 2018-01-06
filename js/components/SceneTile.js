@@ -27,9 +27,9 @@ function SceneTile(props) {
   return (
     <div
       style={style(props)}
-      className={`${className(props)} ${props.mode === "editor"
-        ? showHiddenChildOnHover
-        : null}`}
+      className={`${className(props)} ${
+        props.mode === "editor" ? showHiddenChildOnHover : null
+      }`}
       onClick={linkEvent(props, onClick)}
     >
       <div style={tileContentStyle(props)}>
