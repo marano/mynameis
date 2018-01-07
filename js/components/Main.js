@@ -4,6 +4,30 @@ import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
 
+class Main extends Component {
+  getChildContext() {
+    return this.props.context
+  }
+
+  render() {
+    const { currentScenePath, sideMenuWidth } = this.props
+
+    return (
+      <div style={containerStyle(sideMenuWidth)}>
+        <div style={topMenuStyle()}>
+          <TopMenu scenePath={currentScenePath} />
+        </div>
+        <div style={viewportStyle()}>
+          <Viewport scenePath={currentScenePath} />
+        </div>
+        <div style={sideMenuStyle()}>
+          <SideMenu scenePath={currentScenePath} />
+        </div>
+      </div>
+    )
+  }
+}
+
 export default connect(
   {
     currentScenePath: state`modes.${state`currentMode`}.currentScenePath`,
@@ -11,22 +35,6 @@ export default connect(
   },
   Main
 )
-
-function Main({ currentScenePath, sideMenuWidth }) {
-  return (
-    <div style={containerStyle(sideMenuWidth)}>
-      <div style={topMenuStyle()}>
-        <TopMenu scenePath={currentScenePath} />
-      </div>
-      <div style={viewportStyle()}>
-        <Viewport scenePath={currentScenePath} />
-      </div>
-      <div style={sideMenuStyle()}>
-        <SideMenu scenePath={currentScenePath} />
-      </div>
-    </div>
-  )
-}
 
 function containerStyle(sideMenuWidth) {
   return {

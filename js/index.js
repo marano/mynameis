@@ -6,6 +6,8 @@ import sceneTemplate from "../json/world.json"
 
 import Main from "./components/Main"
 
+import { mouseMoved } from "./event-subjects"
+
 controller.getSignal("entitiesLoaded")({ entities, uiElements })
 controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
 
@@ -28,7 +30,7 @@ window.addEventListener(
 function renderRoot(Component) {
   View.render(
     <Container controller={controller}>
-      <Component />
+      <Component context={{ mouseMoved }} />
     </Container>,
     document.getElementById("root")
   )

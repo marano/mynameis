@@ -21,7 +21,7 @@ export default connect(
   SceneTile
 )
 
-function SceneTile(props) {
+function SceneTile(props, context) {
   const { worldTile, scenePath } = props
 
   return (
@@ -31,6 +31,7 @@ function SceneTile(props) {
         props.mode === "editor" ? showHiddenChildOnHover : null
       }`}
       onClick={linkEvent(props, onClick)}
+      onMouseEnter={linkEvent({ props, context }, onMouseEnter)}
     >
       <div style={tileContentStyle(props)}>
         {worldTile.worldObjectIds.map(function(worldObjectId) {
@@ -106,4 +107,8 @@ function onClick({
       sceneTileSelected({ tileId, scenePath })
     }
   }
+}
+
+function onMouseEnter({ props, context }, event) {
+  console.log("onMouseEnter", event.buttons)
 }
