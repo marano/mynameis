@@ -25,17 +25,17 @@ window.addEventListener(
   true
 )
 
-function renderRoot() {
+function renderRoot(Component) {
   View.render(
     <Container controller={controller}>
-      <Main />
+      <Component />
     </Container>,
     document.getElementById("root")
   )
 }
 
 if (module.hot) {
-  module.hot.accept("./components/Main", () => {
-    renderRoot()
-  })
+  module.hot.accept("./components/Main", () =>
+    renderRoot(require("./components/Main").default)
+  )
 }
