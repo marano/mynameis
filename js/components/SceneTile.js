@@ -30,7 +30,7 @@ function SceneTile(props) {
       className={`${className(props)} ${
         props.mode === "editor" ? showHiddenChildOnHover : null
       }`}
-      onClick={linkEvent(props, onClick)}
+      onMouseDown={linkEvent(props, onMouseDown)}
     >
       <div style={tileContentStyle(props)}>
         {worldTile.worldObjectIds.map(function(worldObjectId) {
@@ -87,7 +87,7 @@ function tileContentStyle({ tileSize }) {
   }
 }
 
-function onClick({
+function onMouseDown({
   tileId,
   scenePath,
   sceneTileSelected,
