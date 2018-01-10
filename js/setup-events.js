@@ -24,14 +24,11 @@ export default function setupEvents(controller) {
   }
   const pressedKeys = []
 
-  const keyDowns = Rx.Observable.fromEvent(document, "keydown")
-  const keyUps = Rx.Observable.fromEvent(document, "keyup")
-
   const emitter = Rx.Observable.interval(100).startWith(0)
   let emitterSubscription
 
-  keyDowns
-    .merge(keyUps)
+  Rx.Observable.fromEvent(document, "keydown")
+    .merge(Rx.Observable.fromEvent(document, "keyup"))
     .filter(event => contains(event.key.toLowerCase(), keys(keyMovementDeltas)))
     .groupBy(e => e.key.toLowerCase())
     .map(group => group.distinctUntilChanged(null, e => e.type))
