@@ -1,4 +1,4 @@
-import Rx from "rxjs/Rx"
+import { Observable } from "rxjs/Rx"
 import { compose, contains, keys, reduce } from "ramda"
 import { keyHandlers } from "./actions"
 
@@ -24,11 +24,11 @@ export default function setupEvents(controller) {
   }
   const pressedKeys = []
 
-  const emitter = Rx.Observable.interval(100).startWith(0)
+  const emitter = Observable.interval(100).startWith(0)
   let emitterSubscription
 
-  Rx.Observable.fromEvent(document, "keydown")
-    .merge(Rx.Observable.fromEvent(document, "keyup"))
+  Observable.fromEvent(document, "keydown")
+    .merge(Observable.fromEvent(document, "keyup"))
     .filter(event => contains(event.key.toLowerCase(), keys(keyMovementDeltas)))
     .groupBy(e => e.key.toLowerCase())
     .map(group => group.distinctUntilChanged(null, e => e.type))
