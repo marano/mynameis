@@ -36,15 +36,19 @@ export default function setupEvents(controller) {
       keyEmiters[key].unsubscribe()
       keyEmiters[key] = null
     } else {
-      keyEmiters[key] = Rx.Observable.interval(50).subscribe(() => {
-        const mode = controller.getState("currentMode")
-        const scenePath = controller.getState(`modes.${mode}.currentScenePath`)
+      keyEmiters[key] = Rx.Observable.interval(100)
+        .startWith(0)
+        .subscribe(() => {
+          const mode = controller.getState("currentMode")
+          const scenePath = controller.getState(
+            `modes.${mode}.currentScenePath`
+          )
 
-        controller.getSignal("keyPressed")({
-          scenePath,
-          key: event.key.toLowerCase()
+          controller.getSignal("keyPressed")({
+            scenePath,
+            key: event.key.toLowerCase()
+          })
         })
-      })
     }
   })
 }
