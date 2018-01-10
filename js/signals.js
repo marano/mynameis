@@ -14,7 +14,8 @@ import {
   updateSortedTileIds,
   addWorldObject,
   prepareSceneTemplateFromEditor,
-  selectSceneTile
+  selectSceneTile,
+  moveViewport
 } from "./actions"
 
 export default {
@@ -117,5 +118,6 @@ export default {
     ),
     adjustViewportSize
   ],
-  keyPressed: handleKeyPress
+  keyPressed: handleKeyPress,
+  viewportMoved: moveViewport
 }

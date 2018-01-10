@@ -228,7 +228,7 @@ export function adjustViewportPositionForCameraMode({
   state.set(`${scenePath}.viewport.position`, newPosition)
 }
 
-function panViewportPosition(deltaX, deltaY, state, scenePath) {
+export function moveViewport({ state, props: { deltaX, deltaY, scenePath } }) {
   const position = state.get(`${scenePath}.viewport.position`)
   const viewportSize = state.get(`${scenePath}.viewport.size`)
   const sceneSize = state.get(`${scenePath}.size`)
@@ -268,20 +268,8 @@ function panViewportPosition(deltaX, deltaY, state, scenePath) {
   state.set(`${scenePath}.viewport.position`, newPosition)
 }
 
-const keyHandler = {
-  w: function(state, scenePath) {
-    panViewportPosition(0, -1, state, scenePath)
-  },
-  s: function(state, scenePath) {
-    panViewportPosition(0, +1, state, scenePath)
-  },
-  a: function(state, scenePath) {
-    panViewportPosition(-1, 0, state, scenePath)
-  },
-  d: function(state, scenePath) {
-    panViewportPosition(+1, 0, state, scenePath)
-  },
-  escape: function(state) {
+export const keyHandlers = {
+  Escape: function(state) {
     const mode = state.get("currentMode")
     if (mode === "editor") {
       state.set(`modes.editor.objectPicker.selectedEntityIndex`, null)
@@ -290,7 +278,7 @@ const keyHandler = {
 }
 
 export function handleKeyPress({ state, props: { key, scenePath } }) {
-  const handler = keyHandler[key]
+  const handler = keyHandlers[key]
   if (handler) {
     handler(state, scenePath)
   }

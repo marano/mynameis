@@ -51,6 +51,7 @@
     "preact": "^8.2.5",
     "prettier": "^1.7.4",
     "prettier-standard": "^8.0.0",
+    "ramda": "^0.25.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "rxjs": "^5.5.6",
