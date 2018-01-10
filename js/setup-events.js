@@ -2,6 +2,22 @@ import Rx from "rxjs/Rx"
 import includes from "lodash/includes"
 
 export default function setupEvents(controller) {
+  window.addEventListener(
+    "keydown",
+    function(event) {
+      const mode = controller.getState("currentMode")
+      const scenePath = controller.getState(`modes.${mode}.currentScenePath`)
+
+      if (event.key === "escape") {
+        controller.getSignal("keyPressed")({
+          scenePath,
+          key: event.key.toLowerCase()
+        })
+      }
+    },
+    true
+  )
+
   const keyDowns = Rx.Observable.fromEvent(document, "keydown")
   const keyUps = Rx.Observable.fromEvent(document, "keyup")
 
