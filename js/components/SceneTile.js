@@ -88,7 +88,7 @@ function tileContentStyle({ tileSize }) {
   }
 }
 
-function onMouseDown() {
+function onMouseDown(props) {
   interactWithSceneTile(props)
 }
 
