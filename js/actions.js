@@ -1,4 +1,4 @@
-import { cloneDeep, find, range, each, sample, sortBy, throttle } from "lodash"
+import { cloneDeep, find, range, each, sample, sortBy } from "lodash"
 import { cross } from "d3-array"
 
 import { idOfTileAt } from "./tile-utils"
