@@ -14,17 +14,17 @@ renderRoot(Main)
 
 setupEvents(controller)
 
+if (module.hot) {
+  module.hot.accept("./components/Main", () =>
+    renderRoot(require("./components/Main").default)
+  )
+}
+
 function renderRoot(Component) {
   View.render(
     <Container controller={controller}>
       <Component />
     </Container>,
     document.getElementById("root")
-  )
-}
-
-if (module.hot) {
-  module.hot.accept("./components/Main", () =>
-    renderRoot(require("./components/Main").default)
   )
 }
