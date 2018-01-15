@@ -1,4 +1,5 @@
-import { cloneDeep, find, range, each, sample, sortBy } from "lodash"
+import { cloneDeep, find, each, sample, sortBy } from "lodash"
+import { range } from "ramda"
 import { cross } from "d3-array"
 
 import { idOfTileAt } from "./tile-utils"

@@ -1,6 +1,6 @@
 import { Compute } from "cerebral"
 import { props, state } from "cerebral/tags"
-import { range } from "lodash"
+import { range } from "ramda"
 import { cross } from "d3-array"
 
 import { idOfTileAt } from "./tile-utils"
