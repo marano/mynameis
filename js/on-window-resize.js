@@ -1,21 +1,3 @@
-import { throttle, each } from "lodash"
+import { Observable } from "rxjs"
 
-const callbacks = {}
-
-const onWindowResize = throttle(
-  function() {
-    each(callbacks, function(callback, key) {
-      if (callback) {
-        callback()
-      }
-    })
-  },
-  50,
-  { leading: false, trailing: true }
-)
-
-window.addEventListener("resize", onWindowResize, true)
-
-export default function(key, callback) {
-  callbacks[key] = callback
-}
+export default Observable.fromEvent(window, "resize").throttleTime(50)

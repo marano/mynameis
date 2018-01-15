@@ -31,12 +31,14 @@ export default connect(
     }
 
     componentDidMount() {
-      onWindowResize("viewport", this.callViewportResized)
+      this.onWindowResizeSubscription = onWindowResize.subscribe(
+        this.callViewportResized
+      )
       setImmediate(this.callViewportResized)
     }
 
     componentWillUnmount() {
-      onWindowResize("viewport", null)
+      this.onWindowResizeSubscription.unsubscribe()
     }
 
     callViewportResized() {
