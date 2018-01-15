@@ -16,7 +16,7 @@ export default function setupEvents(controller) {
     true
   )
 
-  const keyMovementDeltas = {
+  const movementKeys = {
     w: { deltaX: 0, deltaY: -1 },
     s: { deltaX: 0, deltaY: +1 },
     a: { deltaX: -1, deltaY: 0 },
@@ -29,7 +29,7 @@ export default function setupEvents(controller) {
 
   Observable.fromEvent(document, "keydown")
     .merge(Observable.fromEvent(document, "keyup"))
-    .filter(event => contains(event.key.toLowerCase(), keys(keyMovementDeltas)))
+    .filter(event => contains(event.key.toLowerCase(), keys(movementKeys)))
     .groupBy(e => e.key.toLowerCase())
     .map(group => group.distinctUntilChanged(null, e => e.type))
     .mergeAll()
@@ -57,8 +57,8 @@ export default function setupEvents(controller) {
 
     const deltas = reduce(
       (deltas, pressedKey) => {
-        deltas.deltaX = deltas.deltaX + keyMovementDeltas[pressedKey].deltaX
-        deltas.deltaY = deltas.deltaY + keyMovementDeltas[pressedKey].deltaY
+        deltas.deltaX = deltas.deltaX + movementKeys[pressedKey].deltaX
+        deltas.deltaY = deltas.deltaY + movementKeys[pressedKey].deltaY
 
         return deltas
       },
