@@ -17,7 +17,7 @@ function SideMenu({ scenePath, width }) {
   return (
     <div style={style()}>
       <div style={itemStyle()}>
-        <ScenesMenu />
+        <ScenesMenu scenePath={scenePath} />
       </div>
       <div style={itemStyle()}>
         <SceneSizeEditor scenePath={scenePath} />

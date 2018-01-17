@@ -4,18 +4,14 @@ import Devtools from "cerebral/devtools"
 import signals from "./signals"
 
 const state = {
-  currentMode: "editor",
   scenes: {},
-  modes: {
-    game: {
-      currentScenePath: null
-    },
-    editor: {
-      currentScenePath: null,
-      selectedTilePath: null,
-      objectPicker: {
-        selectedEntityIndex: null
-      }
+  viewport: {
+    currentScenePath: null
+  },
+  editor: {
+    selectedTilePath: null,
+    objectPicker: {
+      selectedEntityIndex: null
     }
   },
   sideMenu: {

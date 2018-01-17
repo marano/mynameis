@@ -6,9 +6,7 @@ export default function setupEvents(controller) {
   window.addEventListener(
     "keydown",
     function({ key }) {
-      const mode = controller.getState("currentMode")
-      const scenePath = controller.getState(`modes.${mode}.currentScenePath`)
-
+      const scenePath = controller.getState(`viewport.currentScenePath`)
       if (compose(contains(key), keys)(keyHandlers)) {
         controller.getSignal("keyPressed")({ scenePath, key })
       }
@@ -52,14 +50,11 @@ export default function setupEvents(controller) {
     })
 
   function moveViewport() {
-    const mode = controller.getState("currentMode")
-    const scenePath = controller.getState(`modes.${mode}.currentScenePath`)
-
+    const scenePath = controller.getState(`viewport.currentScenePath`)
     const deltas = reduce(
       (deltas, pressedKey) => {
         deltas.deltaX = deltas.deltaX + movementKeys[pressedKey].deltaX
         deltas.deltaY = deltas.deltaY + movementKeys[pressedKey].deltaY
-
         return deltas
       },
       { deltaX: 0, deltaY: 0 },

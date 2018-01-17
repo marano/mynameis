@@ -1,5 +1,5 @@
 import { state, props } from "cerebral/tags"
-import { debounce, set, when, equals, unset } from "cerebral/operators"
+import { set, when, equals, unset, wait } from "cerebral/operators"
 
 import {
   setEntitiesUiElements,
@@ -13,7 +13,8 @@ import {
   changeSceneSize,
   updateSortedTileIds,
   addWorldObject,
-  prepareSceneTemplateFromEditor,
+  takeSceneSnapshot,
+  replaceScenePathWithScenePlayPath,
   selectSceneTile,
   moveViewport
 } from "./actions"
@@ -29,7 +30,7 @@ export default {
     updateSortedTileIds,
     fillSceneTiles,
     fillWorldObjects,
-    set(state`modes.${state`currentMode`}.currentScenePath`, props`scenePath`)
+    set(state`viewport.currentScenePath`, props`scenePath`)
   ],
   worldObjectSelected: [
     when(state`${props`scenePath`}.selectedWorldObjectId`),
@@ -47,49 +48,38 @@ export default {
     )
   ],
   objectPickerEntitySelected: [
-    set(
-      state`modes.editor.objectPicker.selectedEntityIndex`,
-      props`entityIndex`
-    )
+    set(state`editor.objectPicker.selectedEntityIndex`, props`entityIndex`)
   ],
   worldObjectAdded: [addWorldObject],
   sceneTileSelected: [
-    when(state`modes.editor.selectedTilePath`),
+    when(state`editor.selectedTilePath`),
     {
-      true: set(
-        state`${state`modes.editor.selectedTilePath`}.isSelected`,
-        false
-      ),
+      true: set(state`${state`editor.selectedTilePath`}.isSelected`, false),
       false: []
     },
     selectSceneTile,
-    set(state`${state`modes.editor.selectedTilePath`}.isSelected`, true)
+    set(state`${state`editor.selectedTilePath`}.isSelected`, true)
   ],
   modeChanged: [
-    set(state`currentMode`, props`mode`),
     equals(props`mode`),
     {
       game: [
-        prepareSceneTemplateFromEditor,
-        initializeSceneData,
-        updateSortedTileIds,
-        set(state`modes.game.currentScenePath`, props`scenePath`),
-        set(
-          state`${state`modes.game.currentScenePath`}.viewport.cameraLockMode`,
-          "locked"
-        ),
+        takeSceneSnapshot,
+        replaceScenePathWithScenePlayPath,
+        set(state`${props`scenePath`}`, props`sceneSnapshot`),
+        set(state`${props`scenePath`}.currentMode`, "game"),
+        set(state`viewport.currentScenePath`, props`scenePath`),
+        set(state`${props`scenePath`}.viewport.cameraLockMode`, "locked"),
         adjustViewportSize,
         adjustViewportPositionForCameraMode
       ],
       editor: [
-        debounce(50),
-        {
-          continue: [
-            unset(state`${state`modes.game.currentScenePath`}`),
-            set(state`modes.game.currentScenePath`, null)
-          ],
-          discard: []
-        }
+        set(
+          state`viewport.currentScenePath`,
+          state`${props`scenePath`}.sourceScenePath`
+        ),
+        wait(0),
+        unset(state`${props`scenePath`}`)
       ]
     }
   ],

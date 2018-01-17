@@ -1,10 +1,10 @@
 import GameModeSwitchButton from "./GameModeSwitchButton"
 
-export default function GameModeSwitch() {
+export default function GameModeSwitch({ scenePath }) {
   return (
     <div>
-      <GameModeSwitchButton mode="editor" />
-      <GameModeSwitchButton mode="game" />
+      <GameModeSwitchButton mode="editor" scenePath={scenePath} />
+      <GameModeSwitchButton mode="game" scenePath={scenePath} />
     </div>
   )
 }

@@ -14,7 +14,7 @@ export function computeVisibleTileIds(scenePath) {
     state`${scenePath}.viewport.size.y`,
     state`${scenePath}.size.x`,
     state`${scenePath}.size.y`,
-    state`currentMode`,
+    state`${scenePath}.currentMode`,
     function(
       sortedTileIds,
       viewportPositionX,
@@ -56,23 +56,16 @@ export const computeSelectedWorldObject = Compute(
 )
 
 export const computeWorldObjectSelectable = Compute(
-  state`modes.editor.objectPicker.selectedEntityIndex`,
-  state`currentMode`,
+  state`editor.objectPicker.selectedEntityIndex`,
+  state`${props`scenePath`}.currentMode`,
   function(selectedEntityIndex, mode) {
     return mode === "game" && !selectedEntityIndex
   }
 )
 
-export const computeSelectedTile = Compute(state`currentMode`, function(
-  mode,
-  get
-) {
-  return get(state`${state`modes.editor.selectedTilePath`}`)
-})
-
-export const computeCurrentSceneId = Compute(state`currentMode`, function(
-  mode,
-  get
-) {
-  return get(state`${state`modes.${mode}.currentScenePath`}.id`)
-})
+export const computeSelectedTile = Compute(
+  state`${props`scenePath`}.currentMode`,
+  function(mode, get) {
+    return get(state`${state`editor.selectedTilePath`}`)
+  }
+)

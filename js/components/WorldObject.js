@@ -12,7 +12,7 @@ export default connect(
     tileSize: state`${props`scenePath`}.viewport.tileSize`,
     worldObjectSelectable: computeWorldObjectSelectable,
     worldObjectSelected: signal`worldObjectSelected`,
-    mode: state`currentMode`
+    mode: state`${props`scenePath`}.currentMode`
   },
   WorldObject
 )

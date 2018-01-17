@@ -1,17 +1,15 @@
 import { props, state } from "cerebral/tags"
 import Button from "./Button"
-import { computeCurrentSceneId } from "../computes"
 
 export default connect(
   {
-    sceneName: state`scenes.${props`sceneId`}.name`,
-    currentSceneId: computeCurrentSceneId
+    sceneName: state`${props`scenePath`}.name`
   },
   ScenesMenuItem
 )
 
-function ScenesMenuItem({ sceneId, sceneName, currentSceneId }) {
-  const isSelected = sceneId === currentSceneId
+function ScenesMenuItem({ sceneName, scenePath, currentScenePath }) {
+  const isSelected = currentScenePath.startsWith(scenePath)
   return (
     <div>
       <Button isSelected={isSelected}>{sceneName}</Button>

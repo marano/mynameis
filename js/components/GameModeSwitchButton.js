@@ -1,10 +1,10 @@
-import { state, signal } from "cerebral/tags"
+import { props, state, signal } from "cerebral/tags"
 
 import Button from "./Button"
 
 export default connect(
   {
-    currentMode: state`currentMode`,
+    currentMode: state`${props`scenePath`}.currentMode`,
     modeChanged: signal`modeChanged`
   },
   GameModeSwitchButton
@@ -20,6 +20,6 @@ function GameModeSwitchButton(props) {
   )
 }
 
-function onClick({ mode, modeChanged }) {
-  modeChanged({ mode })
+function onClick({ mode, modeChanged, scenePath }) {
+  modeChanged({ mode, scenePath })
 }

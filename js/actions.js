@@ -21,6 +21,7 @@ export function initializeSceneData({
   state
 }) {
   const id = ++sceneId
+  const currentMode = "editor"
   const name = `Scene ${id}`
   const tiles = {}
   const sortedTileIds = []
@@ -45,6 +46,7 @@ export function initializeSceneData({
 
   const scenePath = `scenes.${id}`
   const scene = {
+    currentMode,
     tiles,
     name,
     worldObjects,
@@ -127,9 +129,8 @@ function createSceneTile(x, y, scenePath, state) {
 
   state.set(`${scenePath}.tiles.${tileId}`, tile)
 
-  const mode = state.get("currentMode")
   const selectedEntityIndex = state.get(
-    `modes.${mode}.objectPicker.selectedEntityIndex`
+    `editor.objectPicker.selectedEntityIndex`
   )
   if (selectedEntityIndex) {
     const selectedEntity = state.get(
@@ -271,9 +272,10 @@ export function moveViewport({ state, props: { deltaX, deltaY, scenePath } }) {
 
 export const keyHandlers = {
   Escape: function(state) {
-    const mode = state.get("currentMode")
+    const currentScenePath = state.get("viewport.currentScenePath")
+    const mode = state.get(`${currentScenePath}.currentMode`)
     if (mode === "editor") {
-      state.set(`modes.editor.objectPicker.selectedEntityIndex`, null)
+      state.set(`editor.objectPicker.selectedEntityIndex`, null)
     }
   }
 }
@@ -333,14 +335,16 @@ export function updateSortedTileIds({ state, props: { scenePath } }) {
   state.set(`${scenePath}.sortedTileIds`, sortedTileIds)
 }
 
-export function prepareSceneTemplateFromEditor({ state, props }) {
-  const scenePath = state.get("modes.editor.currentScenePath")
+export function takeSceneSnapshot({ state, props: { scenePath } }) {
   const scene = state.get(scenePath)
-  const sceneTemplate = cloneDeep(scene)
-  sceneTemplate.name = `${scene.name} (play)`
-  return { sceneTemplate }
+  const sceneSnapshot = { ...cloneDeep(scene), sourceScenePath: scenePath }
+  return { sceneSnapshot }
+}
+
+export function replaceScenePathWithScenePlayPath({ props: { scenePath } }) {
+  return { scenePath: `${scenePath}.play` }
 }
 
 export function selectSceneTile({ state, props: { scenePath, tileId } }) {
-  state.set("modes.editor.selectedTilePath", `${scenePath}.tiles.${tileId}`)
+  state.set("editor.selectedTilePath", `${scenePath}.tiles.${tileId}`)
 }

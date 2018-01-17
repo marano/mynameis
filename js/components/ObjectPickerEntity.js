@@ -11,7 +11,7 @@ const className = css`
 
 export default connect(
   {
-    selectedEntityIndex: state`modes.editor.objectPicker.selectedEntityIndex`,
+    selectedEntityIndex: state`editor.objectPicker.selectedEntityIndex`,
     objectPickerEntitySelected: signal`objectPickerEntitySelected`
   },
   ObjectPickerEntity

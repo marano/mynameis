@@ -6,7 +6,7 @@ import SideMenu from "./SideMenu"
 
 export default connect(
   {
-    currentScenePath: state`modes.${state`currentMode`}.currentScenePath`,
+    currentScenePath: state`viewport.currentScenePath`,
     sideMenuWidth: state`sideMenu.width`
   },
   Main
