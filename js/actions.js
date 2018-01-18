@@ -335,10 +335,10 @@ export function updateSortedTileIds({ state, props: { scenePath } }) {
   state.set(`${scenePath}.sortedTileIds`, sortedTileIds)
 }
 
-export function takeSceneSnapshot({ state, props: { scenePath } }) {
+export function makeSceneTemplateFromScene({ state, props: { scenePath } }) {
   const scene = state.get(scenePath)
-  const sceneSnapshot = { ...cloneDeep(scene), sourceScenePath: scenePath }
-  return { sceneSnapshot }
+  const sceneTemplate = { ...cloneDeep(scene), sourceScenePath: scenePath }
+  return { sceneTemplate }
 }
 
 export function replaceScenePathWithScenePlayPath({ props: { scenePath } }) {

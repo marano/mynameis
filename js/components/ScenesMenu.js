@@ -3,18 +3,18 @@ import ScenesMenuItem from "./ScenesMenuItem"
 
 export default connect(
   {
-    sceneIds: state`scenes.*`
+    scenePaths: state`editor.scenePaths`
   },
   ScenesMenu
 )
 
-function ScenesMenu({ sceneIds, scenePath }) {
+function ScenesMenu({ scenePaths, scenePath }) {
   return (
     <div>
-      {sceneIds.map(sceneId => (
+      {scenePaths.map(eachScenePath => (
         <ScenesMenuItem
-          key={sceneId}
-          scenePath={`scenes.${sceneId}`}
+          key={eachScenePath}
+          scenePath={eachScenePath}
           currentScenePath={scenePath}
         />
       ))}

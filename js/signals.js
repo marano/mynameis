@@ -1,5 +1,5 @@
 import { state, props } from "cerebral/tags"
-import { set, when, equals, unset, wait } from "cerebral/operators"
+import { set, equals, push, unset, wait, when } from "cerebral/operators"
 
 import {
   setEntitiesUiElements,
@@ -13,8 +13,7 @@ import {
   changeSceneSize,
   updateSortedTileIds,
   addWorldObject,
-  takeSceneSnapshot,
-  replaceScenePathWithScenePlayPath,
+  makeSceneTemplateFromScene,
   selectSceneTile,
   moveViewport
 } from "./actions"
@@ -30,7 +29,8 @@ export default {
     updateSortedTileIds,
     fillSceneTiles,
     fillWorldObjects,
-    set(state`viewport.currentScenePath`, props`scenePath`)
+    set(state`viewport.currentScenePath`, props`scenePath`),
+    push(state`editor.scenePaths`, props`scenePath`)
   ],
   worldObjectSelected: [
     when(state`${props`scenePath`}.selectedWorldObjectId`),
@@ -64,9 +64,9 @@ export default {
     equals(props`mode`),
     {
       game: [
-        takeSceneSnapshot,
-        replaceScenePathWithScenePlayPath,
-        set(state`${props`scenePath`}`, props`sceneSnapshot`),
+        makeSceneTemplateFromScene,
+        initializeSceneData,
+        updateSortedTileIds,
         set(state`${props`scenePath`}.currentMode`, "game"),
         set(state`viewport.currentScenePath`, props`scenePath`),
         set(state`${props`scenePath`}.viewport.cameraLockMode`, "locked"),

@@ -12,7 +12,8 @@ const state = {
     selectedTilePath: null,
     objectPicker: {
       selectedEntityIndex: null
-    }
+    },
+    scenePaths: []
   },
   sideMenu: {
     width: 300
