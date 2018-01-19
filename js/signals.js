@@ -101,16 +101,17 @@ export default {
     adjustViewportPositionForCameraMode
   ],
   viewportResized: [
-    set(
-      state`${props`scenePath`}.viewport.containerDimension.width`,
-      props`viewportWidth`
-    ),
-    set(
-      state`${props`scenePath`}.viewport.containerDimension.height`,
-      props`viewportHeight`
-    ),
+    set(state`viewport.containerDimension.width`, props`viewportWidth`),
+    set(state`viewport.containerDimension.height`, props`viewportHeight`),
     adjustViewportSize
   ],
   keyPressed: handleKeyPress,
-  viewportMoved: moveViewport
+  viewportMoved: moveViewport,
+  newSceneAdded: [
+    createScene,
+    set(state`viewport.currentScenePath`, props`scenePath`),
+    push(state`editor.scenePaths`, props`scenePath`),
+    adjustViewportSize
+  ],
+  sceneChanged: set(state`viewport.currentScenePath`, props`scenePath`)
 }

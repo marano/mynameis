@@ -6,7 +6,11 @@ import signals from "./signals"
 const state = {
   scenes: {},
   viewport: {
-    currentScenePath: null
+    currentScenePath: null,
+    containerDimension: {
+      width: null,
+      height: null
+    }
   },
   editor: {
     selectedTilePath: null,

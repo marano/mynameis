@@ -17,10 +17,7 @@ export function setEntitiesUiElements({
 }
 
 let sceneId = 0
-export function createScene({
-  props: { sceneTemplate: { filling, ...sceneTemplate } },
-  state
-}) {
+export function createScene({ state }) {
   const id = ++sceneId
   const scene = {
     id,
@@ -30,13 +27,13 @@ export function createScene({
     sortedTileIds: [],
     worldObjects: {},
     selectedWorldObjectId: null,
+    size: {
+      x: 0,
+      y: 0
+    },
     viewport: {
       tileSize: 40,
-      cameraLockMode: "free",
-      containerDimension: {
-        width: null,
-        height: null
-      },
+      cameraLockMode: "locked",
       size: {
         x: 0,
         y: 0
@@ -156,9 +153,7 @@ function createWorldObjectUiElement(uiElement) {
 }
 
 export function adjustViewportSize({ state, props: { scenePath } }) {
-  const viewportContainerDimension = state.get(
-    `${scenePath}.viewport.containerDimension`
-  )
+  const viewportContainerDimension = state.get(`viewport.containerDimension`)
   const tileSize = state.get(`${scenePath}.viewport.tileSize`)
   const sceneSize = state.get(`${scenePath}.size`)
   const cameraLockMode = state.get(`${scenePath}.viewport.cameraLockMode`)
