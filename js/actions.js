@@ -1,5 +1,6 @@
 import { cloneDeep, find, each, sample, sortBy } from "lodash"
-import { range } from "ramda"
+import { assign, omit } from "lodash/fp"
+import { compose, range } from "ramda"
 import { cross } from "d3-array"
 
 import { idOfTileAt } from "./tile-utils"
@@ -16,50 +17,39 @@ export function setEntitiesUiElements({
 }
 
 let sceneId = 0
-export function initializeSceneData({
+export function createScene({
   props: { sceneTemplate: { filling, ...sceneTemplate } },
   state
 }) {
   const id = ++sceneId
-  const currentMode = "editor"
-  const name = `Scene ${id}`
-  const tiles = {}
-  const sortedTileIds = []
-  const worldObjects = {}
-  const selectedWorldObjectId = null
-  const viewport = {
-    tileSize: 40,
-    cameraLockMode: "free",
-    containerDimension: {
-      width: null,
-      height: null
-    },
-    size: {
-      x: 0,
-      y: 0
-    },
-    position: {
-      x: 0,
-      y: 0
+  const scene = {
+    id,
+    name: `Scene ${id}`,
+    currentMode: "editor",
+    tiles: {},
+    sortedTileIds: [],
+    worldObjects: {},
+    selectedWorldObjectId: null,
+    viewport: {
+      tileSize: 40,
+      cameraLockMode: "free",
+      containerDimension: {
+        width: null,
+        height: null
+      },
+      size: {
+        x: 0,
+        y: 0
+      },
+      position: {
+        x: 0,
+        y: 0
+      }
     }
   }
-
-  const scenePath = `scenes.${id}`
-  const scene = {
-    currentMode,
-    tiles,
-    name,
-    worldObjects,
-    viewport,
-    ...sceneTemplate,
-    id,
-    sortedTileIds,
-    selectedWorldObjectId
-  }
-
+  const scenePath = `scenes.${scene.id}`
   state.set(scenePath, scene)
-
-  return { scenePath, filling }
+  return { scenePath }
 }
 
 export function createSceneTiles({
@@ -72,7 +62,7 @@ export function createSceneTiles({
 }
 
 export function fillSceneTiles({
-  props: { scenePath, filling: { floor } },
+  props: { scenePath, sceneTemplate: { filling: { floor } } },
   state
 }) {
   const entities = state.get("definitions.entities")
@@ -82,7 +72,7 @@ export function fillSceneTiles({
 }
 
 export function fillWorldObjects({
-  props: { scenePath, filling: { objects } },
+  props: { scenePath, sceneTemplate: { filling: { objects } } },
   state
 }) {
   const entities = state.get("definitions.entities")
@@ -339,6 +329,20 @@ export function makeSceneTemplateFromScene({ state, props: { scenePath } }) {
   const scene = state.get(scenePath)
   const sceneTemplate = { ...cloneDeep(scene), sourceScenePath: scenePath }
   return { sceneTemplate }
+}
+
+export function fillSceneFromTemplate({
+  props: { scenePath, sceneTemplate },
+  state
+}) {
+  const scene = state.get(scenePath)
+  state.set(
+    scenePath,
+    compose(
+      assign(scene),
+      omit(["id", "sortedTileIds", "selectedWorldObjectId"])
+    )(sceneTemplate)
+  )
 }
 
 export function replaceScenePathWithScenePlayPath({ props: { scenePath } }) {

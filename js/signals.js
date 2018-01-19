@@ -3,7 +3,8 @@ import { set, equals, push, unset, wait, when } from "cerebral/operators"
 
 import {
   setEntitiesUiElements,
-  initializeSceneData,
+  createScene,
+  fillSceneFromTemplate,
   createSceneTiles,
   fillSceneTiles,
   fillWorldObjects,
@@ -24,7 +25,8 @@ export default {
     set(state`definitions.entities`, props`entities`)
   ],
   sceneTemplateLoaded: [
-    initializeSceneData,
+    createScene,
+    set(state`${props`scenePath`}.size`, props`sceneTemplate.size`),
     createSceneTiles,
     updateSortedTileIds,
     fillSceneTiles,
@@ -65,7 +67,8 @@ export default {
     {
       game: [
         makeSceneTemplateFromScene,
-        initializeSceneData,
+        createScene,
+        fillSceneFromTemplate,
         updateSortedTileIds,
         set(state`${props`scenePath`}.currentMode`, "game"),
         set(state`viewport.currentScenePath`, props`scenePath`),
