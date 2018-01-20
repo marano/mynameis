@@ -4,8 +4,6 @@ import { branch, compose, renderNothing } from "incompose"
 
 import onWindowResize from "../on-window-resize"
 
-import { computeVisibleTileIds } from "../computes"
-
 import SceneTile from "./SceneTile"
 
 function viewportClassName(tileSize) {
@@ -17,7 +15,6 @@ function viewportClassName(tileSize) {
 export default compose(
   branch(({ scenePath }) => !scenePath, renderNothing),
   connect({
-    tileIds: computeVisibleTileIds(props`scenePath`),
     tileSize: state`${props`scenePath`}.viewport.tileSize`,
     viewportSize: state`${props`scenePath`}.viewport.size`,
     viewportPosition: state`${props`scenePath`}.viewport.position`,

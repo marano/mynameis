@@ -1,5 +1,7 @@
 import { state } from "cerebral/tags"
 
+import { computeVisibleTileIds } from "../computes"
+
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
@@ -7,19 +9,20 @@ import SideMenu from "./SideMenu"
 export default connect(
   {
     currentScenePath: state`viewport.currentScenePath`,
+    tileIds: computeVisibleTileIds(state`viewport.currentScenePath`),
     sideMenuWidth: state`sideMenu.width`
   },
   Main
 )
 
-function Main({ currentScenePath, sideMenuWidth }) {
+function Main({ currentScenePath, tileIds, sideMenuWidth }) {
   return (
     <div style={containerStyle(sideMenuWidth)}>
       <div style={topMenuStyle()}>
         <TopMenu scenePath={currentScenePath} />
       </div>
       <div style={viewportStyle()}>
-        <Viewport scenePath={currentScenePath} />
+        <Viewport scenePath={currentScenePath} tileIds={tileIds} />
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu scenePath={currentScenePath} />
