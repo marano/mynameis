@@ -1,13 +1,14 @@
 import { props, state } from "cerebral/tags"
+import { branch, compose, renderNothing } from "incompose"
 
 import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
-export default connect(
-  {
+export default compose(
+  branch(({ scenePath }) => !scenePath, renderNothing),
+  connect({
     sceneSize: state`${props`scenePath`}.size`
-  },
-  SceneSizeEditor
-)
+  })
+)(SceneSizeEditor)
 
 function SceneSizeEditor({ scenePath, sceneSize }) {
   return (

@@ -43,6 +43,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.16.2",
     "file-loader": "^1.1.5",
+    "incompose": "^1.1.0",
     "inferno": "^3.10.1",
     "inferno-component": "^3.10.1",
     "inferno-create-element": "^3.10.1",

@@ -12,7 +12,8 @@ const libs = {
         View: ["inferno"],
         Component: ["inferno-component"],
         Container: ["@cerebral/inferno", "Container"],
-        connect: ["@cerebral/inferno", "connect"],
+        cerebralConnect: ["@cerebral/inferno", "connect"],
+        connect: [path.resolve("./js/curried-connect"), "default"],
         linkEvent: ["inferno", "linkEvent"]
       })
     ]
@@ -26,7 +27,8 @@ const libs = {
         View: ["react-dom"],
         Component: ["react", "Component"],
         Container: ["@cerebral/react", "Container"],
-        connect: ["@cerebral/react", "connect"],
+        cerebralConnect: ["@cerebral/react", "connect"],
+        connect: [path.resolve("./js/curried-connect"), "default"],
         linkEvent: [path.resolve("./js/link-event.js"), "default"]
       })
     ]
@@ -40,7 +42,8 @@ const libs = {
         View: ["preact"],
         Component: ["preact", "Component"],
         Container: ["@cerebral/preact", "Container"],
-        connect: ["@cerebral/preact", "connect"],
+        cerebralConnect: ["@cerebral/preact", "connect"],
+        connect: [path.resolve("./js/curried-connect"), "default"],
         linkEvent: [path.resolve("./js/link-event.js"), "default"]
       })
     ]

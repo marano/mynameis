@@ -347,3 +347,9 @@ export function replaceScenePathWithScenePlayPath({ props: { scenePath } }) {
 export function selectSceneTile({ state, props: { scenePath, tileId } }) {
   state.set("editor.selectedTilePath", `${scenePath}.tiles.${tileId}`)
 }
+
+export function removeEditorScenePaths({ state, props: { scenePath } }) {
+  const scenePaths = state.get("editor.scenePaths")
+  const index = scenePaths.indexOf(scenePath)
+  state.splice("editor.scenePaths", index, 1)
+}

@@ -1,5 +1,6 @@
 import { props, state, signal } from "cerebral/tags"
 import { css } from "emotion"
+import { branch, compose, renderNothing } from "incompose"
 
 import onWindowResize from "../on-window-resize"
 
@@ -13,8 +14,9 @@ function viewportClassName(tileSize) {
   `
 }
 
-export default connect(
-  {
+export default compose(
+  branch(({ scenePath }) => !scenePath, renderNothing),
+  connect({
     tileIds: computeVisibleTileIds(props`scenePath`),
     tileSize: state`${props`scenePath`}.viewport.tileSize`,
     viewportSize: state`${props`scenePath`}.viewport.size`,
@@ -22,7 +24,8 @@ export default connect(
     currentMode: state`${props`scenePath`}.currentMode`,
     worldSize: state`${props`scenePath`}.size`,
     viewportResized: signal`viewportResized`
-  },
+  })
+)(
   class Viewport extends Component {
     constructor(props) {
       super(props)

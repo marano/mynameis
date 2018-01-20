@@ -51,6 +51,9 @@ export default function setupEvents(controller) {
 
   function moveViewport() {
     const scenePath = controller.getState(`viewport.currentScenePath`)
+    if (!scenePath) {
+      return
+    }
     const deltas = reduce(
       (deltas, pressedKey) => {
         deltas.deltaX = deltas.deltaX + movementKeys[pressedKey].deltaX

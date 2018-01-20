@@ -1,5 +1,6 @@
 import { state, props } from "cerebral/tags"
 import { set, equals, push, unset, wait, when } from "cerebral/operators"
+import { isEqual } from "lodash/fp"
 
 import {
   setEntitiesUiElements,
@@ -16,7 +17,8 @@ import {
   addWorldObject,
   makeSceneTemplateFromScene,
   selectSceneTile,
-  moveViewport
+  moveViewport,
+  removeEditorScenePaths
 } from "./actions"
 
 export default {
@@ -113,5 +115,14 @@ export default {
     push(state`editor.scenePaths`, props`scenePath`),
     adjustViewportSize
   ],
-  sceneChanged: set(state`viewport.currentScenePath`, props`scenePath`)
+  sceneChanged: set(state`viewport.currentScenePath`, props`scenePath`),
+  sceneClosed: [
+    when(props`scenePath`, state`viewport.currentScenePath`, isEqual),
+    {
+      true: [unset(state`viewport.currentScenePath`, props`scenePath`)],
+      false: []
+    },
+    removeEditorScenePaths,
+    unset(state`scenePath`)
+  ]
 }

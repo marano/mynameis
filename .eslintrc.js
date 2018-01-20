@@ -4,6 +4,7 @@ module.exports = {
   env: {},
   globals: {
     Component: true,
+    cerebralConnect: true,
     connect: true,
     linkEvent: true,
     View: true

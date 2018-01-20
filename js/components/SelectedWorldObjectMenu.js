@@ -1,11 +1,10 @@
 import { computeSelectedWorldObject } from "../computes"
+import { branch, compose, renderNothing } from "incompose"
 
-export default connect(
-  {
-    selectedWorldObject: computeSelectedWorldObject
-  },
-  SelectedWorldObjectMenu
-)
+export default compose(
+  branch(({ scenePath }) => !scenePath, renderNothing),
+  connect({ selectedWorldObject: computeSelectedWorldObject })
+)(SelectedWorldObjectMenu)
 
 function SelectedWorldObjectMenu({ selectedWorldObject }) {
   return (
