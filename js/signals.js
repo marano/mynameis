@@ -119,7 +119,7 @@ export default {
   sceneClosed: [
     when(props`scenePath`, state`viewport.currentScenePath`, isEqual),
     {
-      true: [unset(state`viewport.currentScenePath`, props`scenePath`)],
+      true: [set(state`viewport.currentScenePath`, null)],
       false: []
     },
     removeEditorScenePaths,
