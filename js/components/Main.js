@@ -1,43 +1,50 @@
-import { state } from "cerebral/tags"
+import { inject } from "mobx-react"
+import { Component } from "react"
 
-import { computeVisibleTileIds } from "../computes"
+// import TopMenu from "./TopMenu"
+// import Viewport from "./Viewport"
+// import SideMenu from "./SideMenu"
 
-import TopMenu from "./TopMenu"
-import Viewport from "./Viewport"
-import SideMenu from "./SideMenu"
+// export default connect(
+//   {
+//     currentScenePath: state`viewport.currentScenePath`,
+//     tileIds: computeVisibleTileIds(state`viewport.currentScenePath`),
+//     sideMenuWidth: state`sideMenu.width`
+//   },
+//   Main
+// )
 
-export default connect(
-  {
-    currentScenePath: state`viewport.currentScenePath`,
-    tileIds: computeVisibleTileIds(state`viewport.currentScenePath`),
-    sideMenuWidth: state`sideMenu.width`
-  },
-  Main
-)
-
-function Main({ currentScenePath, tileIds, sideMenuWidth }) {
-  return (
-    <div style={containerStyle(sideMenuWidth)}>
-      <div style={topMenuStyle()}>
-        <TopMenu scenePath={currentScenePath} />
+@inject(function(stores, nextProps) {
+  console.log("nextProps", nextProps)
+  return { selectedTile: stores.editor.selectedTile }
+})
+export default class Main extends Component {
+  render() {
+    console.log("render", this.props)
+    // const { currentScenePath, tileIds, sideMenuWidth } = this.props
+    return (
+      <div style={containerStyle()}>
+        <div style={topMenuStyle()}>
+          {/* <TopMenu scenePath={currentScenePath} /> */}
+        </div>
+        <div style={viewportStyle()}>
+          {/* <Viewport scenePath={currentScenePath} tileIds={tileIds} /> */}
+        </div>
+        <div style={sideMenuStyle()}>
+          {/* <SideMenu scenePath={currentScenePath} /> */}
+        </div>
       </div>
-      <div style={viewportStyle()}>
-        <Viewport scenePath={currentScenePath} tileIds={tileIds} />
-      </div>
-      <div style={sideMenuStyle()}>
-        <SideMenu scenePath={currentScenePath} />
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
-function containerStyle(sideMenuWidth) {
+function containerStyle() {
   return {
     display: "grid",
     width: "100%",
     height: "100%",
     gridTemplateRows: "42px calc(100% - 42px)",
-    gridTemplateColumns: `auto ${sideMenuWidth}px`
+    gridTemplateColumns: `auto 300px`
   }
 }
 

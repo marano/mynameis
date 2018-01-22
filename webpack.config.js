@@ -2,58 +2,43 @@ var webpack = require("webpack")
 var path = require("path")
 var compact = require("lodash/compact")
 
-const libs = {
+const views = {
   inferno: {
-    setupFile: "./js/view/setup-inferno.js",
+    alias: {
+      react: path.resolve("./js/views/inferno/react-polyfill"),
+      "react-dom": "inferno",
+      recompose: "incompose",
+      "mobx-react": path.resolve("./js/views/inferno/mobx-react-polyfill")
+    },
     babelPresets: [],
     babelPlugins: [["inferno", { imports: true }]],
-    webpackPlugins: [
-      new webpack.ProvidePlugin({
-        View: ["inferno"],
-        Component: ["inferno-component"],
-        Container: ["@cerebral/inferno", "Container"],
-        cerebralConnect: ["@cerebral/inferno", "connect"],
-        connect: [path.resolve("./js/curried-connect"), "default"],
-        linkEvent: ["inferno", "linkEvent"]
-      })
-    ]
+    setupFile: "./js/views/inferno/setup-inferno.js"
   },
   react: {
+    alias: { inferno: "./js/views/react/inferno-polyfill" },
     setupFile: null,
     babelPresets: ["react"],
-    babelPlugins: ["react-require", "transform-react-jsx"],
-    webpackPlugins: [
-      new webpack.ProvidePlugin({
-        View: ["react-dom"],
-        Component: ["react", "Component"],
-        Container: ["@cerebral/react", "Container"],
-        cerebralConnect: ["@cerebral/react", "connect"],
-        connect: [path.resolve("./js/curried-connect"), "default"],
-        linkEvent: [path.resolve("./js/link-event.js"), "default"]
-      })
-    ]
+    babelPlugins: ["react-require", "transform-react-jsx"]
   },
   preact: {
+    alias: {
+      react: "preact",
+      "react-dom": "preact",
+      inferno: "./js/views/preact/inferno-polyfill",
+      "mobx-react": "mobx-preact"
+    },
     setupFile: null,
     babelPresets: [],
-    babelPlugins: ["preact-require", ["transform-react-jsx", { pragma: "h" }]],
-    webpackPlugins: [
-      new webpack.ProvidePlugin({
-        View: ["preact"],
-        Component: ["preact", "Component"],
-        Container: ["@cerebral/preact", "Container"],
-        cerebralConnect: ["@cerebral/preact", "connect"],
-        connect: [path.resolve("./js/curried-connect"), "default"],
-        linkEvent: [path.resolve("./js/link-event.js"), "default"]
-      })
-    ]
+    babelPlugins: ["preact-require", ["transform-react-jsx", { pragma: "h" }]]
   }
 }
 
-const lib = libs["inferno"]
+const nodeEnv = process.env.NODE_ENV || "development"
+const environmentView = { development: "react", production: "inferno" }[nodeEnv]
+const view = views[process.env.VIEW || environmentView]
 
 module.exports = {
-  entry: compact([lib.setupFile, "./js/index.js"]),
+  entry: compact([view.setupFile, "./js/index.js"]),
   output: {
     path: __dirname,
     publicPath: "/",
@@ -71,10 +56,12 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
-          presets: ["env"].concat(lib.babelPresets),
-          plugins: ["emotion", "transform-object-rest-spread"].concat(
-            lib.babelPlugins
-          )
+          presets: ["env"].concat(view.babelPresets),
+          plugins: [
+            "emotion",
+            "transform-object-rest-spread",
+            "transform-decorators-legacy"
+          ].concat(view.babelPlugins)
         }
       }
     ]
@@ -82,8 +69,9 @@ module.exports = {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
-  ].concat(lib.webpackPlugins),
+  ],
   resolve: {
+    alias: view.alias,
     extensions: [".js", ".json"]
   },
   devServer: {
