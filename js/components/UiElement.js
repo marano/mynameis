@@ -1,3 +1,4 @@
+import { connect } from "@cerebral/react"
 import { props, state } from "cerebral/tags"
 
 export default connect(

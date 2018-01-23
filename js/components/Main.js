@@ -1,3 +1,4 @@
+import { connect } from "@cerebral/react"
 import { state } from "cerebral/tags"
 
 import { computeVisibleTileIds } from "../computes"

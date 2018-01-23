@@ -1,4 +1,6 @@
+import { connect } from "@cerebral/react"
 import { props, state, signal } from "cerebral/tags"
+import { linkEvent } from "inferno"
 import {
   cursor,
   cursorOnHover,

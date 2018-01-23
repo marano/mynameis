@@ -1,4 +1,7 @@
+import { connect } from "@cerebral/react"
 import { props, signal, state } from "cerebral/tags"
+import { linkEvent } from "inferno"
+
 import Button from "./Button"
 
 export default connect(

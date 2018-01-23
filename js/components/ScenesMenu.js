@@ -1,4 +1,7 @@
+import { connect } from "@cerebral/react"
 import { signal, state } from "cerebral/tags"
+import { linkEvent } from "inferno"
+
 import ScenesMenuItem from "./ScenesMenuItem"
 import Button from "./Button"
 

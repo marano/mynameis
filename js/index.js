@@ -1,3 +1,6 @@
+import ReactDOM from "react-dom"
+import { Container } from "@cerebral/react"
+
 import controller from "./controller"
 
 import { definitions as uiElements } from "../json/ui-elements.json"
@@ -21,7 +24,7 @@ if (module.hot) {
 }
 
 function renderRoot(Component) {
-  View.render(
+  ReactDOM.render(
     <Container controller={controller}>
       <Component />
     </Container>,

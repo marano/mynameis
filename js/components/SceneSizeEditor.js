@@ -1,5 +1,6 @@
 import { props, state } from "cerebral/tags"
-import { branch, compose, renderNothing } from "incompose"
+import { branch, compose, renderNothing } from "recompose"
+import connect from "../curried-connect"
 
 import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 

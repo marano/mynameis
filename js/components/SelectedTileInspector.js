@@ -1,4 +1,4 @@
-import { connect } from "@cerebral/inferno"
+import { connect } from "@cerebral/react"
 
 import { computeSelectedTile } from "../computes"
 

@@ -55,6 +55,7 @@
     "ramda": "^0.25.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "recompose": "^0.26.0",
     "rxjs": "^5.5.6",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"

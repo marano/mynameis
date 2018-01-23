@@ -2,13 +2,7 @@ module.exports = {
   extends: ["standard", "prettier"],
   plugins: ["react", "prettier"],
   env: {},
-  globals: {
-    Component: true,
-    cerebralConnect: true,
-    connect: true,
-    linkEvent: true,
-    View: true
-  },
+  globals: {},
   rules: {
     "react/jsx-uses-vars": 2,
     "prettier/prettier": [

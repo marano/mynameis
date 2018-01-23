@@ -1,3 +1,4 @@
+import { connect } from "@cerebral/react"
 import { state, props } from "cerebral/tags"
 
 import UiElement from "./UiElement"

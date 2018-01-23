@@ -1,4 +1,6 @@
+import { connect } from "@cerebral/react"
 import { signal } from "cerebral/tags"
+import { linkEvent } from "inferno"
 
 export default connect(
   { sceneSizeChanged: signal`sceneSizeChanged` },

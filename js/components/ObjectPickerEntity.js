@@ -1,4 +1,6 @@
+import { connect } from "@cerebral/react"
 import { state, signal } from "cerebral/tags"
+import { linkEvent } from "inferno"
 import { css } from "emotion"
 
 import WorldEntity from "./WorldEntity"

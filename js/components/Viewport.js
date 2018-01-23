@@ -1,6 +1,9 @@
+import { Component } from "react"
 import { props, state, signal } from "cerebral/tags"
 import { css } from "emotion"
-import { branch, compose, renderNothing } from "incompose"
+import { branch, compose, renderNothing } from "recompose"
+import connect from "../curried-connect"
+import hasKeyedChildren from "has-keyed-children"
 
 import onWindowResize from "../on-window-resize"
 
@@ -60,7 +63,7 @@ export default compose(
           style={this.outerStyle()}
         >
           <div style={this.windowStyle()}>
-            <div style={this.contentStyle()} hasKeyedChildren>
+            <div style={this.contentStyle()} {...hasKeyedChildren}>
               {this.props.tileIds.map(tileId => (
                 <SceneTile
                   scenePath={this.props.scenePath}
