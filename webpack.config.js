@@ -13,7 +13,7 @@ const views = {
         "./js/views/inferno/has-keyed-children"
       )
     },
-    setupFile: "./js/views/inferno/setup-inferno.js",
+    setupFile: "./js/views/inferno/initialize.js",
     babelPresets: [],
     babelPlugins: [["inferno", { imports: true }]]
   },
@@ -30,22 +30,22 @@ const views = {
   },
   preact: {
     alias: {
-      react: "preact",
-      "react-dom": "preact",
+      react: "preact-compat",
+      "react-dom": "preact-compat",
       inferno: path.resolve("./js/views/polyfills/inferno"),
       "@cerebral/react": "@cerebral/preact",
       "has-keyed-children": path.resolve(
         "./js/views/polyfills/has-keyed-children"
       )
     },
-    setupFile: null,
+    setupFile: "./js/views/preact/initialize.js",
     babelPresets: [],
     babelPlugins: ["preact-require", ["transform-react-jsx", { pragma: "h" }]]
   }
 }
 
 const nodeEnv = process.env.NODE_ENV || "development"
-const environmentView = { development: "inferno", production: "react" }[nodeEnv]
+const environmentView = { development: "react", production: "inferno" }[nodeEnv]
 const view = views[process.env.VIEW || environmentView]
 
 module.exports = {
