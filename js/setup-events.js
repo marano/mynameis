@@ -1,19 +1,7 @@
 import { Observable } from "rxjs/Rx"
-import { compose, contains, keys, reduce } from "ramda"
-import { keyHandlers } from "./actions"
+import { contains, keys, reduce } from "ramda"
 
 export default function setupEvents(controller) {
-  window.addEventListener(
-    "keydown",
-    function({ key }) {
-      const scenePath = controller.getState(`viewport.currentScenePath`)
-      if (compose(contains(key), keys)(keyHandlers)) {
-        controller.getSignal("keyPressed")({ scenePath, key })
-      }
-    },
-    true
-  )
-
   const movementKeys = {
     w: { deltaX: 0, deltaY: -1 },
     s: { deltaX: 0, deltaY: +1 },
