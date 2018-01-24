@@ -1,16 +1,13 @@
 import { connect } from "@cerebral/react"
 import { state } from "cerebral/tags"
 
-import { computeVisibleTileIds } from "../computes"
-
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
 
 export default connect(
   {
-    currentScenePath: state`viewport.currentScenePath`,
-    tileIds: computeVisibleTileIds(state`viewport.currentScenePath`)
+    currentScenePath: state`viewport.currentScenePath`
   },
   Main
 )
@@ -22,7 +19,7 @@ function Main({ currentScenePath, tileIds }) {
         <TopMenu scenePath={currentScenePath} />
       </div>
       <div style={viewportStyle()}>
-        <Viewport scenePath={currentScenePath} tileIds={tileIds} />
+        <Viewport scenePath={currentScenePath} />
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu scenePath={currentScenePath} />

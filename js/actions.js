@@ -34,6 +34,7 @@ export function createScene({ state }) {
     viewport: {
       tileSize: 40,
       cameraLockMode: "locked",
+      visibleTileIds: [],
       size: {
         x: 0,
         y: 0
@@ -352,4 +353,29 @@ export function removeEditorScenePaths({ state, props: { scenePath } }) {
   const scenePaths = state.get("editor.scenePaths")
   const index = scenePaths.indexOf(scenePath)
   state.splice("editor.scenePaths", index, 1)
+}
+
+export function computeVisibleTileIds({ state, props: { scenePath } }) {
+  const scene = state.get(scenePath)
+
+  const animationOffset = scene.currentMode === "game" ? 2 : 0
+  const minX = Math.max(0, scene.viewport.position.x - animationOffset)
+  const minY = Math.max(0, scene.viewport.position.y - animationOffset)
+
+  const maxX = Math.min(
+    scene.viewport.position.x + scene.viewport.size.x + animationOffset,
+    scene.size.x
+  )
+  const maxY = Math.min(
+    scene.viewport.position.y + scene.viewport.size.y + animationOffset,
+    scene.size.y
+  )
+
+  var xRange = range(minX, maxX)
+  var yRange = range(minY, maxY)
+
+  const visibleTileIds = cross(xRange, yRange, (x, y) =>
+    idOfTileAt(scene.sortedTileIds, scene.size.y, x, y)
+  )
+  state.set(`${scenePath}.viewport.visibleTileIds`, visibleTileIds)
 }

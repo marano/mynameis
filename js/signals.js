@@ -18,7 +18,8 @@ import {
   makeSceneTemplateFromScene,
   selectSceneTile,
   moveViewport,
-  removeEditorScenePaths
+  removeEditorScenePaths,
+  computeVisibleTileIds
 } from "./actions"
 
 export default {
@@ -76,7 +77,8 @@ export default {
         set(state`viewport.currentScenePath`, props`scenePath`),
         set(state`${props`scenePath`}.viewport.cameraLockMode`, "locked"),
         adjustViewportSize,
-        adjustViewportPositionForCameraMode
+        adjustViewportPositionForCameraMode,
+        computeVisibleTileIds
       ],
       editor: [
         set(
@@ -94,30 +96,35 @@ export default {
       props`cameraLockMode`
     ),
     adjustViewportSize,
-    adjustViewportPositionForCameraMode
+    adjustViewportPositionForCameraMode,
+    computeVisibleTileIds
   ],
   sceneSizeChanged: [
     changeSceneSize,
     updateSortedTileIds,
     adjustViewportSize,
-    adjustViewportPositionForCameraMode
+    adjustViewportPositionForCameraMode,
+    computeVisibleTileIds
   ],
   viewportResized: [
     set(state`viewport.containerDimension.width`, props`viewportWidth`),
     set(state`viewport.containerDimension.height`, props`viewportHeight`),
-    adjustViewportSize
+    adjustViewportSize,
+    computeVisibleTileIds
   ],
   keyPressed: handleKeyPress,
-  viewportMoved: moveViewport,
+  viewportMoved: [moveViewport, computeVisibleTileIds],
   newSceneAdded: [
     createScene,
     set(state`viewport.currentScenePath`, props`scenePath`),
     push(state`editor.scenePaths`, props`scenePath`),
-    adjustViewportSize
+    adjustViewportSize,
+    computeVisibleTileIds
   ],
   sceneChanged: [
     set(state`viewport.currentScenePath`, props`scenePath`),
-    adjustViewportSize
+    adjustViewportSize,
+    computeVisibleTileIds
   ],
   sceneClosed: [
     when(props`scenePath`, state`viewport.currentScenePath`, isEqual),

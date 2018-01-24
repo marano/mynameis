@@ -18,6 +18,7 @@ function viewportClassName(tileSize) {
 export default compose(
   branch(({ scenePath }) => !scenePath, renderNothing),
   connect({
+    tileIds: state`${props`scenePath`}.viewport.visibleTileIds`,
     tileSize: state`${props`scenePath`}.viewport.tileSize`,
     viewportSize: state`${props`scenePath`}.viewport.size`,
     viewportPosition: state`${props`scenePath`}.viewport.position`,
