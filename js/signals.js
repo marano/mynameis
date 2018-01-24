@@ -115,7 +115,10 @@ export default {
     push(state`editor.scenePaths`, props`scenePath`),
     adjustViewportSize
   ],
-  sceneChanged: set(state`viewport.currentScenePath`, props`scenePath`),
+  sceneChanged: [
+    set(state`viewport.currentScenePath`, props`scenePath`),
+    adjustViewportSize
+  ],
   sceneClosed: [
     when(props`scenePath`, state`viewport.currentScenePath`, isEqual),
     {
