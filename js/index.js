@@ -1,8 +1,6 @@
 import ReactDOM from "react-dom"
 import { Container } from "@cerebral/react"
 
-import controller from "./controller"
-
 import { definitions as uiElements } from "../json/ui-elements.json"
 import { definitions as entities } from "../json/entities.json"
 import sceneTemplate from "../json/world.json"
@@ -13,31 +11,48 @@ import createMoveKeydownEventHandler, {
   movementKeys
 } from "./event-handlers/moveKeydown"
 
-import Main from "./components/Main"
+let controller
+let keydownSubscription
+let moveKeydownSubscription
 
-controller.getSignal("entitiesLoaded")({ entities, uiElements })
-controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
-
-renderRoot(Main)
-
-const keydownSubscription = keydownStream.subscribe(
-  createKeydownEventHandler(controller)
-)
-
-const moveKeydownSubscription = createMoveKeydownStream(movementKeys).subscribe(
-  createMoveKeydownEventHandler(controller)
-)
+renderRoot()
 
 if (module.hot) {
-  module.hot.accept("./components/Main", () =>
-    renderRoot(require("./components/Main").default)
+  module.hot.accept(["./components/Main", "./createController"], () =>
+    renderRoot()
   )
 }
 
-function renderRoot(Component) {
+function renderRoot() {
+  const Main = require("./components/Main").default
+  const createControllerModule = require("./createController")
+  const createController = createControllerModule.default
+  const isInitializing = !controller
+  const state = isInitializing
+    ? createControllerModule.initialState
+    : controller.getState()
+
+  controller = createController(state)
+
+  if (isInitializing) {
+    controller.getSignal("entitiesLoaded")({ entities, uiElements })
+    controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
+  } else {
+    keydownSubscription.unsubscribe()
+    moveKeydownSubscription.unsubscribe()
+  }
+
+  keydownSubscription = keydownStream.subscribe(
+    createKeydownEventHandler(controller)
+  )
+
+  moveKeydownSubscription = createMoveKeydownStream(movementKeys).subscribe(
+    createMoveKeydownEventHandler(controller)
+  )
+
   ReactDOM.render(
     <Container controller={controller}>
-      <Component />
+      <Main />
     </Container>,
     document.getElementById("root")
   )

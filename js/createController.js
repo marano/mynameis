@@ -3,7 +3,7 @@ import Devtools from "cerebral/devtools"
 
 import signals from "./signals"
 
-const state = {
+export const initialState = {
   scenes: {},
   viewport: {
     currentScenePath: null,
@@ -24,19 +24,21 @@ const state = {
   }
 }
 
-const rootModule = Module({
-  state,
-  signals,
-  providers: {},
-  modules: {},
-  catch: []
-})
-
-export default Controller(rootModule, {
-  devtools: Devtools({
-    host: "127.0.0.1:8585",
-    reconnect: false,
-    storeMutations: true,
-    preventExternalMutations: true
+export default function createController(state) {
+  const rootModule = Module({
+    state,
+    signals,
+    providers: {},
+    modules: {},
+    catch: []
   })
-})
+
+  return Controller(rootModule, {
+    devtools: Devtools({
+      host: "127.0.0.1:8585",
+      reconnect: false,
+      storeMutations: true,
+      preventExternalMutations: true
+    })
+  })
+}

@@ -91,6 +91,7 @@ module.exports = {
   devServer: {
     contentBase: "./public",
     historyApiFallback: true,
-    hot: true
+    hot: true,
+    hotOnly: true
   }
 }
