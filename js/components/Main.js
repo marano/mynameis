@@ -10,15 +10,14 @@ import SideMenu from "./SideMenu"
 export default connect(
   {
     currentScenePath: state`viewport.currentScenePath`,
-    tileIds: computeVisibleTileIds(state`viewport.currentScenePath`),
-    sideMenuWidth: state`sideMenu.width`
+    tileIds: computeVisibleTileIds(state`viewport.currentScenePath`)
   },
   Main
 )
 
-function Main({ currentScenePath, tileIds, sideMenuWidth }) {
+function Main({ currentScenePath, tileIds }) {
   return (
-    <div style={containerStyle(sideMenuWidth)}>
+    <div style={containerStyle()}>
       <div style={topMenuStyle()}>
         <TopMenu scenePath={currentScenePath} />
       </div>
@@ -38,7 +37,7 @@ function containerStyle(sideMenuWidth) {
     width: "100%",
     height: "100%",
     gridTemplateRows: "42px calc(100% - 42px)",
-    gridTemplateColumns: `auto ${sideMenuWidth}px`
+    gridTemplateColumns: `auto 300px`
   }
 }
 

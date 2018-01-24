@@ -19,9 +19,6 @@ const state = {
     },
     scenePaths: []
   },
-  sideMenu: {
-    width: 300
-  },
   definitions: {
     entities: null
   }

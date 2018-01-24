@@ -1,20 +1,10 @@
-import { connect } from "@cerebral/react"
-import { state } from "cerebral/tags"
-
 import ScenesMenu from "./ScenesMenu"
 import SceneSizeEditor from "./SceneSizeEditor"
 import ObjectPicker from "./ObjectPicker"
 import SelectedWorldObjectMenu from "./SelectedWorldObjectMenu"
 import SelectedTileInspector from "./SelectedTileInspector"
 
-export default connect(
-  {
-    width: state`sideMenu.width`
-  },
-  SideMenu
-)
-
-function SideMenu({ scenePath, width }) {
+export default function SideMenu({ scenePath }) {
   return (
     <div style={style()}>
       <div style={itemStyle()}>
