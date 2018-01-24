@@ -6,9 +6,12 @@ import controller from "./controller"
 import { definitions as uiElements } from "../json/ui-elements.json"
 import { definitions as entities } from "../json/entities.json"
 import sceneTemplate from "../json/world.json"
-import setupEvents from "./setup-events"
 import keydownStream from "./streams/keydown"
+import createMoveKeydownStream from "./streams/moveKeydown"
 import createKeydownEventHandler from "./event-handlers/keydown"
+import createMoveKeydownEventHandler, {
+  movementKeys
+} from "./event-handlers/moveKeydown"
 
 import Main from "./components/Main"
 
@@ -21,7 +24,9 @@ const keydownSubscription = keydownStream.subscribe(
   createKeydownEventHandler(controller)
 )
 
-setupEvents(controller)
+const moveKeydownSubscription = createMoveKeydownStream(movementKeys).subscribe(
+  createMoveKeydownEventHandler(controller)
+)
 
 if (module.hot) {
   module.hot.accept("./components/Main", () =>
