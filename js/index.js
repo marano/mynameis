@@ -18,9 +18,7 @@ let moveKeydownSubscription
 renderRoot()
 
 if (module.hot) {
-  module.hot.accept(["./components/Main", "./createController"], () =>
-    renderRoot()
-  )
+  module.hot.accept(["./components/Main", "./createController"], renderRoot)
 }
 
 function renderRoot() {
