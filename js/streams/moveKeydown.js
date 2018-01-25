@@ -8,4 +8,16 @@ export default function createMovementKeydownStream(movementKeys) {
     .groupBy(e => e.key.toLowerCase())
     .map(group => group.distinctUntilChanged(null, e => e.type))
     .mergeAll()
+    .scan((pressedKeys, event) => {
+      const key = event.key.toLowerCase()
+      switch (event.type) {
+        case "keydown":
+          pressedKeys.push(key)
+          break
+        case "keyup":
+          pressedKeys.splice(pressedKeys.indexOf(key), 1)
+          break
+      }
+      return pressedKeys
+    }, [])
 }

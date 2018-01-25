@@ -1,8 +1,7 @@
 import { Observable } from "rxjs/Rx"
 import { reduce } from "ramda"
 
-const pressedKeys = []
-
+let pressedKeys
 const emitter = Observable.interval(100).startWith(0)
 let emitterSubscription
 
@@ -14,21 +13,13 @@ export const movementKeys = {
 }
 
 export default function createMoveKeydownHandler(controller) {
-  return function handleMoveKeydown(event) {
-    const key = event.key.toLowerCase()
-    switch (event.type) {
-      case "keydown":
-        pressedKeys.push(key)
-        if (pressedKeys.length === 1) {
-          emitterSubscription = emitter.subscribe(moveViewport)
-        }
-        break
-      case "keyup":
-        pressedKeys.splice(pressedKeys.indexOf(key), 1)
-        if (pressedKeys.length === 0) {
-          emitterSubscription.unsubscribe()
-        }
-        break
+  return function handleMoveKeydown(newPressedKeys) {
+    pressedKeys = newPressedKeys
+    if (pressedKeys.length === 0) {
+      emitterSubscription.unsubscribe()
+      emitterSubscription = null
+    } else if (pressedKeys.length === 1 && !emitterSubscription) {
+      emitterSubscription = emitter.subscribe(moveViewport)
     }
   }
 
