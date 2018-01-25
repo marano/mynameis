@@ -10,10 +10,18 @@ import createKeydownEventHandler from "./event-handlers/keydown"
 import createMoveKeydownEventHandler, {
   movementKeys
 } from "./event-handlers/moveKeydown"
+import createOnMutationStream from "./streams/mutation"
+import createOnMutationEventHandler from "./event-handlers/mutation"
+import { initialState } from "./createController"
+
+const cerebralStateKey = "cerebralState"
 
 let controller
 let keydownSubscription
 let moveKeydownSubscription
+let mutationSubscription
+
+const localState = window.localStorage.getItem(cerebralStateKey)
 
 renderRoot()
 
@@ -27,17 +35,20 @@ function renderRoot() {
   const createController = createControllerModule.default
   const isInitializing = !controller
   const state = isInitializing
-    ? createControllerModule.initialState
+    ? JSON.parse(localState) || initialState
     : controller.getState()
 
   controller = createController(state)
 
   if (isInitializing) {
-    controller.getSignal("entitiesLoaded")({ entities, uiElements })
-    controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
+    if (!localState) {
+      controller.getSignal("entitiesLoaded")({ entities, uiElements })
+      controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
+    }
   } else {
     keydownSubscription.unsubscribe()
     moveKeydownSubscription.unsubscribe()
+    mutationSubscription.unsubscribe()
   }
 
   keydownSubscription = keydownStream.subscribe(
@@ -46,6 +57,10 @@ function renderRoot() {
 
   moveKeydownSubscription = createMoveKeydownStream(movementKeys).subscribe(
     createMoveKeydownEventHandler(controller)
+  )
+
+  mutationSubscription = createOnMutationStream(controller).subscribe(
+    createOnMutationEventHandler(cerebralStateKey)
   )
 
   ReactDOM.render(
