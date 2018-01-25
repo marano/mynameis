@@ -5,7 +5,7 @@ import { branch, compose, renderNothing } from "recompose"
 import connect from "../curried-connect"
 import hasKeyedChildren from "has-keyed-children"
 
-import onWindowResize from "../on-window-resize"
+import windowResize$ from "../streams/windowResize"
 
 import SceneTile from "./SceneTile"
 
@@ -35,7 +35,7 @@ export default compose(
     }
 
     componentDidMount() {
-      this.onWindowResizeSubscription = onWindowResize.subscribe(
+      this.onWindowResizeSubscription = windowResize$.subscribe(
         this.callViewportResized
       )
       setImmediate(this.callViewportResized)
