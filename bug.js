@@ -1,18 +1,20 @@
-import Inferno from "inferno"
-import { Controller } from "cerebral"
-import { Container, connect } from "cerebral/inferno"
+import { render } from "inferno"
+import { Controller, Module } from "cerebral"
+import { Container, connect } from "@cerebral/inferno"
 import { state, props, signal } from "cerebral/tags"
 import { set } from "cerebral/operators"
 
-const controller = Controller({
-  state: {
-    items: ["a", "b", "c", "d"],
-    itemsIndexes: [0, 1, 2, 3]
-  },
-  signals: {
-    keyPressedSignal: set(state`itemsIndexes`, [2, 3])
-  }
-})
+const controller = Controller(
+  new Module({
+    state: {
+      items: ["a", "b", "c", "d"],
+      itemsIndexes: [0, 1, 2, 3]
+    },
+    signals: {
+      keyPressedSignal: set(state`itemsIndexes`, [2, 3])
+    }
+  })
+)
 
 const ListItem = connect(
   {
@@ -41,7 +43,7 @@ const List = connect(
   }
 )
 
-Inferno.render(
+render(
   <Container controller={controller}>
     <List />
   </Container>,
