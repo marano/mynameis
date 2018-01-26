@@ -53,6 +53,7 @@ const views = {
 const nodeEnv = process.env.NODE_ENV || "development"
 const environmentView = { development: "react", production: "inferno" }[nodeEnv]
 const view = views[process.env.VIEW || environmentView]
+const prod = nodeEnv === "production"
 
 module.exports = {
   entry: compact([view.setupFile, "./js/index.js"]),
@@ -61,7 +62,7 @@ module.exports = {
     publicPath: "/",
     filename: "bundle.js"
   },
-  devtool: "source-map",
+  devtool: prod ? "source-map" : "cheap-module-source-map",
   module: {
     loaders: [
       {
