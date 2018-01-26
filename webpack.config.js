@@ -82,15 +82,20 @@ module.exports = {
       }
     ]
   },
-  plugins: [
+  plugins: compact([
+    new webpack.LoaderOptionsPlugin({
+      debug: !prod,
+      minimize: prod
+    }),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(nodeEnv)
       }
     }),
+    prod ? new webpack.optimize.UglifyJsPlugin() : null,
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
-  ],
+  ]),
   resolve: {
     alias: view.alias,
     extensions: [".js", ".json"]
