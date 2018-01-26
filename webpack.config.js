@@ -5,6 +5,7 @@ var compact = require("lodash/compact")
 const views = {
   inferno: {
     alias: {
+      inferno: path.resolve("./node_modules/inferno/index.js"),
       react: path.resolve("./js/views/inferno/react"),
       "react-dom": path.resolve("./js/views/inferno/react-dom"),
       "@cerebral/react": "@cerebral/inferno",
