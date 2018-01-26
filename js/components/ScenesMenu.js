@@ -26,6 +26,7 @@ function ScenesMenu({ scenePaths, scenePath, newSceneAdded, sceneChanged }) {
             { sceneChanged, scenePath: eachScenePath },
             onSceneButtonClick
           )}
+          hasKeyedChildren
         />
       ))}
       <Button onClick={linkEvent(newSceneAdded, onNewSceneButtonClick)}>

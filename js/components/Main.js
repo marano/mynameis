@@ -19,7 +19,7 @@ function Main({ currentScenePath, tileIds }) {
         <TopMenu scenePath={currentScenePath} />
       </div>
       <div style={viewportStyle()}>
-        <Viewport scenePath={currentScenePath} />
+        {currentScenePath && <Viewport scenePath={currentScenePath} />}
       </div>
       <div style={sideMenuStyle()}>
         <SideMenu scenePath={currentScenePath} />

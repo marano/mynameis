@@ -1,13 +1,12 @@
 import { computeSelectedWorldObject } from "../computes"
-import { branch, compose, renderNothing } from "recompose"
-import connect from "../curried-connect"
+import { connect } from "@cerebral/react"
 
-export default compose(
-  branch(({ scenePath }) => !scenePath, renderNothing),
-  connect({ selectedWorldObject: computeSelectedWorldObject })
-)(SelectedWorldObjectMenu)
+export default connect(
+  { selectedWorldObject: computeSelectedWorldObject },
+  SelectedWorldObjectMenu
+)
 
-function SelectedWorldObjectMenu({ selectedWorldObject }) {
+function SelectedWorldObjectMenu({ scenePath, selectedWorldObject }) {
   return (
     <div style={style()}>
       {selectedWorldObject ? selectedWorldObject.entityName : "-"}

@@ -1,15 +1,14 @@
 import { props, state } from "cerebral/tags"
-import { branch, compose, renderNothing } from "recompose"
-import connect from "../curried-connect"
+import { connect } from "@cerebral/react"
 
 import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
-export default compose(
-  branch(({ scenePath }) => !scenePath, renderNothing),
-  connect({
+export default connect(
+  {
     sceneSize: state`${props`scenePath`}.size`
-  })
-)(SceneSizeEditor)
+  },
+  SceneSizeEditor
+)
 
 function SceneSizeEditor({ scenePath, sceneSize }) {
   return (

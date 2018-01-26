@@ -11,13 +11,13 @@ export default function SideMenu({ scenePath }) {
         <ScenesMenu scenePath={scenePath} />
       </div>
       <div style={itemStyle()}>
-        <SceneSizeEditor scenePath={scenePath} />
+        {scenePath && <SceneSizeEditor scenePath={scenePath} />}
       </div>
       <div style={itemStyle()}>
         <ObjectPicker />
       </div>
       <div style={itemStyle()}>
-        <SelectedWorldObjectMenu scenePath={scenePath} />
+        {scenePath && <SelectedWorldObjectMenu scenePath={scenePath} />}
       </div>
       <div style={itemStyle()}>
         <SelectedTileInspector />

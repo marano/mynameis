@@ -7,7 +7,6 @@ const views = {
     alias: {
       react: path.resolve("./js/views/inferno/react"),
       "react-dom": "inferno",
-      recompose: "incompose",
       "@cerebral/react": "@cerebral/inferno",
       "has-keyed-children": path.resolve(
         "./js/views/inferno/has-keyed-children"
