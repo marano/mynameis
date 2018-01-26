@@ -48,7 +48,6 @@
     "inferno-devtools": "4.0.0-16",
     "lodash": "^4.17.4",
     "preact": "^8.2.7",
-    "preact-compat": "^3.18.0",
     "prettier": "^1.7.4",
     "prettier-standard": "^8.0.0",
     "ramda": "^0.25.0",

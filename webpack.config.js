@@ -36,8 +36,8 @@ const views = {
   },
   preact: {
     alias: {
-      react: "preact-compat",
-      "react-dom": "preact-compat",
+      react: "preact",
+      "react-dom": "preact",
       inferno: path.resolve("./js/views/polyfills/inferno"),
       "@cerebral/react": "@cerebral/preact",
       "has-keyed-children": path.resolve(
