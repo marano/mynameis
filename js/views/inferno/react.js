@@ -1,1 +1,1 @@
-export { default as Component } from "inferno-component"
+export { Component } from "inferno"

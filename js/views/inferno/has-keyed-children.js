@@ -1,1 +1,1 @@
-export default { hasKeyedChildren: true }
+export default {}

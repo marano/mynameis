@@ -4,6 +4,7 @@ import { linkEvent } from "inferno"
 
 import ScenesMenuItem from "./ScenesMenuItem"
 import Button from "./Button"
+import hasKeyedChildren from "has-keyed-children"
 
 export default connect(
   {
@@ -26,7 +27,7 @@ function ScenesMenu({ scenePaths, scenePath, newSceneAdded, sceneChanged }) {
             { sceneChanged, scenePath: eachScenePath },
             onSceneButtonClick
           )}
-          hasKeyedChildren
+          {...hasKeyedChildren}
         />
       ))}
       <Button onClick={linkEvent(newSceneAdded, onNewSceneButtonClick)}>

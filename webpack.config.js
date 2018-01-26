@@ -6,11 +6,18 @@ const views = {
   inferno: {
     alias: {
       react: path.resolve("./js/views/inferno/react"),
-      "react-dom": "inferno",
+      "react-dom": path.resolve("./js/views/inferno/react-dom"),
       "@cerebral/react": "@cerebral/inferno",
       "has-keyed-children": path.resolve(
         "./js/views/inferno/has-keyed-children"
-      )
+      ),
+      "real-inferno-create-element": path.resolve(
+        "./node_modules/inferno-create-element/index.js"
+      ),
+      "inferno-create-element": path.resolve(
+        "./js/views/inferno/inferno-create-element"
+      ),
+      "inferno-component": path.resolve("./js/views/inferno/inferno-component")
     },
     setupFile: "./js/views/inferno/initialize.js",
     babelPresets: [],
