@@ -6,9 +6,6 @@ import {
   setEntitiesUiElements,
   createScene,
   fillSceneFromTemplate,
-  createSceneTiles,
-  fillSceneTiles,
-  fillWorldObjects,
   adjustViewportSize,
   adjustViewportPositionForCameraMode,
   handleKeyPress,
@@ -26,16 +23,6 @@ export default {
   entitiesLoaded: [
     setEntitiesUiElements,
     set(state`definitions.entities`, props`entities`)
-  ],
-  sceneTemplateLoaded: [
-    createScene,
-    set(state`${props`scenePath`}.size`, props`sceneTemplate.size`),
-    createSceneTiles,
-    updateSortedTileIds,
-    fillSceneTiles,
-    fillWorldObjects,
-    set(state`viewport.currentScenePath`, props`scenePath`),
-    push(state`editor.scenePaths`, props`scenePath`)
   ],
   worldObjectSelected: [
     when(state`${props`scenePath`}.selectedWorldObjectId`),

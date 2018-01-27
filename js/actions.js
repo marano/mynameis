@@ -56,46 +56,6 @@ export function createScene({ state }) {
   return { scenePath }
 }
 
-export function createSceneTiles({
-  props: { scenePath, sceneTemplate: { size } },
-  state
-}) {
-  const xRange = range(0, size.x)
-  const yRange = range(0, size.y)
-  cross(xRange, yRange, createSceneTileAt(scenePath, state))
-}
-
-export function fillSceneTiles({
-  props: { scenePath, sceneTemplate: { filling: { floor } } },
-  state
-}) {
-  const entities = state.get("definitions.entities")
-  const entity = find(entities, { name: floor })
-  const tiles = state.get(`${scenePath}.tiles`)
-  each(tiles, tile => createWorldObject(entity, tile, scenePath, state))
-}
-
-export function fillWorldObjects({
-  props: { scenePath, sceneTemplate: { filling: { objects } } },
-  state
-}) {
-  const entities = state.get("definitions.entities")
-  const sceneSizeY = state.get(`${scenePath}.size.y`)
-
-  const sortedTileIds = state.get(`${scenePath}.sortedTileIds`)
-  objects.forEach((object, index) => {
-    const tileId = idOfTileAt(
-      sortedTileIds,
-      sceneSizeY,
-      object.location.x,
-      object.location.y
-    )
-    const tile = state.get(`${scenePath}.tiles.${tileId}`)
-    const entity = find(entities, { name: object.entity })
-    createWorldObject(entity, tile, scenePath, state)
-  })
-}
-
 export function addWorldObject({
   state,
   props: { scenePath, tileId, entityIndex }

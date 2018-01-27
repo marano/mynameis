@@ -3,7 +3,6 @@ import { Container } from "@cerebral/react"
 
 import { definitions as uiElements } from "../json/ui-elements.json"
 import { definitions as entities } from "../json/entities.json"
-import sceneTemplate from "../json/world.json"
 import keydownStream from "./streams/keydown"
 import createMoveKeydownStream from "./streams/moveKeydown"
 import createKeydownEventHandler from "./event-handlers/keydown"
@@ -43,7 +42,6 @@ function renderRoot() {
   if (isInitializing) {
     if (!localState) {
       controller.getSignal("entitiesLoaded")({ entities, uiElements })
-      controller.getSignal("sceneTemplateLoaded")({ sceneTemplate })
     }
   } else {
     keydownSubscription.unsubscribe()
