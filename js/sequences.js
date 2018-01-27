@@ -135,5 +135,10 @@ export const closeScene = [
     false: []
   },
   removeEditorScenePaths,
+  when(props`scenePath`, state`editor.selectedTilePath`, startsWith),
+  {
+    true: set(state`editor.selectedTilePath`, null),
+    false: []
+  },
   unset(state`${props`scenePath`}`)
 ]
