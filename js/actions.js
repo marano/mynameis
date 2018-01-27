@@ -5,9 +5,10 @@ import { cross } from "d3-array"
 
 import { idOfTileAt } from "./tile-utils"
 
-function generateId(state) {
-  const id = state.get("idCounter") + 1
-  state.set("idCounter", id)
+function generateId(model, state) {
+  const counterPath = `idCounters.${model}`
+  const id = (state.get(counterPath) || 0) + 1
+  state.set(counterPath, id)
   return id
 }
 
@@ -23,7 +24,7 @@ export function setEntitiesUiElements({
 }
 
 export function createScene({ state }) {
-  const id = generateId(state)
+  const id = generateId("scene", state)
   const scene = {
     id,
     name: `Scene ${id}`,
@@ -111,7 +112,7 @@ function createSceneTileAt(scenePath, state) {
 }
 
 function createSceneTile(x, y, scenePath, state) {
-  const id = generateId(state)
+  const id = generateId("tile", state)
   const tile = {
     id,
     x,
@@ -135,7 +136,7 @@ function createSceneTile(x, y, scenePath, state) {
 }
 
 function createWorldObject(entity, tile, scenePath, state) {
-  const id = generateId(state)
+  const id = generateId("worldObject", state)
   const worldObject = {
     id,
     entityName: entity.name,

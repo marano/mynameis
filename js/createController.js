@@ -4,7 +4,7 @@ import Devtools from "cerebral/devtools"
 import signals from "./signals"
 
 export const initialState = {
-  idCounter: 0,
+  idCounters: {},
   scenes: {},
   viewport: {
     currentScenePath: null,
