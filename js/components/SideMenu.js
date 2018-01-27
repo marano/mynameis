@@ -17,7 +17,7 @@ export default function SideMenu({ scenePath }) {
         <ObjectPicker />
       </div>
       <div style={itemStyle()}>
-        {scenePath && <SelectedWorldObjectMenu scenePath={scenePath} />}
+        <SelectedWorldObjectMenu scenePath={scenePath} />
       </div>
       <div style={itemStyle()}>
         <SelectedTileInspector />

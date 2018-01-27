@@ -1,6 +1,6 @@
 import { state, props, string } from "cerebral/tags"
 import { set, equals, push, unset, wait, when } from "cerebral/operators"
-import { isEqual } from "lodash/fp"
+import { isEqual, startsWith } from "lodash/fp"
 
 import {
   setEntitiesUiElements,
@@ -75,6 +75,11 @@ export const changeMode = [
         state`${props`scenePath`}.sourceScenePath`
       ),
       wait(0),
+      when(props`scenePath`, state`game.selectedWorldObjectPath`, startsWith),
+      {
+        true: set(state`game.selectedWorldObjectPath`, null),
+        false: []
+      },
       unset(state`${props`scenePath`}`)
     ]
   }
