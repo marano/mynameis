@@ -32,7 +32,6 @@ export function createScene({ state }) {
     tiles: {},
     sortedTileIds: [],
     worldObjects: {},
-    selectedWorldObjectId: null,
     size: {
       x: 0,
       y: 0
@@ -297,10 +296,7 @@ export function fillSceneFromTemplate({
   const scene = state.get(scenePath)
   state.set(
     scenePath,
-    compose(
-      assign(scene),
-      omit(["id", "sortedTileIds", "selectedWorldObjectId"])
-    )(sceneTemplate)
+    compose(assign(scene), omit(["id", "sortedTileIds"]))(sceneTemplate)
   )
 }
 

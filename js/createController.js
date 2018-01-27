@@ -20,6 +20,9 @@ export const initialState = {
     },
     scenePaths: []
   },
+  game: {
+    selectedWorldObjectPath: null
+  },
   definitions: {
     entities: null
   }

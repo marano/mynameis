@@ -1,4 +1,4 @@
-import { state, props } from "cerebral/tags"
+import { state, props, string } from "cerebral/tags"
 import { set, equals, push, unset, wait, when } from "cerebral/operators"
 import { isEqual } from "lodash/fp"
 
@@ -25,19 +25,16 @@ export const loadEntities = [
 ]
 
 export const selectWorldObject = [
-  when(state`${props`scenePath`}.selectedWorldObjectId`),
+  when(state`game.selectedWorldObjectPath`),
   {
-    true: set(
-      state`${props`scenePath`}.worldObjects.${state`${props`scenePath`}.selectedWorldObjectId`}.isSelected`,
-      false
-    ),
+    true: set(state`${state`game.selectedWorldObjectPath`}.isSelected`, false),
     false: []
   },
-  set(state`${props`scenePath`}.selectedWorldObjectId`, props`worldObjectId`),
   set(
-    state`${props`scenePath`}.worldObjects.${state`${props`scenePath`}.selectedWorldObjectId`}.isSelected`,
-    true
-  )
+    state`game.selectedWorldObjectPath`,
+    string`${props`scenePath`}.worldObjects.${props`worldObjectId`}`
+  ),
+  set(state`${state`game.selectedWorldObjectPath`}.isSelected`, true)
 ]
 
 export const selectObjectPickerEntity = set(

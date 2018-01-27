@@ -1,8 +1,8 @@
-import { computeSelectedWorldObject } from "../computes"
+import { state } from "cerebral/tags"
 import { connect } from "@cerebral/react"
 
 export default connect(
-  { selectedWorldObject: computeSelectedWorldObject },
+  { selectedWorldObject: state`${state`game.selectedWorldObjectPath`}` },
   SelectedWorldObjectMenu
 )
 
