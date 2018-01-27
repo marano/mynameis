@@ -5,6 +5,12 @@ import { cross } from "d3-array"
 
 import { idOfTileAt } from "./tile-utils"
 
+function generateId(state) {
+  const id = state.get("idCounter") + 1
+  state.set("idCounter", id)
+  return id
+}
+
 export function setEntitiesUiElements({
   state,
   props: { entities, uiElements }
@@ -16,9 +22,8 @@ export function setEntitiesUiElements({
   })
 }
 
-let sceneId = 0
 export function createScene({ state }) {
-  const id = ++sceneId
+  const id = generateId(state)
   const scene = {
     id,
     name: `Scene ${id}`,
@@ -105,9 +110,8 @@ function createSceneTileAt(scenePath, state) {
   }
 }
 
-let tileId = 0
 function createSceneTile(x, y, scenePath, state) {
-  const id = ++tileId
+  const id = generateId(state)
   const tile = {
     id,
     x,
@@ -115,7 +119,7 @@ function createSceneTile(x, y, scenePath, state) {
     worldObjectIds: []
   }
 
-  state.set(`${scenePath}.tiles.${tileId}`, tile)
+  state.set(`${scenePath}.tiles.${id}`, tile)
 
   const selectedEntityIndex = state.get(
     `editor.objectPicker.selectedEntityIndex`
@@ -130,10 +134,8 @@ function createSceneTile(x, y, scenePath, state) {
   return tile
 }
 
-let worldObjectId = 0
-
 function createWorldObject(entity, tile, scenePath, state) {
-  const id = ++worldObjectId
+  const id = generateId(state)
   const worldObject = {
     id,
     entityName: entity.name,
