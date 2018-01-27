@@ -1,6 +1,7 @@
 import { connect } from "@cerebral/react"
 import { state } from "cerebral/tags"
 
+import GlobalListeners from "./GlobalListeners"
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
@@ -12,9 +13,10 @@ export default connect(
   Main
 )
 
-function Main({ currentScenePath, tileIds }) {
+function Main({ controller, currentScenePath, tileIds }) {
   return (
     <div style={containerStyle()}>
+      <GlobalListeners controller={controller} />
       <div style={topMenuStyle()}>
         <TopMenu scenePath={currentScenePath} />
       </div>

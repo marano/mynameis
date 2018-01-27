@@ -3,23 +3,10 @@ import { Container } from "@cerebral/react"
 
 import { definitions as uiElements } from "../json/ui-elements.json"
 import { definitions as entities } from "../json/entities.json"
-import keydownStream from "./streams/keydown"
-import createMoveKeydownStream from "./streams/moveKeydown"
-import createKeydownEventHandler from "./event-handlers/keydown"
-import createMoveKeydownEventHandler, {
-  movementKeys
-} from "./event-handlers/moveKeydown"
-import createOnMutationStream from "./streams/mutation"
-import createOnMutationEventHandler from "./event-handlers/mutation"
 import { initialState } from "./createController"
-
-const cerebralStateKey = "cerebralState"
+import { cerebralStateKey } from "./constants"
 
 let controller
-let keydownSubscription
-let moveKeydownSubscription
-let mutationSubscription
-
 const localState = window.localStorage.getItem(cerebralStateKey)
 
 renderRoot()
@@ -30,8 +17,7 @@ if (module.hot) {
 
 function renderRoot() {
   const Main = require("./components/Main").default
-  const createControllerModule = require("./createController")
-  const createController = createControllerModule.default
+  const createController = require("./createController").default
   const isInitializing = !controller
   const state = isInitializing
     ? JSON.parse(localState) || initialState
@@ -43,27 +29,11 @@ function renderRoot() {
     if (!localState) {
       controller.getSignal("entitiesLoaded")({ entities, uiElements })
     }
-  } else {
-    keydownSubscription.unsubscribe()
-    moveKeydownSubscription.unsubscribe()
-    mutationSubscription.unsubscribe()
   }
-
-  keydownSubscription = keydownStream.subscribe(
-    createKeydownEventHandler(controller)
-  )
-
-  moveKeydownSubscription = createMoveKeydownStream(movementKeys).subscribe(
-    createMoveKeydownEventHandler(controller)
-  )
-
-  mutationSubscription = createOnMutationStream(controller).subscribe(
-    createOnMutationEventHandler(cerebralStateKey)
-  )
 
   ReactDOM.render(
     <Container controller={controller}>
-      <Main />
+      <Main controller={controller} />
     </Container>,
     document.getElementById("root")
   )
