@@ -74,12 +74,12 @@ export const changeMode = [
         state`viewport.currentScenePath`,
         state`${props`scenePath`}.sourceScenePath`
       ),
-      wait(0),
       when(props`scenePath`, state`game.selectedWorldObjectPath`, startsWith),
       {
         true: set(state`game.selectedWorldObjectPath`, null),
         false: []
       },
+      wait(0),
       unset(state`${props`scenePath`}`)
     ]
   }
