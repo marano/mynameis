@@ -133,5 +133,5 @@ export const closeScene = [
     false: []
   },
   removeEditorScenePaths,
-  unset(state`scenePath`)
+  unset(state`${props`scenePath`}`)
 ]
