@@ -5,20 +5,21 @@ import UiElement from "./UiElement"
 
 export default connect(
   {
-    uiElementsIndexes: state`definitions.entities.${props`entityIndex`}.uiElements.*`
+    uiElementNames: state`definitions.entities.${props`entityName`}.uiElements`
   },
   ObjectPickerEntity
 )
 
-function ObjectPickerEntity({ entityIndex, uiElementsIndexes, tileSize }) {
+function ObjectPickerEntity({ entityName, uiElementNames, tileSize }) {
   return (
-    <div style={style(tileSize, entityIndex)}>
-      {uiElementsIndexes.map(function(uiElementIndex) {
+    <div style={style(tileSize, entityName)}>
+      {uiElementNames.map(function(uiElementName) {
         return (
           <UiElement
-            key={uiElementIndex}
-            uiElementDataPath={uiElementDataPath(entityIndex, uiElementIndex)}
+            key={uiElementName}
+            uiElementName={uiElementName}
             tileSize={tileSize}
+            currentSpriteIndex={0}
           />
         )
       })}
@@ -26,11 +27,7 @@ function ObjectPickerEntity({ entityIndex, uiElementsIndexes, tileSize }) {
   )
 }
 
-function uiElementDataPath(entityIndex, uiElementIndex) {
-  return `definitions.entities.${entityIndex}.uiElements.${uiElementIndex}`
-}
-
-function style(tileSize, entityIndex) {
+function style(tileSize) {
   return {
     width: tileSize,
     height: tileSize

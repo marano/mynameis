@@ -1,5 +1,5 @@
 import { cloneDeep, find, each, sample, sortBy } from "lodash"
-import { assign, omit } from "lodash/fp"
+import { assign, omit, keyBy, map, mapValues } from "lodash/fp"
 import { compose, range } from "ramda"
 import { cross } from "d3-array"
 
@@ -10,6 +10,14 @@ function generateId(model, state) {
   const id = (state.get(counterPath) || 0) + 1
   state.set(counterPath, id)
   return id
+}
+
+export function prepareUiElements({ props: { uiElements: { definitions } } }) {
+  return { uiElements: keyBy("name", definitions) }
+}
+
+export function prepareEntities({ props: { entities: { definitions } } }) {
+  return { entities: keyBy("name", definitions) }
 }
 
 export function setEntitiesUiElements({
@@ -57,9 +65,9 @@ export function createScene({ state }) {
 
 export function addWorldObject({
   state,
-  props: { scenePath, tileId, entityIndex }
+  props: { scenePath, tileId, entityName }
 }) {
-  const entity = state.get(`definitions.entities.${entityIndex}`)
+  const entity = state.get(`definitions.entities.${entityName}`)
   const tile = state.get(`${scenePath}.tiles.${tileId}`)
   createWorldObject(entity, tile, scenePath, state)
 }
@@ -81,12 +89,10 @@ function createSceneTile(x, y, scenePath, state) {
 
   state.set(`${scenePath}.tiles.${id}`, tile)
 
-  const selectedEntityIndex = state.get(
-    `editor.objectPicker.selectedEntityIndex`
-  )
-  if (selectedEntityIndex) {
+  const selectedEntityName = state.get(`editor.objectPicker.selectedEntityName`)
+  if (selectedEntityName) {
     const selectedEntity = state.get(
-      `definitions.entities.${selectedEntityIndex}`
+      `definitions.entities.${selectedEntityName}`
     )
     createWorldObject(selectedEntity, tile, scenePath, state)
   }
@@ -96,23 +102,24 @@ function createSceneTile(x, y, scenePath, state) {
 
 function createWorldObject(entity, tile, scenePath, state) {
   const id = generateId("worldObject", state)
+
+  const uiElementSpriteConfig = compose(
+    mapValues(({ sprites }) => ({
+      index: sample(range(0, sprites.length))
+    })),
+    keyBy("name"),
+    map(uiElement => state.get(`definitions.uiElements.${uiElement}`))
+  )(entity.uiElements)
+
   const worldObject = {
     id,
     entityName: entity.name,
-    zIndex: entity.zIndex,
     isSelected: false,
-    uiElements: entity.uiElements.map(createWorldObjectUiElement)
+    uiElementSpriteConfig
   }
 
   state.set(`${scenePath}.worldObjects.${id}`, worldObject)
   state.push(`${scenePath}.tiles.${tile.id}.worldObjectIds`, id)
-}
-
-function createWorldObjectUiElement(uiElement) {
-  return {
-    ...uiElement,
-    currentSpriteIndex: sample(range(0, uiElement.sprites.length))
-  }
 }
 
 export function adjustViewportSize({ state, props: { scenePath } }) {
@@ -223,7 +230,7 @@ export const keyHandlers = {
     const currentScenePath = state.get("viewport.currentScenePath")
     const mode = state.get(`${currentScenePath}.currentMode`)
     if (mode === "editor") {
-      state.set(`editor.objectPicker.selectedEntityIndex`, null)
+      state.set(`editor.objectPicker.selectedEntityName`, null)
     }
   }
 }

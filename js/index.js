@@ -1,8 +1,8 @@
 import ReactDOM from "react-dom"
 import { Container } from "@cerebral/react"
 
-import { definitions as uiElements } from "../json/ui-elements.json"
-import { definitions as entities } from "../json/entities.json"
+import uiElements from "../json/ui-elements.json"
+import entities from "../json/entities.json"
 import { initialState } from "./createController"
 import { cerebralStateKey } from "./constants"
 
@@ -27,7 +27,8 @@ function renderRoot() {
 
   if (isInitializing) {
     if (!localState) {
-      controller.getSignal("entitiesLoaded")({ entities, uiElements })
+      controller.getSignal("uiElementsLoaded")({ uiElements })
+      controller.getSignal("entitiesLoaded")({ entities })
     }
   }
 

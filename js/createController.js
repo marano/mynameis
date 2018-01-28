@@ -16,7 +16,7 @@ export const initialState = {
   editor: {
     selectedTilePath: null,
     objectPicker: {
-      selectedEntityIndex: null
+      selectedEntityName: null
     },
     scenePaths: []
   },
@@ -24,7 +24,8 @@ export const initialState = {
     selectedWorldObjectPath: null
   },
   definitions: {
-    entities: null
+    uiElements: [],
+    entities: []
   }
 }
 

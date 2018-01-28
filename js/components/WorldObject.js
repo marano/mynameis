@@ -3,14 +3,18 @@ import { props, state, signal } from "cerebral/tags"
 import { linkEvent } from "inferno"
 import { cursorExpanded, cursorOnHover } from "../styles"
 
-import { computeWorldObjectSelectable } from "../computes"
+import {
+  computeWorldObjectSelectable,
+  computeWorldObjectEntityField
+} from "../computes"
 import UiElement from "./UiElement"
 
 export default connect(
   {
-    uiElemetsIndexes: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElements.*`,
-    zIndex: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.zIndex`,
+    uiElementNames: computeWorldObjectEntityField("uiElements"),
+    zIndex: computeWorldObjectEntityField("zIndex"),
     isSelected: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.isSelected`,
+    uiElementSpriteConfig: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElementSpriteConfig`,
     tileSize: state`${props`scenePath`}.viewport.tileSize`,
     worldObjectSelectable: computeWorldObjectSelectable,
     worldObjectSelected: signal`worldObjectSelected`,
@@ -26,12 +30,15 @@ function WorldObject(props) {
       style={style(props)}
       onClick={linkEvent(props, onClick)}
     >
-      {props.uiElemetsIndexes.map(function(uiElementIndex) {
+      {props.uiElementNames.map(function(uiElementName) {
         return (
           <UiElement
-            key={uiElementIndex}
-            uiElementDataPath={uiElementDataPath(uiElementIndex, props)}
+            key={uiElementName}
+            uiElementName={uiElementName}
             tileSize={props.tileSize}
+            currentSpriteIndex={
+              props.uiElementSpriteConfig[uiElementName].index
+            }
           />
         )
       })}
@@ -47,10 +54,6 @@ function className({ worldObjectSelectable, isSelected, worldObjectId }) {
   } else {
     return cursorOnHover
   }
-}
-
-function uiElementDataPath(uiElementIndex, { scenePath, worldObjectId }) {
-  return `${scenePath}.worldObjects.${worldObjectId}.uiElements.${uiElementIndex}`
 }
 
 function style({ zIndex, isSelected, tileSize }) {

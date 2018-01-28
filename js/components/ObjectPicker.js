@@ -5,18 +5,16 @@ import ObjectPickerEntity from "./ObjectPickerEntity"
 
 export default connect(
   {
-    entitiesIndexes: state`definitions.entities.*`
+    entityNames: state`definitions.entities.*`
   },
   ObjectPicker
 )
 
-function ObjectPicker({ entitiesIndexes }) {
+function ObjectPicker({ entityNames }) {
   return (
     <object-picker style={style()}>
-      {entitiesIndexes.map(function(entityIndex) {
-        return (
-          <ObjectPickerEntity key={entityIndex} entityIndex={entityIndex} />
-        )
+      {entityNames.map(function(entityName) {
+        return <ObjectPickerEntity key={entityName} entityName={entityName} />
       })}
     </object-picker>
   )

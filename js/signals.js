@@ -1,4 +1,5 @@
 import {
+  loadUiElements,
   loadEntities,
   selectWorldObject,
   selectObjectPickerEntity,
@@ -16,6 +17,7 @@ import {
 } from "./sequences"
 
 export default {
+  uiElementsLoaded: loadUiElements,
   entitiesLoaded: loadEntities,
   worldObjectSelected: selectWorldObject,
   objectPickerEntitySelected: selectObjectPickerEntity,

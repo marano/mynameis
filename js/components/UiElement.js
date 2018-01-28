@@ -3,17 +3,17 @@ import { props, state } from "cerebral/tags"
 
 export default connect(
   {
-    uiElement: state`${props`uiElementDataPath`}`
+    uiElement: state`definitions.uiElements.${props`uiElementName`}`
   },
   UiElement
 )
 
-function UiElement({ uiElement, tileSize }) {
-  return <ui-element style={style(uiElement, tileSize)} />
+function UiElement(props) {
+  return <div style={style(props)} />
 }
 
-function style(uiElement, tileSize) {
-  const sprite = uiElement.sprites[uiElement.currentSpriteIndex || 0]
+function style({ uiElement, tileSize, currentSpriteIndex }) {
+  const sprite = uiElement.sprites[currentSpriteIndex]
   const spritePath = require(`../../sprites/${sprite}`)
 
   return {

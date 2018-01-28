@@ -13,15 +13,15 @@ const className = css`
 
 export default connect(
   {
-    selectedEntityIndex: state`editor.objectPicker.selectedEntityIndex`,
+    selectedEntityName: state`editor.objectPicker.selectedEntityName`,
     objectPickerEntitySelected: signal`objectPickerEntitySelected`
   },
   ObjectPickerEntity
 )
 
 function ObjectPickerEntity(props) {
-  const { entityIndex, selectedEntityIndex } = props
-  const isSelected = entityIndex === selectedEntityIndex
+  const { entityName, selectedEntityName } = props
+  const isSelected = entityName === selectedEntityName
 
   return (
     <div
@@ -29,7 +29,7 @@ function ObjectPickerEntity(props) {
       onClick={linkEvent(props, onClick)}
       className={className}
     >
-      <WorldEntity entityIndex={entityIndex} tileSize={50} />
+      <WorldEntity entityName={entityName} tileSize={50} />
     </div>
   )
 }
@@ -50,6 +50,6 @@ function style(isSelected) {
   return baseStyle
 }
 
-function onClick({ objectPickerEntitySelected, entityIndex }) {
-  objectPickerEntitySelected({ entityIndex })
+function onClick({ objectPickerEntitySelected, entityName }) {
+  objectPickerEntitySelected({ entityName })
 }

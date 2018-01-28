@@ -15,7 +15,7 @@ export default connect(
   {
     worldTile: state`${props`scenePath`}.tiles.${props`tileId`}`,
     tileSize: state`${props`scenePath`}.viewport.tileSize`,
-    selectedEntityIndex: state`editor.objectPicker.selectedEntityIndex`,
+    selectedEntityName: state`editor.objectPicker.selectedEntityName`,
     mode: state`${props`scenePath`}.currentMode`,
     sceneTileSelected: signal`sceneTileSelected`,
     worldObjectAdded: signal`worldObjectAdded`
@@ -52,34 +52,34 @@ function SceneTile(props) {
   )
 }
 
-function className({ mode, worldTile, selectedEntityIndex }) {
+function className({ mode, worldTile, selectedEntityName }) {
   if (mode === "editor") {
     if (worldTile.isSelected) {
       return cursor
-    } else if (!selectedEntityIndex) {
+    } else if (!selectedEntityName) {
       return cursorOnHover
     }
   }
 }
 
-function renderSelectedWorldEntityOverlay({ selectedEntityIndex, tileSize }) {
-  if (selectedEntityIndex) {
+function renderSelectedWorldEntityOverlay({ selectedEntityName, tileSize }) {
+  if (selectedEntityName) {
     return (
       <div className={hiddenChild}>
-        <WorldEntity entityIndex={selectedEntityIndex} tileSize={tileSize} />
+        <WorldEntity entityName={selectedEntityName} tileSize={tileSize} />
       </div>
     )
   }
 }
 
-function style({ worldTile, tileSize, selectedEntityIndex, mode }) {
+function style({ worldTile, tileSize, selectedEntityName, mode }) {
   return {
     position: "absolute",
     width: tileSize,
     height: tileSize,
     left: worldTile.x * tileSize,
     top: worldTile.y * tileSize,
-    cursor: mode === "editor" && selectedEntityIndex ? "copy" : null
+    cursor: mode === "editor" && selectedEntityName ? "copy" : null
   }
 }
 
@@ -105,15 +105,15 @@ function interactWithSceneTile({
   scenePath,
   sceneTileSelected,
   mode,
-  selectedEntityIndex,
+  selectedEntityName,
   worldObjectAdded
 }) {
   if (mode === "editor") {
-    if (selectedEntityIndex) {
+    if (selectedEntityName) {
       worldObjectAdded({
         scenePath,
         tileId,
-        entityIndex: selectedEntityIndex
+        entityName: selectedEntityName
       })
     } else {
       sceneTileSelected({ tileId, scenePath })

@@ -3,7 +3,8 @@ import { set, equals, push, unset, wait, when } from "cerebral/operators"
 import { isEqual, startsWith } from "lodash/fp"
 
 import {
-  setEntitiesUiElements,
+  prepareUiElements,
+  prepareEntities,
   createScene,
   fillSceneFromTemplate,
   adjustViewportSize,
@@ -19,8 +20,13 @@ import {
   computeVisibleTileIds
 } from "./actions"
 
+export const loadUiElements = [
+  prepareUiElements,
+  set(state`definitions.uiElements`, props`uiElements`)
+]
+
 export const loadEntities = [
-  setEntitiesUiElements,
+  prepareEntities,
   set(state`definitions.entities`, props`entities`)
 ]
 
@@ -38,8 +44,8 @@ export const selectWorldObject = [
 ]
 
 export const selectObjectPickerEntity = set(
-  state`editor.objectPicker.selectedEntityIndex`,
-  props`entityIndex`
+  state`editor.objectPicker.selectedEntityName`,
+  props`entityName`
 )
 
 export const addWorldObject = addWorldObjectAction
