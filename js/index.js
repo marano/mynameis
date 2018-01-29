@@ -26,10 +26,8 @@ function renderRoot() {
   controller = createController(state)
 
   if (isInitializing) {
-    if (!localState) {
-      controller.getSignal("uiElementsLoaded")({ uiElements })
-      controller.getSignal("entitiesLoaded")({ entities })
-    }
+    controller.getSignal("uiElementsLoaded")({ uiElements })
+    controller.getSignal("entitiesLoaded")({ entities })
   }
 
   ReactDOM.render(

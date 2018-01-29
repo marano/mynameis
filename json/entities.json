@@ -9,6 +9,13 @@
       "name": "tree",
       "uiElements": ["tree"],
       "zIndex": 20
+    },
+    {
+      "name": "metal-wall",
+      "uiElements": [
+        "metal-wall"
+      ],
+      "zIndex": 20
     }
   ]
 }

@@ -1,5 +1,6 @@
 import { connect } from "@cerebral/react"
 import { props, state } from "cerebral/tags"
+import { flow, map, join, has, find } from "lodash/fp"
 
 export default connect(
   {
@@ -12,9 +13,12 @@ function UiElement(props) {
   return <div style={style(props)} />
 }
 
-function style({ uiElement, tileSize, currentSpriteIndex }) {
-  const sprite = uiElement.sprites[currentSpriteIndex]
-  const spritePath = require(`../../sprites/${sprite}`)
+function style({ uiElement, tileSize, currentSpriteRand }) {
+  const backgroundImage = flow(
+    map(sprite => require(`../../sprites/${sprite.filename}`)),
+    map(spritePath => `url(${spritePath})`),
+    join(", ")
+  )(solveSprites(uiElement.sprites, currentSpriteRand))
 
   return {
     position: "absolute",
@@ -25,7 +29,33 @@ function style({ uiElement, tileSize, currentSpriteIndex }) {
     height: tileSize,
     zIndex: uiElement.zIndex || 0,
     backgroundRepeat: "no-repeat",
-    backgroundImage: `url(${spritePath})`,
+    backgroundImage,
     backgroundSize: tileSize
   }
+}
+
+function solveSprites(sprites, currentSpriteRand) {
+  return sprites.reduce(function(result, sprite) {
+    if (sprite.when) {
+      if (has("when.rand", sprite)) {
+        if (sprite.when.rand <= currentSpriteRand) {
+          const otherRandSprite = find(has("when.rand"), result)
+          if (otherRandSprite) {
+            if (sprite.when.rand > otherRandSprite.when.rand) {
+              result.splice(result.indexOf(otherRandSprite), 1)
+              result.push(sprite)
+            }
+          } else {
+            result.push(sprite)
+          }
+        }
+      }
+      if (sprite.when.same) {
+        result.push(sprite)
+      }
+    } else {
+      result.push(sprite)
+    }
+    return result
+  }, [])
 }

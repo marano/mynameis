@@ -4,6 +4,7 @@ import { isEqual, startsWith } from "lodash/fp"
 
 import {
   prepareUiElements,
+  normalizeUiElementSprites,
   prepareEntities,
   createScene,
   fillSceneFromTemplate,
@@ -22,6 +23,7 @@ import {
 
 export const loadUiElements = [
   prepareUiElements,
+  normalizeUiElementSprites,
   set(state`definitions.uiElements`, props`uiElements`)
 ]
 

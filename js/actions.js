@@ -1,5 +1,5 @@
-import { cloneDeep, find, each, sample, sortBy } from "lodash"
-import { assign, omit, keyBy, map, mapValues } from "lodash/fp"
+import { cloneDeep, find, each, random, sortBy } from "lodash"
+import { assign, omit, keyBy, map, mapValues, isString } from "lodash/fp"
 import { compose, range } from "ramda"
 import { cross } from "d3-array"
 
@@ -12,8 +12,30 @@ function generateId(model, state) {
   return id
 }
 
+function normalizeSprites(sprite) {
+  if (isString(sprite)) {
+    return {
+      filename: sprite
+    }
+  } else {
+    return sprite
+  }
+}
+
 export function prepareUiElements({ props: { uiElements: { definitions } } }) {
   return { uiElements: keyBy("name", definitions) }
+}
+
+export function normalizeUiElementSprites({ props: { uiElements } }) {
+  return {
+    uiElements: mapValues(
+      ({ sprites, ...uiElement }) => ({
+        sprites: sprites.map(normalizeSprites),
+        ...uiElement
+      }),
+      uiElements
+    )
+  }
 }
 
 export function prepareEntities({ props: { entities: { definitions } } }) {
@@ -105,7 +127,7 @@ function createWorldObject(entity, tile, scenePath, state) {
 
   const uiElementSpriteConfig = compose(
     mapValues(({ sprites }) => ({
-      index: sample(range(0, sprites.length))
+      rand: random(0, 1, true)
     })),
     keyBy("name"),
     map(uiElement => state.get(`definitions.uiElements.${uiElement}`))

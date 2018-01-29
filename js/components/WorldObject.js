@@ -36,9 +36,7 @@ function WorldObject(props) {
             key={uiElementName}
             uiElementName={uiElementName}
             tileSize={props.tileSize}
-            currentSpriteIndex={
-              props.uiElementSpriteConfig[uiElementName].index
-            }
+            currentSpriteRand={props.uiElementSpriteConfig[uiElementName].rand}
           />
         )
       })}
