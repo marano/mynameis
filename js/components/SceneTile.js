@@ -10,6 +10,7 @@ import {
 
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
+import { computeNeighbourEntities } from "../computes"
 
 export default connect(
   {
@@ -18,7 +19,8 @@ export default connect(
     selectedEntityName: state`editor.objectPicker.selectedEntityName`,
     mode: state`${props`scenePath`}.currentMode`,
     sceneTileSelected: signal`sceneTileSelected`,
-    worldObjectAdded: signal`worldObjectAdded`
+    worldObjectAdded: signal`worldObjectAdded`,
+    neighbourEntities: computeNeighbourEntities
   },
   SceneTile
 )
