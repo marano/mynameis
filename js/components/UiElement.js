@@ -1,13 +1,11 @@
-import { connect } from "@cerebral/react"
-import { props, state } from "cerebral/tags"
+import { toJS } from "mobx"
+import { inject } from "mobx-react"
 import { flow, map, join, has, find } from "lodash/fp"
+import get from "lodash/get"
 
-export default connect(
-  {
-    uiElement: state`definitions.uiElements.${props`uiElementName`}`
-  },
-  UiElement
-)
+export default inject(({ store }, { uiElementName }) => ({
+  uiElement: toJS(get(store, `definitions.uiElements.${uiElementName}`))
+}))(UiElement)
 
 function UiElement(props) {
   return <div style={style(props)} />

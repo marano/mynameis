@@ -1,8 +1,8 @@
 import { Component } from "react"
-import { props, state, signal } from "cerebral/tags"
+import { inject } from "mobx-react"
 import { css } from "emotion"
-import { connect } from "@cerebral/react"
 import hasKeyedChildren from "has-keyed-children"
+import { get } from "lodash"
 
 import windowResize$ from "../streams/windowResize"
 
@@ -14,16 +14,17 @@ function viewportClassName(tileSize) {
   `
 }
 
-export default connect(
-  {
-    tileIds: state`${props`scenePath`}.viewport.visibleTileIds`,
-    tileSize: state`${props`scenePath`}.viewport.tileSize`,
-    viewportSize: state`${props`scenePath`}.viewport.size`,
-    viewportPosition: state`${props`scenePath`}.viewport.position`,
-    currentMode: state`${props`scenePath`}.currentMode`,
-    worldSize: state`${props`scenePath`}.size`,
-    viewportResized: signal`viewportResized`
-  },
+export default inject(({ store }, { scenePath }) => ({
+  tileIds: get(store, `${scenePath}.viewport.visibleTileIds`).slice(),
+  tileSize: get(store, `${scenePath}.viewport.tileSize`),
+  viewportSizeX: get(store, `${scenePath}.viewport.size.x`),
+  viewportSizeY: get(store, `${scenePath}.viewport.size.y`),
+  viewportPositionX: get(store, `${scenePath}.viewport.position.x`),
+  viewportPositionY: get(store, `${scenePath}.viewport.position.y`),
+  worldSizeX: get(store, `${scenePath}.size.x`),
+  worldSizeY: get(store, `${scenePath}.size.y`),
+  currentMode: get(store, `${scenePath}.currentMode`)
+}))(
   class Viewport extends Component {
     constructor(props) {
       super(props)
@@ -32,14 +33,14 @@ export default connect(
     }
 
     componentDidMount() {
-      this.onWindowResizeSubscription = windowResize$.subscribe(
-        this.callViewportResized
-      )
-      setImmediate(this.callViewportResized)
+      // this.onWindowResizeSubscription = windowResize$.subscribe(
+      // this.callViewportResized
+      // )
+      // setImmediate(this.callViewportResized)
     }
 
     componentWillUnmount() {
-      this.onWindowResizeSubscription.unsubscribe()
+      // this.onWindowResizeSubscription.unsubscribe()
     }
 
     callViewportResized() {
@@ -93,8 +94,8 @@ export default connect(
     windowStyle() {
       return {
         overflow: "hidden",
-        width: this.props.viewportSize.x * this.props.tileSize,
-        height: this.props.viewportSize.y * this.props.tileSize,
+        width: this.props.viewportSizeX * this.props.tileSize,
+        height: this.props.viewportSizeY * this.props.tileSize,
         border: "2px solid white"
       }
     }
@@ -102,13 +103,13 @@ export default connect(
     contentStyle() {
       const borderWidth = 2
       const x =
-        -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth
+        -(this.props.viewportPositionX * this.props.tileSize) - borderWidth
       const y =
-        -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth
+        -(this.props.viewportPositionY * this.props.tileSize) - borderWidth
       const delay = this.props.currentMode === "game" ? 350 : 0
       return {
-        width: this.props.worldSize.x * this.props.tileSize,
-        height: this.props.worldSize.y * this.props.tileSize,
+        width: this.props.worldSizeX * this.props.tileSize,
+        height: this.props.worldSizeY * this.props.tileSize,
         transform: `translate(${x}px, ${y}px)`,
         willChange: "transform",
         transition: `transform ${delay}ms`,

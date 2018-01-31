@@ -1,7 +1,8 @@
-import { connect } from "@cerebral/react"
-import { props, state, signal } from "cerebral/tags"
+import { toJS } from "mobx"
+import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 import { cursorExpanded, cursorOnHover } from "../styles"
+import get from "lodash/get"
 
 import {
   computeWorldObjectSelectable,
@@ -9,21 +10,39 @@ import {
 } from "../computes"
 import UiElement from "./UiElement"
 
-export default connect(
-  {
-    uiElementNames: computeWorldObjectEntityField("uiElements"),
-    zIndex: computeWorldObjectEntityField("zIndex"),
-    isSelected: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.isSelected`,
-    uiElementSpriteConfig: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElementSpriteConfig`,
-    tileSize: state`${props`scenePath`}.viewport.tileSize`,
-    worldObjectSelectable: computeWorldObjectSelectable,
-    worldObjectSelected: signal`worldObjectSelected`,
-    mode: state`${props`scenePath`}.currentMode`
-  },
-  WorldObject
-)
+// export default connect(
+//   {
+//     uiElementNames: computeWorldObjectEntityField("uiElements"),
+//     zIndex: computeWorldObjectEntityField("zIndex"),
+//     isSelected: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.isSelected`,
+//     uiElementSpriteConfig: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElementSpriteConfig`,
+//     tileSize: state`${props`scenePath`}.viewport.tileSize`,
+//     worldObjectSelectable: computeWorldObjectSelectable,
+//     worldObjectSelected: signal`worldObjectSelected`,
+//     mode: state`${props`scenePath`}.currentMode`
+//   },
+//   WorldObject
+// )
+
+export default inject(({ store }, { scenePath, worldObjectId }) => {
+  const worldObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
+  const entityName = get(store, `${worldObjectPath}.entityName`)
+  const entityPath = `definitions.entities.${entityName}`
+  return {
+    uiElementNames: get(store, `${entityPath}.uiElements`).slice(),
+    zIndex: get(store, `${entityPath}.zIndex`),
+    uiElementSpriteConfig: toJS(
+      get(store, `${worldObjectPath}.uiElementSpriteConfig`)
+    ),
+    tileSize: get(store, `${scenePath}.viewport.tileSize`),
+    mode: get(store, `${scenePath}.currentMode`),
+    worldObjectSelectable: false,
+    worldObjectSelected: () => {}
+  }
+})(WorldObject)
 
 function WorldObject(props) {
+  console.log(props)
   return (
     <div
       className={className(props)}

@@ -1,10 +1,13 @@
 import ReactDOM from "react-dom"
-import { Container } from "@cerebral/react"
+// import { Container } from "@cerebral/react"
+import { Provider } from "mobx-react"
+import DevTools from "mobx-react-devtools"
 
 import uiElements from "../json/ui-elements.json"
 import entities from "../json/entities.json"
 import { initialState } from "./createController"
 import { cerebralStateKey } from "./constants"
+import createStore from "./createStore"
 
 let controller
 const localState = window.localStorage.getItem(cerebralStateKey)
@@ -31,9 +34,9 @@ function renderRoot() {
   }
 
   ReactDOM.render(
-    <Container controller={controller}>
-      <Main controller={controller} />
-    </Container>,
+    <Provider store={createStore(state)}>
+      <Main />
+    </Provider>,
     document.getElementById("root")
   )
 }

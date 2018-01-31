@@ -1,30 +1,26 @@
-import { connect } from "@cerebral/react"
-import { state } from "cerebral/tags"
+import { inject } from "mobx-react"
 
 import GlobalListeners from "./GlobalListeners"
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
 
-export default connect(
-  {
-    currentScenePath: state`viewport.currentScenePath`
-  },
-  Main
-)
+export default inject(({ store }) => ({
+  currentScenePath: store.viewport.currentScenePath
+}))(Main)
 
-function Main({ controller, currentScenePath, tileIds }) {
+function Main({ currentScenePath }) {
   return (
     <div style={containerStyle()}>
-      <GlobalListeners controller={controller} />
+      {/* <GlobalListeners controller={controller} /> */}
       <div style={topMenuStyle()}>
-        <TopMenu scenePath={currentScenePath} />
+        {/* <TopMenu scenePath={currentScenePath} /> */}
       </div>
       <div style={viewportStyle()}>
         {currentScenePath && <Viewport scenePath={currentScenePath} />}
       </div>
       <div style={sideMenuStyle()}>
-        <SideMenu scenePath={currentScenePath} />
+        {/* <SideMenu scenePath={currentScenePath} /> */}
       </div>
     </div>
   )
