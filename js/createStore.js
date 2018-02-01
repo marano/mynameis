@@ -1,9 +1,9 @@
 import { observable, action } from "mobx"
 import createActions from "./createActions"
-import mapValues from "lodash/fp/mapValues"
+import { flow, mapValues } from "lodash/fp"
 
 export default function createStore(initialState) {
   const store = observable(initialState)
-  const actions = mapValues(action, createActions(store))
+  const actions = flow(createActions, mapValues(action))(store)
   return { store, actions }
 }
