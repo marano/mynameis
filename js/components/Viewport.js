@@ -14,17 +14,20 @@ function viewportClassName(tileSize) {
   `
 }
 
-export default inject(({ store }, { scenePath }) => ({
-  tileIds: get(store, `${scenePath}.viewport.visibleTileIds`).slice(),
-  tileSize: get(store, `${scenePath}.viewport.tileSize`),
-  viewportSizeX: get(store, `${scenePath}.viewport.size.x`),
-  viewportSizeY: get(store, `${scenePath}.viewport.size.y`),
-  viewportPositionX: get(store, `${scenePath}.viewport.position.x`),
-  viewportPositionY: get(store, `${scenePath}.viewport.position.y`),
-  worldSizeX: get(store, `${scenePath}.size.x`),
-  worldSizeY: get(store, `${scenePath}.size.y`),
-  currentMode: get(store, `${scenePath}.currentMode`)
-}))(
+export default inject(
+  ({ store, actions: { viewportResized } }, { scenePath }) => ({
+    tileIds: get(store, `${scenePath}.viewport.visibleTileIds`).slice(),
+    tileSize: get(store, `${scenePath}.viewport.tileSize`),
+    viewportSizeX: get(store, `${scenePath}.viewport.size.x`),
+    viewportSizeY: get(store, `${scenePath}.viewport.size.y`),
+    viewportPositionX: get(store, `${scenePath}.viewport.position.x`),
+    viewportPositionY: get(store, `${scenePath}.viewport.position.y`),
+    worldSizeX: get(store, `${scenePath}.size.x`),
+    worldSizeY: get(store, `${scenePath}.size.y`),
+    currentMode: get(store, `${scenePath}.currentMode`),
+    viewportResized
+  })
+)(
   class Viewport extends Component {
     constructor(props) {
       super(props)
@@ -33,25 +36,21 @@ export default inject(({ store }, { scenePath }) => ({
     }
 
     componentDidMount() {
-      // this.onWindowResizeSubscription = windowResize$.subscribe(
-      // this.callViewportResized
-      // )
-      // setImmediate(this.callViewportResized)
+      this.onWindowResizeSubscription = windowResize$.subscribe(
+        this.callViewportResized
+      )
+      setImmediate(this.callViewportResized)
     }
 
     componentWillUnmount() {
-      // this.onWindowResizeSubscription.unsubscribe()
+      this.onWindowResizeSubscription.unsubscribe()
     }
 
     callViewportResized() {
       const { scenePath } = this.props
       const viewportWidth = this.viewportRef.offsetWidth
       const viewportHeight = this.viewportRef.offsetHeight
-      this.props.viewportResized({
-        scenePath,
-        viewportWidth,
-        viewportHeight
-      })
+      this.props.viewportResized(scenePath, viewportWidth, viewportHeight)
     }
 
     render() {

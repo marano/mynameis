@@ -42,7 +42,6 @@ export default inject(({ store }, { scenePath, worldObjectId }) => {
 })(WorldObject)
 
 function WorldObject(props) {
-  console.log(props)
   return (
     <div
       className={className(props)}

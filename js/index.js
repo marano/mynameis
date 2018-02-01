@@ -34,7 +34,7 @@ function renderRoot() {
   }
 
   ReactDOM.render(
-    <Provider store={createStore(state)}>
+    <Provider {...createStore(state)}>
       <Main />
     </Provider>,
     document.getElementById("root")
