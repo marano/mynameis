@@ -12,7 +12,7 @@ export default inject(({ store }) => ({
 function Main({ currentScenePath }) {
   return (
     <div style={containerStyle()}>
-      {/* <GlobalListeners controller={controller} /> */}
+      <GlobalListeners />
       <div style={topMenuStyle()}>
         {/* <TopMenu scenePath={currentScenePath} /> */}
       </div>

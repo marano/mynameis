@@ -12,7 +12,7 @@ export const movementKeys = {
   d: { deltaX: +1, deltaY: 0 }
 }
 
-export default function createMoveKeydownHandler(controller) {
+export default function createMoveKeydownHandler(store, actions) {
   return function handleMoveKeydown(newPressedKeys) {
     pressedKeys = newPressedKeys
     if (pressedKeys.length === 0) {
@@ -24,7 +24,7 @@ export default function createMoveKeydownHandler(controller) {
   }
 
   function moveViewport() {
-    const scenePath = controller.getState(`viewport.currentScenePath`)
+    const scenePath = store.viewport.currentScenePath
     if (!scenePath) {
       return
     }
@@ -38,9 +38,6 @@ export default function createMoveKeydownHandler(controller) {
       pressedKeys
     )
 
-    controller.getSignal("viewportMoved")({
-      scenePath,
-      ...deltas
-    })
+    actions.viewportMoved(scenePath, deltas.deltaX, deltas.deltaY)
   }
 }

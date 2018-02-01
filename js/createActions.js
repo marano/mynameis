@@ -8,13 +8,52 @@ import { idOfTileAt } from "./tile-utils"
 
 export default function createActions(store) {
   return {
-    viewportResized
+    viewportResized,
+    viewportMoved
   }
 
   function viewportResized(scenePath, viewportWidth, viewportHeight) {
     store.viewport.containerDimension.width = viewportWidth
     store.viewport.containerDimension.height = viewportHeight
     adjustViewportSize(store, scenePath)
+    computeVisibleTileIds(store, scenePath)
+  }
+
+  function viewportMoved(scenePath, deltaX, deltaY) {
+    const scene = get(store, scenePath)
+
+    const delta = {
+      x: deltaX,
+      y: deltaY
+    }
+
+    const positionByAxis = {
+      free: function(axis) {
+        return scene.viewport.position[axis] + delta[axis]
+      },
+      locked: function(axis) {
+        const axisCurrentPosition = scene.viewport.position[axis]
+        const axisDelta = delta[axis]
+        const nextPosition = axisCurrentPosition + axisDelta
+        if (axisDelta < 0 && nextPosition < 0) {
+          return axisCurrentPosition
+        }
+        if (
+          axisDelta > 0 &&
+          nextPosition + scene.viewport.size[axis] > scene.size[axis]
+        ) {
+          return axisCurrentPosition
+        }
+        return nextPosition
+      }
+    }[scene.viewport.cameraLockMode]
+
+    const newPosition = {
+      x: positionByAxis("x"),
+      y: positionByAxis("y")
+    }
+
+    scene.viewport.position = newPosition
     computeVisibleTileIds(store, scenePath)
   }
 }
