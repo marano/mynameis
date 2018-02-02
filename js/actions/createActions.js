@@ -1,6 +1,6 @@
 import { get } from "lodash"
 
-import * as actionHelpers from "./actionHelpers"
+import * as viewportHelpers from "./viewportHelpers"
 
 export default function createActions(store) {
   return {
@@ -16,8 +16,8 @@ export default function createActions(store) {
     viewport.containerDimension.height = viewportHeight
 
     const scene = get(store, scenePath)
-    actionHelpers.adjustViewportSize(viewport, scene)
-    actionHelpers.computeVisibleTileIds(scene)
+    viewportHelpers.adjustViewportSize(viewport, scene)
+    viewportHelpers.computeVisibleTileIds(scene)
   }
 
   function viewportMoved(scenePath, deltaX, deltaY) {
@@ -57,15 +57,15 @@ export default function createActions(store) {
     scene.viewport.position.x = newPosition.x
     scene.viewport.position.y = newPosition.y
 
-    actionHelpers.computeVisibleTileIds(scene)
+    viewportHelpers.computeVisibleTileIds(scene)
   }
 
   function cameraModeChanged(scenePath, cameraLockMode) {
     const scene = get(store, scenePath)
     scene.viewport.cameraLockMode = cameraLockMode
-    actionHelpers.adjustViewportSize(store.viewport, scene)
-    actionHelpers.adjustViewportPositionForCameraMode(scene)
-    actionHelpers.computeVisibleTileIds(scene)
+    viewportHelpers.adjustViewportSize(store.viewport, scene)
+    viewportHelpers.adjustViewportPositionForCameraMode(scene)
+    viewportHelpers.computeVisibleTileIds(scene)
   }
 
   function modeChanged(scenePath, mode) {

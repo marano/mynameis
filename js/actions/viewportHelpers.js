@@ -1,7 +1,7 @@
-import { compose, range } from "ramda"
+import { range } from "ramda"
 import { cross } from "d3-array"
 
-import { idOfTileAt } from "./tile-utils"
+import { idOfTileAt } from "../tile-utils"
 
 export function adjustViewportSize(viewport, scene) {
   const tileSize = scene.viewport.tileSize
@@ -25,7 +25,8 @@ export function adjustViewportSize(viewport, scene) {
     y: viewportSizeByAxis("y")
   }
 
-  scene.viewport.size = viewportSize
+  scene.viewport.size.x = viewportSize.x
+  scene.viewport.size.y = viewportSize.y
 }
 
 export function computeVisibleTileIds(scene) {

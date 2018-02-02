@@ -1,5 +1,5 @@
 import { observable, action } from "mobx"
-import createActions from "./createActions"
+import createActions from "./actions/createActions"
 import { flow, mapValues } from "lodash/fp"
 
 export const initialState = {
