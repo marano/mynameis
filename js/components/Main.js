@@ -1,7 +1,7 @@
 import { inject } from "mobx-react"
 
 import GlobalListeners from "./GlobalListeners"
-// import TopMenu from "./TopMenu"
+import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 // import SideMenu from "./SideMenu"
 
@@ -14,7 +14,7 @@ function Main({ currentScenePath }) {
     <div style={containerStyle()}>
       <GlobalListeners />
       <div style={topMenuStyle()}>
-        {/* <TopMenu scenePath={currentScenePath} /> */}
+        <TopMenu scenePath={currentScenePath} />
       </div>
       <div style={viewportStyle()}>
         {currentScenePath && <Viewport scenePath={currentScenePath} />}

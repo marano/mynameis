@@ -23,9 +23,8 @@ export default inject("store", "actions")(
     }
 
     componentWillUnmount() {
-      this.keydownSubscription.unsubscribe()
+      // this.keydownSubscription.unsubscribe()
       this.moveKeydownSubscription.unsubscribe()
-      this.mutationSubscription.unsubscribe()
     }
 
     render() {
