@@ -7,8 +7,6 @@ import createKeydownEventHandler from "../event-handlers/keydown"
 import createMoveKeydownEventHandler, {
   movementKeys
 } from "../event-handlers/moveKeydown"
-import createOnMutationStream from "../streams/mutation"
-import createOnMutationEventHandler from "../event-handlers/mutation"
 
 export default inject("store", "actions")(
   class GlobalListeners extends Component {
@@ -22,10 +20,6 @@ export default inject("store", "actions")(
       ).subscribe(
         createMoveKeydownEventHandler(this.props.store, this.props.actions)
       )
-
-      this.mutationSubscription = createOnMutationStream(
-        this.props.store
-      ).subscribe(createOnMutationEventHandler())
     }
 
     componentWillUnmount() {

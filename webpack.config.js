@@ -9,6 +9,7 @@ const views = {
       react: path.resolve("./js/views/inferno/react"),
       "react-dom": path.resolve("./js/views/inferno/react-dom"),
       "@cerebral/react": "@cerebral/inferno",
+      "mobx-react": "inferno-mobx",
       "has-keyed-children": path.resolve(
         "./js/views/inferno/has-keyed-children"
       ),
