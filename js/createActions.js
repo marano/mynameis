@@ -9,7 +9,8 @@ import { idOfTileAt } from "./tile-utils"
 export default function createActions(store) {
   return {
     viewportResized,
-    viewportMoved
+    viewportMoved,
+    cameraModeChanged
   }
 
   function viewportResized(scenePath, viewportWidth, viewportHeight) {
@@ -54,6 +55,14 @@ export default function createActions(store) {
     }
 
     scene.viewport.position = newPosition
+    computeVisibleTileIds(store, scenePath)
+  }
+
+  function cameraModeChanged(scenePath, cameraLockMode) {
+    const scene = get(store, scenePath)
+    scene.viewport.cameraLockMode = cameraLockMode
+    adjustViewportSize(store, scenePath)
+    adjustViewportPositionForCameraMode(store, scenePath)
     computeVisibleTileIds(store, scenePath)
   }
 }
@@ -108,4 +117,29 @@ export function computeVisibleTileIds(store, scenePath) {
   )
 
   scene.viewport.visibleTileIds = visibleTileIds
+}
+
+export function adjustViewportPositionForCameraMode(store, scenePath) {
+  const scene = get(store, scenePath)
+
+  const newAxisPosition = {
+    free: function(axis) {
+      return scene.viewport.position[axis]
+    },
+    locked: function(axis) {
+      if (scene.viewport.position[axis] < 0) {
+        return 0
+      }
+      if (
+        scene.viewport.position[axis] + scene.viewport.size[axis] >
+        scene.size[axis]
+      ) {
+        return scene.size[axis] - scene.viewport.size[axis]
+      }
+      return scene.viewport.position[axis]
+    }
+  }[scene.viewport.cameraLockMode]
+
+  scene.viewport.position.x = newAxisPosition("x")
+  scene.viewport.position.y = newAxisPosition("y")
 }

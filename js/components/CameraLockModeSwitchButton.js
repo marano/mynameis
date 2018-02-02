@@ -4,10 +4,12 @@ import { get } from "lodash"
 
 import Button from "./Button"
 
-export default inject(({ store }, { scenePath }) => ({
-  currentCameraLockMode: get(store, `${scenePath}.viewport.cameraLockMode`),
-  cameraModeChanged: () => null
-}))(CameraLockModeSwitchButton)
+export default inject(
+  ({ store, actions: { cameraModeChanged } }, { scenePath }) => ({
+    currentCameraLockMode: get(store, `${scenePath}.viewport.cameraLockMode`),
+    cameraModeChanged
+  })
+)(CameraLockModeSwitchButton)
 
 function CameraLockModeSwitchButton(props) {
   const { cameraLockMode, currentCameraLockMode } = props
@@ -20,5 +22,5 @@ function CameraLockModeSwitchButton(props) {
 }
 
 function onClick({ scenePath, cameraLockMode, cameraModeChanged }) {
-  cameraModeChanged({ scenePath, cameraLockMode })
+  cameraModeChanged(scenePath, cameraLockMode)
 }
