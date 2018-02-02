@@ -4,10 +4,10 @@ import { linkEvent } from "inferno"
 import { cursorExpanded, cursorOnHover } from "../styles"
 import get from "lodash/get"
 
-import {
-  computeWorldObjectSelectable,
-  computeWorldObjectEntityField
-} from "../computes"
+// import {
+//   computeWorldObjectSelectable,
+//   computeWorldObjectEntityField
+// } from "../computes"
 import UiElement from "./UiElement"
 
 // export default connect(

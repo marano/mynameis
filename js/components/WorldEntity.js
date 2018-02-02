@@ -1,14 +1,11 @@
-import { connect } from "@cerebral/react"
-import { state, props } from "cerebral/tags"
-
 import UiElement from "./UiElement"
 
-export default connect(
-  {
-    uiElementNames: state`definitions.entities.${props`entityName`}.uiElements`
-  },
-  ObjectPickerEntity
-)
+// export default connect(
+//   {
+//     uiElementNames: state`definitions.entities.${props`entityName`}.uiElements`
+//   },
+//   ObjectPickerEntity
+// )
 
 function ObjectPickerEntity({ entityName, uiElementNames, tileSize }) {
   return (

@@ -12,7 +12,7 @@ import {
 
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
-import { computeNeighbourEntities } from "../computes"
+// import { computeNeighbourEntities } from "../computes"
 
 // export default connect(
 //  {

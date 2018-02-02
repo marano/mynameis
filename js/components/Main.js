@@ -1,9 +1,9 @@
 import { inject } from "mobx-react"
 
 import GlobalListeners from "./GlobalListeners"
-import TopMenu from "./TopMenu"
+// import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
-import SideMenu from "./SideMenu"
+// import SideMenu from "./SideMenu"
 
 export default inject(({ store }) => ({
   currentScenePath: store.viewport.currentScenePath

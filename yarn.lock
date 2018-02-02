@@ -69,31 +69,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@cerebral/inferno@^3.0.1":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@cerebral/inferno/-/inferno-3.1.0.tgz#04e5dfbade3762ce744fa84ca6e16fc478b5d06a"
-  dependencies:
-    cerebral "^4.1.0"
-
-"@cerebral/preact@^3.0.1":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@cerebral/preact/-/preact-3.1.0.tgz#5ee18c2b7a78dd079bafde3d9ade7046c35498d7"
-  dependencies:
-    cerebral "^4.1.0"
-
-"@cerebral/react@^3.0.1":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@cerebral/react/-/react-3.1.0.tgz#5d9bdd7e435372b4b9f9ce3bb842ff63aaae789b"
-  dependencies:
-    cerebral "^4.1.0"
-
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/@sheerun/eslint-config-standard/-/eslint-config-standard-10.2.1.tgz#7d73397369c396b3625cab6ec313f6d4208300ef"
-
-"@types/eventemitter3@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@types/eventemitter3/-/eventemitter3-1.2.0.tgz#4ebc1b9c6e92417c8e5c49204bb48189f7463dca"
 
 abbrev@1:
   version "1.1.1"
@@ -1203,13 +1181,6 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
-cerebral@^4.0.1, cerebral@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/cerebral/-/cerebral-4.1.0.tgz#73fd46124149d0c38b7c32edb35c42547967bb83"
-  dependencies:
-    es6-error "^4.0.2"
-    function-tree "^3.1.0"
-
 chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -1802,10 +1773,6 @@ es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.9, es5-ext@~0.10.14:
     es6-iterator "~2.0.3"
     es6-symbol "~3.1.1"
 
-es6-error@^4.0.2:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/es6-error/-/es6-error-4.1.1.tgz#9e3af407459deed47e9a91f9b885a84eb05c561d"
-
 es6-iterator@^2.0.1, es6-iterator@~2.0.1, es6-iterator@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/es6-iterator/-/es6-iterator-2.0.3.tgz#a7de889141a05a94b0854403b2d0a0fbfa98f3b7"
@@ -2039,10 +2006,6 @@ event-emitter@~0.3.5:
 eventemitter3@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
-
-eventemitter3@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
 
 events@^1.0.0:
   version "1.1.1"
@@ -2385,15 +2348,6 @@ function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
 
-function-tree@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/function-tree/-/function-tree-3.1.0.tgz#b75b4e941f5e4984a08361e14a098513042fef59"
-  dependencies:
-    "@types/eventemitter3" "^1.2.0"
-    chalk "^1.1.3"
-    eventemitter3 "^2.0.2"
-    universal-websocket-client "^1.0.1"
-
 functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
@@ -2729,74 +2683,47 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
-inferno-component@4.0.0-alpha1-alpha.d24e2d51:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-4.0.0-alpha1-alpha.d24e2d51.tgz#632249f33d70aadfd5271b132aa0923dafb57562"
-  dependencies:
-    inferno "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-shared "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-vnode-flags "4.0.0-alpha1-alpha.d24e2d51"
-
-inferno-create-class@4.0.0-alpha1-alpha.d24e2d51:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno-create-class/-/inferno-create-class-4.0.0-alpha1-alpha.d24e2d51.tgz#97787a73383faf1d1d5d36dfd80710180554949a"
-  dependencies:
-    inferno-component "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-shared "4.0.0-alpha1-alpha.d24e2d51"
+inferno-create-class@4.0.0-17:
+  version "4.0.0-17"
+  resolved "https://registry.yarnpkg.com/inferno-create-class/-/inferno-create-class-4.0.0-17.tgz#18ecb19c4209118fc7b60ac494dd3baa2634dd6d"
 
 inferno-create-element@4.0.0-17:
   version "4.0.0-17"
   resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-4.0.0-17.tgz#94b098134514d76326155d7ecaab0247a82b2ca6"
 
-inferno-create-element@4.0.0-alpha1-alpha.d24e2d51:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-4.0.0-alpha1-alpha.d24e2d51.tgz#5afa78068dc466a804d5f71e5a4ab56485b0eaa7"
-  dependencies:
-    inferno "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-component "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-shared "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-vnode-flags "4.0.0-alpha1-alpha.d24e2d51"
-
 inferno-devtools@4.0.0-17:
   version "4.0.0-17"
   resolved "https://registry.yarnpkg.com/inferno-devtools/-/inferno-devtools-4.0.0-17.tgz#cb2cae07fdba3ee171f272e8d0bfac53c7889f94"
 
-inferno-mobx@^4.0.0-17:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno-mobx/-/inferno-mobx-4.0.0-alpha1-alpha.d24e2d51.tgz#2908a7bed571a84d4b23601cbb9e47f123fc18fa"
+inferno-mobx@4.0.0-17:
+  version "4.0.0-17"
+  resolved "https://registry.yarnpkg.com/inferno-mobx/-/inferno-mobx-4.0.0-17.tgz#6abd343c17137807976001be5a778771b52569db"
   dependencies:
     hoist-non-inferno-statics "^1.1.3"
-    inferno "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-component "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-create-class "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-create-element "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-shared "4.0.0-alpha1-alpha.d24e2d51"
-    mobx "^2.6.3 || ^3.0.0"
+    inferno "4.0.0-17"
+    inferno-create-class "4.0.0-17"
+    inferno-create-element "4.0.0-17"
+    inferno-server "4.0.0-17"
+    inferno-shared "4.0.0-17"
+    mobx ">=3.0.0"
 
-inferno-shared@4.0.0-alpha1-alpha.d24e2d51:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-4.0.0-alpha1-alpha.d24e2d51.tgz#bc28a315821d5b5c30b87100919bc381ec5cc79d"
+inferno-server@4.0.0-17:
+  version "4.0.0-17"
+  resolved "https://registry.yarnpkg.com/inferno-server/-/inferno-server-4.0.0-17.tgz#1722b00c30b3bc3930065ec8fdcb94e76fb3622b"
+
+inferno-shared@4.0.0-17:
+  version "4.0.0-17"
+  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-4.0.0-17.tgz#9d373dcebe1255a056516593cbd61e90ba1831bf"
 
 inferno-vnode-flags@4.0.0-17:
   version "4.0.0-17"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-4.0.0-17.tgz#57efd5a4beb287d9df1d0470a83bfc7425ccfd7f"
-
-inferno-vnode-flags@4.0.0-alpha1-alpha.d24e2d51:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-4.0.0-alpha1-alpha.d24e2d51.tgz#3dcc26747641f4aaee331251b3cbaef2d2390c07"
 
 inferno@4.0.0-17:
   version "4.0.0-17"
   resolved "https://registry.yarnpkg.com/inferno/-/inferno-4.0.0-17.tgz#b52c0e5c424da89410f5165a48ed1384622b5e20"
   dependencies:
     inferno-vnode-flags "4.0.0-17"
-
-inferno@4.0.0-alpha1-alpha.d24e2d51:
-  version "4.0.0-alpha1-alpha.d24e2d51"
-  resolved "https://registry.yarnpkg.com/inferno/-/inferno-4.0.0-alpha1-alpha.d24e2d51.tgz#791e64b826ce7504508e95815ea8d4539cef91f8"
-  dependencies:
-    inferno-shared "4.0.0-alpha1-alpha.d24e2d51"
-    inferno-vnode-flags "4.0.0-alpha1-alpha.d24e2d51"
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -3572,7 +3499,7 @@ mobx-react@^4.3.5:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-"mobx@^2.6.3 || ^3.0.0", mobx@^3.4.1:
+mobx@>=3.0.0, mobx@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.4.1.tgz#37abe5ee882d401828d9f26c6c1a2f47614bbbef"
 
@@ -4543,10 +4470,6 @@ safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, s
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
-safe-buffer@~5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
-
 schema-utils@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
@@ -5150,10 +5073,6 @@ uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
-ultron@~1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
-
 union-value@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/union-value/-/union-value-1.0.0.tgz#5c71c34cb5bad5dcebe3ea0cd08207ba5aa1aea4"
@@ -5162,12 +5081,6 @@ union-value@^1.0.0:
     get-value "^2.0.6"
     is-extendable "^0.1.1"
     set-value "^0.4.3"
-
-universal-websocket-client@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/universal-websocket-client/-/universal-websocket-client-1.0.1.tgz#ad7c00e22cea16a2a83d6ab5e67ada2928dbe96f"
-  dependencies:
-    ws "^2.2.0"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
@@ -5409,13 +5322,6 @@ write@^0.2.1:
   resolved "https://registry.yarnpkg.com/write/-/write-0.2.1.tgz#5fc03828e264cea3fe91455476f7a3c566cb0757"
   dependencies:
     mkdirp "^0.5.1"
-
-ws@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-2.3.1.tgz#6b94b3e447cb6a363f785eaf94af6359e8e81c80"
-  dependencies:
-    safe-buffer "~5.0.1"
-    ultron "~1.1.0"
 
 xtend@^4.0.0:
   version "4.0.1"
