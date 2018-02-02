@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom"
 // import { Container } from "@cerebral/react"
 import { Provider } from "mobx-react"
-import DevTools from "mobx-react-devtools"
 import { toJS } from "mobx"
 
 import uiElements from "../json/ui-elements.json"

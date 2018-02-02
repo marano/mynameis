@@ -5,6 +5,11 @@ import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 // import SideMenu from "./SideMenu"
 
+const DevTools =
+  process.env.NODE_ENV === "development"
+    ? require("mobx-react-devtools").default
+    : () => null
+
 export default inject(({ store }) => ({
   currentScenePath: store.viewport.currentScenePath
 }))(Main)
@@ -12,6 +17,7 @@ export default inject(({ store }) => ({
 function Main({ currentScenePath }) {
   return (
     <div style={containerStyle()}>
+      <DevTools />
       <GlobalListeners />
       <div style={topMenuStyle()}>
         <TopMenu scenePath={currentScenePath} />
