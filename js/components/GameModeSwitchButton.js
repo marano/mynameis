@@ -4,9 +4,9 @@ import { get } from "lodash"
 
 import Button from "./Button"
 
-export default inject(({ store }, { scenePath }) => ({
+export default inject(({ store, actions: { modeChanged } }, { scenePath }) => ({
   currentMode: get(store, `${scenePath}.currentMode`),
-  modeChanged: () => null
+  modeChanged
 }))(GameModeSwitchButton)
 
 function GameModeSwitchButton(props) {
