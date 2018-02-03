@@ -1,5 +1,4 @@
-import { connect } from "@cerebral/react"
-import { state, signal } from "cerebral/tags"
+import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 import { css } from "emotion"
 
@@ -11,13 +10,10 @@ const className = css`
   }
 `
 
-export default connect(
-  {
-    selectedEntityName: state`editor.objectPicker.selectedEntityName`,
-    objectPickerEntitySelected: signal`objectPickerEntitySelected`
-  },
-  ObjectPickerEntity
-)
+export default inject(({ state }) => ({
+  selectedEntityName: state.editor.objectPicker.selectedEntityName,
+  objectPickerEntitySelected: () => {}
+}))(ObjectPickerEntity)
 
 function ObjectPickerEntity(props) {
   const { entityName, selectedEntityName } = props

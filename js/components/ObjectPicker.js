@@ -1,14 +1,11 @@
-import { connect } from "@cerebral/react"
-import { state } from "cerebral/tags"
+import { inject } from "mobx-react"
+import { keys } from "ramda"
 
 import ObjectPickerEntity from "./ObjectPickerEntity"
 
-export default connect(
-  {
-    entityNames: state`definitions.entities.*`
-  },
-  ObjectPicker
-)
+export default inject(({ state }) => ({
+  entityNames: keys(state.definitions.entities)
+}))(ObjectPicker)
 
 function ObjectPicker({ entityNames }) {
   return (
