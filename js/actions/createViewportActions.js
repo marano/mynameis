@@ -4,7 +4,7 @@ import { cross } from "d3-array"
 
 import { idOfTileAt } from "../tile-utils"
 
-export default function createViewportActions(store) {
+export default function createViewportActions(state) {
   return {
     viewportResized,
     viewportMoved,
@@ -13,24 +13,24 @@ export default function createViewportActions(store) {
   }
 
   function viewportResized(scenePath, viewportWidth, viewportHeight) {
-    const { viewport } = store
+    const { viewport } = state
     viewport.containerDimension.width = viewportWidth
     viewport.containerDimension.height = viewportHeight
-    const scene = get(store, scenePath)
+    const scene = get(state, scenePath)
     adjustViewportSize(viewport, scene)
     computeVisibleTileIds(scene)
   }
 
   function viewportMoved(scenePath, deltaX, deltaY) {
-    const scene = get(store, scenePath)
+    const scene = get(state, scenePath)
     moveViewport(scene, deltaX, deltaY)
     computeVisibleTileIds(scene)
   }
 
   function cameraModeChanged(scenePath, cameraLockMode) {
-    const scene = get(store, scenePath)
+    const scene = get(state, scenePath)
     scene.viewport.cameraLockMode = cameraLockMode
-    adjustViewportSize(store.viewport, scene)
+    adjustViewportSize(state.viewport, scene)
     adjustViewportPositionForCameraMode(scene)
     computeVisibleTileIds(scene)
   }
