@@ -1,4 +1,4 @@
-import { observable, action, createTransformer } from "mobx"
+import { observable, action, createTransformer, comparer } from "mobx"
 import { flow, mapValues, merge } from "lodash/fp"
 import { assign } from "lodash"
 
@@ -45,8 +45,12 @@ export function extendStore(store) {
 
 function createComputations(state) {
   const computations = {}
-  assign(computations, createViewportComputations(state, computations))
-  assign(computations, mapValues(createTransformer, computations))
+  const transformers = flow(
+    createViewportComputations(state, computations),
+    mapValues(createTransformer),
+    mapValues(withStructuralComparer)
+  )(computations)
+  assign(computations, transformers)
   return computations
 }
 
@@ -55,4 +59,14 @@ function createActions(state, computations) {
     merge(createViewportActions(state, computations)),
     mapValues(action)
   )({})
+}
+
+function withStructuralComparer(originalFunction) {
+  return function caller(argument) {
+    const defaultComparer = comparer.default
+    comparer.default = comparer.structural
+    const result = originalFunction(argument)
+    comparer.default = defaultComparer
+    return result
+  }
 }
