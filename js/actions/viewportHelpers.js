@@ -75,3 +75,39 @@ export function adjustViewportPositionForCameraMode(scene) {
   scene.viewport.position.x = newAxisPosition("x")
   scene.viewport.position.y = newAxisPosition("y")
 }
+
+export function moveViewport(scene, deltaX, deltaY) {
+  const delta = {
+    x: deltaX,
+    y: deltaY
+  }
+
+  const positionByAxis = {
+    free: function(axis) {
+      return scene.viewport.position[axis] + delta[axis]
+    },
+    locked: function(axis) {
+      const axisCurrentPosition = scene.viewport.position[axis]
+      const axisDelta = delta[axis]
+      const nextPosition = axisCurrentPosition + axisDelta
+      if (axisDelta < 0 && nextPosition < 0) {
+        return axisCurrentPosition
+      }
+      if (
+        axisDelta > 0 &&
+        nextPosition + scene.viewport.size[axis] > scene.size[axis]
+      ) {
+        return axisCurrentPosition
+      }
+      return nextPosition
+    }
+  }[scene.viewport.cameraLockMode]
+
+  const newPosition = {
+    x: positionByAxis("x"),
+    y: positionByAxis("y")
+  }
+
+  scene.viewport.position.x = newPosition.x
+  scene.viewport.position.y = newPosition.y
+}
