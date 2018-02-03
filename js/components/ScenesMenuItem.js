@@ -1,18 +1,19 @@
-import { connect } from "@cerebral/react"
-import { props, signal, state } from "cerebral/tags"
+import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
+import { get } from "lodash"
 
 import Button from "./Button"
 
-export default connect(
-  {
-    sceneName: state`${props`scenePath`}.name`,
-    currentSceneSourceScenePath: state`${props`currentScenePath`}.sourceScenePath`,
-    sceneChanged: signal`sceneChanged`,
-    sceneClosed: signal`sceneClosed`
-  },
-  ScenesMenuItem
-)
+export default inject(({ state }, { scenePath, currentScenePath }) => {
+  const scene = get(state, scenePath)
+  const currentScene = get(state, currentScenePath)
+  return {
+    sceneName: scene.name,
+    currentSceneSourceScenePath: currentScene.sourceScenePath,
+    sceneChanged: () => {},
+    sceneClosed: () => {}
+  }
+})(ScenesMenuItem)
 
 function ScenesMenuItem(props) {
   const {

@@ -1,14 +1,11 @@
-import { props, state } from "cerebral/tags"
-import { connect } from "@cerebral/react"
+import { inject } from "mobx-react"
+import { get } from "lodash"
 
 import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
-export default connect(
-  {
-    sceneSize: state`${props`scenePath`}.size`
-  },
-  SceneSizeEditor
-)
+export default inject(({ state }, { scenePath }) => ({
+  sceneSize: get(state, scenePath).size
+}))(SceneSizeEditor)
 
 function SceneSizeEditor({ scenePath, sceneSize }) {
   return (

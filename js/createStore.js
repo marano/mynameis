@@ -46,10 +46,9 @@ export function extendStore(store) {
 function createComputations(state) {
   const computations = {}
   const transformers = flow(
-    createViewportComputations(state, computations),
     mapValues(createTransformer),
     mapValues(withStructuralComparer)
-  )(computations)
+  )(createViewportComputations(state, computations))
   assign(computations, transformers)
   return computations
 }

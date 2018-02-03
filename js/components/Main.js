@@ -3,7 +3,7 @@ import { inject } from "mobx-react"
 import GlobalListeners from "./GlobalListeners"
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
-// import SideMenu from "./SideMenu"
+import SideMenu from "./SideMenu"
 
 const DevTools =
   process.env.NODE_ENV === "development"
@@ -27,7 +27,7 @@ function Main({ viewport, currentScenePath }) {
         {currentScenePath && <Viewport viewport={viewport} />}
       </div>
       <div style={sideMenuStyle()}>
-        {/* <SideMenu scenePath={currentScenePath} /> */}
+        <SideMenu scenePath={currentScenePath} />
       </div>
     </div>
   )

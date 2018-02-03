@@ -1,19 +1,24 @@
-import { connect } from "@cerebral/react"
-import { signal, state } from "cerebral/tags"
+import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 
 import ScenesMenuItem from "./ScenesMenuItem"
 import Button from "./Button"
 import hasKeyedChildren from "has-keyed-children"
 
-export default connect(
-  {
-    scenePaths: state`editor.scenePaths`,
-    newSceneAdded: signal`newSceneAdded`,
-    sceneChanged: signal`sceneChanged`
-  },
-  ScenesMenu
-)
+// export default connect(
+//   {
+//     scenePaths: state`editor.scenePaths`,
+//     newSceneAdded: signal`newSceneAdded`,
+//     sceneChanged: signal`sceneChanged`
+//   },
+//   ScenesMenu
+// )
+
+export default inject(({ state: { editor: { scenePaths } } }) => ({
+  scenePaths,
+  newSceneAdded: () => {},
+  sceneChanged: () => {}
+}))(ScenesMenu)
 
 function ScenesMenu({ scenePaths, scenePath, newSceneAdded, sceneChanged }) {
   return (

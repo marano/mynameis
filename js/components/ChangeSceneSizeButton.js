@@ -1,11 +1,9 @@
-import { connect } from "@cerebral/react"
-import { signal } from "cerebral/tags"
+import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 
-export default connect(
-  { sceneSizeChanged: signal`sceneSizeChanged` },
-  ChangeSceneSizeButton
-)
+export default inject(() => ({
+  sceneSizeChanged: () => {}
+}))(ChangeSceneSizeButton)
 
 function ChangeSceneSizeButton(props) {
   return (
