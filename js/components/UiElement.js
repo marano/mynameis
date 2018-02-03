@@ -3,8 +3,8 @@ import { inject } from "mobx-react"
 import { flow, map, join, has, find } from "lodash/fp"
 import get from "lodash/get"
 
-export default inject(({ store }, { uiElementName }) => ({
-  uiElement: toJS(get(store, `definitions.uiElements.${uiElementName}`))
+export default inject(({ state }, { uiElementName }) => ({
+  uiElement: toJS(get(state, `definitions.uiElements.${uiElementName}`))
 }))(UiElement)
 
 function UiElement(props) {

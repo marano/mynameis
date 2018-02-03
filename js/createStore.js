@@ -1,8 +1,9 @@
 import { observable, action } from "mobx"
-import createActions from "./actions/createActions"
-import { flow, mapValues } from "lodash/fp"
+import createViewportActions from "./actions/createViewportActions"
+import { flow, mapValues, merge } from "lodash/fp"
+import { assign } from "lodash"
 
-export const initialState = {
+export const defaultState = {
   idCounters: {},
   scenes: {},
   viewport: {
@@ -28,8 +29,16 @@ export const initialState = {
   }
 }
 
-export default function createStore(initialState) {
-  const store = observable(initialState)
-  const actions = flow(createActions, mapValues(action))(store)
-  return { store, actions }
+export function createStore(initialState) {
+  const state = observable(initialState)
+  const actions = createActions(state)
+  return { state, actions }
+}
+
+export function extendStore(store) {
+  assign(store.actions, createActions(store.state))
+}
+
+function createActions(state) {
+  return flow(merge(createViewportActions(state)), mapValues(action))({})
 }

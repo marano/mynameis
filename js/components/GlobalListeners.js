@@ -8,7 +8,7 @@ import createMoveKeydownEventHandler, {
   movementKeys
 } from "../event-handlers/moveKeydown"
 
-export default inject("store", "actions")(
+export default inject("state", "actions")(
   class GlobalListeners extends Component {
     componentDidMount() {
       // this.keydownSubscription = keydownStream.subscribe(
@@ -18,7 +18,7 @@ export default inject("store", "actions")(
       this.moveKeydownSubscription = createMoveKeydownStream(
         movementKeys
       ).subscribe(
-        createMoveKeydownEventHandler(this.props.store, this.props.actions)
+        createMoveKeydownEventHandler(this.props.state, this.props.actions)
       )
     }
 

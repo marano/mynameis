@@ -24,18 +24,18 @@ import UiElement from "./UiElement"
 //   WorldObject
 // )
 
-export default inject(({ store }, { scenePath, worldObjectId }) => {
+export default inject(({ state }, { scenePath, worldObjectId }) => {
   const worldObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
-  const entityName = get(store, `${worldObjectPath}.entityName`)
+  const entityName = get(state, `${worldObjectPath}.entityName`)
   const entityPath = `definitions.entities.${entityName}`
   return {
-    uiElementNames: get(store, `${entityPath}.uiElements`).slice(),
-    zIndex: get(store, `${entityPath}.zIndex`),
+    uiElementNames: get(state, `${entityPath}.uiElements`).slice(),
+    zIndex: get(state, `${entityPath}.zIndex`),
     uiElementSpriteConfig: toJS(
-      get(store, `${worldObjectPath}.uiElementSpriteConfig`)
+      get(state, `${worldObjectPath}.uiElementSpriteConfig`)
     ),
-    tileSize: get(store, `${scenePath}.viewport.tileSize`),
-    mode: get(store, `${scenePath}.currentMode`),
+    tileSize: get(state, `${scenePath}.viewport.tileSize`),
+    mode: get(state, `${scenePath}.currentMode`),
     worldObjectSelectable: false,
     worldObjectSelected: () => {}
   }

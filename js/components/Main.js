@@ -10,8 +10,8 @@ const DevTools =
     ? require("mobx-react-devtools").default
     : () => null
 
-export default inject(({ store }) => ({
-  currentScenePath: store.viewport.currentScenePath
+export default inject(({ state }) => ({
+  currentScenePath: state.viewport.currentScenePath
 }))(Main)
 
 function Main({ currentScenePath }) {

@@ -5,8 +5,8 @@ import { get } from "lodash"
 import Button from "./Button"
 
 export default inject(
-  ({ store, actions: { cameraModeChanged } }, { scenePath }) => ({
-    currentCameraLockMode: get(store, `${scenePath}.viewport.cameraLockMode`),
+  ({ state, actions: { cameraModeChanged } }, { scenePath }) => ({
+    currentCameraLockMode: get(state, `${scenePath}.viewport.cameraLockMode`),
     cameraModeChanged
   })
 )(CameraLockModeSwitchButton)

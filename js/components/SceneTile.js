@@ -27,14 +27,14 @@ import WorldEntity from "./WorldEntity"
 //  SceneTile
 // )
 
-export default inject(({ store }, { scenePath, tileId }) => ({
-  tileX: get(store, `${scenePath}.tiles.${tileId}.x`),
-  tileY: get(store, `${scenePath}.tiles.${tileId}.y`),
-  isSelected: get(store, `${scenePath}.tiles.${tileId}.isSelected`),
-  objectIds: get(store, `${scenePath}.tiles.${tileId}.worldObjectIds`).slice(),
-  tileSize: get(store, `${scenePath}.viewport.tileSize`),
-  mode: get(store, `${scenePath}.currentMode`),
-  selectedEntityName: store.editor.objectPicker.selectedEntityName,
+export default inject(({ state }, { scenePath, tileId }) => ({
+  tileX: get(state, `${scenePath}.tiles.${tileId}.x`),
+  tileY: get(state, `${scenePath}.tiles.${tileId}.y`),
+  isSelected: get(state, `${scenePath}.tiles.${tileId}.isSelected`),
+  objectIds: get(state, `${scenePath}.tiles.${tileId}.worldObjectIds`).slice(),
+  tileSize: get(state, `${scenePath}.viewport.tileSize`),
+  mode: get(state, `${scenePath}.currentMode`),
+  selectedEntityName: state.editor.objectPicker.selectedEntityName,
   neighbourEntities: []
 }))(SceneTile)
 

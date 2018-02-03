@@ -7,7 +7,7 @@ import uiElements from "../json/ui-elements.json"
 import entities from "../json/entities.json"
 // import { initialState } from "./createController"
 import { cerebralStateKey } from "./constants"
-import { initialState } from "./createStore"
+import { defaultState } from "./createStore"
 
 let store
 const localState = window.localStorage.getItem(cerebralStateKey)
@@ -20,17 +20,19 @@ if (module.hot) {
 
 function renderRoot() {
   const Main = require("./components/Main").default
-  const createStore = require("./createStore").default
+  const { createStore, extendStore } = require("./createStore")
   const isInitializing = !store
-  const state = isInitializing
-    ? JSON.parse(localState) || initialState
-    : toJS(store.store)
-
-  store = createStore(state)
 
   if (isInitializing) {
+    const initialState = isInitializing
+      ? JSON.parse(localState) || defaultState
+      : toJS(store.store)
+
+    store = createStore(initialState)
     // controller.getSignal("uiElementsLoaded")({ uiElements })
     // controller.getSignal("entitiesLoaded")({ entities })
+  } else {
+    extendStore(store)
   }
 
   ReactDOM.render(

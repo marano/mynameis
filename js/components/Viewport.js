@@ -15,16 +15,16 @@ function viewportClassName(tileSize) {
 }
 
 export default inject(
-  ({ store, actions: { viewportResized } }, { scenePath }) => ({
-    tileIds: get(store, `${scenePath}.viewport.visibleTileIds`).slice(),
-    tileSize: get(store, `${scenePath}.viewport.tileSize`),
-    viewportSizeX: get(store, `${scenePath}.viewport.size.x`),
-    viewportSizeY: get(store, `${scenePath}.viewport.size.y`),
-    viewportPositionX: get(store, `${scenePath}.viewport.position.x`),
-    viewportPositionY: get(store, `${scenePath}.viewport.position.y`),
-    worldSizeX: get(store, `${scenePath}.size.x`),
-    worldSizeY: get(store, `${scenePath}.size.y`),
-    currentMode: get(store, `${scenePath}.currentMode`),
+  ({ state, actions: { viewportResized } }, { scenePath }) => ({
+    tileIds: get(state, `${scenePath}.viewport.visibleTileIds`).slice(),
+    tileSize: get(state, `${scenePath}.viewport.tileSize`),
+    viewportSizeX: get(state, `${scenePath}.viewport.size.x`),
+    viewportSizeY: get(state, `${scenePath}.viewport.size.y`),
+    viewportPositionX: get(state, `${scenePath}.viewport.position.x`),
+    viewportPositionY: get(state, `${scenePath}.viewport.position.y`),
+    worldSizeX: get(state, `${scenePath}.size.x`),
+    worldSizeY: get(state, `${scenePath}.size.y`),
+    currentMode: get(state, `${scenePath}.currentMode`),
     viewportResized
   })
 )(
