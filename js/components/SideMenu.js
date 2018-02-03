@@ -1,7 +1,7 @@
 import ScenesMenu from "./ScenesMenu"
 import SceneSizeEditor from "./SceneSizeEditor"
 import ObjectPicker from "./ObjectPicker"
-// import SelectedWorldObjectMenu from "./SelectedWorldObjectMenu"
+import SelectedWorldObjectMenu from "./SelectedWorldObjectMenu"
 // import SelectedTileInspector from "./SelectedTileInspector"
 
 export default function SideMenu({ scenePath }) {
@@ -17,7 +17,7 @@ export default function SideMenu({ scenePath }) {
         <ObjectPicker />
       </div>
       <div style={itemStyle()}>
-        {/* <SelectedWorldObjectMenu scenePath={scenePath} /> */}
+        <SelectedWorldObjectMenu scenePath={scenePath} />
       </div>
       <div style={itemStyle()}>{/* <SelectedTileInspector /> */}</div>
     </div>
