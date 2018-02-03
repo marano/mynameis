@@ -10,11 +10,12 @@ const DevTools =
     ? require("mobx-react-devtools").default
     : () => null
 
-export default inject(({ state }) => ({
-  currentScenePath: state.viewport.currentScenePath
+export default inject(({ state: { viewport } }) => ({
+  viewport,
+  currentScenePath: viewport.currentScenePath
 }))(Main)
 
-function Main({ currentScenePath }) {
+function Main({ viewport, currentScenePath }) {
   return (
     <div style={containerStyle()}>
       <DevTools />
@@ -23,7 +24,7 @@ function Main({ currentScenePath }) {
         <TopMenu scenePath={currentScenePath} />
       </div>
       <div style={viewportStyle()}>
-        {currentScenePath && <Viewport scenePath={currentScenePath} />}
+        {currentScenePath && <Viewport viewport={viewport} />}
       </div>
       <div style={sideMenuStyle()}>
         {/* <SideMenu scenePath={currentScenePath} /> */}

@@ -1,124 +1,26 @@
 import { get } from "lodash"
-import { range } from "ramda"
-import { cross } from "d3-array"
 
-import { idOfTileAt } from "../tile-utils"
-
-export default function createViewportActions(state) {
+export default function createViewportActions(state, { computeViewportSize }) {
   return {
-    viewportResized,
-    viewportMoved,
-    cameraModeChanged,
-    modeChanged
-  }
-
-  function viewportResized(scenePath, viewportWidth, viewportHeight) {
-    const { viewport } = state
-    viewport.containerDimension.width = viewportWidth
-    viewport.containerDimension.height = viewportHeight
-    const scene = get(state, scenePath)
-    adjustViewportSize(viewport, scene)
-    computeVisibleTileIds(scene)
-  }
-
-  function viewportMoved(scenePath, deltaX, deltaY) {
-    const scene = get(state, scenePath)
-    moveViewport(scene, deltaX, deltaY)
-    computeVisibleTileIds(scene)
-  }
-
-  function cameraModeChanged(scenePath, cameraLockMode) {
-    const scene = get(state, scenePath)
-    scene.viewport.cameraLockMode = cameraLockMode
-    adjustViewportSize(state.viewport, scene)
-    adjustViewportPositionForCameraMode(scene)
-    computeVisibleTileIds(scene)
-  }
-
-  function modeChanged(scenePath, mode) {
-    switch (mode) {
-      case "game":
-        // makeSceneTemplateFromScene,
-        //   createScene,
-        //   fillSceneFromTemplate,
-        //   updateSortedTileIds,
-        //   set(state`${props`scenePath`}.currentMode`, "game"),
-        //   set(state`viewport.currentScenePath`, props`scenePath`),
-        //   set(state`${props`scenePath`}.viewport.cameraLockMode`, "locked"),
-        //   adjustViewportSize,
-        //   adjustViewportPositionForCameraMode,
-        //   computeVisibleTileIds()
-
-        break
-      case "editor":
-        // set(
-        //   state`viewport.currentScenePath`,
-        //   state`${props`scenePath`}.sourceScenePath`
-        // ),
-        // when(props`scenePath`, state`game.selectedWorldObjectPath`, startsWith),
-        // {
-        //   true: set(state`game.selectedWorldObjectPath`, null),
-        //   false: []
-        // },
-        // wait(0),
-        // unset(state`${props`scenePath`}`)
-
-        break
-    }
-  }
-}
-
-function adjustViewportSize(viewport, scene) {
-  const tileSize = scene.viewport.tileSize
-
-  const maxFitSize = {
-    x: Math.floor(viewport.containerDimension.width / tileSize),
-    y: Math.floor(viewport.containerDimension.height / tileSize)
-  }
-
-  const viewportSizeByAxis = {
-    free: function(axis) {
-      return maxFitSize[axis]
+    viewportResized(scenePath, viewportWidth, viewportHeight) {
+      const { viewport } = state
+      viewport.containerDimension.width = viewportWidth
+      viewport.containerDimension.height = viewportHeight
     },
-    locked: function(axis) {
-      return Math.min(maxFitSize[axis], scene.size[axis])
+    viewportMoved(scenePath, deltaX, deltaY) {
+      const scene = get(state, scenePath)
+      moveViewport(scene, deltaX, deltaY)
+    },
+    cameraModeChanged(scenePath, cameraLockMode) {
+      const scene = get(state, scenePath)
+      scene.viewport.cameraLockMode = cameraLockMode
+      const viewportSize = computeViewportSize(state.viewport)
+      adjustViewportPositionForCameraMode(scene, viewportSize)
     }
-  }[scene.viewport.cameraLockMode]
-
-  const viewportSize = {
-    x: viewportSizeByAxis("x"),
-    y: viewportSizeByAxis("y")
   }
-
-  scene.viewport.size.x = viewportSize.x
-  scene.viewport.size.y = viewportSize.y
 }
 
-function computeVisibleTileIds(scene) {
-  const animationOffset = scene.currentMode === "game" ? 2 : 0
-  const minX = Math.max(0, scene.viewport.position.x - animationOffset)
-  const minY = Math.max(0, scene.viewport.position.y - animationOffset)
-
-  const maxX = Math.min(
-    scene.viewport.position.x + scene.viewport.size.x + animationOffset,
-    scene.size.x
-  )
-  const maxY = Math.min(
-    scene.viewport.position.y + scene.viewport.size.y + animationOffset,
-    scene.size.y
-  )
-
-  var xRange = range(minX, maxX)
-  var yRange = range(minY, maxY)
-
-  const visibleTileIds = cross(xRange, yRange, (x, y) =>
-    idOfTileAt(scene.sortedTileIds, scene.size.y, x, y)
-  )
-
-  scene.viewport.visibleTileIds = visibleTileIds
-}
-
-function adjustViewportPositionForCameraMode(scene) {
+function adjustViewportPositionForCameraMode(scene, viewportSize) {
   const newAxisPosition = {
     free: function(axis) {
       return scene.viewport.position[axis]
@@ -128,10 +30,10 @@ function adjustViewportPositionForCameraMode(scene) {
         return 0
       }
       if (
-        scene.viewport.position[axis] + scene.viewport.size[axis] >
+        scene.viewport.position[axis] + viewportSize[axis] >
         scene.size[axis]
       ) {
-        return scene.size[axis] - scene.viewport.size[axis]
+        return scene.size[axis] - viewportSize[axis]
       }
       return scene.viewport.position[axis]
     }

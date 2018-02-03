@@ -1,7 +1,9 @@
-import { observable, action } from "mobx"
-import createViewportActions from "./actions/createViewportActions"
+import { observable, action, createTransformer } from "mobx"
 import { flow, mapValues, merge } from "lodash/fp"
 import { assign } from "lodash"
+
+import createViewportActions from "./actions/createViewportActions"
+import createViewportComputations from "./computations/createViewportComputations"
 
 export const defaultState = {
   idCounters: {},
@@ -31,14 +33,26 @@ export const defaultState = {
 
 export function createStore(initialState) {
   const state = observable(initialState)
-  const actions = createActions(state)
-  return { state, actions }
+  const computations = createComputations(state)
+  const actions = createActions(state, computations)
+  return { state, computations, actions }
 }
 
 export function extendStore(store) {
-  assign(store.actions, createActions(store.state))
+  assign(store.computations, createComputations(store.state))
+  assign(store.actions, createActions(store.state, store.computations))
 }
 
-function createActions(state) {
-  return flow(merge(createViewportActions(state)), mapValues(action))({})
+function createComputations(state) {
+  return flow(
+    merge(createViewportComputations(state)),
+    mapValues(createTransformer)
+  )({})
+}
+
+function createActions(state, computations) {
+  return flow(
+    merge(createViewportActions(state, computations)),
+    mapValues(action)
+  )({})
 }

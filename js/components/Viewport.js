@@ -15,16 +15,23 @@ function viewportClassName(tileSize) {
 }
 
 export default inject(
-  ({ state, actions: { viewportResized } }, { scenePath }) => ({
-    tileIds: get(state, `${scenePath}.viewport.visibleTileIds`).slice(),
-    tileSize: get(state, `${scenePath}.viewport.tileSize`),
-    viewportSizeX: get(state, `${scenePath}.viewport.size.x`),
-    viewportSizeY: get(state, `${scenePath}.viewport.size.y`),
-    viewportPositionX: get(state, `${scenePath}.viewport.position.x`),
-    viewportPositionY: get(state, `${scenePath}.viewport.position.y`),
-    worldSizeX: get(state, `${scenePath}.size.x`),
-    worldSizeY: get(state, `${scenePath}.size.y`),
-    currentMode: get(state, `${scenePath}.currentMode`),
+  (
+    {
+      state,
+      computations: { computeViewportSize, computeVisibleTileIds },
+      actions: { viewportResized }
+    },
+    { viewport, viewport: { currentScenePath } }
+  ) => ({
+    scenePath: viewport.currentScenePath,
+    tileSize: get(state, `${currentScenePath}.viewport.tileSize`),
+    viewportPositionX: get(state, `${currentScenePath}.viewport.position.x`),
+    viewportPositionY: get(state, `${currentScenePath}.viewport.position.y`),
+    worldSizeX: get(state, `${currentScenePath}.size.x`),
+    worldSizeY: get(state, `${currentScenePath}.size.y`),
+    currentMode: get(state, `${currentScenePath}.currentMode`),
+    viewportSize: computeViewportSize(viewport),
+    tileIds: computeVisibleTileIds(viewport),
     viewportResized
   })
 )(
@@ -93,8 +100,8 @@ export default inject(
     windowStyle() {
       return {
         overflow: "hidden",
-        width: this.props.viewportSizeX * this.props.tileSize,
-        height: this.props.viewportSizeY * this.props.tileSize,
+        width: this.props.viewportSize.x * this.props.tileSize,
+        height: this.props.viewportSize.y * this.props.tileSize,
         border: "2px solid white"
       }
     }
