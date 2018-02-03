@@ -44,10 +44,10 @@ export function extendStore(store) {
 }
 
 function createComputations(state) {
-  return flow(
-    merge(createViewportComputations(state)),
-    mapValues(createTransformer)
-  )({})
+  const computations = {}
+  assign(computations, createViewportComputations(state, computations))
+  assign(computations, mapValues(createTransformer, computations))
+  return computations
 }
 
 function createActions(state, computations) {
