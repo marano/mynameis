@@ -1,4 +1,4 @@
-import { observable, action, createTransformer, comparer, spy } from "mobx"
+import { observable, action, createTransformer, comparer } from "mobx"
 import { flow, map, reduce, mapValues, merge } from "lodash/fp"
 import { assign } from "lodash"
 
