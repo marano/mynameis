@@ -1,16 +1,13 @@
 import ReactDOM from "react-dom"
-// import { Container } from "@cerebral/react"
 import { Provider } from "mobx-react"
-import { toJS } from "mobx"
 
-import uiElements from "../json/ui-elements.json"
-import entities from "../json/entities.json"
-// import { initialState } from "./createController"
 import { cerebralStateKey } from "./constants"
 import { defaultState } from "./createStore"
 
+import uiElements from "../json/ui-elements.json"
+import entities from "../json/entities.json"
+
 let store
-const localState = window.localStorage.getItem(cerebralStateKey)
 
 renderRoot()
 
@@ -24,14 +21,11 @@ function renderRoot() {
   const isInitializing = !store
 
   if (isInitializing) {
-    const initialState = isInitializing
-      ? JSON.parse(localState) || defaultState
-      : toJS(store.store)
-
+    const localState = window.localStorage.getItem(cerebralStateKey)
+    const initialState = JSON.parse(localState) || defaultState
     store = createStore(initialState)
     store.actions.uiElementsLoaded(uiElements.definitions)
     store.actions.entitiesLoaded(entities.definitions)
-    console.log(toJS(store.state))
   } else {
     extendStore(store)
   }
