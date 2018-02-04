@@ -29,8 +29,9 @@ function renderRoot() {
       : toJS(store.store)
 
     store = createStore(initialState)
-    // controller.getSignal("uiElementsLoaded")({ uiElements })
-    // controller.getSignal("entitiesLoaded")({ entities })
+    store.actions.uiElementsLoaded(uiElements.definitions)
+    store.actions.entitiesLoaded(entities.definitions)
+    console.log(toJS(store.state))
   } else {
     extendStore(store)
   }

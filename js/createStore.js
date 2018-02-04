@@ -2,6 +2,7 @@ import { observable, action, createTransformer, comparer } from "mobx"
 import { flow, map, reduce, mapValues, merge } from "lodash/fp"
 import { assign } from "lodash"
 
+import createDefinitionActions from "./actions/createDefinitionActions"
 import createIdCounterActions from "./actions/createIdCounterActions"
 import createSceneActions from "./actions/createSceneActions"
 import createViewportActions from "./actions/createViewportActions"
@@ -68,6 +69,7 @@ function createActions(state, computations) {
     reduce(merge, {}),
     mapValues(action)
   )([
+    createDefinitionActions,
     createIdCounterActions,
     createSceneActions,
     createViewportActions,
