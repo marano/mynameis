@@ -6,7 +6,7 @@ import Button from "./Button"
 import hasKeyedChildren from "has-keyed-children"
 
 export default inject(({ state: { editor: { scenePaths } }, actions }) => ({
-  scenePaths,
+  scenePaths: scenePaths.slice(),
   actions
 }))(ScenesMenu)
 

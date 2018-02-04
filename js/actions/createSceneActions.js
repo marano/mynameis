@@ -1,5 +1,5 @@
 import { observable } from "mobx"
-import { get, each, curry, random } from "lodash"
+import { get, each, curry, random, startsWith } from "lodash"
 import { compose, range } from "ramda"
 import { cross } from "d3-array"
 import { keyBy, map, mapValues } from "lodash/fp"
@@ -14,6 +14,19 @@ export default function createSceneActions(state, computations, actions) {
     },
     sceneChanged(scenePath) {
       state.viewport.currentScenePath = scenePath
+    },
+    sceneClosed(scenePath) {
+      if (state.viewport.currentScenePath === scenePath) {
+        state.viewport.currentScenePath = null
+      }
+      const scenePaths = state.editor.scenePaths
+      const index = scenePaths.indexOf(scenePath)
+      scenePaths.splice(index, 1)
+      if (startsWith(scenePath, state.editor.selectedTilePath)) {
+        state.ditor.selectedScenePath = null
+      }
+      const sceneId = get(state, scenePath).id
+      delete state.scenes[sceneId]
     },
     sceneSizeChanged(scenePath, axis, delta, mode) {
       const scene = get(state, scenePath)

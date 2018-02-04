@@ -6,10 +6,10 @@ import Button from "./Button"
 
 export default inject(({ state, actions }, { scenePath, currentScenePath }) => {
   const scene = get(state, scenePath)
-  const currentScene = get(state, currentScenePath)
   return {
     sceneName: scene.name,
-    currentSceneSourceScenePath: currentScene.sourceScenePath,
+    currentSceneSourceScenePath:
+      currentScenePath && get(state, currentScenePath).sourceScenePath,
     actions
   }
 })(ScenesMenuItem)
