@@ -60,7 +60,6 @@ export function createScene({ state }) {
     name: `Scene ${id}`,
     currentMode: "editor",
     tiles: {},
-    sortedTileIds: [],
     worldObjects: {},
     size: {
       x: 0,
@@ -69,11 +68,6 @@ export function createScene({ state }) {
     viewport: {
       tileSize: 40,
       cameraLockMode: "locked",
-      visibleTileIds: [],
-      size: {
-        x: 0,
-        y: 0
-      },
       position: {
         x: 0,
         y: 0

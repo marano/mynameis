@@ -7,9 +7,10 @@ export default function createViewportActions(state, { computeViewportSize }) {
       viewport.containerDimension.width = viewportWidth
       viewport.containerDimension.height = viewportHeight
     },
-    viewportMoved(scenePath, deltaX, deltaY) {
-      const scene = get(state, scenePath)
-      moveViewport(scene, deltaX, deltaY)
+    viewportMoved(viewport, deltaX, deltaY) {
+      const viewportSize = computeViewportSize(viewport)
+      const scene = get(state, viewport.currentScenePath)
+      moveViewport(viewport, viewportSize, scene, deltaX, deltaY)
     },
     cameraModeChanged(scenePath, cameraLockMode) {
       const scene = get(state, scenePath)
@@ -43,7 +44,7 @@ function adjustViewportPositionForCameraMode(scene, viewportSize) {
   scene.viewport.position.y = newAxisPosition("y")
 }
 
-function moveViewport(scene, deltaX, deltaY) {
+function moveViewport(viewport, viewportSize, scene, deltaX, deltaY) {
   const delta = {
     x: deltaX,
     y: deltaY
@@ -62,7 +63,7 @@ function moveViewport(scene, deltaX, deltaY) {
       }
       if (
         axisDelta > 0 &&
-        nextPosition + scene.viewport.size[axis] > scene.size[axis]
+        nextPosition + viewportSize[axis] > scene.size[axis]
       ) {
         return axisCurrentPosition
       }

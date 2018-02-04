@@ -1,5 +1,3 @@
-// import { connect } from "@cerebral/react"
-// import { props, state, signal } from "cerebral/tags"
 import { inject } from "mobx-react"
 import get from "lodash/get"
 import { linkEvent } from "inferno"
@@ -12,33 +10,31 @@ import {
 
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
-// import { computeNeighbourEntities } from "../computes"
 
-// export default connect(
-//  {
-//    worldTile: state`${props`scenePath`}.tiles.${props`tileId`}`,
-//    tileSize: state`${props`scenePath`}.viewport.tileSize`,
-//    selectedEntityName: state`editor.objectPicker.selectedEntityName`,
-//    mode: state`${props`scenePath`}.currentMode`,
-//    sceneTileSelected: signal`sceneTileSelected`,
-//    worldObjectAdded: signal`worldObjectAdded`,
-//    neighbourEntities: computeNeighbourEntities
-//  },
-//  SceneTile
-// )
-
-export default inject(({ state }, { scenePath, tileId }) => ({
-  tileX: get(state, `${scenePath}.tiles.${tileId}.x`),
-  tileY: get(state, `${scenePath}.tiles.${tileId}.y`),
-  isSelected: get(state, `${scenePath}.tiles.${tileId}.isSelected`),
-  objectIds: get(state, `${scenePath}.tiles.${tileId}.worldObjectIds`).slice(),
-  tileSize: get(state, `${scenePath}.viewport.tileSize`),
-  mode: get(state, `${scenePath}.currentMode`),
-  selectedEntityName: state.editor.objectPicker.selectedEntityName,
-  neighbourEntities: []
-}))(SceneTile)
+export default inject(({ state }, { scenePath, tileId }) => {
+  const scene = get(state, scenePath)
+  const tile = scene.tiles[tileId]
+  if (!tile) {
+    return {}
+  }
+  return {
+    tileX: tile.x,
+    tileY: tile.y,
+    isSelected: tile.isSelected,
+    objectIds: tile.worldObjectIds.slice(),
+    tileSize: scene.viewport.tileSize,
+    mode: scene.currentMode,
+    selectedEntityName: state.editor.objectPicker.selectedEntityName,
+    neighbourEntities: [],
+    sceneTileSelected: () => {},
+    worldObjectAdded: () => {}
+  }
+})(SceneTile)
 
 function SceneTile(props) {
+  if (props.tileX === undefined) {
+    return null
+  }
   return (
     <div
       style={style(props)}

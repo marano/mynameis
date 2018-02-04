@@ -1,8 +1,8 @@
 import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 
-export default inject(() => ({
-  sceneSizeChanged: () => {}
+export default inject(({ actions }) => ({
+  actions
 }))(ChangeSceneSizeButton)
 
 function ChangeSceneSizeButton(props) {
@@ -13,8 +13,14 @@ function ChangeSceneSizeButton(props) {
   )
 }
 
-function onClick({ scenePath, axis, delta, mode, sceneSizeChanged }) {
-  sceneSizeChanged({ scenePath, axis, delta, mode })
+function onClick({
+  scenePath,
+  axis,
+  delta,
+  mode,
+  actions: { sceneSizeChanged }
+}) {
+  sceneSizeChanged(scenePath, axis, delta, mode)
 }
 
 function style() {

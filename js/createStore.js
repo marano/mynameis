@@ -1,8 +1,12 @@
-import { observable, action, createTransformer, comparer } from "mobx"
-import { flow, mapValues, merge } from "lodash/fp"
+import { observable, action, createTransformer, comparer, spy } from "mobx"
+import { flow, map, reduce, mapValues, merge } from "lodash/fp"
 import { assign } from "lodash"
 
+import createIdCounterActions from "./actions/createIdCounterActions"
+import createSceneActions from "./actions/createSceneActions"
 import createViewportActions from "./actions/createViewportActions"
+
+import createSceneComputations from "./computations/createSceneComputations"
 import createViewportComputations from "./computations/createViewportComputations"
 
 export const defaultState = {
@@ -45,19 +49,34 @@ export function extendStore(store) {
 
 function createComputations(state) {
   const computations = {}
-  const transformers = flow(
+  const createdComputations = flow(
+    map(computationCreator => computationCreator(state, computations)),
+    reduce(
+      (allComputations, someComputations) =>
+        merge(allComputations, someComputations),
+      {}
+    ),
     mapValues(createTransformer),
     mapValues(withStructuralComparer)
-  )(createViewportComputations(state, computations))
-  assign(computations, transformers)
+  )([createSceneComputations, createViewportComputations])
+  assign(computations, createdComputations)
   return computations
 }
 
 function createActions(state, computations) {
-  return flow(
-    merge(createViewportActions(state, computations)),
+  const actions = {}
+  const actionCreators = [
+    createIdCounterActions,
+    createSceneActions,
+    createViewportActions
+  ]
+  const createdActions = flow(
+    map(actionCreator => actionCreator(state, computations, actions)),
+    reduce((allActions, someActions) => merge(allActions, someActions), {}),
     mapValues(action)
-  )({})
+  )(actionCreators)
+  assign(actions, createdActions)
+  return actions
 }
 
 function withStructuralComparer(originalFunction) {

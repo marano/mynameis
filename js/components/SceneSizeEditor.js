@@ -3,11 +3,15 @@ import { get } from "lodash"
 
 import ChangeSceneSizeButton from "./ChangeSceneSizeButton"
 
-export default inject(({ state }, { scenePath }) => ({
-  sceneSize: get(state, scenePath).size
-}))(SceneSizeEditor)
+export default inject(({ state }, { scenePath }) => {
+  const scene = get(state, scenePath)
+  return {
+    sceneSizeX: scene.size.x,
+    sceneSizeY: scene.size.y
+  }
+})(SceneSizeEditor)
 
-function SceneSizeEditor({ scenePath, sceneSize }) {
+function SceneSizeEditor({ scenePath, sceneSizeX, sceneSizeY }) {
   return (
     <scene-size-editor style={style()}>
       <div style={buttonWrapperStyle(1, 4)}>
@@ -76,7 +80,7 @@ function SceneSizeEditor({ scenePath, sceneSize }) {
       </div>
       <div style={buttonWrapperStyle(4, "3/6")}>
         <span style={{ fontSize: "12px", fontFamily: "monospace" }}>
-          {sceneSize.x}x{sceneSize.y}
+          {sceneSizeX}x{sceneSizeY}
         </span>
       </div>
     </scene-size-editor>

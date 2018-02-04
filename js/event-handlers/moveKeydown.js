@@ -24,8 +24,7 @@ export default function createMoveKeydownHandler(store, actions) {
   }
 
   function moveViewport() {
-    const scenePath = store.viewport.currentScenePath
-    if (!scenePath) {
+    if (!store.viewport.currentScenePath) {
       return
     }
     const deltas = reduce(
@@ -38,6 +37,6 @@ export default function createMoveKeydownHandler(store, actions) {
       pressedKeys
     )
 
-    actions.viewportMoved(scenePath, deltas.deltaX, deltas.deltaY)
+    actions.viewportMoved(store.viewport, deltas.deltaX, deltas.deltaY)
   }
 }

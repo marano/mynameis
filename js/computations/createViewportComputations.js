@@ -1,6 +1,6 @@
 import { range } from "ramda"
 import { cross } from "d3-array"
-import { get } from "lodash"
+import { get, curry } from "lodash"
 
 import { idOfTileAt } from "../tile-utils"
 
@@ -52,8 +52,12 @@ export default function createViewportComputations(state, computations) {
       var xRange = range(minX, maxX)
       var yRange = range(minY, maxY)
 
-      return cross(xRange, yRange, (x, y) =>
-        idOfTileAt(scene.sortedTileIds, scene.size.y, x, y)
+      const sortedTileIds = computations.computeSortedTileIds(scene)
+
+      return cross(
+        xRange,
+        yRange,
+        curry(idOfTileAt)(sortedTileIds, scene.size.y)
       )
     }
   }
