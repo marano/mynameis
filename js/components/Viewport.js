@@ -19,21 +19,24 @@ export default inject(
     {
       state,
       computations: { computeViewportSize, computeVisibleTileIds },
-      actions: { viewportResized }
+      actions
     },
     { viewport, viewport: { currentScenePath } }
-  ) => ({
-    scenePath: viewport.currentScenePath,
-    tileSize: get(state, `${currentScenePath}.viewport.tileSize`),
-    viewportPositionX: get(state, `${currentScenePath}.viewport.position.x`),
-    viewportPositionY: get(state, `${currentScenePath}.viewport.position.y`),
-    worldSizeX: get(state, `${currentScenePath}.size.x`),
-    worldSizeY: get(state, `${currentScenePath}.size.y`),
-    currentMode: get(state, `${currentScenePath}.currentMode`),
-    viewportSize: computeViewportSize(viewport),
-    tileIds: computeVisibleTileIds(viewport),
-    viewportResized
-  })
+  ) => {
+    const scene = get(state, currentScenePath)
+    return {
+      scenePath: viewport.currentScenePath,
+      tileSize: scene.viewport.tileSize,
+      viewportPositionX: scene.viewport.position.x,
+      viewportPositionY: scene.viewport.position.y,
+      worldSizeX: scene.size.x,
+      worldSizeY: scene.size.y,
+      currentMode: scene.currentMode,
+      viewportSize: computeViewportSize(viewport),
+      tileIds: computeVisibleTileIds(viewport),
+      actions
+    }
+  }
 )(
   class Viewport extends Component {
     constructor(props) {
@@ -57,7 +60,11 @@ export default inject(
       const { scenePath } = this.props
       const viewportWidth = this.viewportRef.offsetWidth
       const viewportHeight = this.viewportRef.offsetHeight
-      this.props.viewportResized(scenePath, viewportWidth, viewportHeight)
+      this.props.actions.viewportResized(
+        scenePath,
+        viewportWidth,
+        viewportHeight
+      )
     }
 
     render() {

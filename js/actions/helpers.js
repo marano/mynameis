@@ -24,3 +24,26 @@ export function createWorldObject(entity, tile, scene, state, actions) {
   scene.worldObjects[id] = observable(worldObject)
   tile.worldObjectIds.push(id)
 }
+
+export function adjustViewportPositionForCameraMode(scene, viewportSize) {
+  const newAxisPosition = {
+    free: function(axis) {
+      return scene.viewport.position[axis]
+    },
+    locked: function(axis) {
+      if (scene.viewport.position[axis] < 0) {
+        return 0
+      }
+      if (
+        scene.viewport.position[axis] + viewportSize[axis] >
+        scene.size[axis]
+      ) {
+        return scene.size[axis] - viewportSize[axis]
+      }
+      return scene.viewport.position[axis]
+    }
+  }[scene.viewport.cameraLockMode]
+
+  scene.viewport.position.x = newAxisPosition("x")
+  scene.viewport.position.y = newAxisPosition("y")
+}

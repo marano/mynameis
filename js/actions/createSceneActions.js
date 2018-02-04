@@ -1,9 +1,13 @@
-import { observable } from "mobx"
-import { get, each, curry, startsWith } from "lodash"
+import { observable, toJS } from "mobx"
+import { get, each, curry, startsWith, assign } from "lodash"
+import { set, omit, prop, flow } from "lodash/fp"
 import { range } from "ramda"
 import { cross } from "d3-array"
 
-import { createWorldObject } from "./helpers"
+import {
+  createWorldObject,
+  adjustViewportPositionForCameraMode
+} from "./helpers"
 
 export default function createSceneActions(state, computations, actions) {
   return {
@@ -33,34 +37,30 @@ export default function createSceneActions(state, computations, actions) {
       const scene = get(state, scenePath)
       changeSceneSize(scene, axis, delta, mode)
     },
-    modeChanged(scenePath, mode) {
+    modeChanged(mode, scenePath) {
       switch (mode) {
         case "game":
-          // makeSceneTemplateFromScene,
-          //   createScene,
-          //   fillSceneFromTemplate,
-          //   updateSortedTileIds,
-          //   set(state`${props`scenePath`}.currentMode`, "game"),
-          //   set(state`viewport.currentScenePath`, props`scenePath`),
-          //   set(state`${props`scenePath`}.viewport.cameraLockMode`, "locked"),
-          //   adjustViewportSize,
-          //   adjustViewportPositionForCameraMode,
-          //   computeVisibleTileIds()
-
+          const sceneTemplate = flow(
+            prop(scenePath),
+            toJS,
+            omit(["id", "sortedTileIds"]),
+            set("sourceScenePath", scenePath),
+            set("currentMode", "game"),
+            set("viewport.cameraLockMode", "locked")
+          )(state)
+          const newScene = createScene()
+          assign(newScene, sceneTemplate)
+          state.viewport.currentScenePath = `scenes.${newScene.id}`
+          const viewportSize = computations.computeViewportSize(state.viewport)
+          adjustViewportPositionForCameraMode(newScene, viewportSize)
           break
         case "editor":
-          // set(
-          //   state`viewport.currentScenePath`,
-          //   state`${props`scenePath`}.sourceScenePath`
-          // ),
-          // when(props`scenePath`, state`game.selectedWorldObjectPath`, startsWith),
-          // {
-          //   true: set(state`game.selectedWorldObjectPath`, null),
-          //   false: []
-          // },
-          // wait(0),
-          // unset(state`${props`scenePath`}`)
-
+          const scene = get(state, scenePath)
+          state.viewport.currentScenePath = scene.sourceScenePath
+          if (startsWith(state.game.selectedWorldObjectPath, scenePath)) {
+            state.game.selectedWorldObjectPath = null
+          }
+          delete state.scenes[scene.id]
           break
       }
     }
