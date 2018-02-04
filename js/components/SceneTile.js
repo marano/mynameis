@@ -1,4 +1,3 @@
-import { toJS } from "mobx"
 import { inject } from "mobx-react"
 import get from "lodash/get"
 import { linkEvent } from "inferno"
@@ -111,15 +110,11 @@ function interactWithSceneTile({
   scenePath,
   mode,
   selectedEntityName,
-  actions: { sceneTileSelected, worldObjectAdded }
+  actions: { sceneTileSelected, worldObjectAddedFromPicker }
 }) {
   if (mode === "editor") {
     if (selectedEntityName) {
-      worldObjectAdded({
-        scenePath,
-        tileId,
-        entityName: selectedEntityName
-      })
+      worldObjectAddedFromPicker(scenePath, tileId)
     } else {
       sceneTileSelected(tileId, scenePath)
     }

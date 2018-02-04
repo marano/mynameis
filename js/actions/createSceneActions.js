@@ -1,8 +1,9 @@
 import { observable } from "mobx"
-import { get, each, curry, random, startsWith } from "lodash"
-import { compose, range } from "ramda"
+import { get, each, curry, startsWith } from "lodash"
+import { range } from "ramda"
 import { cross } from "d3-array"
-import { keyBy, map, mapValues } from "lodash/fp"
+
+import { createWorldObject } from "./helpers"
 
 export default function createSceneActions(state, computations, actions) {
   return {
@@ -142,31 +143,9 @@ export default function createSceneActions(state, computations, actions) {
     const selectedEntityName = state.editor.objectPicker.selectedEntityName
     if (selectedEntityName) {
       const selectedEntity = state.definitions.entities[selectedEntityName]
-      createWorldObject(selectedEntity, tile, scene, state)
+      createWorldObject(selectedEntity, tile, scene, state, actions)
     }
 
     return tile
-  }
-
-  function createWorldObject(entity, tile, scene, state) {
-    const id = actions.generateId("worldObject", state)
-
-    const uiElementSpriteConfig = compose(
-      mapValues(({ sprites }) => ({
-        rand: random(0, 1, true)
-      })),
-      keyBy("name"),
-      map(uiElement => state.definitions.uiElements[uiElement])
-    )(entity.uiElements)
-
-    const worldObject = {
-      id,
-      entityName: entity.name,
-      isSelected: false,
-      uiElementSpriteConfig
-    }
-
-    scene.worldObjects[id] = observable(worldObject)
-    tile.worldObjectIds.push(id)
   }
 }

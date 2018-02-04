@@ -1,6 +1,8 @@
 import { get } from "lodash"
 
-export default function createEditorActions(state) {
+import { createWorldObject } from "./helpers"
+
+export default function createEditorActions(state, computations, actions) {
   return {
     objectPickerEntitySelected(entityName) {
       state.editor.objectPicker.selectedEntityName = entityName
@@ -14,6 +16,13 @@ export default function createEditorActions(state) {
       const nextSelectedTile = get(state, nextSelectedTilePath)
       nextSelectedTile.isSelected = true
       state.editor.selectedTilePath = nextSelectedTilePath
+    },
+    worldObjectAddedFromPicker(scenePath, tileId) {
+      const scene = get(state, scenePath)
+      const tile = scene.tiles[tileId]
+      const selectedEntityName = state.editor.objectPicker.selectedEntityName
+      const selectedEntity = state.definitions.entities[selectedEntityName]
+      createWorldObject(selectedEntity, tile, scene, state, actions)
     }
   }
 }
