@@ -51,8 +51,11 @@ export default function createSceneActions(state, computations, actions) {
           const newScene = createScene()
           assign(newScene, sceneTemplate)
           state.viewport.currentScenePath = `scenes.${newScene.id}`
-          const viewportSize = computations.computeViewportSize(state.viewport)
-          adjustViewportPositionForCameraMode(newScene, viewportSize)
+          adjustViewportPositionForCameraMode(
+            state.viewport,
+            state,
+            computations
+          )
           break
         case "editor":
           const scene = get(state, scenePath)

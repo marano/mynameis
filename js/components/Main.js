@@ -21,7 +21,7 @@ function Main({ viewport, currentScenePath }) {
       <DevTools />
       <GlobalListeners />
       <div style={topMenuStyle()}>
-        <TopMenu scenePath={currentScenePath} />
+        <TopMenu viewport={viewport} />
       </div>
       <div style={viewportStyle()}>
         {currentScenePath && <Viewport viewport={viewport} />}

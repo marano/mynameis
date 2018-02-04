@@ -4,10 +4,14 @@ import { get } from "lodash"
 
 import Button from "./Button"
 
-export default inject(({ state, actions }, { scenePath }) => ({
-  currentMode: get(state, `${scenePath}.currentMode`),
-  actions
-}))(GameModeSwitchButton)
+export default inject(({ state, actions }, { viewport }) => {
+  const scene = get(state, viewport.currentScenePath)
+  return {
+    scenePath: viewport.currentScenePath,
+    currentMode: scene && scene.currentMode,
+    actions
+  }
+})(GameModeSwitchButton)
 
 function GameModeSwitchButton(props) {
   const { mode, currentMode } = props

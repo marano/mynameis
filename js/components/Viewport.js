@@ -57,11 +57,10 @@ export default inject(
     }
 
     callViewportResized() {
-      const { scenePath } = this.props
       const viewportWidth = this.viewportRef.offsetWidth
       const viewportHeight = this.viewportRef.offsetHeight
       this.props.actions.viewportResized(
-        scenePath,
+        this.props.viewport,
         viewportWidth,
         viewportHeight
       )

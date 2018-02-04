@@ -2,23 +2,21 @@ import { get } from "lodash"
 
 import { adjustViewportPositionForCameraMode } from "./helpers"
 
-export default function createViewportActions(state, { computeViewportSize }) {
+export default function createViewportActions(state, computations) {
   return {
-    viewportResized(scenePath, viewportWidth, viewportHeight) {
-      const { viewport } = state
+    viewportResized(viewport, viewportWidth, viewportHeight) {
       viewport.containerDimension.width = viewportWidth
       viewport.containerDimension.height = viewportHeight
     },
     viewportMoved(viewport, deltaX, deltaY) {
-      const viewportSize = computeViewportSize(viewport)
+      const viewportSize = computations.computeViewportSize(viewport)
       const scene = get(state, viewport.currentScenePath)
       moveViewport(viewport, viewportSize, scene, deltaX, deltaY)
     },
-    cameraModeChanged(scenePath, cameraLockMode) {
-      const scene = get(state, scenePath)
+    cameraModeChanged(viewport, cameraLockMode) {
+      const scene = get(state, viewport.currentScenePath)
       scene.viewport.cameraLockMode = cameraLockMode
-      const viewportSize = computeViewportSize(state.viewport)
-      adjustViewportPositionForCameraMode(scene, viewportSize)
+      adjustViewportPositionForCameraMode(viewport, state, computations)
     }
   }
 }

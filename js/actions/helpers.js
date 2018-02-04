@@ -1,6 +1,6 @@
 import { observable } from "mobx"
 import { keyBy, map, mapValues } from "lodash/fp"
-import { random } from "lodash"
+import { get, random } from "lodash"
 import { compose } from "ramda"
 
 export function createWorldObject(entity, tile, scene, state, actions) {
@@ -25,7 +25,14 @@ export function createWorldObject(entity, tile, scene, state, actions) {
   tile.worldObjectIds.push(id)
 }
 
-export function adjustViewportPositionForCameraMode(scene, viewportSize) {
+export function adjustViewportPositionForCameraMode(
+  viewport,
+  state,
+  computations
+) {
+  const scene = get(state, viewport.currentScenePath)
+  const viewportSize = computations.computeViewportSize(viewport)
+
   const newAxisPosition = {
     free: function(axis) {
       return scene.viewport.position[axis]
