@@ -4,14 +4,13 @@ import { get } from "lodash"
 
 import Button from "./Button"
 
-export default inject(({ state }, { scenePath, currentScenePath }) => {
+export default inject(({ state, actions }, { scenePath, currentScenePath }) => {
   const scene = get(state, scenePath)
   const currentScene = get(state, currentScenePath)
   return {
     sceneName: scene.name,
     currentSceneSourceScenePath: currentScene.sourceScenePath,
-    sceneChanged: () => {},
-    sceneClosed: () => {}
+    actions
   }
 })(ScenesMenuItem)
 
@@ -37,10 +36,10 @@ function ScenesMenuItem(props) {
   )
 }
 
-function onChangeSceneButtonClick({ scenePath, sceneChanged }) {
-  sceneChanged({ scenePath })
+function onChangeSceneButtonClick({ scenePath, actions: { sceneChanged } }) {
+  sceneChanged(scenePath)
 }
 
-function onCloseSceneButtonClick({ scenePath, sceneClosed }) {
-  sceneClosed({ scenePath })
+function onCloseSceneButtonClick({ scenePath, actions: { sceneClosed } }) {
+  sceneClosed(scenePath)
 }

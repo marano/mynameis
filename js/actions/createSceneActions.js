@@ -6,6 +6,15 @@ import { keyBy, map, mapValues } from "lodash/fp"
 
 export default function createSceneActions(state, computations, actions) {
   return {
+    newSceneAdded() {
+      const scene = createScene()
+      const newScenePath = `scenes.${scene.id}`
+      state.editor.scenePaths.push(newScenePath)
+      state.viewport.currentScenePath = newScenePath
+    },
+    sceneChanged(scenePath) {
+      state.viewport.currentScenePath = scenePath
+    },
     sceneSizeChanged(scenePath, axis, delta, mode) {
       const scene = get(state, scenePath)
       changeSceneSize(scene, axis, delta, mode)
@@ -41,6 +50,31 @@ export default function createSceneActions(state, computations, actions) {
           break
       }
     }
+  }
+
+  function createScene() {
+    const id = actions.generateId("scene")
+    const scene = observable({
+      id,
+      name: `Scene ${id}`,
+      currentMode: "editor",
+      tiles: {},
+      worldObjects: {},
+      size: {
+        x: 0,
+        y: 0
+      },
+      viewport: {
+        tileSize: 40,
+        cameraLockMode: "locked",
+        position: {
+          x: 0,
+          y: 0
+        }
+      }
+    })
+    state.scenes[id] = scene
+    return scene
   }
 
   function changeSceneSize(scene, axis, delta, mode) {

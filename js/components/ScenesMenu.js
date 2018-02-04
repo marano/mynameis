@@ -5,22 +5,12 @@ import ScenesMenuItem from "./ScenesMenuItem"
 import Button from "./Button"
 import hasKeyedChildren from "has-keyed-children"
 
-// export default connect(
-//   {
-//     scenePaths: state`editor.scenePaths`,
-//     newSceneAdded: signal`newSceneAdded`,
-//     sceneChanged: signal`sceneChanged`
-//   },
-//   ScenesMenu
-// )
-
-export default inject(({ state: { editor: { scenePaths } } }) => ({
+export default inject(({ state: { editor: { scenePaths } }, actions }) => ({
   scenePaths,
-  newSceneAdded: () => {},
-  sceneChanged: () => {}
+  actions
 }))(ScenesMenu)
 
-function ScenesMenu({ scenePaths, scenePath, newSceneAdded, sceneChanged }) {
+function ScenesMenu({ scenePaths, scenePath, actions: { newSceneAdded } }) {
   return (
     <div>
       {scenePaths.map(eachScenePath => (
@@ -28,10 +18,6 @@ function ScenesMenu({ scenePaths, scenePath, newSceneAdded, sceneChanged }) {
           key={eachScenePath}
           scenePath={eachScenePath}
           currentScenePath={scenePath}
-          onClick={linkEvent(
-            { sceneChanged, scenePath: eachScenePath },
-            onSceneButtonClick
-          )}
           {...hasKeyedChildren}
         />
       ))}
@@ -40,10 +26,6 @@ function ScenesMenu({ scenePaths, scenePath, newSceneAdded, sceneChanged }) {
       </Button>
     </div>
   )
-}
-
-function onSceneButtonClick({ sceneChanged, scenePath }) {
-  sceneChanged({ scenePath })
 }
 
 function onNewSceneButtonClick(newSceneAdded) {
