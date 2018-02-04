@@ -5,6 +5,7 @@ import { assign } from "lodash"
 import createIdCounterActions from "./actions/createIdCounterActions"
 import createSceneActions from "./actions/createSceneActions"
 import createViewportActions from "./actions/createViewportActions"
+import createEditorActions from "./actions/createEditorActions"
 
 import createSceneComputations from "./computations/createSceneComputations"
 import createViewportComputations from "./computations/createViewportComputations"
@@ -61,16 +62,16 @@ function createComputations(state) {
 
 function createActions(state, computations) {
   const actions = {}
-  const actionCreators = [
-    createIdCounterActions,
-    createSceneActions,
-    createViewportActions
-  ]
   const createdActions = flow(
     map(actionCreator => actionCreator(state, computations, actions)),
     reduce(merge, {}),
     mapValues(action)
-  )(actionCreators)
+  )([
+    createIdCounterActions,
+    createSceneActions,
+    createViewportActions,
+    createEditorActions
+  ])
   assign(actions, createdActions)
   return actions
 }

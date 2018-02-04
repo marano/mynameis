@@ -10,9 +10,9 @@ const className = css`
   }
 `
 
-export default inject(({ state }) => ({
+export default inject(({ state, actions }) => ({
   selectedEntityName: state.editor.objectPicker.selectedEntityName,
-  objectPickerEntitySelected: () => {}
+  actions
 }))(ObjectPickerEntity)
 
 function ObjectPickerEntity(props) {
@@ -46,6 +46,6 @@ function style(isSelected) {
   return baseStyle
 }
 
-function onClick({ objectPickerEntitySelected, entityName }) {
-  objectPickerEntitySelected({ entityName })
+function onClick({ entityName, actions: { objectPickerEntitySelected } }) {
+  objectPickerEntitySelected(entityName)
 }
