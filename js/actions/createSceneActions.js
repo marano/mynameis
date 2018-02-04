@@ -133,7 +133,8 @@ export default function createSceneActions(state, computations, actions) {
       id,
       x,
       y,
-      worldObjectIds: []
+      worldObjectIds: [],
+      isSelected: false
     })
 
     scene.tiles[id] = tile

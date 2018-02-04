@@ -1,3 +1,4 @@
+import { toJS } from "mobx"
 import { inject } from "mobx-react"
 import get from "lodash/get"
 import { linkEvent } from "inferno"
@@ -11,12 +12,9 @@ import {
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
 
-export default inject(({ state }, { scenePath, tileId }) => {
+export default inject(({ state, actions }, { scenePath, tileId }) => {
   const scene = get(state, scenePath)
   const tile = scene.tiles[tileId]
-  if (!tile) {
-    return {}
-  }
   return {
     tileX: tile.x,
     tileY: tile.y,
@@ -26,8 +24,7 @@ export default inject(({ state }, { scenePath, tileId }) => {
     mode: scene.currentMode,
     selectedEntityName: state.editor.objectPicker.selectedEntityName,
     neighbourEntities: [],
-    sceneTileSelected: () => {},
-    worldObjectAdded: () => {}
+    actions
   }
 })(SceneTile)
 
@@ -112,10 +109,9 @@ function onMouseEnter(props, { buttons }) {
 function interactWithSceneTile({
   tileId,
   scenePath,
-  sceneTileSelected,
   mode,
   selectedEntityName,
-  worldObjectAdded
+  actions: { sceneTileSelected, worldObjectAdded }
 }) {
   if (mode === "editor") {
     if (selectedEntityName) {
@@ -125,7 +121,7 @@ function interactWithSceneTile({
         entityName: selectedEntityName
       })
     } else {
-      sceneTileSelected({ tileId, scenePath })
+      sceneTileSelected(tileId, scenePath)
     }
   }
 }
