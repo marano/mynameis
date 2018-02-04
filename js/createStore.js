@@ -11,6 +11,7 @@ import createEventActions from "./actions/createEventActions"
 
 import createSceneComputations from "./computations/createSceneComputations"
 import createViewportComputations from "./computations/createViewportComputations"
+import createTileComputations from "./computations/createTileComputations"
 
 export const defaultState = {
   idCounters: {},
@@ -57,7 +58,11 @@ function createComputations(state) {
     reduce(merge, {}),
     mapValues(createTransformer),
     mapValues(withStructuralComparer)
-  )([createSceneComputations, createViewportComputations])
+  )([
+    createSceneComputations,
+    createViewportComputations,
+    createTileComputations
+  ])
   assign(computations, createdComputations)
   return computations
 }

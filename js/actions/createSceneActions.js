@@ -134,6 +134,7 @@ export default function createSceneActions(state, computations, actions) {
   function createSceneTile(scene, x, y) {
     const id = actions.generateId("tile")
     const tile = observable({
+      scenePath: `scenes.${scene.id}`,
       id,
       x,
       y,

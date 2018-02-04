@@ -11,26 +11,25 @@ import {
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
 
-export default inject(({ state, actions }, { scenePath, tileId }) => {
-  const scene = get(state, scenePath)
-  const tile = scene.tiles[tileId]
-  return {
-    tileX: tile.x,
-    tileY: tile.y,
-    isSelected: tile.isSelected,
-    objectIds: tile.worldObjectIds.slice(),
-    tileSize: scene.viewport.tileSize,
-    mode: scene.currentMode,
-    selectedEntityName: state.editor.objectPicker.selectedEntityName,
-    neighbourEntities: [],
-    actions
+export default inject(
+  ({ state, computations, actions }, { scenePath, tileId }) => {
+    const scene = get(state, scenePath)
+    const tile = scene.tiles[tileId]
+    return {
+      tileX: tile.x,
+      tileY: tile.y,
+      isSelected: tile.isSelected,
+      objectIds: tile.worldObjectIds.slice(),
+      tileSize: scene.viewport.tileSize,
+      mode: scene.currentMode,
+      selectedEntityName: state.editor.objectPicker.selectedEntityName,
+      neighbourEntities: computations.computeTileNeighbourEntities(tile),
+      actions
+    }
   }
-})(SceneTile)
+)(SceneTile)
 
 function SceneTile(props) {
-  if (props.tileX === undefined) {
-    return null
-  }
   return (
     <div
       style={style(props)}
