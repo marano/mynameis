@@ -55,7 +55,7 @@ function SceneTile(props) {
           )
         })}
 
-        {/* {renderSelectedWorldEntityOverlay(props)} */}
+        {renderSelectedWorldEntityOverlay(props)}
       </div>
     </div>
   )

@@ -11,9 +11,9 @@ import createMoveKeydownEventHandler, {
 export default inject("state", "actions")(
   class GlobalListeners extends Component {
     componentDidMount() {
-      // this.keydownSubscription = keydownStream.subscribe(
-      // createKeydownEventHandler(this.props.controller)
-      // )
+      this.keydownSubscription = keydownStream.subscribe(
+        createKeydownEventHandler(this.props.actions)
+      )
 
       this.moveKeydownSubscription = createMoveKeydownStream(
         movementKeys
@@ -23,7 +23,7 @@ export default inject("state", "actions")(
     }
 
     componentWillUnmount() {
-      // this.keydownSubscription.unsubscribe()
+      this.keydownSubscription.unsubscribe()
       this.moveKeydownSubscription.unsubscribe()
     }
 
