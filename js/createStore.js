@@ -51,11 +51,7 @@ function createComputations(state) {
   const computations = {}
   const createdComputations = flow(
     map(computationCreator => computationCreator(state, computations)),
-    reduce(
-      (allComputations, someComputations) =>
-        merge(allComputations, someComputations),
-      {}
-    ),
+    reduce(merge, {}),
     mapValues(createTransformer),
     mapValues(withStructuralComparer)
   )([createSceneComputations, createViewportComputations])
@@ -72,7 +68,7 @@ function createActions(state, computations) {
   ]
   const createdActions = flow(
     map(actionCreator => actionCreator(state, computations, actions)),
-    reduce((allActions, someActions) => merge(allActions, someActions), {}),
+    reduce(merge, {}),
     mapValues(action)
   )(actionCreators)
   assign(actions, createdActions)
