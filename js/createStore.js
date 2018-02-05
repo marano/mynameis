@@ -7,6 +7,7 @@ import createIdCounterActions from "./actions/createIdCounterActions"
 import createSceneActions from "./actions/createSceneActions"
 import createViewportActions from "./actions/createViewportActions"
 import createEditorActions from "./actions/createEditorActions"
+import createGameActions from "./actions/createGameActions"
 import createEventActions from "./actions/createEventActions"
 
 import createSceneComputations from "./computations/createSceneComputations"
@@ -79,6 +80,7 @@ function createActions(state, computations) {
     createSceneActions,
     createViewportActions,
     createEditorActions,
+    createGameActions,
     createEventActions
   ])
   assign(actions, createdActions)

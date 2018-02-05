@@ -4,27 +4,9 @@ import { linkEvent } from "inferno"
 import { cursorExpanded, cursorOnHover } from "../styles"
 import get from "lodash/get"
 
-// import {
-//   computeWorldObjectSelectable,
-//   computeWorldObjectEntityField
-// } from "../computes"
 import UiElement from "./UiElement"
 
-// export default connect(
-//   {
-//     uiElementNames: computeWorldObjectEntityField("uiElements"),
-//     zIndex: computeWorldObjectEntityField("zIndex"),
-//     isSelected: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.isSelected`,
-//     uiElementSpriteConfig: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElementSpriteConfig`,
-//     tileSize: state`${props`scenePath`}.viewport.tileSize`,
-//     worldObjectSelectable: computeWorldObjectSelectable,
-//     worldObjectSelected: signal`worldObjectSelected`,
-//     mode: state`${props`scenePath`}.currentMode`
-//   },
-//   WorldObject
-// )
-
-export default inject(({ state }, { scenePath, worldObjectId }) => {
+export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
   const worldObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
   const entityName = get(state, `${worldObjectPath}.entityName`)
   const entityPath = `definitions.entities.${entityName}`
@@ -37,7 +19,7 @@ export default inject(({ state }, { scenePath, worldObjectId }) => {
     tileSize: get(state, `${scenePath}.viewport.tileSize`),
     mode: get(state, `${scenePath}.currentMode`),
     worldObjectSelectable: false,
-    worldObjectSelected: () => {}
+    actions
   }
 })(WorldObject)
 
@@ -82,8 +64,13 @@ function style({ zIndex, isSelected, tileSize }) {
   return style
 }
 
-function onClick({ scenePath, worldObjectId, worldObjectSelected, mode }) {
+function onClick({
+  scenePath,
+  worldObjectId,
+  mode,
+  actions: { worldObjectSelected }
+}) {
   if (mode === "game") {
-    worldObjectSelected({ scenePath, worldObjectId })
+    worldObjectSelected(scenePath, worldObjectId)
   }
 }
