@@ -1,4 +1,4 @@
-import { get } from "lodash"
+import { get, mapValues } from "lodash"
 
 import { idOfTileAt } from "../tile-utils"
 
@@ -6,25 +6,37 @@ export default function createTileComputations(state, computations) {
   return {
     computeTileNeighbourEntities(tile) {
       const scene = get(state, tile.scenePath)
-      let result = []
 
       const sortedTileIds = computations.computeSortedTileIds(scene)
 
-      const leftTileX = tile.x - 1
-      const leftTileY = tile.y
-
-      if (leftTileX > 0 && leftTileX < scene.size.x) {
-        const tileId = idOfTileAt(
-          sortedTileIds,
-          scene.size.y,
-          leftTileX,
-          leftTileY
-        )
-        const tile = scene.tiles[tileId]
-        result = result.concat(computations.computeTileEntities(tile))
+      const sides = {
+        top: { x: 0, y: -1 },
+        right: { x: +1, y: 0 },
+        bottom: { x: 0, y: -1 },
+        left: { x: -1, y: 0 }
       }
 
-      return result
+      return mapValues(sides, (transform, side) => {
+        const targetX = tile.x + transform.x
+        const targetY = tile.y + transform.y
+        if (
+          targetX >= 0 &&
+          targetX < scene.size.x &&
+          targetY >= 0 &&
+          targetY < scene.size.y
+        ) {
+          const tileId = idOfTileAt(
+            sortedTileIds,
+            scene.size.y,
+            targetX,
+            targetY
+          )
+          const tile = scene.tiles[tileId]
+          return computations.computeTileEntities(tile)
+        } else {
+          return []
+        }
+      })
     },
     computeTileEntities(tile) {
       const scene = get(state, tile.scenePath)

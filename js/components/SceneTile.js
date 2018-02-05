@@ -30,6 +30,7 @@ export default inject(
 )(SceneTile)
 
 function SceneTile(props) {
+  console.log(props.neighbourEntities)
   return (
     <div
       style={style(props)}
