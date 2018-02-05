@@ -30,7 +30,6 @@ export default inject(
 )(SceneTile)
 
 function SceneTile(props) {
-  console.log(props.neighbourEntities)
   return (
     <div
       style={style(props)}
@@ -47,6 +46,7 @@ function SceneTile(props) {
               key={worldObjectId}
               scenePath={props.scenePath}
               worldObjectId={worldObjectId}
+              neighbourEntities={props.neighbourEntities}
             />
           )
         })}

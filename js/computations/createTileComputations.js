@@ -1,3 +1,4 @@
+import { toJS } from "mobx"
 import { get, mapValues } from "lodash"
 
 import { idOfTileAt } from "../tile-utils"
@@ -12,7 +13,7 @@ export default function createTileComputations(state, computations) {
       const sides = {
         top: { x: 0, y: -1 },
         right: { x: +1, y: 0 },
-        bottom: { x: 0, y: -1 },
+        bottom: { x: 0, y: +1 },
         left: { x: -1, y: 0 }
       }
 

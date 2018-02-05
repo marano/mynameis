@@ -118,7 +118,7 @@
         {
           "filename": "oryx_16bit_scifi_world_22.png",
           "when": {
-            "same": ["top", "right", "bottom"]
+            "same": ["top", "right", "left"]
           }
         }
       ],

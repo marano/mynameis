@@ -13,6 +13,7 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
   const entityPath = `definitions.entities.${worldObject.entityName}`
   const entity = get(state, entityPath)
   return {
+    entityName: entity.name,
     uiElementNames: entity.uiElements.slice(),
     zIndex: entity.zIndex,
     isSelected: worldObject.isSelected,
@@ -36,10 +37,12 @@ function WorldObject(props) {
       {props.uiElementNames.map(function(uiElementName) {
         return (
           <UiElement
+            entityName={props.entityName}
             key={uiElementName}
             uiElementName={uiElementName}
             tileSize={props.tileSize}
             currentSpriteRand={props.uiElementSpriteConfig[uiElementName].rand}
+            neighbourEntities={props.neighbourEntities}
           />
         )
       })}

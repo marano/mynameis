@@ -16,6 +16,7 @@ function ObjectPickerEntity({ entityName, uiElementNames, tileSize }) {
             uiElementName={uiElementName}
             tileSize={tileSize}
             currentSpriteRand={0}
+            neighbourEntities={{}}
           />
         )
       })}
