@@ -1,39 +1,39 @@
 import ReactDOM from "react-dom"
-import { Container } from "@cerebral/react"
+import { Provider } from "mobx-react"
+
+import { localStorageStateKey } from "./constants"
+import { defaultState } from "./createStore"
 
 import uiElements from "../json/ui-elements.json"
 import entities from "../json/entities.json"
-import { initialState } from "./createController"
-import { cerebralStateKey } from "./constants"
 
-let controller
-const localState = window.localStorage.getItem(cerebralStateKey)
+let store
 
 renderRoot()
 
 if (module.hot) {
-  module.hot.accept(["./components/Main", "./createController"], renderRoot)
+  module.hot.accept(["./components/Main", "./createStore"], renderRoot)
 }
 
 function renderRoot() {
   const Main = require("./components/Main").default
-  const createController = require("./createController").default
-  const isInitializing = !controller
-  const state = isInitializing
-    ? JSON.parse(localState) || initialState
-    : controller.getState()
-
-  controller = createController(state)
+  const { createStore, extendStore } = require("./createStore")
+  const isInitializing = !store
 
   if (isInitializing) {
-    controller.getSignal("uiElementsLoaded")({ uiElements })
-    controller.getSignal("entitiesLoaded")({ entities })
+    const localState = window.localStorage.getItem(localStorageStateKey)
+    const initialState = JSON.parse(localState) || defaultState
+    store = createStore(initialState)
+    store.actions.uiElementsLoaded(uiElements.definitions)
+    store.actions.entitiesLoaded(entities.definitions)
+  } else {
+    extendStore(store)
   }
 
   ReactDOM.render(
-    <Container controller={controller}>
-      <Main controller={controller} />
-    </Container>,
+    <Provider {...store}>
+      <Main />
+    </Provider>,
     document.getElementById("root")
   )
 }

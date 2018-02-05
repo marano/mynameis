@@ -1,1 +1,1 @@
-export const cerebralStateKey = "cerebralState"
+export const localStorageStateKey = "state"

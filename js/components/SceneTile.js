@@ -1,5 +1,5 @@
-import { connect } from "@cerebral/react"
-import { props, state, signal } from "cerebral/tags"
+import { inject } from "mobx-react"
+import get from "lodash/get"
 import { linkEvent } from "inferno"
 import {
   cursor,
@@ -10,24 +10,26 @@ import {
 
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
-import { computeNeighbourEntities } from "../computes"
 
-export default connect(
-  {
-    worldTile: state`${props`scenePath`}.tiles.${props`tileId`}`,
-    tileSize: state`${props`scenePath`}.viewport.tileSize`,
-    selectedEntityName: state`editor.objectPicker.selectedEntityName`,
-    mode: state`${props`scenePath`}.currentMode`,
-    sceneTileSelected: signal`sceneTileSelected`,
-    worldObjectAdded: signal`worldObjectAdded`,
-    neighbourEntities: computeNeighbourEntities
-  },
-  SceneTile
-)
+export default inject(
+  ({ state, computations, actions }, { scenePath, tileId }) => {
+    const scene = get(state, scenePath)
+    const tile = scene.tiles[tileId]
+    return {
+      tileX: tile.x,
+      tileY: tile.y,
+      isSelected: tile.isSelected,
+      objectIds: tile.worldObjectIds.slice(),
+      tileSize: scene.viewport.tileSize,
+      mode: scene.currentMode,
+      selectedEntityName: state.editor.objectPicker.selectedEntityName,
+      neighbourEntities: computations.computeTileNeighbourEntities(tile),
+      actions
+    }
+  }
+)(SceneTile)
 
 function SceneTile(props) {
-  const { worldTile, scenePath } = props
-
   return (
     <div
       style={style(props)}
@@ -38,11 +40,11 @@ function SceneTile(props) {
       onMouseEnter={linkEvent(props, onMouseEnter)}
     >
       <div style={tileContentStyle(props)}>
-        {worldTile.worldObjectIds.map(function(worldObjectId) {
+        {props.objectIds.map(function(worldObjectId) {
           return (
             <WorldObject
               key={worldObjectId}
-              scenePath={scenePath}
+              scenePath={props.scenePath}
               worldObjectId={worldObjectId}
             />
           )
@@ -54,9 +56,9 @@ function SceneTile(props) {
   )
 }
 
-function className({ mode, worldTile, selectedEntityName }) {
+function className({ mode, isSelected, selectedEntityName }) {
   if (mode === "editor") {
-    if (worldTile.isSelected) {
+    if (isSelected) {
       return cursor
     } else if (!selectedEntityName) {
       return cursorOnHover
@@ -74,13 +76,13 @@ function renderSelectedWorldEntityOverlay({ selectedEntityName, tileSize }) {
   }
 }
 
-function style({ worldTile, tileSize, selectedEntityName, mode }) {
+function style({ tileX, tileY, tileSize, selectedEntityName, mode }) {
   return {
     position: "absolute",
     width: tileSize,
     height: tileSize,
-    left: worldTile.x * tileSize,
-    top: worldTile.y * tileSize,
+    left: tileX * tileSize,
+    top: tileY * tileSize,
     cursor: mode === "editor" && selectedEntityName ? "copy" : null
   }
 }
@@ -105,20 +107,15 @@ function onMouseEnter(props, { buttons }) {
 function interactWithSceneTile({
   tileId,
   scenePath,
-  sceneTileSelected,
   mode,
   selectedEntityName,
-  worldObjectAdded
+  actions: { sceneTileSelected, worldObjectAddedFromPicker }
 }) {
   if (mode === "editor") {
     if (selectedEntityName) {
-      worldObjectAdded({
-        scenePath,
-        tileId,
-        entityName: selectedEntityName
-      })
+      worldObjectAddedFromPicker(scenePath, tileId)
     } else {
-      sceneTileSelected({ tileId, scenePath })
+      sceneTileSelected(tileId, scenePath)
     }
   }
 }

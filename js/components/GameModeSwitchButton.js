@@ -1,16 +1,17 @@
-import { connect } from "@cerebral/react"
-import { props, state, signal } from "cerebral/tags"
 import { linkEvent } from "inferno"
+import { inject } from "mobx-react"
+import { get } from "lodash"
 
 import Button from "./Button"
 
-export default connect(
-  {
-    currentMode: state`${props`scenePath`}.currentMode`,
-    modeChanged: signal`modeChanged`
-  },
-  GameModeSwitchButton
-)
+export default inject(({ state, actions }, { viewport }) => {
+  const scene = get(state, viewport.currentScenePath)
+  return {
+    scenePath: viewport.currentScenePath,
+    currentMode: scene && scene.currentMode,
+    actions
+  }
+})(GameModeSwitchButton)
 
 function GameModeSwitchButton(props) {
   const { mode, currentMode } = props
@@ -22,6 +23,6 @@ function GameModeSwitchButton(props) {
   )
 }
 
-function onClick({ mode, modeChanged, scenePath }) {
-  modeChanged({ mode, scenePath })
+function onClick({ mode, scenePath, actions: { modeChanged } }) {
+  modeChanged(mode, scenePath)
 }

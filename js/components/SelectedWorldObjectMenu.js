@@ -1,12 +1,11 @@
-import { state } from "cerebral/tags"
-import { connect } from "@cerebral/react"
+import { inject } from "mobx-react"
+import { get } from "lodash"
 
-export default connect(
-  { selectedWorldObject: state`${state`game.selectedWorldObjectPath`}` },
-  SelectedWorldObjectMenu
-)
+export default inject(({ state }) => ({
+  selectedWorldObject: get(state, state.game.selectedWorldObjectPath)
+}))(SelectedWorldObjectMenu)
 
-function SelectedWorldObjectMenu({ scenePath, selectedWorldObject }) {
+function SelectedWorldObjectMenu({ selectedWorldObject }) {
   return (
     <div style={style()}>
       {selectedWorldObject ? selectedWorldObject.entityName : "-"}

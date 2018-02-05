@@ -1,11 +1,10 @@
 import { compose, contains, keys } from "ramda"
-import { keyHandlers } from "../actions"
+import { keyHandlers } from "../actions/createEventActions"
 
-export default function createKeydownHandler(controller) {
+export default function createKeydownHandler(actions) {
   return function handleKeydown({ key }) {
     if (compose(contains(key), keys)(keyHandlers)) {
-      const scenePath = controller.getState(`viewport.currentScenePath`)
-      controller.getSignal("keyPressed")({ scenePath, key })
+      actions.keyPressed(key)
     }
   }
 }

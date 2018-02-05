@@ -1,8 +1,8 @@
 import { Component } from "react"
-import { props, state, signal } from "cerebral/tags"
+import { inject } from "mobx-react"
 import { css } from "emotion"
-import { connect } from "@cerebral/react"
 import hasKeyedChildren from "has-keyed-children"
+import { get } from "lodash"
 
 import windowResize$ from "../streams/windowResize"
 
@@ -14,16 +14,30 @@ function viewportClassName(tileSize) {
   `
 }
 
-export default connect(
-  {
-    tileIds: state`${props`scenePath`}.viewport.visibleTileIds`,
-    tileSize: state`${props`scenePath`}.viewport.tileSize`,
-    viewportSize: state`${props`scenePath`}.viewport.size`,
-    viewportPosition: state`${props`scenePath`}.viewport.position`,
-    currentMode: state`${props`scenePath`}.currentMode`,
-    worldSize: state`${props`scenePath`}.size`,
-    viewportResized: signal`viewportResized`
-  },
+export default inject(
+  (
+    {
+      state,
+      computations: { computeViewportSize, computeVisibleTileIds },
+      actions
+    },
+    { viewport, viewport: { currentScenePath } }
+  ) => {
+    const scene = get(state, currentScenePath)
+    return {
+      scenePath: viewport.currentScenePath,
+      tileSize: scene.viewport.tileSize,
+      viewportPositionX: scene.viewport.position.x,
+      viewportPositionY: scene.viewport.position.y,
+      worldSizeX: scene.size.x,
+      worldSizeY: scene.size.y,
+      currentMode: scene.currentMode,
+      viewportSize: computeViewportSize(viewport),
+      tileIds: computeVisibleTileIds(viewport),
+      actions
+    }
+  }
+)(
   class Viewport extends Component {
     constructor(props) {
       super(props)
@@ -43,14 +57,13 @@ export default connect(
     }
 
     callViewportResized() {
-      const { scenePath } = this.props
       const viewportWidth = this.viewportRef.offsetWidth
       const viewportHeight = this.viewportRef.offsetHeight
-      this.props.viewportResized({
-        scenePath,
+      this.props.actions.viewportResized(
+        this.props.viewport,
         viewportWidth,
         viewportHeight
-      })
+      )
     }
 
     render() {
@@ -102,13 +115,13 @@ export default connect(
     contentStyle() {
       const borderWidth = 2
       const x =
-        -(this.props.viewportPosition.x * this.props.tileSize) - borderWidth
+        -(this.props.viewportPositionX * this.props.tileSize) - borderWidth
       const y =
-        -(this.props.viewportPosition.y * this.props.tileSize) - borderWidth
+        -(this.props.viewportPositionY * this.props.tileSize) - borderWidth
       const delay = this.props.currentMode === "game" ? 350 : 0
       return {
-        width: this.props.worldSize.x * this.props.tileSize,
-        height: this.props.worldSize.y * this.props.tileSize,
+        width: this.props.worldSizeX * this.props.tileSize,
+        height: this.props.worldSizeY * this.props.tileSize,
         transform: `translate(${x}px, ${y}px)`,
         willChange: "transform",
         transition: `transform ${delay}ms`,

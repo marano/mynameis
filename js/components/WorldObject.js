@@ -1,27 +1,30 @@
-import { connect } from "@cerebral/react"
-import { props, state, signal } from "cerebral/tags"
+import { toJS } from "mobx"
+import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 import { cursorExpanded, cursorOnHover } from "../styles"
+import get from "lodash/get"
 
-import {
-  computeWorldObjectSelectable,
-  computeWorldObjectEntityField
-} from "../computes"
 import UiElement from "./UiElement"
 
-export default connect(
-  {
-    uiElementNames: computeWorldObjectEntityField("uiElements"),
-    zIndex: computeWorldObjectEntityField("zIndex"),
-    isSelected: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.isSelected`,
-    uiElementSpriteConfig: state`${props`scenePath`}.worldObjects.${props`worldObjectId`}.uiElementSpriteConfig`,
-    tileSize: state`${props`scenePath`}.viewport.tileSize`,
-    worldObjectSelectable: computeWorldObjectSelectable,
-    worldObjectSelected: signal`worldObjectSelected`,
-    mode: state`${props`scenePath`}.currentMode`
-  },
-  WorldObject
-)
+export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
+  const scene = get(state, scenePath)
+  const worldObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
+  const worldObject = get(state, worldObjectPath)
+  const entityPath = `definitions.entities.${worldObject.entityName}`
+  const entity = get(state, entityPath)
+  return {
+    uiElementNames: entity.uiElements.slice(),
+    zIndex: entity.zIndex,
+    isSelected: worldObject.isSelected,
+    uiElementSpriteConfig: toJS(worldObject.uiElementSpriteConfig),
+    tileSize: scene.viewport.tileSize,
+    mode: scene.currentMode,
+    worldObjectSelectable:
+      scene.currentMode === "game" &&
+      !state.editor.objectPicker.selectedEntityName,
+    actions
+  }
+})(WorldObject)
 
 function WorldObject(props) {
   return (
@@ -64,8 +67,13 @@ function style({ zIndex, isSelected, tileSize }) {
   return style
 }
 
-function onClick({ scenePath, worldObjectId, worldObjectSelected, mode }) {
+function onClick({
+  scenePath,
+  worldObjectId,
+  mode,
+  actions: { worldObjectSelected }
+}) {
   if (mode === "game") {
-    worldObjectSelected({ scenePath, worldObjectId })
+    worldObjectSelected(scenePath, worldObjectId)
   }
 }

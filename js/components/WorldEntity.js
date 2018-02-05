@@ -1,14 +1,10 @@
-import { connect } from "@cerebral/react"
-import { state, props } from "cerebral/tags"
+import { inject } from "mobx-react"
 
 import UiElement from "./UiElement"
 
-export default connect(
-  {
-    uiElementNames: state`definitions.entities.${props`entityName`}.uiElements`
-  },
-  ObjectPickerEntity
-)
+export default inject(({ state }, { entityName }) => ({
+  uiElementNames: state.definitions.entities[entityName].uiElements
+}))(ObjectPickerEntity)
 
 function ObjectPickerEntity({ entityName, uiElementNames, tileSize }) {
   return (

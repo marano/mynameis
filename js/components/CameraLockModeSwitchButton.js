@@ -1,16 +1,16 @@
-import { connect } from "@cerebral/react"
-import { props, state, signal } from "cerebral/tags"
 import { linkEvent } from "inferno"
+import { inject } from "mobx-react"
+import { get } from "lodash"
 
 import Button from "./Button"
 
-export default connect(
-  {
-    currentCameraLockMode: state`${props`scenePath`}.viewport.cameraLockMode`,
-    cameraModeChanged: signal`cameraModeChanged`
-  },
-  CameraLockModeSwitchButton
-)
+export default inject(({ state, actions }, { viewport }) => {
+  const scene = get(state, viewport.currentScenePath)
+  return {
+    currentCameraLockMode: scene && scene.viewport.cameraLockMode,
+    actions
+  }
+})(CameraLockModeSwitchButton)
 
 function CameraLockModeSwitchButton(props) {
   const { cameraLockMode, currentCameraLockMode } = props
@@ -22,6 +22,6 @@ function CameraLockModeSwitchButton(props) {
   )
 }
 
-function onClick({ scenePath, cameraLockMode, cameraModeChanged }) {
-  cameraModeChanged({ scenePath, cameraLockMode })
+function onClick({ viewport, cameraLockMode, actions: { cameraModeChanged } }) {
+  cameraModeChanged(viewport, cameraLockMode)
 }

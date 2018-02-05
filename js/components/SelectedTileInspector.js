@@ -1,13 +1,9 @@
-import { connect } from "@cerebral/react"
+import { inject } from "mobx-react"
+import { get } from "lodash"
 
-import { computeSelectedTile } from "../computes"
-
-export default connect(
-  {
-    selectedTile: computeSelectedTile
-  },
-  SelectedTileInspector
-)
+export default inject(({ state }) => ({
+  selectedTile: get(state, state.editor.selectedTilePath)
+}))(SelectedTileInspector)
 
 function SelectedTileInspector({ selectedTile }) {
   return <div style={style()}>{content(selectedTile)}</div>

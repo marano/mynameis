@@ -8,7 +8,7 @@ const views = {
       inferno: path.resolve("./node_modules/inferno/index.js"),
       react: path.resolve("./js/views/inferno/react"),
       "react-dom": path.resolve("./js/views/inferno/react-dom"),
-      "@cerebral/react": "@cerebral/inferno",
+      "mobx-react": "inferno-mobx",
       "has-keyed-children": path.resolve(
         "./js/views/inferno/has-keyed-children"
       ),
@@ -40,7 +40,7 @@ const views = {
       react: "preact",
       "react-dom": "preact",
       inferno: path.resolve("./js/views/polyfills/inferno"),
-      "@cerebral/react": "@cerebral/preact",
+      "mobx-react": "mobx-preact",
       "has-keyed-children": path.resolve(
         "./js/views/polyfills/has-keyed-children"
       )
