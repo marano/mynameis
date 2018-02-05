@@ -1,4 +1,4 @@
-import { get } from "lodash"
+import { get, includes } from "lodash"
 
 import { createWorldObject } from "./helpers"
 
@@ -22,7 +22,11 @@ export default function createEditorActions(state, computations, actions) {
       const tile = scene.tiles[tileId]
       const selectedEntityName = state.editor.objectPicker.selectedEntityName
       const selectedEntity = state.definitions.entities[selectedEntityName]
-      createWorldObject(selectedEntity, tile, scene, state, actions)
+      if (
+        !includes(computations.computeTileEntities(tile), selectedEntityName)
+      ) {
+        createWorldObject(selectedEntity, tile, scene, state, actions)
+      }
     }
   }
 }
