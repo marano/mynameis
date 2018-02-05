@@ -10,17 +10,15 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
   const scene = get(state, scenePath)
   const worldObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
   const worldObject = get(state, worldObjectPath)
-  const entityName = get(state, `${worldObjectPath}.entityName`)
-  const entityPath = `definitions.entities.${entityName}`
+  const entityPath = `definitions.entities.${worldObject.entityName}`
+  const entity = get(state, entityPath)
   return {
-    uiElementNames: get(state, `${entityPath}.uiElements`).slice(),
-    zIndex: get(state, `${entityPath}.zIndex`),
+    uiElementNames: entity.uiElements.slice(),
+    zIndex: entity.zIndex,
     isSelected: worldObject.isSelected,
-    uiElementSpriteConfig: toJS(
-      get(state, `${worldObjectPath}.uiElementSpriteConfig`)
-    ),
-    tileSize: get(state, `${scenePath}.viewport.tileSize`),
-    mode: get(state, `${scenePath}.currentMode`),
+    uiElementSpriteConfig: toJS(worldObject.uiElementSpriteConfig),
+    tileSize: scene.viewport.tileSize,
+    mode: scene.currentMode,
     worldObjectSelectable:
       scene.currentMode === "game" &&
       !state.editor.objectPicker.selectedEntityName,
