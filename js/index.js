@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom"
 import { Provider } from "mobx-react"
 
-import { cerebralStateKey } from "./constants"
+import { localStorageStateKey } from "./constants"
 import { defaultState } from "./createStore"
 
 import uiElements from "../json/ui-elements.json"
@@ -21,7 +21,7 @@ function renderRoot() {
   const isInitializing = !store
 
   if (isInitializing) {
-    const localState = window.localStorage.getItem(cerebralStateKey)
+    const localState = window.localStorage.getItem(localStorageStateKey)
     const initialState = JSON.parse(localState) || defaultState
     store = createStore(initialState)
     store.actions.uiElementsLoaded(uiElements.definitions)
