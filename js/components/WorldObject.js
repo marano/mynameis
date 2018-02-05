@@ -7,18 +7,23 @@ import get from "lodash/get"
 import UiElement from "./UiElement"
 
 export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
+  const scene = get(state, scenePath)
   const worldObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
+  const worldObject = get(state, worldObjectPath)
   const entityName = get(state, `${worldObjectPath}.entityName`)
   const entityPath = `definitions.entities.${entityName}`
   return {
     uiElementNames: get(state, `${entityPath}.uiElements`).slice(),
     zIndex: get(state, `${entityPath}.zIndex`),
+    isSelected: worldObject.isSelected,
     uiElementSpriteConfig: toJS(
       get(state, `${worldObjectPath}.uiElementSpriteConfig`)
     ),
     tileSize: get(state, `${scenePath}.viewport.tileSize`),
     mode: get(state, `${scenePath}.currentMode`),
-    worldObjectSelectable: false,
+    worldObjectSelectable:
+      scene.currentMode === "game" &&
+      !state.editor.objectPicker.selectedEntityName,
     actions
   }
 })(WorldObject)
