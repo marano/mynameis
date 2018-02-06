@@ -10,6 +10,7 @@ import {
 
 import WorldObject from "./WorldObject"
 import WorldEntity from "./WorldEntity"
+import UiElement from "./UiElement"
 
 export default inject(
   ({ state, computations, actions }, { scenePath, tileId }) => {
@@ -24,6 +25,7 @@ export default inject(
       mode: scene.currentMode,
       selectedEntityName: state.editor.objectPicker.selectedEntityName,
       neighbourEntities: computations.computeTileNeighbourEntities(tile),
+      casts: computations.computeTileTargetedCasts(tile),
       actions
     }
   }
@@ -40,6 +42,19 @@ function SceneTile(props) {
       onMouseEnter={linkEvent(props, onMouseEnter)}
     >
       <div style={tileContentStyle(props)}>
+        {props.casts.map(function(uiElement) {
+          return (
+            <UiElement
+              entityName={props.entityName}
+              key={uiElement}
+              uiElementName={uiElement}
+              tileSize={props.tileSize}
+              currentSpriteRand={0}
+              neighbourEntities={[]}
+            />
+          )
+        })}
+
         {props.objectIds.map(function(worldObjectId) {
           return (
             <WorldObject

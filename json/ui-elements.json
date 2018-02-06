@@ -23,7 +23,25 @@
       "zIndex": 10
     },
     {
+      "name": "shadow-top-1",
+      "sprites": ["oryx_16bit_scifi_world_1086.png"],
+      "zIndex": 15
+    },
+    {
+      "name": "shadow-top-2",
+      "sprites": ["oryx_16bit_scifi_world_1087.png"],
+      "zIndex": 15
+    },
+    {
+      "name": "self-shadow",
+      "sprites": ["oryx_16bit_scifi_world_1101.png"],
+      "zIndex": 15
+    },
+    {
       "name": "metal-wall",
+      "cast": {
+        "bottom": "shadow-top-2"
+      },
       "sprites": [
         {
           "filename": "oryx_16bit_scifi_world_07.png",
