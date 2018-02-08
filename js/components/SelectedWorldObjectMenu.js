@@ -22,8 +22,13 @@ function SelectedWorldObjectMenu(props) {
   )
 }
 
-function content({ agencies, worldObjectPath }) {
-  return agencies.map(curry(agencyControls)(worldObjectPath))
+function content({ worldObjectName, agencies, worldObjectPath }) {
+  return (
+    <div>
+      <div>{worldObjectName}</div>
+      <div>{agencies.map(curry(agencyControls)(worldObjectPath))}</div>
+    </div>
+  )
 }
 
 function agencyControls(worldObjectPath, agency) {
