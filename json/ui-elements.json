@@ -3,144 +3,37 @@
     {
       "name": "grass",
       "sprites": [
-        {
-          "filename": "grassland-full-1.png",
-          "when": {
-            "rand": 0.0
-          }
-        },
-        {
-          "filename": "grassland-full-2.png",
-          "when": {
-            "rand": 0.5
-          }
-        }
+        { "filename": "grassland-full-1.png", "when": { "rand": 0.0 } },
+        { "filename": "grassland-full-2.png", "when": { "rand": 0.5 } }
       ]
     },
-    {
-      "name": "tree",
-      "sprites": ["tree.png"],
-      "zIndex": 10
-    },
-    {
-      "name": "shadow-top-1",
-      "sprites": ["oryx_16bit_scifi_world_1086.png"],
-      "zIndex": 15
-    },
-    {
-      "name": "shadow-top-2",
-      "sprites": ["oryx_16bit_scifi_world_1087.png"],
-      "zIndex": 15
-    },
-    {
-      "name": "self-shadow",
-      "sprites": ["oryx_16bit_scifi_world_1101.png"],
-      "zIndex": 15
-    },
+    { "name": "tree", "zIndex": 10, "sprites": ["tree.png"] },
+    { "name": "shadow-top-1", "zIndex": 15, "sprites": ["oryx_16bit_scifi_world_1086.png"] },
+    { "name": "shadow-top-2", "zIndex": 15, "sprites": ["oryx_16bit_scifi_world_1087.png"] },
+    { "name": "self-shadow", "zIndex": 15, "sprites": ["oryx_16bit_scifi_world_1101.png"] },
     {
       "name": "metal-wall",
-      "cast": {
-        "bottom": "shadow-top-2"
-      },
+      "cast": { "bottom": "shadow-top-2" },
+      "zIndex": 10,
       "sprites": [
-        {
-          "filename": "oryx_16bit_scifi_world_07.png",
-          "when": {
-            "same": []
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_08.png",
-          "when": {
-            "same": ["right"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_09.png",
-          "when": {
-            "same": ["right", "left"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_10.png",
-          "when": {
-            "same": ["left"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_11.png",
-          "when": {
-            "same": ["bottom"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_12.png",
-          "when": {
-            "same": ["top", "bottom"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_13.png",
-          "when": {
-            "same": ["top"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_14.png",
-          "when": {
-            "same": ["right", "bottom"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_15.png",
-          "when": {
-            "same": ["left", "bottom"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_16.png",
-          "when": {
-            "same": ["top", "right"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_17.png",
-          "when": {
-            "same": ["top", "left"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_18.png",
-          "when": {
-            "same": ["top", "right", "bottom", "left"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_19.png",
-          "when": {
-            "same": ["right", "bottom", "left"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_20.png",
-          "when": {
-            "same": ["top", "bottom", "left"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_21.png",
-          "when": {
-            "same": ["top", "right", "bottom"]
-          }
-        },
-        {
-          "filename": "oryx_16bit_scifi_world_22.png",
-          "when": {
-            "same": ["top", "right", "left"]
-          }
-        }
-      ],
-      "zIndex": 10
-    }
+        { "filename": "oryx_16bit_scifi_world_07.png", "when": { "same": [] } },
+        { "filename": "oryx_16bit_scifi_world_08.png", "when": { "same": ["right"] } },
+        { "filename": "oryx_16bit_scifi_world_09.png", "when": { "same": ["right", "left"] } },
+        { "filename": "oryx_16bit_scifi_world_10.png", "when": { "same": ["left"] } },
+        { "filename": "oryx_16bit_scifi_world_11.png", "when": { "same": ["bottom"] } },
+        { "filename": "oryx_16bit_scifi_world_12.png", "when": { "same": ["top", "bottom"] } },
+        { "filename": "oryx_16bit_scifi_world_13.png", "when": { "same": ["top"] } },
+        { "filename": "oryx_16bit_scifi_world_14.png", "when": { "same": ["right", "bottom"] } },
+        { "filename": "oryx_16bit_scifi_world_15.png", "when": { "same": ["left", "bottom"] } },
+        { "filename": "oryx_16bit_scifi_world_16.png", "when": { "same": ["top", "right"] } },
+        { "filename": "oryx_16bit_scifi_world_17.png", "when": { "same": ["top", "left"] } },
+        { "filename": "oryx_16bit_scifi_world_18.png", "when": { "same": ["top", "right", "bottom", "left"] } },
+        { "filename": "oryx_16bit_scifi_world_19.png", "when": { "same": ["right", "bottom", "left"] } },
+        { "filename": "oryx_16bit_scifi_world_20.png", "when": { "same": ["top", "bottom", "left"] } },
+        { "filename": "oryx_16bit_scifi_world_21.png", "when": { "same": ["top", "right", "bottom"] } },
+        { "filename": "oryx_16bit_scifi_world_22.png", "when": { "same": ["top", "right", "left"] } }
+      ]
+    },
+    { "name": "marine", "zIndex": 10, "sprites": ["oryx_16bit_scifi_creatures_01.png"] }
   ]
 }

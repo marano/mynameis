@@ -10,6 +10,13 @@ export default function createGameActions(state, computations, actions) {
       const nextSelectedObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
       state.game.selectedWorldObjectPath = nextSelectedObjectPath
       get(state, nextSelectedObjectPath).isSelected = true
+    },
+    moveControlPressed() {
+      if (state.game.isMoveControlPressed) {
+        state.game.isMoveControlPressed = false
+      } else {
+        state.game.isMoveControlPressed = true
+      }
     }
   }
 }

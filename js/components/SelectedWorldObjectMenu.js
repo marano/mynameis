@@ -1,16 +1,37 @@
 import { inject } from "mobx-react"
-import { get } from "lodash"
+import { get, curry } from "lodash"
 
-export default inject(({ state }) => ({
-  selectedWorldObject: get(state, state.game.selectedWorldObjectPath)
-}))(SelectedWorldObjectMenu)
+import MoveControl from "./MoveControl"
 
-function SelectedWorldObjectMenu({ selectedWorldObject }) {
+export default inject(({ state }) => {
+  const worldObject = get(state, state.game.selectedWorldObjectPath)
+  if (!worldObject) {
+    return {}
+  }
+  const entity = state.definitions.entities[worldObject.entityName]
+  return {
+    worldObjectPath: state.game.selectedWorldObjectPath,
+    worldObjectName: worldObject.entityName,
+    agencies: (entity.agencies || []).slice()
+  }
+})(SelectedWorldObjectMenu)
+
+function SelectedWorldObjectMenu(props) {
   return (
-    <div style={style()}>
-      {selectedWorldObject ? selectedWorldObject.entityName : "-"}
-    </div>
+    <div style={style()}>{props.worldObjectPath ? content(props) : "-"}</div>
   )
+}
+
+function content({ agencies, worldObjectPath }) {
+  return agencies.map(curry(agencyControls)(worldObjectPath))
+}
+
+function agencyControls(worldObjectPath, agency) {
+  return {
+    "player-character": [MoveControl]
+  }[agency].map((Control, index) => (
+    <Control key={index} worldObjectPath={worldObjectPath} />
+  ))
 }
 
 function style() {

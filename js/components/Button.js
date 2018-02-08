@@ -1,15 +1,21 @@
-export default function Button({ isSelected, children, onClick, ...props }) {
-  if (isSelected) {
+export default function Button({
+  isSelected,
+  allowUnselect,
+  children,
+  onClick,
+  ...props
+}) {
+  if (isSelected && !allowUnselect) {
     onClick = null
   }
   return (
-    <div style={style(isSelected)} onClick={onClick} {...props}>
+    <div style={style(isSelected, allowUnselect)} onClick={onClick} {...props}>
       {children}
     </div>
   )
 }
 
-function style(isSelected) {
+function style(isSelected, allowUnselect) {
   return {
     border: "1px white solid",
     backgroundColor: isSelected ? "white" : "black",
@@ -17,6 +23,6 @@ function style(isSelected) {
     display: "inline-block",
     padding: 5,
     fontFamily: "monospace",
-    cursor: isSelected ? "auto" : "pointer"
+    cursor: isSelected && !allowUnselect ? "auto" : "pointer"
   }
 }

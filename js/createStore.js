@@ -32,7 +32,8 @@ export const defaultState = {
     scenePaths: []
   },
   game: {
-    selectedWorldObjectPath: null
+    selectedWorldObjectPath: null,
+    isMoveControlPressed: false
   },
   definitions: {
     uiElements: [],
