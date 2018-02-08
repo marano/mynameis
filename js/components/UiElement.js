@@ -41,7 +41,8 @@ function style({
     zIndex: uiElement.zIndex || 0,
     backgroundRepeat: "no-repeat",
     backgroundImage,
-    backgroundSize: tileSize
+    backgroundSize: tileSize,
+    pointerEvents: "none"
   }
 }
 
