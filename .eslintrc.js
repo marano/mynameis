@@ -2,7 +2,9 @@ module.exports = {
   extends: ["standard", "prettier"],
   plugins: ["react", "prettier"],
   env: {},
-  globals: {},
+  globals: {
+    "self": true
+  },
   rules: {
     "react/jsx-uses-vars": 2,
     "prettier/prettier": [

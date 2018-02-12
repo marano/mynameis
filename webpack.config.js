@@ -67,6 +67,10 @@ module.exports = {
   module: {
     loaders: [
       {
+        include: /\.worker.js$/,
+        loader: "worker-loader"
+      },
+      {
         test: /\.(png)$/,
         use: "file-loader?name=./images/[name].[ext]"
       },
