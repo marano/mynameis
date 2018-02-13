@@ -4,7 +4,11 @@ export const keyHandlers = {
   Escape: function(state, actions) {
     const scene = get(state, state.viewport.currentScenePath)
     if (scene.currentMode === "editor") {
-      actions.objectPickerEntitySelected(null)
+      if (state.editor.objectPicker.selectedEntityName) {
+        actions.objectPickerEntitySelected(null)
+      } else if (state.editor.selectedTilePath) {
+        actions.sceneTileUnselected()
+      }
     }
   }
 }

@@ -7,11 +7,15 @@ export default function createEditorActions(state, computations, actions) {
     objectPickerEntitySelected(entityName) {
       state.editor.objectPicker.selectedEntityName = entityName
     },
-    sceneTileSelected(tileId, scenePath) {
+    sceneTileUnselected() {
       const currentSelectedTile = get(state, state.editor.selectedTilePath)
       if (currentSelectedTile) {
         currentSelectedTile.isSelected = false
       }
+      state.editor.selectedTilePath = null
+    },
+    sceneTileSelected(tileId, scenePath) {
+      actions.sceneTileUnselected()
       const nextSelectedTilePath = `${scenePath}.tiles.${tileId}`
       const nextSelectedTile = get(state, nextSelectedTilePath)
       nextSelectedTile.isSelected = true
