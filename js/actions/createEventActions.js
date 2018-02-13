@@ -10,6 +10,11 @@ export const keyHandlers = {
         actions.sceneTileUnselected()
       }
     }
+    if (scene.currentMode === "game") {
+      if (state.game.selectedWorldObjectPath) {
+        actions.worldObjectUnselected()
+      }
+    }
   }
 }
 
