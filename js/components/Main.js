@@ -46,7 +46,7 @@ function containerStyle(sideMenuWidth) {
 function topMenuStyle() {
   return {
     gridRow: "1",
-    gridColumn: "1 / span 2",
+    gridColumn: "1",
     backgroundColor: "black"
   }
 }
@@ -63,7 +63,7 @@ function viewportStyle() {
 
 function sideMenuStyle() {
   return {
-    gridRow: "2",
+    gridRow: "1 / span 2",
     gridColumn: "2",
     backgroundColor: "black",
     overflow: "auto",
