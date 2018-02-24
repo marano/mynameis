@@ -9,18 +9,25 @@ export default function createGameActions(state, computations, actions) {
       }
       state.game.selectedWorldObjectPath = null
     },
-    worldObjectSelected(scenePath, worldObjectId) {
-      actions.worldObjectUnselected()
-      const nextSelectedObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
-      state.game.selectedWorldObjectPath = nextSelectedObjectPath
-      get(state, nextSelectedObjectPath).isSelected = true
-    },
     moveControlPressed() {
       if (state.game.isMoveControlPressed) {
         state.game.isMoveControlPressed = false
       } else {
         state.game.isMoveControlPressed = true
       }
+    },
+    worldObjectClicked(scenePath, worldObjectId) {
+      const scene = get(state, scenePath)
+      if (scene.currentMode === "game") {
+        worldObjectSelected(scenePath, worldObjectId)
+      }
     }
+  }
+
+  function worldObjectSelected(scenePath, worldObjectId) {
+    actions.worldObjectUnselected()
+    const nextSelectedObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
+    state.game.selectedWorldObjectPath = nextSelectedObjectPath
+    get(state, nextSelectedObjectPath).isSelected = true
   }
 }

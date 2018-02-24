@@ -19,7 +19,6 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
     isSelected: worldObject.isSelected,
     uiElementSpriteConfig: toJS(worldObject.uiElementSpriteConfig),
     tileSize: scene.viewport.tileSize,
-    mode: scene.currentMode,
     currentGameMode: scene.currentMode,
     actions
   }
@@ -71,10 +70,7 @@ function style({ zIndex, isSelected, tileSize }) {
 function onClick({
   scenePath,
   worldObjectId,
-  mode,
-  actions: { worldObjectSelected }
+  actions: { worldObjectClicked }
 }) {
-  if (mode === "game") {
-    worldObjectSelected(scenePath, worldObjectId)
-  }
+  worldObjectClicked(scenePath, worldObjectId)
 }
