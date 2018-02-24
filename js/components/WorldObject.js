@@ -20,9 +20,7 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
     uiElementSpriteConfig: toJS(worldObject.uiElementSpriteConfig),
     tileSize: scene.viewport.tileSize,
     mode: scene.currentMode,
-    worldObjectSelectable:
-      scene.currentMode === "game" &&
-      !state.editor.objectPicker.selectedEntityName,
+    currentGameMode: scene.currentMode,
     actions
   }
 })(WorldObject)
@@ -50,13 +48,13 @@ function WorldObject(props) {
   )
 }
 
-function className({ worldObjectSelectable, isSelected, worldObjectId }) {
-  if (!worldObjectSelectable) {
-    return null
-  } else if (isSelected) {
-    return cursorExpanded
-  } else {
-    return cursorOnHover
+function className({ currentGameMode, isSelected, worldObjectId }) {
+  if (currentGameMode === "game") {
+    if (isSelected) {
+      return cursorExpanded
+    } else {
+      return cursorOnHover
+    }
   }
 }
 
