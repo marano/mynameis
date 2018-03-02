@@ -11,7 +11,9 @@ export const keyHandlers = {
       }
     }
     if (scene.currentMode === "game") {
-      if (state.game.selectedWorldObjectPath) {
+      if (state.game.isMoveControlPressed) {
+        state.game.isMoveControlPressed = false
+      } else if (state.game.selectedWorldObjectPath) {
         actions.worldObjectUnselected()
       }
     }
