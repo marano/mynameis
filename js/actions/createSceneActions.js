@@ -43,12 +43,20 @@ export default function createSceneActions(state, computations, actions) {
           const sceneTemplate = flow(
             prop(scenePath),
             toJS,
-            omit(["id", "sortedTileIds"]),
+            omit(["id"]),
             set("sourceScenePath", scenePath),
             set("currentMode", "game"),
             set("viewport.cameraLockMode", "locked")
           )(state)
           const newScene = createScene()
+          each(
+            sceneTemplate.tiles,
+            eachTile => (eachTile.sceneId = newScene.id)
+          )
+          each(
+            sceneTemplate.worldObjects,
+            eachWorldObject => (eachWorldObject.sceneId = newScene.id)
+          )
           assign(newScene, sceneTemplate)
           state.viewport.currentScenePath = `scenes.${newScene.id}`
           adjustViewportPositionForCameraMode(
@@ -77,6 +85,7 @@ export default function createSceneActions(state, computations, actions) {
       currentMode: "editor",
       tiles: {},
       worldObjects: {},
+      tickables: [],
       size: {
         x: 0,
         y: 0
@@ -134,7 +143,7 @@ export default function createSceneActions(state, computations, actions) {
   function createSceneTile(scene, x, y) {
     const id = actions.generateId("tile")
     const tile = observable({
-      scenePath: `scenes.${scene.id}`,
+      sceneId: scene.id,
       id,
       x,
       y,

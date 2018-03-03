@@ -7,7 +7,7 @@ export default inject(({ state }) => {
   if (!tile) {
     return
   }
-  const scene = get(state, tile.scenePath)
+  const scene = state.scenes[tile.sceneId]
   const worldObjects = tile.worldObjectIds.map(
     worldObjectId => scene.worldObjects[worldObjectId]
   )

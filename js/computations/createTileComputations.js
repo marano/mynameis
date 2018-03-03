@@ -1,6 +1,6 @@
 import { toJS } from "mobx"
-import { get, mapValues, each, curryRight, flatMap } from "lodash"
-import { flow, map, uniq, flatten, compact } from "lodash/fp"
+import { mapValues, each, curryRight, flatMap } from "lodash"
+import { flow, map, uniq, flatten, compact, some } from "lodash/fp"
 
 import { idOfTileAt } from "../tile-utils"
 
@@ -26,7 +26,7 @@ export default function createTileComputations(state, computations) {
       )(neighbourCasts)
     },
     computeTileSourceCasts(tile) {
-      const scene = get(state, tile.scenePath)
+      const scene = state.scenes[tile.sceneId]
 
       const result = {
         top: [],
@@ -56,15 +56,23 @@ export default function createTileComputations(state, computations) {
       return mapNeighbours([], tile, computations.computeTileEntities)
     },
     computeTileEntities(tile) {
-      const scene = get(state, tile.scenePath)
+      const scene = state.scenes[tile.sceneId]
       return tile.worldObjectIds.map(
         worldObjectId => scene.worldObjects[worldObjectId].entityName
       )
+    },
+    computeIsTileBlocked(tile) {
+      const scene = state.scenes[tile.sceneId]
+      return flow(
+        map(worldObjectId => scene.worldObjects[worldObjectId].entityName),
+        map(entityName => state.definitions.entities[entityName]),
+        some("block")
+      )(tile.worldObjectIds)
     }
   }
 
   function mapNeighbours(emptyValue, tile, callback) {
-    const scene = get(state, tile.scenePath)
+    const scene = state.scenes[tile.sceneId]
     const sortedTileIds = computations.computeSortedTileIds(scene)
 
     const sides = {

@@ -15,6 +15,8 @@ export function createWorldObject(entity, tile, scene, state, actions) {
   )(entity.uiElements)
 
   const worldObject = {
+    sceneId: scene.id,
+    tileId: tile.id,
     id,
     entityName: entity.name,
     isSelected: false,

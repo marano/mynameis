@@ -1,4 +1,5 @@
 import { get } from "lodash"
+import solvePath from "./solvePath"
 
 export default function createGameActions(state, computations, actions) {
   return {
@@ -19,7 +20,11 @@ export default function createGameActions(state, computations, actions) {
     worldObjectClicked(scenePath, worldObjectId) {
       const scene = get(state, scenePath)
       if (scene.currentMode === "game") {
-        worldObjectSelected(scenePath, worldObjectId)
+        if (state.game.isMoveControlPressed) {
+          moveWorldObject(scenePath, worldObjectId)
+        } else {
+          worldObjectSelected(scenePath, worldObjectId)
+        }
       }
     }
   }
@@ -29,5 +34,37 @@ export default function createGameActions(state, computations, actions) {
     const nextSelectedObjectPath = `${scenePath}.worldObjects.${worldObjectId}`
     state.game.selectedWorldObjectPath = nextSelectedObjectPath
     get(state, nextSelectedObjectPath).isSelected = true
+  }
+
+  function moveWorldObject(scenePath, worldObjectId) {
+    const scene = get(state, scenePath)
+    const selectedWorldObject = get(state, state.game.selectedWorldObjectPath)
+    const originTilePath = `${scenePath}.tiles.${selectedWorldObject.tileId}`
+    const targetTilePath = `${scenePath}.tiles.${
+      scene.worldObjects[worldObjectId].tileId
+    }`
+
+    const originTile = get(state, originTilePath)
+    const targetTile = get(state, targetTilePath)
+
+    const sortedTileIds = computations.computeSortedTileIds(scene)
+    const path = solvePath(
+      originTile,
+      targetTile,
+      scene,
+      sortedTileIds,
+      computations.computeIsTileBlocked
+    )
+    if (path) {
+      scene.tickables.push({
+        progress: 0,
+        steps: path.map(openTile => ({
+          subject: selectedWorldObject,
+          cost: openTile.costFromParent * 500,
+          type: "moveTo",
+          targetTile: openTile.tile
+        }))
+      })
+    }
   }
 }

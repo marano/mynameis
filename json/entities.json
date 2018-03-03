@@ -1,8 +1,8 @@
 {
   "definitions": [
     { "name": "grass", "uiElements": ["grass"], "zIndex": 10 },
-    { "name": "tree", "uiElements": ["tree"], "zIndex": 20 },
-    { "name": "metal-wall", "uiElements": ["metal-wall"], "zIndex": 20 },
-    { "name": "marine", "uiElements": ["marine"], "zIndex": 20, "agencies": ["player-character"] }
+    { "name": "tree", "uiElements": ["tree"], "block": true, "zIndex": 20 },
+    { "name": "metal-wall", "uiElements": ["metal-wall"], "block": true, "zIndex": 20 },
+    { "name": "marine", "uiElements": ["marine"], "block": true, "zIndex": 20, "agencies": ["player-character"] }
   ]
 }

@@ -4,6 +4,7 @@ import GlobalListeners from "./GlobalListeners"
 import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
+import Ticker from "./Ticker"
 
 export default inject(({ state: { viewport } }) => ({
   viewport,
@@ -14,6 +15,7 @@ function Main({ viewport, currentScenePath }) {
   return (
     <div style={containerStyle()}>
       <GlobalListeners />
+      <Ticker />
       <div style={topMenuStyle()}>
         <TopMenu viewport={viewport} />
       </div>
