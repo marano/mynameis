@@ -36,12 +36,12 @@ export default function createGameActions(state, computations, actions) {
     get(state, nextSelectedObjectPath).isSelected = true
   }
 
-  function moveWorldObject(scenePath, worldObjectId) {
+  function moveWorldObject(scenePath, targetWorldObjectId) {
     const scene = get(state, scenePath)
     const selectedWorldObject = get(state, state.game.selectedWorldObjectPath)
     const originTilePath = `${scenePath}.tiles.${selectedWorldObject.tileId}`
     const targetTilePath = `${scenePath}.tiles.${
-      scene.worldObjects[worldObjectId].tileId
+      scene.worldObjects[targetWorldObjectId].tileId
     }`
 
     const originTile = get(state, originTilePath)
