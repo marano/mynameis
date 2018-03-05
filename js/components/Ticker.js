@@ -12,18 +12,19 @@ export default inject("state", "actions")(
         each(this.props.state.scenes, scene => {
           each(scene.tickables, (tickable, tickableIndex) => {
             tickable.progress += tickInterval
-            const step = tickable.steps[0]
-            if (tickable.progress >= step.cost) {
-              tickable.progress -= step.cost
-              switch (step.type) {
+            let currentStep = tickable.steps[0]
+            while (currentStep && tickable.progress >= currentStep.cost) {
+              tickable.progress -= currentStep.cost
+              switch (currentStep.type) {
                 case "moveTo":
                   this.props.actions.worldObjectMoved(
-                    step.subject,
-                    step.targetTile
+                    currentStep.subject,
+                    currentStep.targetTile
                   )
                   break
               }
               tickable.steps.splice(0, 1)
+              currentStep = tickable.steps.length > 0 && tickable.steps[0]
             }
             if (tickable.steps.length === 0) {
               scene.tickables.splice(tickableIndex, 1)
