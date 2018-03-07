@@ -1,6 +1,7 @@
 import { inject } from "mobx-react"
 import get from "lodash/get"
 import { linkEvent } from "inferno"
+import { flow, compact, join } from "lodash/fp"
 import {
   cursor,
   cursorOnHover,
@@ -35,9 +36,10 @@ function SceneTile(props) {
   return (
     <div
       style={style(props)}
-      className={`${className(props)} ${
+      className={flow(compact, join(" "))([
+        className(props),
         props.mode === "editor" ? showHiddenChildOnHover : null
-      }`}
+      ])}
       onMouseDown={linkEvent(props, onMouseDown)}
       onMouseEnter={linkEvent(props, onMouseEnter)}
     >
