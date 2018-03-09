@@ -2,7 +2,11 @@ import { toJS } from "mobx"
 import { inject } from "mobx-react"
 import { linkEvent } from "inferno"
 import { cursorExpanded, cursorOnHover } from "../styles"
-import get from "lodash/get"
+import { get } from "lodash"
+import { flow, compact, join } from "lodash/fp"
+import { css, keyframes } from "emotion"
+
+import { movementAnimationDuration } from "../constants"
 
 import UiElement from "./UiElement"
 
@@ -12,6 +16,9 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
   const worldObject = get(state, worldObjectPath)
   const entityPath = `definitions.entities.${worldObject.entityName}`
   const entity = get(state, entityPath)
+  const currentTile = scene.tiles[worldObject.tileId]
+  const previousTile =
+    worldObject.previousTileId && scene.tiles[worldObject.previousTileId]
   return {
     entityName: entity.name,
     uiElementNames: entity.uiElements.slice(),
@@ -20,6 +27,9 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
     uiElementSpriteConfig: toJS(worldObject.uiElementSpriteConfig),
     tileSize: scene.viewport.tileSize,
     currentGameMode: scene.currentMode,
+    shouldAnimate: !!previousTile,
+    previousTileDeltaX: previousTile && previousTile.x - currentTile.x,
+    previousTileDeltaY: previousTile && previousTile.y - currentTile.y,
     actions
   }
 })(WorldObject)
@@ -27,7 +37,10 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
 function WorldObject(props) {
   return (
     <div
-      className={className(props)}
+      className={flow(compact, join(" "))([
+        cursorClassName(props),
+        animationClassName(props)
+      ])}
       style={style(props)}
       onClick={linkEvent(props, onClick)}
     >
@@ -47,7 +60,32 @@ function WorldObject(props) {
   )
 }
 
-function className({ currentGameMode, isSelected, worldObjectId }) {
+function animationClassName({
+  shouldAnimate,
+  previousTileDeltaX,
+  previousTileDeltaY,
+  tileSize
+}) {
+  if (shouldAnimate) {
+    const animation = keyframes`
+      0% {
+        left: ${previousTileDeltaX * tileSize}px;
+        top: ${previousTileDeltaY * tileSize}px;
+      }
+
+      100% {
+        left: 0;
+        top: 0;
+      }
+    `
+
+    return css`
+      animation: ${animation} ${movementAnimationDuration}ms ease 1;
+    `
+  }
+}
+
+function cursorClassName({ currentGameMode, isSelected, worldObjectId }) {
   if (currentGameMode === "game") {
     if (isSelected) {
       return cursorExpanded
@@ -58,13 +96,12 @@ function className({ currentGameMode, isSelected, worldObjectId }) {
 }
 
 function style({ zIndex, isSelected, tileSize }) {
-  const style = {
+  return {
     position: "absolute",
     width: tileSize,
     height: tileSize,
     zIndex: zIndex + (isSelected ? 1 : 0)
   }
-  return style
 }
 
 function onClick({

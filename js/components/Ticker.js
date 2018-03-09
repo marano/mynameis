@@ -1,6 +1,5 @@
 import { Component } from "react"
 import { inject } from "mobx-react"
-
 import { each } from "lodash"
 
 const tickInterval = 100

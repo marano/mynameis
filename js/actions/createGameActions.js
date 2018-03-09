@@ -1,6 +1,8 @@
 import { get } from "lodash"
 import solvePath from "./solvePath"
 
+import { movementDurationCost } from "../constants"
+
 export default function createGameActions(state, computations, actions) {
   return {
     worldObjectUnselected() {
@@ -60,7 +62,7 @@ export default function createGameActions(state, computations, actions) {
         progress: 0,
         steps: path.map(openTile => ({
           subject: selectedWorldObject,
-          cost: openTile.costFromParent * 500,
+          cost: openTile.costFromParent * movementDurationCost,
           type: "moveTo",
           targetTile: openTile.tile
         }))

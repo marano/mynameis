@@ -1,3 +1,5 @@
+import { movementAnimationCleanupDelay } from "../constants"
+
 export default function createWorldObjectActions(state, computations, actions) {
   return {
     worldObjectMoved(worldObject, targetTile) {
@@ -10,6 +12,14 @@ export default function createWorldObjectActions(state, computations, actions) {
       const nextTile = scene.tiles[targetTile.id]
       nextTile.worldObjectIds.push(worldObject.id)
       worldObject.tileId = nextTile.id
+      worldObject.previousTileId = currentTile.id
+      setTimeout(
+        () => actions.clearPreviousTileId(worldObject),
+        movementAnimationCleanupDelay
+      )
+    },
+    clearPreviousTileId(worldObject) {
+      delete worldObject.previousTileId
     }
   }
 }
