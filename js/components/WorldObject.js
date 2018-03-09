@@ -69,8 +69,8 @@ function animationClassName({
   if (shouldAnimate) {
     const animation = keyframes`
       0% {
-        left: ${previousTileDeltaX * tileSize}px;
-        top: ${previousTileDeltaY * tileSize}px;
+        left: calc(var(--tile-size) * ${previousTileDeltaX});
+        top: calc(var(--tile-size) * ${previousTileDeltaY});
       }
 
       100% {
