@@ -32,6 +32,7 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
     previousTileY: previousTile && previousTile.y,
     previousTileDeltaX: previousTile && previousTile.x - currentTile.x,
     previousTileDeltaY: previousTile && previousTile.y - currentTile.y,
+    flipped: worldObject.flipped,
     actions
   }
 })(WorldObject)
@@ -97,7 +98,14 @@ function cursorClassName({ currentGameMode, isSelected, worldObjectId }) {
   }
 }
 
-function style({ zIndex, isSelected, tileSize, currentTileY, previousTileY }) {
+function style({
+  zIndex,
+  isSelected,
+  tileSize,
+  currentTileY,
+  previousTileY,
+  flipped
+}) {
   const zRealm =
     zIndex > 0
       ? (previousTileY && previousTileY < currentTileY
@@ -108,7 +116,8 @@ function style({ zIndex, isSelected, tileSize, currentTileY, previousTileY }) {
     position: "absolute",
     width: tileSize,
     height: tileSize,
-    zIndex: zRealm + zIndex + (isSelected ? 1 : 0)
+    zIndex: zRealm + zIndex + (isSelected ? 1 : 0),
+    transform: flipped ? "rotateY(180deg)" : null
   }
 }
 

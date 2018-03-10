@@ -13,6 +13,13 @@ export default function createWorldObjectActions(state, computations, actions) {
       nextTile.worldObjectIds.push(worldObject.id)
       worldObject.tileId = nextTile.id
       worldObject.previousTileId = currentTile.id
+
+      if (nextTile.x > currentTile.x) {
+        worldObject.flipped = true
+      } else if (nextTile.x < currentTile.x) {
+        worldObject.flipped = false
+      }
+
       setTimeout(
         () => actions.clearPreviousTileId(worldObject),
         movementAnimationCleanupDelay
