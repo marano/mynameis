@@ -7,6 +7,7 @@ export default function createViewportActions(state, computations) {
     viewportResized(viewport, viewportWidth, viewportHeight) {
       viewport.containerDimension.width = viewportWidth
       viewport.containerDimension.height = viewportHeight
+      adjustViewportPositionForCameraMode(viewport, state, computations)
     },
     viewportMoved(viewport, deltaX, deltaY) {
       const viewportSize = computations.computeViewportSize(viewport)
