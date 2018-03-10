@@ -19,7 +19,7 @@ export default function createWorldObjectActions(state, computations, actions) {
       )
     },
     clearPreviousTileId(worldObject) {
-      delete worldObject.previousTileId
+      worldObject.previousTileId = null
     }
   }
 }

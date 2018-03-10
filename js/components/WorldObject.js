@@ -28,6 +28,8 @@ export default inject(({ state, actions }, { scenePath, worldObjectId }) => {
     tileSize: scene.viewport.tileSize,
     currentGameMode: scene.currentMode,
     shouldAnimate: !!previousTile,
+    currentTileY: currentTile.y,
+    previousTileY: previousTile && previousTile.y,
     previousTileDeltaX: previousTile && previousTile.x - currentTile.x,
     previousTileDeltaY: previousTile && previousTile.y - currentTile.y,
     actions
@@ -95,12 +97,18 @@ function cursorClassName({ currentGameMode, isSelected, worldObjectId }) {
   }
 }
 
-function style({ zIndex, isSelected, tileSize }) {
+function style({ zIndex, isSelected, tileSize, currentTileY, previousTileY }) {
+  const zRealm =
+    zIndex > 0
+      ? (previousTileY && previousTileY < currentTileY
+          ? previousTileY
+          : currentTileY) * 10000
+      : 0
   return {
     position: "absolute",
     width: tileSize,
     height: tileSize,
-    zIndex: zIndex + (isSelected ? 1 : 0)
+    zIndex: zRealm + zIndex + (isSelected ? 1 : 0)
   }
 }
 
