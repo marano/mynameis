@@ -34,6 +34,7 @@
         { "filename": "oryx_16bit_scifi_world_22.png", "when": { "same": ["top", "right", "left"] } }
       ]
     },
-    { "name": "marine", "zIndex": 10, "sprites": ["oryx_16bit_scifi_creatures_01.png"] }
+    { "name": "marine", "zIndex": 10, "sprites": ["oryx_16bit_scifi_creatures_01.png"] },
+    { "name": "alien", "zIndex": 10, "sprites": ["oryx_16bit_scifi_creatures_929.png"] }
   ]
 }
