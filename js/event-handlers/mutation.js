@@ -1,6 +1,10 @@
 import { localStorageStateKey } from "../constants"
 
 export default function createOnMutationEventHandler() {
-  return state =>
-    window.localStorage.setItem(localStorageStateKey, JSON.stringify(state))
+  return state => {
+    const data = JSON.stringify(state)
+    window.requestIdleCallback(() =>
+      window.localStorage.setItem(localStorageStateKey, data)
+    )
+  }
 }
