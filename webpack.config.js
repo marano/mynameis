@@ -98,10 +98,12 @@ module.exports = {
         NODE_ENV: JSON.stringify(nodeEnv)
       }
     }),
-    prod ? new webpack.optimize.UglifyJsPlugin() : null,
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ]),
+  optimization: {
+    minimize: prod
+  },
   resolve: {
     alias: view.alias,
     extensions: [".js", ".json"]
