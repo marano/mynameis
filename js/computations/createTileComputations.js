@@ -72,9 +72,7 @@ export default function createTileComputations(state, computations) {
     computeIsTileSelectedWorldObjectFieldOfView(tile) {
       const selectedWorldObject = get(state, state.game.selectedWorldObjectPath)
       if (selectedWorldObject) {
-        return computations.computeFieldOfVisionBoundaries(selectedWorldObject)[
-          tile.id
-        ]
+        return computations.computeFieldOfVision(selectedWorldObject)[tile.id]
       } else {
         return false
       }
