@@ -1,5 +1,5 @@
 import { toJS } from "mobx"
-import { mapValues, each, curryRight, flatMap } from "lodash"
+import { get, mapValues, each, curryRight, flatMap } from "lodash"
 import { flow, map, uniq, flatten, compact, some } from "lodash/fp"
 
 import { idOfTileAt } from "../tile-utils"
@@ -68,6 +68,16 @@ export default function createTileComputations(state, computations) {
         map(entityName => state.definitions.entities[entityName]),
         some("block")
       )(tile.worldObjectIds)
+    },
+    computeIsTileSelectedWorldObjectFieldOfView(tile) {
+      const selectedWorldObject = get(state, state.game.selectedWorldObjectPath)
+      if (selectedWorldObject) {
+        return computations.computeFieldOfVisionBoundaries(selectedWorldObject)[
+          tile.id
+        ]
+      } else {
+        return false
+      }
     }
   }
 

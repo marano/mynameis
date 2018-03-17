@@ -14,6 +14,7 @@ import createWorldObjectActions from "./actions/createWorldObjectActions"
 import createSceneComputations from "./computations/createSceneComputations"
 import createViewportComputations from "./computations/createViewportComputations"
 import createTileComputations from "./computations/createTileComputations"
+import createWorldObjectComputations from "./computations/createWorldObjectComputations"
 
 export const defaultState = {
   idCounters: {},
@@ -64,7 +65,8 @@ function createComputations(state) {
   )([
     createSceneComputations,
     createViewportComputations,
-    createTileComputations
+    createTileComputations,
+    createWorldObjectComputations
   ])
   assign(computations, createdComputations)
   return computations

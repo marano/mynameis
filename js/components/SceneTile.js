@@ -27,6 +27,9 @@ export default inject(
       selectedEntityName: state.editor.objectPicker.selectedEntityName,
       neighbourEntities: computations.computeTileNeighbourEntities(tile),
       casts: computations.computeTileTargetedCasts(tile),
+      isSelectedObjectFieldOfView: computations.computeIsTileSelectedWorldObjectFieldOfView(
+        tile
+      ),
       actions
     }
   }
@@ -74,12 +77,21 @@ function SceneTile(props) {
   )
 }
 
-function className({ mode, isSelected, selectedEntityName }) {
+function className({
+  mode,
+  isSelected,
+  selectedEntityName,
+  isSelectedObjectFieldOfView
+}) {
   if (mode === "editor") {
     if (isSelected) {
       return cursor
     } else if (!selectedEntityName) {
       return cursorOnHover
+    }
+  } else {
+    if (isSelectedObjectFieldOfView) {
+      return cursor
     }
   }
 }
