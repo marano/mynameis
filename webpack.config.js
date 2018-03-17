@@ -57,6 +57,7 @@ const view = views[process.env.VIEW || environmentView]
 const prod = nodeEnv === "production"
 
 module.exports = {
+  mode: nodeEnv,
   entry: compact([view.setupFile, "./js/index.js"]),
   output: {
     path: __dirname,
@@ -65,7 +66,7 @@ module.exports = {
   },
   devtool: prod ? "source-map" : "cheap-module-source-map",
   module: {
-    loaders: [
+    rules: [
       {
         include: /\.worker.js$/,
         loader: "worker-loader"
