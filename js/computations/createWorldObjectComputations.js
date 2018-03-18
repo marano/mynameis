@@ -47,7 +47,7 @@ export default function createWorldObjectComputations(state, computations) {
         circle
       )
 
-      let radius = 8
+      let radius = 6
       let x = radius
       let y = 0
       let dx = 1

@@ -135,9 +135,9 @@ export default function createSceneActions(state, computations, actions) {
           tile.x >= sceneSize.x ||
           tile.y >= sceneSize.y
         if (shouldRemove) {
-          each(tile.worldObjectIds, worldObjectId => {
+          each(tile.worldObjectIds.slice(), worldObjectId =>
             actions.removeWorldObject(scene.worldObjects[worldObjectId])
-          })
+          )
           delete scene.tiles[tileId]
         }
       })
@@ -152,7 +152,8 @@ export default function createSceneActions(state, computations, actions) {
       x,
       y,
       worldObjectIds: [],
-      isSelected: false
+      isSelected: false,
+      isDiscovered: false
     })
 
     scene.tiles[id] = tile

@@ -6,7 +6,9 @@ import {
   cursor,
   cursorOnHover,
   hiddenChild,
-  showHiddenChildOnHover
+  showHiddenChildOnHover,
+  fogOfWar,
+  fogOfWarRemoved
 } from "../styles"
 
 import WorldObject from "./WorldObject"
@@ -24,6 +26,7 @@ export default inject(
       objectIds: tile.worldObjectIds.slice(),
       tileSize: scene.viewport.tileSize,
       mode: scene.currentMode,
+      isDiscoved: tile.isDiscoved,
       selectedEntityName: state.editor.objectPicker.selectedEntityName,
       neighbourEntities: computations.computeTileNeighbourEntities(tile),
       casts: computations.computeTileTargetedCasts(tile),
@@ -44,7 +47,10 @@ function SceneTile(props) {
       onMouseDown={linkEvent(props, onMouseDown)}
       onMouseEnter={linkEvent(props, onMouseEnter)}
     >
-      <div style={tileContentStyle(props)}>
+      <div
+        className={tileContentClassName(props)}
+        style={tileContentStyle(props)}
+      >
         {props.casts.map(function(uiElement) {
           return (
             <UiElement
@@ -75,16 +81,12 @@ function SceneTile(props) {
   )
 }
 
-function className({ mode, isSelected, selectedEntityName, isWatched }) {
+function className({ mode, isSelected, selectedEntityName }) {
   if (mode === "editor") {
     if (isSelected) {
       return cursor
     } else if (!selectedEntityName) {
       return cursorOnHover
-    }
-  } else {
-    if (isWatched) {
-      return cursor
     }
   }
 }
@@ -108,6 +110,20 @@ function style({ tileX, tileY, tileSize, selectedEntityName, mode }) {
     top: tileY * tileSize,
     cursor: mode === "editor" && selectedEntityName ? "copy" : null
   }
+}
+
+function tileContentClassName({ mode, isWatched, isDiscovered }) {
+  if (mode === "game") {
+    if (isWatched) {
+      return fogOfWarRemoved
+    } else if (isDiscovered) {
+      return fogOfWarRemoved
+    } else {
+      return fogOfWar
+    }
+  }
+
+  return null
 }
 
 function tileContentStyle({ tileSize }) {

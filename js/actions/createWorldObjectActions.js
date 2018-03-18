@@ -12,6 +12,7 @@ export default function createWorldObjectActions(state, computations, actions) {
       )
       currentTile.worldObjectIds.splice(worldObjectIdIndex, 1)
       const nextTile = scene.tiles[targetTile.id]
+
       nextTile.worldObjectIds.push(worldObject.id)
       worldObject.tileId = nextTile.id
       worldObject.previousTileId = currentTile.id
@@ -38,7 +39,7 @@ export default function createWorldObjectActions(state, computations, actions) {
       tile.worldObjectIds.splice(index, 1)
       const entity = state.definitions.entities[worldObject.entityName]
       if (includes(entity.roles, "player-character")) {
-        const playerCharactersIndex = tile.playerCharacterWorldObjectIds.indexOf(
+        const playerCharactersIndex = scene.playerCharacterWorldObjectIds.indexOf(
           worldObject.id
         )
         scene.playerCharacterWorldObjectIds.splice(playerCharactersIndex, 1)

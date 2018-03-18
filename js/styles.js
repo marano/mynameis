@@ -41,3 +41,28 @@ export const showHiddenChildOnHover = css`
     }
   }
 `
+
+export const fogOfWar = css`
+  :after {
+    transition: background-color 1ms linear;
+    border: 1px white solid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    content: ' ';
+    width: calc(var(--tile-size) - 2px);
+    height: calc(var(--tile-size) - 2px);
+    z-index 1000000000;
+  }
+`
+
+export const fogOfWarRemoved = css`
+  ${fogOfWar};
+
+  :after {
+    background-color: transparent;
+    border: 0;
+    pointer-events: none;
+  }
+`
