@@ -11,6 +11,7 @@ import createEditorActions from "./actions/createEditorActions"
 import createGameActions from "./actions/createGameActions"
 import createEventActions from "./actions/createEventActions"
 import createWorldObjectActions from "./actions/createWorldObjectActions"
+import createTileActions from "./actions/createTileActions"
 
 import createSceneComputations from "./computations/createSceneComputations"
 import createViewportComputations from "./computations/createViewportComputations"
@@ -87,7 +88,8 @@ function createActions(state, computations) {
     createEditorActions,
     createGameActions,
     createEventActions,
-    createWorldObjectActions
+    createWorldObjectActions,
+    createTileActions
   ])
   assign(actions, createdActions)
   return actions

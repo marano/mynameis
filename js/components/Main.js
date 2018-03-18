@@ -5,6 +5,7 @@ import TopMenu from "./TopMenu"
 import Viewport from "./Viewport"
 import SideMenu from "./SideMenu"
 import Ticker from "./Ticker"
+import PlayerCharacterMovementListener from "./PlayerCharacterMovementListener"
 
 export default inject(({ state: { viewport } }) => ({
   viewport,
@@ -16,6 +17,7 @@ function Main({ viewport, currentScenePath }) {
     <div style={containerStyle()}>
       <GlobalListeners />
       <Ticker />
+      <PlayerCharacterMovementListener scenePath={currentScenePath} />
       <div style={topMenuStyle()}>
         <TopMenu viewport={viewport} />
       </div>

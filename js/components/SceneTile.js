@@ -27,7 +27,7 @@ export default inject(
       objectIds: tile.worldObjectIds.slice(),
       tileSize: scene.viewport.tileSize,
       mode: scene.currentMode,
-      isDiscoved: tile.isDiscoved,
+      isDiscovered: tile.isDiscovered,
       selectedEntityName: state.editor.objectPicker.selectedEntityName,
       neighbourEntities: computations.computeTileNeighbourEntities(tile),
       casts: computations.computeTileTargetedCasts(tile),
