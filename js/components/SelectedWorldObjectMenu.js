@@ -12,7 +12,7 @@ export default inject(({ state }) => {
   return {
     worldObjectPath: state.game.selectedWorldObjectPath,
     worldObjectName: worldObject.entityName,
-    agencies: (entity.agencies || []).slice()
+    roles: (entity.roles || []).slice()
   }
 })(SelectedWorldObjectMenu)
 
@@ -22,19 +22,19 @@ function SelectedWorldObjectMenu(props) {
   )
 }
 
-function content({ worldObjectName, agencies, worldObjectPath }) {
+function content({ worldObjectName, roles, worldObjectPath }) {
   return (
     <div>
       <div>{worldObjectName}</div>
-      <div>{agencies.map(curry(agencyControls)(worldObjectPath))}</div>
+      <div>{roles.map(curry(roleControls)(worldObjectPath))}</div>
     </div>
   )
 }
 
-function agencyControls(worldObjectPath, agency) {
+function roleControls(worldObjectPath, role) {
   return {
     "player-character": [MoveControl]
-  }[agency].map((Control, index) => (
+  }[role].map((Control, index) => (
     <Control key={index} worldObjectPath={worldObjectPath} />
   ))
 }
