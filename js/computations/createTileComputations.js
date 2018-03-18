@@ -76,6 +76,10 @@ export default function createTileComputations(state, computations) {
       } else {
         return false
       }
+    },
+    computeIsTileWatched(tile) {
+      const scene = state.scenes[tile.sceneId]
+      return !!computations.computeWatchedSceneTiles(scene)[tile.id]
     }
   }
 

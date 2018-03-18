@@ -1,6 +1,6 @@
 import { observable } from "mobx"
 import { keyBy, map, mapValues } from "lodash/fp"
-import { get, random } from "lodash"
+import { get, random, includes } from "lodash"
 import { compose } from "ramda"
 
 export function createWorldObject(entity, tile, scene, state, actions) {
@@ -24,6 +24,9 @@ export function createWorldObject(entity, tile, scene, state, actions) {
   }
 
   scene.worldObjects[id] = observable(worldObject)
+  if (includes(entity.roles, "player-character")) {
+    scene.playerCharacterWorldObjectIds.push(id)
+  }
   tile.worldObjectIds.push(id)
 }
 
