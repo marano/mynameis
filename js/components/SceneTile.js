@@ -8,7 +8,8 @@ import {
   hiddenChild,
   showHiddenChildOnHover,
   fogOfWar,
-  fogOfWarRemoved
+  fogOfWarRemoved,
+  unwatched
 } from "../styles"
 
 import WorldObject from "./WorldObject"
@@ -117,7 +118,7 @@ function tileContentClassName({ mode, isWatched, isDiscovered }) {
     if (isWatched) {
       return fogOfWarRemoved
     } else if (isDiscovered) {
-      return fogOfWarRemoved
+      return unwatched
     } else {
       return fogOfWar
     }

@@ -44,11 +44,12 @@ export const showHiddenChildOnHover = css`
 
 export const fogOfWar = css`
   :after {
-    transition: background-color 1ms linear;
+    transition: opacity 300ms linear;
+    opacity: 1;
     border: 1px white solid;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -1px;
+    left: -1px;
     background-color: black;
     content: ' ';
     width: calc(var(--tile-size) - 2px);
@@ -57,12 +58,35 @@ export const fogOfWar = css`
   }
 `
 
-export const fogOfWarRemoved = css`
+const fogOfWarWithoutBorders = css`
   ${fogOfWar};
 
   :after {
-    background-color: transparent;
+    top: 0;
+    left: 0;
     border: 0;
+    width: var(--tile-size);
+    height: var(--tile-size);
+    @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+      // chrome only fix
+      height: calc(var(--tile-size) + 0.5px);
+    }
     pointer-events: none;
+  }
+`
+
+export const fogOfWarRemoved = css`
+  ${fogOfWarWithoutBorders};
+
+  :after {
+    opacity: 0;
+  }
+`
+
+export const unwatched = css`
+  ${fogOfWarWithoutBorders};
+
+  :after {
+    opacity: 0.7;
   }
 `
