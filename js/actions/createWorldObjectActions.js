@@ -1,4 +1,4 @@
-import { get, includes } from "lodash"
+import { includes } from "lodash"
 
 import { movementAnimationCleanupDelay } from "../constants"
 
