@@ -17,8 +17,8 @@ export default inject(({ state, computations, actions }, { scenePath }) => ({
       this.disposeReaction()
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (this.props.scenePath !== nextProps.scenePath) {
+    componentDidUpdate(prevProps) {
+      if (this.props.scenePath !== prevProps.scenePath) {
         this.disposeReaction()
         this.createReaction()
       }
