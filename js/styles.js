@@ -44,7 +44,7 @@ export const showHiddenChildOnHover = css`
 
 export const fogOfWar = css`
   :after {
-    transition: opacity 300ms linear;
+    transition: opacity 300ms;
     opacity: 1;
     border: 1px white solid;
     position: absolute;

@@ -36,9 +36,6 @@ export default function createWorldObjectComputations(state, computations) {
       const tile = scene.tiles[worldObject.tileId]
       const sortedTileIds = computations.computeSortedTileIds(scene)
 
-      const x0 = tile.x
-      const y0 = tile.y
-
       const circle = {}
 
       const handleTile = curry(handleBoundaryTileAt)(
@@ -47,37 +44,45 @@ export default function createWorldObjectComputations(state, computations) {
         circle
       )
 
-      let radius = 6
-      let x = radius
-      let y = 0
-      let dx = 1
-      let dy = 1
-      let err = dx - (radius << 1)
+      const x0 = tile.x
+      const y0 = tile.y
 
-      while (x >= y) {
-        handleTile(x0 + x, y0 + y)
-        handleTile(x0 + y, y0 + x)
-        handleTile(x0 - y, y0 + x)
-        handleTile(x0 - x, y0 + y)
-        handleTile(x0 - x, y0 - y)
-        handleTile(x0 - y, y0 - x)
-        handleTile(x0 + y, y0 - x)
-        handleTile(x0 + x, y0 - y)
-
-        if (err <= 0) {
-          y++
-          err += dy
-          dy += 2
-        }
-
-        if (err > 0) {
-          x--
-          dx += 2
-          err += dx - (radius << 1)
-        }
-      }
+      const viewDistance = 6
+      drawCircle(viewDistance)
+      drawCircle(viewDistance - 1)
 
       return circle
+
+      function drawCircle(radius) {
+        let x = radius
+        let y = 0
+        let dx = 1
+        let dy = 1
+        let err = dx - (radius << 1)
+
+        while (x >= y) {
+          handleTile(x0 + x, y0 + y)
+          handleTile(x0 + y, y0 + x)
+          handleTile(x0 - y, y0 + x)
+          handleTile(x0 - x, y0 + y)
+          handleTile(x0 - x, y0 - y)
+          handleTile(x0 - y, y0 - x)
+          handleTile(x0 + y, y0 - x)
+          handleTile(x0 + x, y0 - y)
+
+          if (err <= 0) {
+            y++
+            err += dy
+            dy += 2
+          }
+
+          if (err > 0) {
+            x--
+            dx += 2
+            err += dx - (radius << 1)
+          }
+        }
+      }
     }
   }
 }
