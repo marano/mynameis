@@ -47,7 +47,7 @@ export default function createWorldObjectComputations(state, computations) {
       const x0 = tile.x
       const y0 = tile.y
 
-      const viewDistance = 6
+      const viewDistance = 7
       drawCircle(viewDistance)
       drawCircle(viewDistance - 1)
 
