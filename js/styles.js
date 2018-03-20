@@ -43,50 +43,28 @@ export const showHiddenChildOnHover = css`
 `
 
 export const fogOfWar = css`
-  :after {
-    transition: opacity 300ms;
-    opacity: 1;
-    border: 1px white solid;
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    background-color: black;
-    content: ' ';
-    width: calc(var(--tile-size) - 2px);
-    height: calc(var(--tile-size) - 2px);
-    z-index 1000000000;
-  }
+  filter: blur(2px);
+  pointer-events: none;
+  transition: opacity 300ms;
+  opacity: 0.2;
 `
 
 const fogOfWarWithoutBorders = css`
   ${fogOfWar};
 
-  :after {
-    top: 0;
-    left: 0;
-    border: 0;
-    width: var(--tile-size);
-    height: var(--tile-size);
-    @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
-      // chrome only fix
-      height: calc(var(--tile-size) + 0.5px);
-    }
-    pointer-events: none;
-  }
+  filter: none;
+  pointer-events: auto;
 `
 
 export const fogOfWarRemoved = css`
   ${fogOfWarWithoutBorders};
 
-  :after {
-    opacity: 0;
-  }
+  opacity: 1;
 `
 
 export const unwatched = css`
   ${fogOfWarWithoutBorders};
 
-  :after {
-    opacity: 0.7;
-  }
+  opacity: 0.5;
+  filter: blur(1px);
 `
