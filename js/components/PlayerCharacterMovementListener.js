@@ -1,13 +1,17 @@
 import { reaction } from "mobx"
 import { inject } from "mobx-react"
 import { Component } from "react"
-import { get, each } from "lodash"
+import { get, each, noop } from "lodash"
 
-export default inject(({ state, computations, actions }, { scenePath }) => ({
-  scene: get(state, scenePath),
-  computations,
-  actions
-}))(
+export default inject(({ state, computations, actions }, { scenePath }) => {
+  const scene = get(state, scenePath)
+  return {
+    scene,
+    mode: scene.currentMode,
+    computations,
+    actions
+  }
+})(
   class PlayerCharacterMovementListener extends Component {
     componentDidMount() {
       this.createReaction()
@@ -25,17 +29,21 @@ export default inject(({ state, computations, actions }, { scenePath }) => ({
     }
 
     createReaction() {
-      this.disposeReaction = reaction(
-        () =>
-          this.props.computations.computeWatchedSceneTiles(this.props.scene),
-        watchedTiles => {
-          each(watchedTiles, (val, tileId) => {
-            const tile = this.props.scene.tiles[tileId]
-            this.props.actions.setTileDiscovered(tile, true)
-          })
-        },
-        { fireImmediately: true }
-      )
+      if (this.props.mode === "game") {
+        this.disposeReaction = reaction(
+          () =>
+            this.props.computations.computeWatchedSceneTiles(this.props.scene),
+          watchedTiles => {
+            each(watchedTiles, (val, tileId) => {
+              const tile = this.props.scene.tiles[tileId]
+              this.props.actions.setTileDiscovered(tile, true)
+            })
+          },
+          { fireImmediately: true }
+        )
+      } else {
+        this.disposeReaction = noop
+      }
     }
 
     render() {
