@@ -1,5 +1,5 @@
 import { inject } from "mobx-react"
-import { get, curry } from "lodash"
+import { get, curry, map } from "lodash"
 
 import MoveControl from "./MoveControl"
 
@@ -32,9 +32,7 @@ function content({ worldObjectName, roles, worldObjectPath }) {
 }
 
 function roleControls(worldObjectPath, role) {
-  return {
-    "player-character": [MoveControl]
-  }[role].map((Control, index) => (
+  return map({ "player-character": [MoveControl] }[role], (Control, index) => (
     <Control key={index} worldObjectPath={worldObjectPath} />
   ))
 }
