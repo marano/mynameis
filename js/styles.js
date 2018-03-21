@@ -43,16 +43,14 @@ export const showHiddenChildOnHover = css`
 `
 
 export const fogOfWar = css`
-  filter: blur(2px);
   pointer-events: none;
-  transition: opacity 300ms, filter 300ms;
+  transition: opacity 300ms;
   opacity: 0.2;
 `
 
 const fogOfWarWithoutBorders = css`
   ${fogOfWar};
 
-  filter: none;
   pointer-events: auto;
 `
 
@@ -60,12 +58,10 @@ export const fogOfWarRemoved = css`
   ${fogOfWarWithoutBorders};
 
   opacity: 1;
-  filter: none;
 `
 
 export const unwatched = css`
   ${fogOfWarWithoutBorders};
 
   opacity: 0.5;
-  filter: blur(1px);
 `
