@@ -7,7 +7,7 @@ export default inject(({ state, computations, actions }, { scenePath }) => {
   const scene = get(state, scenePath)
   return {
     scene,
-    mode: scene.currentMode,
+    mode: scene && scene.currentMode,
     computations,
     actions
   }
