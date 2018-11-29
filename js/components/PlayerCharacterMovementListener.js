@@ -36,7 +36,9 @@ export default inject(({ state, computations, actions }, { scenePath }) => {
           watchedTiles => {
             each(watchedTiles, (val, tileId) => {
               const tile = this.props.scene.tiles[tileId]
-              this.props.actions.setTileDiscovered(tile, true)
+              if (!tile.isDiscovered) {
+                this.props.actions.setTileDiscovered(tile, true)
+              }
             })
           },
           { fireImmediately: true }
